@@ -1,0 +1,825 @@
+/* Persona 5 UI Components */
+
+/* ==========================================================================
+   1. BUTTONS & JAGGED RIBBONS
+   ========================================================================== */
+.p5-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 12px 26px;
+  font-family: var(--font-heading);
+  font-size: 1.25rem;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--p5-black);
+  background: var(--p5-white);
+  border: 3px solid var(--p5-black);
+  cursor: pointer;
+  outline: none;
+  transform: skew(var(--skew-medium));
+  box-shadow: var(--shadow-hard-black);
+  transition: transform 0.15s ease, background 0.15s ease, color 0.15s ease, box-shadow 0.15s ease;
+  user-select: none;
+  text-decoration: none;
+}
+
+.p5-btn:hover {
+  background: var(--p5-crimson);
+  color: var(--p5-white);
+  border-color: var(--p5-white);
+  box-shadow: 6px 6px 0px var(--p5-yellow);
+  transform: skew(var(--skew-medium)) translate(-2px, -2px);
+}
+
+.p5-btn:active {
+  transform: skew(var(--skew-medium)) translate(2px, 2px);
+  box-shadow: 2px 2px 0px #000000;
+}
+
+.p5-btn-red {
+  background: var(--p5-crimson);
+  color: var(--p5-white);
+  border-color: var(--p5-white);
+  box-shadow: 5px 5px 0px #000000;
+}
+
+.p5-btn-red:hover {
+  background: var(--p5-yellow);
+  color: var(--p5-black);
+  border-color: var(--p5-black);
+  box-shadow: 6px 6px 0px var(--p5-crimson);
+}
+
+.p5-btn-black {
+  background: var(--p5-black);
+  color: var(--p5-white);
+  border-color: var(--p5-white);
+  box-shadow: 5px 5px 0px var(--p5-crimson);
+}
+
+.p5-btn-black:hover {
+  background: var(--p5-white);
+  color: var(--p5-black);
+  border-color: var(--p5-black);
+  box-shadow: 6px 6px 0px var(--p5-crimson);
+}
+
+/* Jagged Ribbon Strip */
+.ribbon-banner {
+  position: relative;
+  background: var(--p5-crimson);
+  color: var(--p5-white);
+  padding: 10px 24px;
+  font-family: var(--font-heading);
+  letter-spacing: 2px;
+  transform: skew(var(--skew-heavy));
+  box-shadow: 6px 6px 0px #000000;
+  border-left: 6px solid var(--p5-yellow);
+  clip-path: polygon(0 0, 100% 0, 96% 100%, 0% 100%);
+}
+
+.ribbon-banner-black {
+  background: var(--p5-black);
+  border: 2px solid var(--p5-white);
+  border-left: 6px solid var(--p5-crimson);
+}
+
+/* ==========================================================================
+   2. POLL OF THE WEEK (PUBLIC APPROVAL RATING)
+   ========================================================================== */
+.poll-card {
+  position: relative;
+  background: var(--p5-black);
+  border: 4px solid var(--p5-white);
+  box-shadow: 8px 8px 0px var(--p5-crimson);
+  padding: 24px 20px;
+  transform: skew(var(--skew-subtle));
+  overflow: hidden;
+}
+
+.poll-header-badge {
+  display: inline-block;
+  background: var(--p5-crimson);
+  color: var(--p5-white);
+  padding: 4px 14px;
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  letter-spacing: 2px;
+  transform: rotate(-2deg) skew(-5deg);
+  border: 2px solid var(--p5-white);
+  box-shadow: 3px 3px 0px #000;
+}
+
+.poll-question-box {
+  margin: 16px 0 20px 0;
+  background: var(--p5-gray-dark);
+  border-left: 5px solid var(--p5-yellow);
+  padding: 12px 14px;
+  font-weight: 700;
+  font-size: 1.15rem;
+  line-height: 1.3;
+}
+
+.poll-question-tag {
+  color: var(--p5-yellow);
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  margin-right: 6px;
+}
+
+/* Giant Number Display */
+.poll-percentage-wrapper {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.poll-big-number {
+  font-family: var(--font-display);
+  font-size: 5.5rem;
+  line-height: 0.9;
+  color: var(--p5-yellow);
+  text-shadow: 4px 4px 0px var(--p5-crimson), 8px 8px 0px #000000;
+  transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.poll-percent-symbol {
+  font-family: var(--font-display);
+  font-size: 3rem;
+  color: var(--p5-white);
+  text-shadow: 3px 3px 0px #000;
+}
+
+/* Dynamic Gauge Bar */
+.poll-bar-container {
+  position: relative;
+  width: 100%;
+  height: 38px;
+  background: #111111;
+  border: 3px solid var(--p5-white);
+  box-shadow: 4px 4px 0px #000;
+  margin-bottom: 16px;
+  overflow: hidden;
+  transform: skew(var(--skew-medium));
+}
+
+.poll-bar-fill-yes {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background: repeating-linear-gradient(
+    -45deg,
+    var(--p5-crimson),
+    var(--p5-crimson) 12px,
+    var(--p5-crimson-dark) 12px,
+    var(--p5-crimson-dark) 24px
+  );
+  transition: width 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 10px;
+  font-family: var(--font-heading);
+  font-size: 1rem;
+  color: #fff;
+  z-index: 2;
+}
+
+.poll-bar-fill-no {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 100%;
+  width: 100%;
+  background: #252525;
+  z-index: 1;
+}
+
+.poll-labels {
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--font-heading);
+  font-size: 1.1rem;
+  margin-bottom: 18px;
+}
+
+.poll-actions-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.poll-vote-btn {
+  padding: 12px 10px;
+  font-size: 1.1rem;
+  font-family: var(--font-heading);
+  text-align: center;
+  cursor: pointer;
+  border: 3px solid var(--p5-white);
+  transform: skew(var(--skew-medium));
+  box-shadow: 4px 4px 0px #000;
+  transition: all 0.15s ease;
+  user-select: none;
+}
+
+.vote-btn-yes {
+  background: var(--p5-crimson);
+  color: var(--p5-white);
+}
+
+.vote-btn-yes:hover {
+  background: var(--p5-yellow);
+  color: var(--p5-black);
+  transform: skew(var(--skew-medium)) scale(1.04);
+}
+
+.vote-btn-no {
+  background: #1e1e1e;
+  color: #c0c0c0;
+}
+
+.vote-btn-no:hover {
+  background: var(--p5-white);
+  color: var(--p5-black);
+  transform: skew(var(--skew-medium)) scale(1.04);
+}
+
+.poll-voted-msg {
+  display: none;
+  text-align: center;
+  font-family: var(--font-heading);
+  color: var(--p5-yellow);
+  margin-top: 10px;
+  letter-spacing: 1px;
+}
+
+/* ==========================================================================
+   3. PHORUM & MEMENTOS TARGET BOARD
+   ========================================================================== */
+.phorum-section {
+  position: relative;
+}
+
+.phorum-top-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  margin-bottom: 20px;
+}
+
+.phorum-filter-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.filter-tab-btn {
+  background: var(--p5-black);
+  color: var(--p5-white);
+  border: 2px solid var(--p5-white);
+  padding: 6px 16px;
+  font-family: var(--font-heading);
+  font-size: 1.05rem;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transform: skew(var(--skew-medium));
+  box-shadow: 3px 3px 0px #000;
+  transition: all 0.15s ease;
+}
+
+.filter-tab-btn:hover,
+.filter-tab-btn.active {
+  background: var(--p5-crimson);
+  color: var(--p5-white);
+  border-color: var(--p5-yellow);
+  box-shadow: 4px 4px 0px var(--p5-yellow);
+  transform: skew(var(--skew-medium)) translateY(-2px);
+}
+
+.phorum-search-input {
+  background: var(--p5-black);
+  color: var(--p5-white);
+  border: 2px solid var(--p5-white);
+  padding: 8px 16px;
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  transform: skew(var(--skew-subtle));
+  box-shadow: 4px 4px 0px var(--p5-crimson);
+  outline: none;
+  width: 220px;
+  transition: width 0.2s ease, border-color 0.2s ease;
+}
+
+.phorum-search-input:focus {
+  border-color: var(--p5-yellow);
+  width: 270px;
+}
+
+/* Target Cards Grid */
+.target-cards-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Individual Target Card */
+.target-card {
+  position: relative;
+  background: var(--p5-black-card);
+  border: 3px solid var(--p5-white);
+  padding: 18px 22px;
+  transform: skew(var(--skew-subtle));
+  box-shadow: 6px 6px 0px #000000;
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.target-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 6px;
+  height: 100%;
+  background: var(--p5-crimson);
+  transition: width 0.2s ease;
+}
+
+.target-card:hover {
+  transform: skew(var(--skew-subtle)) translate(-4px, -2px);
+  border-color: var(--p5-yellow);
+  box-shadow: 10px 10px 0px var(--p5-crimson);
+}
+
+.target-card:hover::before {
+  width: 10px;
+  background: var(--p5-yellow);
+}
+
+.target-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.target-status-badge {
+  font-family: var(--font-heading);
+  font-size: 0.9rem;
+  padding: 2px 10px;
+  letter-spacing: 1px;
+  transform: skew(var(--skew-medium));
+  border: 1px solid #fff;
+}
+
+.badge-new {
+  background: var(--p5-yellow);
+  color: #000;
+  border-color: #000;
+  box-shadow: 2px 2px 0px #000;
+}
+
+.badge-investigating {
+  background: #FF6600;
+  color: #fff;
+  box-shadow: 2px 2px 0px #000;
+}
+
+.badge-reformed {
+  background: #00E5FF;
+  color: #000;
+  font-weight: 700;
+  border-color: #000;
+  box-shadow: 2px 2px 0px #000;
+}
+
+.target-date {
+  font-family: var(--font-heading);
+  color: var(--p5-gray-text);
+  font-size: 0.85rem;
+}
+
+.target-title {
+  font-family: var(--font-heading);
+  font-size: 1.6rem;
+  letter-spacing: 1px;
+  color: var(--p5-white);
+  margin-bottom: 6px;
+  transition: color 0.15s ease;
+}
+
+.target-card:hover .target-title {
+  color: var(--p5-yellow);
+}
+
+.target-name-line {
+  font-size: 0.95rem;
+  color: var(--p5-crimson);
+  font-weight: 700;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.target-name-line span {
+  background: var(--p5-crimson);
+  color: #fff;
+  padding: 1px 6px;
+  font-family: var(--font-heading);
+  letter-spacing: 1px;
+}
+
+.target-excerpt {
+  color: #D0D0D0;
+  font-size: 0.95rem;
+  line-height: 1.4;
+  margin-bottom: 14px;
+}
+
+/* Distortion Gauge in Card */
+.distortion-gauge-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 8px;
+  padding-top: 10px;
+  border-top: 1px dashed var(--p5-gray-border);
+}
+
+.distortion-label {
+  font-family: var(--font-heading);
+  font-size: 0.9rem;
+  color: var(--p5-yellow);
+  letter-spacing: 1px;
+}
+
+.distortion-track {
+  flex-grow: 1;
+  height: 12px;
+  background: #252525;
+  border: 1px solid var(--p5-white);
+  overflow: hidden;
+  position: relative;
+}
+
+.distortion-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #FFE600, #E60012);
+}
+
+.distortion-value {
+  font-family: var(--font-heading);
+  font-size: 1rem;
+  color: var(--p5-white);
+  min-width: 40px;
+  text-align: right;
+}
+
+/* Card Footer info */
+.target-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 12px;
+  font-size: 0.85rem;
+  color: var(--p5-gray-text);
+}
+
+.target-posts-count {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-heading);
+  color: var(--p5-white);
+}
+
+/* ==========================================================================
+   4. CITIZEN MURMURS (LIVE CHATTER TICKER)
+   ========================================================================== */
+.murmurs-container {
+  background: var(--p5-black);
+  border: 3px solid var(--p5-white);
+  box-shadow: 6px 6px 0px var(--p5-crimson);
+  padding: 18px 16px;
+  display: flex;
+  flex-direction: column;
+  height: fit-content;
+}
+
+.murmurs-title-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+  border-bottom: 2px solid var(--p5-crimson);
+  padding-bottom: 8px;
+}
+
+.murmurs-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  max-height: 540px;
+  overflow-y: auto;
+  padding-right: 6px;
+}
+
+/* Custom Scrollbar */
+.murmurs-list::-webkit-scrollbar,
+.phorum-scrollable::-webkit-scrollbar {
+  width: 6px;
+}
+
+.murmurs-list::-webkit-scrollbar-track,
+.phorum-scrollable::-webkit-scrollbar-track {
+  background: #111;
+}
+
+.murmurs-list::-webkit-scrollbar-thumb,
+.phorum-scrollable::-webkit-scrollbar-thumb {
+  background: var(--p5-crimson);
+  border: 1px solid #fff;
+}
+
+/* Speech Bubble */
+.chat-bubble {
+  position: relative;
+  background: #181818;
+  border: 2px solid var(--p5-white);
+  padding: 12px 14px;
+  transform: skew(var(--skew-subtle));
+  box-shadow: 4px 4px 0px #000;
+  transition: transform 0.15s ease, border-color 0.15s ease;
+}
+
+.chat-bubble:hover {
+  border-color: var(--p5-yellow);
+  transform: skew(var(--skew-subtle)) translate(-2px, -2px);
+}
+
+.chat-bubble-author {
+  font-family: var(--font-heading);
+  font-size: 0.95rem;
+  letter-spacing: 1px;
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.author-admin {
+  color: var(--p5-yellow);
+}
+
+.author-fan {
+  color: var(--p5-crimson);
+}
+
+.author-skeptic {
+  color: #70A0FF;
+}
+
+.chat-bubble-text {
+  font-size: 0.9rem;
+  color: #E6E6E6;
+  line-height: 1.35;
+}
+
+.chat-bubble-time {
+  font-size: 0.75rem;
+  color: #777;
+  text-align: right;
+  margin-top: 4px;
+}
+
+/* Quick Chatter Input */
+.murmur-input-box {
+  margin-top: 14px;
+  display: flex;
+  gap: 6px;
+}
+
+.murmur-input {
+  flex-grow: 1;
+  background: #111;
+  color: #fff;
+  border: 2px solid var(--p5-white);
+  padding: 8px 10px;
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  outline: none;
+}
+
+.murmur-input:focus {
+  border-color: var(--p5-yellow);
+}
+
+/* ==========================================================================
+   5. SUBMIT TARGET FORM ("TRANSMIT REQUEST")
+   ========================================================================== */
+.submit-target-section {
+  background: var(--p5-black);
+  border: 4px solid var(--p5-white);
+  box-shadow: 8px 8px 0px var(--p5-crimson);
+  padding: 24px;
+  margin-top: 30px;
+  position: relative;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-top: 18px;
+}
+
+.form-group-full {
+  grid-column: 1 / -1;
+}
+
+.p5-form-label {
+  display: block;
+  font-family: var(--font-heading);
+  font-size: 1.1rem;
+  letter-spacing: 1.5px;
+  color: var(--p5-yellow);
+  margin-bottom: 6px;
+}
+
+.p5-input, .p5-textarea, .p5-select {
+  width: 100%;
+  background: #161616;
+  border: 2px solid var(--p5-white);
+  color: var(--p5-white);
+  padding: 10px 14px;
+  font-family: var(--font-body);
+  font-size: 1rem;
+  outline: none;
+  box-sizing: border-box;
+  transform: skew(var(--skew-subtle));
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.p5-input:focus, .p5-textarea:focus, .p5-select:focus {
+  border-color: var(--p5-yellow);
+  background: #202020;
+}
+
+.p5-textarea {
+  min-height: 85px;
+  resize: vertical;
+}
+
+/* Range input styled */
+.p5-range {
+  width: 100%;
+  accent-color: var(--p5-crimson);
+  cursor: pointer;
+}
+
+/* ==========================================================================
+   6. CALLING CARD GENERATOR & MODAL
+   ========================================================================== */
+.calling-card-preview {
+  position: relative;
+  background: var(--p5-crimson);
+  color: var(--p5-white);
+  border: 6px solid var(--p5-white);
+  box-shadow: 12px 12px 0px #000000;
+  padding: 32px 30px;
+  max-width: 650px;
+  margin: 0 auto;
+  transform: rotate(-1.5deg);
+  overflow: hidden;
+}
+
+.calling-card-preview::after {
+  content: 'TAKE YOUR HEART';
+  position: absolute;
+  bottom: -20px;
+  right: -10px;
+  font-family: var(--font-display);
+  font-size: 5rem;
+  color: rgba(0, 0, 0, 0.18);
+  pointer-events: none;
+  line-height: 1;
+  transform: rotate(-5deg);
+}
+
+.calling-card-emblem {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  width: 80px;
+  height: 80px;
+  opacity: 0.9;
+}
+
+.calling-card-salutation {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  color: var(--p5-yellow);
+  text-shadow: 3px 3px 0px #000;
+  margin-bottom: 12px;
+}
+
+.calling-card-body {
+  font-family: var(--font-body);
+  font-size: 1.15rem;
+  font-weight: 700;
+  line-height: 1.6;
+  background: rgba(0, 0, 0, 0.7);
+  padding: 16px 20px;
+  border-left: 6px solid var(--p5-white);
+  margin-bottom: 18px;
+}
+
+.calling-card-signature {
+  text-align: right;
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  color: var(--p5-white);
+  text-shadow: 3px 3px 0px #000;
+}
+
+/* ==========================================================================
+   7. MODAL OVERLAY
+   ========================================================================== */
+.p5-modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(5px);
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.p5-modal-backdrop.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.p5-modal-dialog {
+  position: relative;
+  background: var(--p5-black);
+  border: 5px solid var(--p5-white);
+  box-shadow: 14px 14px 0px var(--p5-crimson);
+  width: 100%;
+  max-width: 780px;
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 30px;
+  box-sizing: border-box;
+  transform: scale(0.9) skew(var(--skew-subtle));
+  transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.p5-modal-backdrop.open .p5-modal-dialog {
+  transform: scale(1) skew(var(--skew-subtle));
+}
+
+.modal-close-btn {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  width: 38px;
+  height: 38px;
+  background: var(--p5-crimson);
+  color: #fff;
+  border: 2px solid #fff;
+  font-family: var(--font-heading);
+  font-size: 1.6rem;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 3px 3px 0px #000;
+  transition: all 0.15s ease;
+}
+
+.modal-close-btn:hover {
+  background: var(--p5-yellow);
+  color: #000;
+  transform: rotate(90deg) scale(1.1);
+}

@@ -1,0 +1,105 @@
+/* Google Fonts Import */
+@import url('https://fonts.googleapis.com/css2?family=Bangers&family=Bebas+Neue&family=Outfit:wght@400;600;700;900&family=Rubik+Glitch&family=Noto+Sans+JP:wght@700;900&display=swap');
+
+/* Base Typography */
+body {
+  font-family: var(--font-body);
+  color: var(--p5-white);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, .p5-heading {
+  font-family: var(--font-heading);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+.p5-display {
+  font-family: var(--font-display);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+/* Ransom-Note / Cutout Letter Generator */
+.ransom-text {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 2px;
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  user-select: none;
+}
+
+.ransom-letter {
+  display: inline-block;
+  padding: 3px 7px;
+  font-size: 1.4rem;
+  line-height: 1;
+  font-weight: 900;
+  transition: transform 0.15s ease, background 0.15s ease;
+  box-shadow: 2px 2px 0px rgba(0, 0, 0, 0.8);
+}
+
+/* Alternating cut-out styles */
+.ransom-letter:nth-child(4n+1) {
+  background: var(--p5-white);
+  color: var(--p5-black);
+  transform: rotate(-3deg) skew(-2deg);
+}
+
+.ransom-letter:nth-child(4n+2) {
+  background: var(--p5-black);
+  color: var(--p5-white);
+  border: 1px solid var(--p5-white);
+  transform: rotate(4deg) scale(1.08);
+}
+
+.ransom-letter:nth-child(4n+3) {
+  background: var(--p5-crimson);
+  color: var(--p5-white);
+  transform: rotate(-5deg) skew(3deg);
+}
+
+.ransom-letter:nth-child(4n+4) {
+  background: var(--p5-yellow);
+  color: var(--p5-black);
+  transform: rotate(2deg) scale(0.95);
+}
+
+.ransom-letter:hover {
+  transform: scale(1.2) rotate(0deg) !important;
+  z-index: 5;
+}
+
+/* Large Hero Title Cutout */
+.hero-ransom-title .ransom-letter {
+  font-size: 2.8rem;
+  padding: 6px 14px;
+  border-width: 2px;
+  box-shadow: 4px 4px 0px #000000;
+}
+
+/* Comic Text Badges */
+.comic-badge {
+  display: inline-block;
+  font-family: var(--font-heading);
+  font-size: 0.95rem;
+  padding: 3px 10px;
+  background: var(--p5-black);
+  color: var(--p5-white);
+  border: 2px solid var(--p5-white);
+  transform: skew(var(--skew-medium));
+  box-shadow: 3px 3px 0px var(--p5-crimson);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* Calling Card Typography */
+.calling-card-text {
+  font-family: var(--font-body);
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}

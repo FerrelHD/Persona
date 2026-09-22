@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PHAN-SITE // The Official Phantom Thieves Channel</title>
+  <meta name="description" content="The official anonymous communication meta-channel for the Phantom Thieves of Hearts. Submit targets, vote on public approval, and issue calling cards.">
+  
+  <!-- CSS Stylesheets -->
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/typography.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/style.css">
+  
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><polygon points='50,5 90,25 90,75 50,95 10,75 10,25' fill='%23E60012'/><circle cx='50' cy='50' r='25' fill='%23000'/></svg>">
+</head>
+<body>
+
+  <!-- Dynamic Animated Background Canvas -->
+  <canvas id="spiral-canvas" class="spiral-bg-canvas"></canvas>
+  <div class="halftone-overlay"></div>
+  <div class="scanlines"></div>
+
+  <!-- Top System Bar -->
+  <header class="p5-topbar">
+    <a href="#" class="topbar-brand">
+      <!-- Authentic Phantom Thieves Flame Mask Emblem -->
+      <svg class="brand-emblem-svg" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M50 8 C30 8 15 26 15 48 C15 72 40 88 50 94 C60 88 85 72 85 48 C85 26 70 8 50 8 Z" fill="#E60012" stroke="#FFFFFF" stroke-width="3"/>
+        <path d="M50 18 L68 36 L58 54 L50 44 L42 54 L32 36 Z" fill="#0A0A0A" stroke="#FFFFFF" stroke-width="2"/>
+        <path d="M50 24 C45 32 35 38 24 38 C32 44 42 46 50 42 C58 46 68 44 76 38 C65 38 55 32 50 24 Z" fill="#FFFFFF"/>
+        <polygon points="50,46 56,60 50,56 44,60" fill="#FFE600"/>
+      </svg>
+      <div>
+        <div class="auto-ransom hero-title-small">PHAN-SITE</div>
+        <span class="brand-subtext">META-NETWORK #005 // RESTRICTED ACCESS</span>
+      </div>
+    </a>
+
+    <!-- Center Calendar & Period -->
+    <div class="topbar-calendar">
+      <span id="calendar-date" class="calendar-date">APR 11 MON</span>
+      <span id="calendar-period" class="calendar-period">[AFTER SCHOOL]</span>
+    </div>
+
+    <!-- Right Controls -->
+    <div class="topbar-right-controls">
+      <nav class="topbar-nav-links">
+        <a href="#phorum-section" class="nav-link-btn">PHORUM</a>
+        <a href="#poll-section" class="nav-link-btn">POLL</a>
+        <a href="#submit-section" class="nav-link-btn">TRANSMIT TARGET</a>
+        <button class="nav-link-btn open-calling-card-btn" style="background: var(--p5-crimson); color: #fff;">CALLING CARD</button>
+      </nav>
+      <button id="sfx-toggle" class="sfx-toggle-btn">🔊 SFX: ON</button>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="phan-main-wrapper">
+
+    <!-- Hero Banner -->
+    <section class="phan-hero">
+      <div class="hero-left-content">
+        <div class="hero-subtitle">THE OFFICIAL RECEPTION CHANNEL</div>
+        <h1 class="auto-ransom hero-ransom-title">PHANTOM THIEVES OF HEARTS</h1>
+        <p class="hero-desc">
+          Do you suffer under the tyranny of corrupt adults? Has authority failed to protect you?
+          Post your cries to this meta-channel. If your words hold true malice and distortion,
+          the Thieves shall steal their heart.
+        </p>
+        <div class="hero-cta-group">
+          <a href="#submit-section" class="p5-btn p5-btn-red">
+            <span>SUBMIT ANONYMOUS REQUEST</span> ▶
+          </a>
+          <button class="p5-btn p5-btn-black open-calling-card-btn">
+            <span>GENERATE CALLING CARD</span> ⚡
+          </button>
+        </div>
+      </div>
+      <div class="hero-right-badge">
+        <div class="meta-status-chip">COGNITION: SYNCHRONIZED</div>
+        <div style="font-family: var(--font-heading); font-size: 1.1rem; color: #fff; letter-spacing: 1px;">
+          ADMIN: <span style="color: var(--p5-yellow);">YUKI MISHIMA</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3-Column Asymmetric Desktop Grid -->
+    <div class="phan-grid">
+
+      <!-- LEFT COLUMN: Public Approval Poll & Calling Card Promo -->
+      <aside class="grid-col-left">
+
+        <!-- Poll of the Week Widget -->
+        <section id="poll-section" class="poll-card">
+          <div class="poll-header-badge">POLL OF THE WEEK</div>
+          
+          <div class="poll-question-box">
+            <span class="poll-question-tag">Q:</span>
+            Do you believe in the Phantom Thieves of Hearts?
+          </div>
+
+          <!-- Giant Percentage Number Display -->
+          <div class="poll-percentage-wrapper">
+            <span id="poll-number" class="poll-big-number">44</span>
+            <span class="poll-percent-symbol">%</span>
+          </div>
+
+          <!-- Skewed Striped Dynamic Gauge -->
+          <div class="poll-bar-container">
+            <div id="poll-bar-yes" class="poll-bar-fill-yes" style="width: 44%;">44%</div>
+            <div class="poll-bar-fill-no"></div>
+          </div>
+
+          <div class="poll-labels">
+            <div>
+              <span style="color: var(--p5-crimson);">YES:</span> 
+              <strong id="poll-yes-count">14,218</strong>
+            </div>
+            <div>
+              <span style="color: #999;">NO:</span> 
+              <strong id="poll-no-count">18,095</strong>
+            </div>
+          </div>
+
+          <!-- Vote Buttons -->
+          <div class="poll-actions-grid">
+            <button id="vote-btn-yes" class="poll-vote-btn vote-btn-yes">
+              [A] YES - BELIEVE!
+            </button>
+            <button id="vote-btn-no" class="poll-vote-btn vote-btn-no">
+              [B] NO - CRIMINALS
+            </button>
+          </div>
+
+          <div id="poll-voted-msg" class="poll-voted-msg"></div>
+        </section>
+
+        <!-- Calling Card Promo Box -->
+        <div class="calling-card-promo-box">
+          <div class="promo-title">TAKE YOUR HEART</div>
+          <p class="promo-desc">
+            Know a villain whose heart must be stolen? Issue an official customized Calling Card ready to display.
+          </p>
+          <button class="p5-btn p5-btn-black open-calling-card-btn" style="width: 100%;">
+            OPEN CALLING CARD STUDIO ▶
+          </button>
+        </div>
+
+        <!-- Mementos Warning Box -->
+        <div style="background: #111; border: 2px solid var(--p5-white); padding: 18px; transform: skew(var(--skew-subtle)); box-shadow: 4px 4px 0px #000;">
+          <div style="font-family: var(--font-heading); color: var(--p5-yellow); font-size: 1.1rem; margin-bottom: 6px;">
+            ⚠️ PHAN-SITE CODE OF CONDUCT
+          </div>
+          <p style="font-size: 0.85rem; color: #ccc; line-height: 1.4;">
+            This channel is protected by decentralized anonymous proxies. False reports out of personal jealousy will be ignored by cognitive navigators.
+          </p>
+        </div>
+
+      </aside>
+
+      <!-- CENTER COLUMN: Phorum Request Board & Target Submission -->
+      <section class="grid-col-center">
+
+        <!-- Phorum Section -->
+        <div id="phorum-section" class="phorum-section">
+          <div class="section-header-wrap">
+            <h2 class="section-slanted-title">
+              ★ PHORUM / MEMENTOS REQUESTS
+            </h2>
+          </div>
+
+          <!-- Top Filter & Search Bar -->
+          <div class="phorum-top-bar">
+            <div class="phorum-filter-tabs">
+              <button class="filter-tab-btn active" data-filter="all">ALL TARGETS</button>
+              <button class="filter-tab-btn" data-filter="new">NEW REQUESTS</button>
+              <button class="filter-tab-btn" data-filter="investigating">UNDER INVESTIGATION</button>
+              <button class="filter-tab-btn" data-filter="reformed">HEART CHANGED</button>
+            </div>
+            <input type="text" id="phorum-search" class="phorum-search-input" placeholder="🔍 Search target, crime...">
+          </div>
+
+          <!-- Cards Grid -->
+          <div id="target-cards-container" class="target-cards-grid">
+            <!-- Dynamically populated by js/phorum.js -->
+          </div>
+        </div>
+
+        <!-- Submit Anonymous Target Section -->
+        <div id="submit-section" class="submit-target-section">
+          <div class="ribbon-banner" style="position: absolute; top: -16px; left: 20px;">
+            TRANSMIT ANONYMOUS REQUEST
+          </div>
+
+          <p style="font-size: 0.95rem; color: #D0D0D0; margin-top: 15px; margin-bottom: 15px;">
+            Provide verified details about the target's abuse of power. All communications are automatically encrypted against SIU surveillance.
+          </p>
+
+          <form id="submit-target-form">
+            <div class="form-grid">
+              <div>
+                <label class="p5-form-label" for="form-target-name">TARGET FULL NAME / ALIAS *</label>
+                <input type="text" id="form-target-name" class="p5-input" placeholder="e.g. Suguru Kamoshida, Chief Tanaka..." required>
+              </div>
+
+              <div>
+                <label class="p5-form-label" for="form-target-loc">LOCATION / COGNITIVE SPHERE</label>
+                <input type="text" id="form-target-loc" class="p5-input" placeholder="e.g. Shibuya, Shujin Academy, Yongen...">
+              </div>
+
+              <div>
+                <label class="p5-form-label" for="form-target-sin">ROOT SIN / DESIRE</label>
+                <select id="form-target-sin" class="p5-select">
+                  <option value="Pride">PRIDE (Hubris, Arrogance)</option>
+                  <option value="Greed">GREED (Avarice, Exploitation)</option>
+                  <option value="Wrath">WRATH (Bullying, Violence)</option>
+                  <option value="Lust">LUST (Coercion, Abuse)</option>
+                  <option value="Envy">ENVY (Jealousy, Sabotage)</option>
+                  <option value="Sloth">SLOTH (Neglect, Exploitative Labor)</option>
+                  <option value="Gluttony">GLUTTONY (Overconsumption)</option>
+                </select>
+              </div>
+
+              <div>
+                <label class="p5-form-label" for="form-distortion-slider">
+                  DISTORTION LEVEL: <span id="distortion-val-display" style="color: var(--p5-crimson);">80%</span>
+                </label>
+                <input type="range" id="form-distortion-slider" class="p5-range" min="50" max="99" value="80">
+              </div>
+
+              <div class="form-group-full">
+                <label class="p5-form-label" for="form-target-desc">CORRUPT DEED / EVIDENCE *</label>
+                <textarea id="form-target-desc" class="p5-textarea" placeholder="Describe how this person hurts others, their abuse of power, or their twisted desires..." required></textarea>
+              </div>
+            </div>
+
+            <div style="margin-top: 18px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;">
+              <span style="font-family: var(--font-accent); font-size: 0.85rem; color: #00FF66;">
+                ● METAVERSE NAVIGATOR: READY TO TRANSMIT
+              </span>
+              <button type="submit" class="p5-btn p5-btn-red" style="font-size: 1.15rem; padding: 12px 30px;">
+                POST REQUEST TO THE THIEVES ▶
+              </button>
+            </div>
+          </form>
+
+          <div id="form-status-msg" style="display: none; margin-top: 16px;"></div>
+        </div>
+
+      </section>
+
+      <!-- RIGHT COLUMN: Citizen Murmurs Live Chatter -->
+      <aside class="grid-col-right">
+
+        <div id="murmurs-container" class="murmurs-container">
+          <div class="murmurs-title-bar">
+            <h3 style="font-family: var(--font-display); font-size: 1.4rem; color: var(--p5-yellow);">
+              CITIZEN MURMURS
+            </h3>
+            <span class="comic-badge" style="background: var(--p5-crimson); font-size: 0.75rem;">LIVE FEED</span>
+          </div>
+
+          <div id="murmurs-list" class="murmurs-list">
+            <!-- Dynamically populated by js/murmurs.js -->
+          </div>
+
+          <!-- User Quick Murmur Input -->
+          <div class="murmur-input-box">
+            <input type="text" id="murmur-user-input" class="murmur-input" placeholder="Join Tokyo discussion...">
+            <button id="murmur-submit-btn" class="p5-btn p5-btn-red" style="padding: 6px 14px; font-size: 0.9rem;">
+              SEND
+            </button>
+          </div>
+        </div>
+
+        <!-- Fast Navigation Links Widget -->
+        <div style="background: var(--p5-black); border: 2px solid var(--p5-white); padding: 16px; box-shadow: 4px 4px 0px var(--p5-crimson);">
+          <div style="font-family: var(--font-heading); font-size: 1rem; color: var(--p5-yellow); margin-bottom: 8px;">
+            KEY TARGET HEISTS RECORD
+          </div>
+          <ul style="list-style: none; font-size: 0.85rem; line-height: 1.8; color: #ccc;">
+            <li>✦ <strong>Castle of Lust:</strong> Suguru Kamoshida <span style="color: #00E5FF;">[REFORMED]</span></li>
+            <li>✦ <strong>Museum of Vanity:</strong> Ichiryusai Madarame <span style="color: #00E5FF;">[REFORMED]</span></li>
+            <li>✦ <strong>Bank of Gluttony:</strong> Junya Kaneshiro <span style="color: #00E5FF;">[REFORMED]</span></li>
+            <li>✦ <strong>Pyramid of Wrath:</strong> Futaba Sakura <span style="color: #FFE600;">[AWAKENED]</span></li>
+          </ul>
+        </div>
+
+      </aside>
+
+    </div>
+  </main>
+
+  <!-- Dossier Detail Modal -->
+  <div id="dossier-modal" class="p5-modal-backdrop">
+    <div class="p5-modal-dialog">
+      <div id="dossier-modal-close" class="modal-close-btn">✕</div>
+      <div id="dossier-modal-body"></div>
+    </div>
+  </div>
+
+  <!-- Calling Card Generator Modal -->
+  <div id="calling-card-modal" class="p5-modal-backdrop">
+    <div class="p5-modal-dialog" style="max-width: 860px;">
+      <div id="calling-card-modal-close" class="modal-close-btn">✕</div>
+      
+      <div style="border-bottom: 3px solid var(--p5-crimson); padding-bottom: 12px; margin-bottom: 20px;">
+        <h2 style="font-family: var(--font-display); font-size: 2.2rem; color: var(--p5-yellow);">
+          CALLING CARD GENERATOR STUDIO
+        </h2>
+        <span style="font-family: var(--font-heading); color: #fff; letter-spacing: 1px;">
+          OFFICIAL PHANTOM THIEVES DECLARATION OF THEFT
+        </span>
+      </div>
+
+      <!-- Controls Form -->
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 24px;">
+        <div>
+          <label class="p5-form-label" for="cc-target-input">RECIPIENT / TARGET NAME</label>
+          <input type="text" id="cc-target-input" class="p5-input" value="Suguru Kamoshida">
+        </div>
+        <div>
+          <label class="p5-form-label" for="cc-sin-select">CARDINAL SIN</label>
+          <select id="cc-sin-select" class="p5-select">
+            <option value="Lust & Pride">LUST & PRIDE</option>
+            <option value="Greed & Vanity">GREED & VANITY</option>
+            <option value="Gluttony & Extortion">GLUTTONY & EXTORTION</option>
+            <option value="Wrath & Abuse">WRATH & ABUSE</option>
+            <option value="Envy & Deceit">ENVY & DECEIT</option>
+            <option value="Sloth & Apathy">SLOTH & APATHY</option>
+          </select>
+        </div>
+        <div style="grid-column: 1 / -1;">
+          <label class="p5-form-label" for="cc-crime-input">HEINOUS ACT / ACCUSATION</label>
+          <input type="text" id="cc-crime-input" class="p5-input" value="abusing your authority and tormenting the helpless students of Shujin Academy">
+        </div>
+      </div>
+
+      <!-- Live Preview Card -->
+      <div class="calling-card-preview" id="calling-card-render-area">
+        <!-- SVG Phantom Thieves Top Hat Watermark -->
+        <svg class="calling-card-emblem" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M50 10 C30 10 15 28 15 50 C15 74 40 90 50 96 C60 90 85 74 85 50 C85 28 70 10 50 10 Z" fill="#000" stroke="#FFE600" stroke-width="3"/>
+          <path d="M50 20 L70 38 L58 56 L50 46 L42 56 L30 38 Z" fill="#E60012"/>
+          <circle cx="50" cy="50" r="14" fill="#FFE600"/>
+        </svg>
+
+        <div id="cc-preview-salutation" class="calling-card-salutation">
+          Sir / Madam Suguru Kamoshida,
+        </div>
+        
+        <div id="cc-preview-body" class="calling-card-body">
+          <!-- Populated by js/calling-card.js -->
+        </div>
+
+        <div class="calling-card-signature">
+          FROM: THE PHANTOM THIEVES OF HEARTS ★
+        </div>
+      </div>
+
+      <!-- Modal Action Buttons -->
+      <div style="margin-top: 24px; display: flex; justify-content: flex-end; gap: 12px; flex-wrap: wrap;">
+        <button id="cc-copy-btn" class="p5-btn p5-btn-black">
+          📋 COPY CALLING CARD TEXT
+        </button>
+        <button id="cc-print-btn" class="p5-btn p5-btn-red">
+          🖨️ PRINT / EXPORT CARD
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="p5-footer">
+    <div class="footer-content">
+      <div class="footer-left">
+        <svg width="36" height="36" viewBox="0 0 100 100" fill="none">
+          <polygon points="50,5 92,26 92,74 50,95 8,74 8,26" fill="#E60012" stroke="#FFF" stroke-width="4"/>
+          <circle cx="50" cy="50" r="22" fill="#000"/>
+        </svg>
+        <div>
+          <div style="font-family: var(--font-display); font-size: 1.2rem; color: #fff;">
+            PHAN-SITE // RESTRICTED CHANNEL
+          </div>
+          <div class="footer-legal">
+            Based on ATLUS Persona 5 universe. Built with Web Audio API, Vanilla CSS & Modern JS.
+          </div>
+        </div>
+      </div>
+
+      <div style="font-family: var(--font-heading); font-size: 1.1rem; color: var(--p5-yellow); letter-spacing: 1px;">
+        "WE SHALL TAKE YOUR DISTORTED DESIRES WITHOUT FAIL."
+      </div>
+    </div>
+  </footer>
+
+  <!-- JavaScript Modules -->
+  <script src="js/sfx.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/poll.js"></script>
+  <script src="js/phorum.js"></script>
+  <script src="js/submit-target.js"></script>
+  <script src="js/calling-card.js"></script>
+  <script src="js/murmurs.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
