@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Persona 5 Game Flow, Dynamic P5R Video Background & Screen Character Switcher
  */
 class P5FlowController {

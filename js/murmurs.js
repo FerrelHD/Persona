@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Persona 5 Citizen Murmurs / Tokyo Netizen Feed Controller with Authentic IM Chat UI
  */
 class P5MurmursController {

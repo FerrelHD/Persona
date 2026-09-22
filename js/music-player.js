@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Persona 5 Acid Jazz Synthesizer & BGM Engine (Pure Web Audio API)
  * Plays an authentic looping Persona 5 groove ("When Mother Was There" / "Beneath the Mask" vibes)
  */

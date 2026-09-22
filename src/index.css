@@ -1,0 +1,52 @@
+@import url('https://fonts.googleapis.com/css2?family=Bangers&family=Dela+Gothic+One&family=Outfit:wght@400;600;800;900&family=Space+Mono:wght@400;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 4%;
+    --foreground: 0 0% 98%;
+    --border: 0 0% 15%;
+    --input: 0 0% 15%;
+    --ring: 355 100% 45%;
+  }
+
+  * {
+    box-sizing: border-box;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+
+  html, body, #root {
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+    overflow: hidden !important;
+    background-color: #000000;
+    color: #ffffff;
+    font-family: 'Outfit', sans-serif;
+  }
+
+  ::selection {
+    background-color: #E60012;
+    color: #ffffff;
+  }
+}
+
+/* Custom Persona 5 Scrollbar for inner card grids */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.6);
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #E60012;
+  border-radius: 0px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #ffffff;
+}

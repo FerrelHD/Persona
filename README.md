@@ -1,77 +1,103 @@
-# 🎩 PHAN-SITE // The Official Phantom Thieves Channel
+# ★ PERSONA 5 ROYAL // FERREL — DEVELOPER PORTFOLIO & HEISTS ★
 
-> *"Do you suffer under the tyranny of corrupt adults? Post your cries to this meta-channel. We shall steal their heart without fail."*
+> *"Take Your Time. The Phantom Developer has arrived to craft code that steals hearts."*
 
-An authentic, fully interactive desktop web portal inspired by the **Phan-Site (Phantom Thieves Channel)** from **Persona 5 (ATLUS)**. Built with high-contrast acid punk aesthetics, comic book jagged ribbons, Web Audio API sound synthesis, and real-time interactive mechanics.
+A cinematic, interactive game-console developer portfolio inspired by the award-winning UI of **Persona 5 Royal (ATLUS / SEGA)**. Built with **React 18**, **Vite**, **TypeScript**, **Tailwind CSS**, and **shadcn/ui**, engineered to deliver an authentic 60 FPS console experience with procedural Web Audio synthesis, full-viewport 1080p background video loops, dynamic ransom-letter typography, and zero browser scrolling.
 
 ---
 
-## ⚡ Live Features
+## 🎭 Live Experience & Highlights
 
-1. **🔴 Concentric Spiral Target & Comic Aesthetics**:
-   * Dynamic HTML5 canvas rendering rotating red-and-black concentric rings.
-   * Halftone Benday dots and CRT scanline overlay.
-   * "Ransom-Note" cut-out newspaper letter styling with randomized tilted badges.
+* **🎮 Pure Console Game Interface**: Locked to a cinematic `100vw × 100vh` canvas with zero scrollbars, navigable via mouse and retro keyboard controls (`[▲/▼]` Navigate, `[ENTER]` Select, `[ESC]` Return).
+* **🎬 Pristine 1080p Video Backgrounds**: Uncropped, proportional 16:9 loop videos for Joker, Futaba, Makoto, Ryuji, and Yusuke dynamically switching between menus and screens without distortion.
+* **🃏 Ransom-Note Typography**: Custom cutout ransom letter tiles for `FERREL` with asymmetric tilts, monochrome contrast, and comic drop-shadows.
+* **⚡ Snappy Persona 5 Fanned Buttons**: Custom shadcn/ui button architecture featuring clean resting states and explosive Crimson Red (`#E60012`) recoil pop-out animations on hover.
+* **🔊 Synthesized Web Audio API Engine**: Zero external audio assets, zero latency. Procedurally generates authentic high-frequency menu blips, slash whooshes, and heavy stamp impacts.
 
-2. **📊 Poll of the Week (Public Approval Rating)**:
-   * *"Do you believe in the Phantom Thieves of Hearts?"*
-   * Giant kinetic counter with dynamic red/black striped approval gauge.
-   * Real-time voting mechanics with instant counter animations and `localStorage` persistence.
+---
 
-3. **📜 Phorum / Mementos Target Request Board**:
-   * Pre-loaded with authentic Persona 5 Mementos cases (*"The Bark and Bite of a Bully"*, *"Winners Don't Use Cheats!"*, *"Who's Muscling in Yongen-Jaya?"*, etc.).
-   * Filterable by status: `ALL TARGETS`, `NEW REQUESTS`, `UNDER INVESTIGATION`, and `HEART CHANGED`.
-   * Real-time search filter for targets, locations, and crimes.
-   * Interactive **Investigation Dossier Modal** with target identities, shadow aliases, distortion levels, and citizen testimonials.
+## 📂 Heist Screens & Modules
 
-4. **📮 Transmit Anonymous Request (Submit Target)**:
-   * Encrypted submission terminal allowing visitors to report real or fictional corrupt targets.
-   * Select target name, cognitive location, cardinal sin, distortion meter, and evidence.
-   * Submitting generates a new target card on the live board and plays a heavy stamp sound effect.
+1. **Main Menu (Joker Theme)**
+   * Fanned-out navigation stack leading to core developer archives.
+   * Responsive audio feedback and comic halftone vignettes.
 
-5. **💌 Calling Card Generator Studio**:
-   * Official declaration of theft generator styled in crimson and black paper collage.
-   * Customize the recipient name, cardinal sin, and heinous crimes.
-   * Live preview with official Phantom Thieves emblem and seal.
-   * Instant action to **Copy Proclamation Text** or **Print / Export Card**.
+2. **01 // Missions & Heists (Futaba Theme — Portfolio)**
+   * Showcase of real engineering projects from [@FerrelHD](https://github.com/FerrelHD):
+     * **Global-Seismic-Tracker** (TypeScript / Next.js / Interactive Map / Vercel)
+     * **leclerc-redline** (JavaScript / Creative Web F1 Experience / Vercel)
+     * **portfolio-v2** (Vue / Vite / Khanh Nguyen Inspired Minimalist Portfolio)
+     * **Roblox-Sentimen-With-IndoBert** (Python / IndoBERT NLP Transformers / PyTorch)
+     * **Stock-Prediction-System** (Python / Machine Learning Time-Series Forecasting)
+     * **Street-Rush-Unity** (Unity 3D / C# / ShaderLab / HLSL)
+     * **Eco-Bite** (TypeScript / Sustainable Food Web App)
+     * **Fersya-Shop & Finesser-Shop** (PHP / Laravel / E-Commerce Systems)
+   * Deep-dive investigation dossier modals and live peer feedback feed.
 
-6. **💬 Tokyo Citizen Murmurs**:
-   * Live scrolling feed of civilian chatter, rumors, and debate across Tokyo.
-   * Interactive quick-input box allowing visitors to chime in anonymously.
+3. **02 // Skills & Combat Stats (Makoto Theme — Tactical Audit)**
+   * Queen's tactical breakdown covering:
+     * **Frontend Architecture**: TypeScript, React 18, Vue, Tailwind CSS, Vite.
+     * **AI & Data Science**: Python, IndoBERT, Transformers, Pandas, Scikit-learn.
+     * **Game & Shaders**: Unity 3D Engine, C#, ShaderLab.
+     * **Backend & Systems**: PHP (Laravel), Node.js, REST APIs, Vercel Serverless.
+   * Interactive Confidant endorsement system with confetti feedback.
 
-7. **🔊 Synthesized Web Audio API SFX**:
-   * Zero external audio files required, zero latency.
-   * Menu hover blips, slash transitions, and heavy stamp impacts.
-   * Includes sound toggle button (`SFX: ON` / `SFX: OFF`).
+4. **03 // Calling Card Studio (Ryuji Theme — Contact & Hire Me)**
+   * Interactive Calling Card generator to dispatch project proposals and hiring requests directly.
+   * Real-time preview of the iconic crimson Phantom Thieves calling card.
+
+5. **04 // About the Thief (Yusuke Theme — Bio & Origins)**
+   * Software engineering discipline, creative philosophy, and academic background.
 
 ---
 
 ## 🛠️ Technology Stack
 
-* **Core**: Pure Semantic HTML5 & Vanilla JavaScript (ES6+ Classes)
-* **Styling**: Vanilla CSS3 (Custom Properties, Grid & Flexbox, `clip-path`, `transform: skew()`)
-* **Audio**: Native Web Audio API
-* **Graphics**: Pure SVG Vectors & HTML5 Canvas
-* **Typography**: Google Fonts (*Bangers*, *Bebas Neue*, *Outfit*, *Rubik Glitch*)
+* **Frontend**: [React 18](https://react.dev/), [TypeScript](https://www.typescriptlang.org/)
+* **Build Tool**: [Vite 6](https://vite.dev/)
+* **Styling**: [Tailwind CSS](https://tailwindcss.com/), [PostCSS](https://postcss.org/), [Autoprefixer](https://github.com/postcss/autoprefixer)
+* **Components & Primitives**: [shadcn/ui](https://ui.shadcn.com/), [@radix-ui/react-slot](https://www.radix-ui.com/), [class-variance-authority](https://cva.style/)
+* **Audio & Effects**: Native Web Audio API, [canvas-confetti](https://www.npmjs.com/package/canvas-confetti)
+* **Icons**: [lucide-react](https://lucide.dev/)
 
 ---
 
-## 🚀 How to Run Locally
+## 🚀 Getting Started
 
-You can open `index.html` directly in any modern desktop web browser:
+### Prerequisites
+* [Node.js](https://nodejs.org/) (v18.0.0 or higher recommended)
+* npm (bundled with Node.js)
+
+### Installation & Run
 
 ```bash
-# Option 1: Open index.html directly
-start index.html
+# 1. Clone repository
+git clone https://github.com/FerrelHD/Persona.git
+cd Persona
 
-# Option 2: Run via local web server (npx serve, Python, or Live Server)
-npx -y serve .
-# or
-python -m http.server 8080
+# 2. Install dependencies
+npm install
+
+# 3. Start local development server
+npm run dev
+
+# 4. Open in browser
+# Navigate to http://localhost:5173/
+```
+
+### Production Build
+
+```bash
+# Typecheck and bundle
+npm run build
+
+# Preview production build locally
+npm run preview
 ```
 
 ---
 
-## ⚖️ Disclaimer & Credits
+## 📄 License & Credits
 
-This project is a fan-made interactive tribute to **Persona 5** developed by **ATLUS / SEGA**. All character names, lore, and visual themes belong to their respective copyright holders.
+* **Developer & Author**: [FerrelHD (Ferrel Rashad)](https://github.com/FerrelHD)
+* **Design & Theme Inspiration**: **Persona 5 Royal** © ATLUS / SEGA. All rights to original game art and characters remain with their respective copyright holders.

@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Persona 5 Phan-Site Main Application Bootstrap
  */
 document.addEventListener('DOMContentLoaded', () => {

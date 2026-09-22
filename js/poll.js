@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Persona 5 Public Approval Rating (Poll of the Week) Controller (Powered by GSAP)
  */
 class P5PollController {
