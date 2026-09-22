@@ -1,4 +1,4 @@
-﻿/* Persona 5 Dynamic Ambient Video Background & Modern Clean UI */
+/* Persona 5 Dynamic Ambient Video Background & Modern Clean UI */
 
 /* ==========================================================================
    AMBIENT DYNAMIC P5R VIDEO BACKGROUND (FULLSCREEN LOOP)
@@ -525,85 +525,138 @@
   box-shadow: 6px 6px 0px var(--p5-yellow);
 }
 
-/* Interactive Persona 5 Original Music Player Asset Component */
+
+
+/* ==========================================================================
+   AUTHENTIC PERSONA 5 MUSIC PLAYER (DYNAMIC ALBUM ART & LIVE TEXT)
+   ========================================================================== */
 .p5-music-widget {
   position: fixed;
   bottom: 25px;
   right: 30px;
   z-index: 1000;
-  display: inline-block;
-  cursor: pointer;
+  display: block;
   filter: drop-shadow(6px 6px 0px #000000);
   transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 .p5-music-widget:hover {
-  transform: scale(1.04) translateY(-3px);
+  transform: scale(1.03) translateY(-3px);
 }
 
 .music-asset-container {
   position: relative;
   width: 440px;
   max-width: 38vw;
+  user-select: none;
 }
 
 .music-asset-img {
   width: 100%;
   height: auto;
   display: block;
+  pointer-events: none;
 }
 
-/* Functional Invisible Interactive Click Hotspots placed precisely over the PNG buttons */
-.music-hotspot {
+/* Album Polaroid Cover Art */
+.music-polaroid-art {
   position: absolute;
-  cursor: pointer;
-  background: transparent;
-  border: none;
-  outline: none;
+  left: 8.5%;
+  top: 13.5%;
+  width: 20.8%;
+  aspect-ratio: 1 / 1;
+  transform: rotate(-5.8deg);
+  border: 2px solid #000000;
+  box-shadow: 2px 2px 0px rgba(0, 0, 0, 0.7);
+  object-fit: cover;
+  z-index: 2;
+  pointer-events: none;
 }
 
-.hotspot-play {
-  left: 56%;
-  top: 60%;
-  width: 15%;
-  height: 32%;
-}
-
-.hotspot-play:hover {
-  background: rgba(230, 0, 18, 0.25);
-  box-shadow: 0 0 10px rgba(230, 0, 18, 0.5);
-}
-
-.hotspot-prev {
-  left: 40%;
-  top: 60%;
-  width: 12%;
-  height: 32%;
-}
-
-.hotspot-prev:hover {
-  background: rgba(255, 230, 0, 0.25);
-}
-
-.hotspot-next {
-  left: 73%;
-  top: 60%;
-  width: 12%;
-  height: 32%;
-}
-
-.hotspot-next:hover {
-  background: rgba(255, 230, 0, 0.25);
-}
-
-.hotspot-vinyl {
+/* Vinyl Disc on Starburst Icon */
+.music-vinyl-spin-badge {
+  position: absolute;
   left: 1%;
   bottom: 0%;
   width: 18%;
   height: 48%;
+  z-index: 5;
+  cursor: pointer;
   border-radius: 50%;
 }
 
-.hotspot-vinyl.spinning {
+.music-vinyl-spin-badge.spinning {
   animation: discSpin 2.5s linear infinite;
+}
+
+@keyframes discSpin {
+  100% { transform: rotate(360deg); }
+}
+
+/* White Banner Content Overlay */
+.music-banner-overlay {
+  position: absolute;
+  left: 36.5%;
+  top: 38%;
+  width: 57%;
+  bottom: 10%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  z-index: 4;
+  pointer-events: auto;
+  gap: 2px;
+}
+
+.music-now-playing-tag {
+  font-family: var(--font-heading, 'Impact', sans-serif);
+  font-size: clamp(0.65rem, 0.82vw, 0.76rem);
+  font-style: italic;
+  font-weight: 800;
+  letter-spacing: 2px;
+  color: #222222;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.music-track-title {
+  font-family: var(--font-heading, 'Impact', sans-serif);
+  font-size: clamp(0.95rem, 1.35vw, 1.25rem);
+  font-style: italic;
+  font-weight: 900;
+  letter-spacing: 0.5px;
+  color: #000000;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.1;
+  margin: 1px 0 3px 0;
+}
+
+.music-controls-row {
+  display: flex;
+  align-items: center;
+  gap: clamp(12px, 1.8vw, 18px);
+}
+
+.music-ctrl-btn {
+  background: transparent;
+  border: none;
+  color: #000000;
+  font-size: clamp(0.9rem, 1.1vw, 1.1rem);
+  cursor: pointer;
+  padding: 0 2px;
+  line-height: 1;
+  font-weight: 900;
+  transition: transform 0.15s ease, color 0.15s ease;
+  user-select: none;
+}
+
+.music-ctrl-btn:hover {
+  transform: scale(1.35);
+  color: var(--p5-crimson, #E60012);
+}
+
+.music-vol-btn {
+  font-size: clamp(0.85rem, 1vw, 1rem);
 }

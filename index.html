@@ -38,15 +38,29 @@
     <button id="sfx-toggle" class="sfx-toggle-btn">🔊 SFX: ON</button>
   </div>
 
-    <!-- ORIGINAL PERSONA 5 MUSIC PLAYER PNG ASSET (FUNCTIONAL) -->
+  <!-- ORIGINAL PERSONA 5 MUSIC PLAYER WITH ALBUM ART & DYNAMIC TRACK TITLE -->
   <div class="p5-music-widget" id="p5-music-player">
     <div class="music-asset-container">
+      <!-- Base stylized frame from Persona 5 asset -->
       <img src="assets/Music Player.png" class="music-asset-img" alt="Persona 5 Music Player">
-      <!-- Clickable Interactive Hotspots overlaid right on top of the PNG buttons -->
-      <button class="music-hotspot hotspot-prev" id="music-prev-btn" title="Previous Track"></button>
-      <button class="music-hotspot hotspot-play" id="music-play-btn" title="Play / Pause BGM"></button>
-      <button class="music-hotspot hotspot-next" id="music-next-btn" title="Next Track"></button>
-      <div class="music-hotspot hotspot-vinyl" id="music-disc-spin" title="Spinning Vinyl Disc"></div>
+
+      <!-- Album Cover Icon in Polaroid Frame -->
+      <img src="assets/album_cover.jpg" class="music-polaroid-art" alt="Persona 5 OST">
+
+      <!-- Spinning Starburst Vinyl Disc -->
+      <div class="music-vinyl-spin-badge" id="music-disc-spin" title="Spinning Vinyl Disc"></div>
+
+      <!-- Live Dynamic Banner Content (Text & Controls) -->
+      <div class="music-banner-overlay">
+        <div class="music-now-playing-tag">NOW PLAYING</div>
+        <div class="music-track-title" id="music-track-title">When Mother Was There</div>
+        <div class="music-controls-row">
+          <button class="music-ctrl-btn" id="music-prev-btn" title="Previous Track">&#9616;&#9664;</button>
+          <button class="music-ctrl-btn" id="music-play-btn" title="Play / Pause BGM">&#9654;</button>
+          <button class="music-ctrl-btn" id="music-next-btn" title="Next Track">&#9654;&#9612;</button>
+          <button class="music-ctrl-btn music-vol-btn" id="music-vol-btn" title="Sound Active">&#128266;</button>
+        </div>
+      </div>
     </div>
   </div>
 
