@@ -277,3 +277,21 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 });
+
+
+// Direct navigation for fanned menu buttons
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('.p5-fanned-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      const target = btn.getAttribute('data-target-screen');
+      if (target && window.p5Flow) {
+        window.p5Audio?.playSlash();
+        window.p5Flow.navigateTo(target);
+      }
+    });
+    btn.addEventListener('mouseenter', () => {
+      window.p5Audio?.playNav?.();
+    });
+  });
+});

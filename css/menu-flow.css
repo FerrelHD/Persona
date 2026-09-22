@@ -250,278 +250,99 @@
 /* ==========================================================================
    INTERACTIVE CLEAN MUSIC PLAYER (FUNCTIONAL HTML/CSS COMPONENT)
    ========================================================================== */
-.p5-music-widget {
-  position: fixed;
-  bottom: 25px;
-  right: 30px;
-  z-index: 1000;
-  display: flex;
-  align-items: center;
-  filter: drop-shadow(6px 6px 0px #000000);
-  cursor: default;
-  transition: transform 0.2s ease;
-}
 
-.p5-music-player-box {
-  display: flex;
-  align-items: center;
-  position: relative;
-}
 
-.music-album-polaroid {
-  position: relative;
-  background: #FFF;
-  border: 4px solid #000;
-  box-shadow: 5px 5px 0px #000;
-  padding: 8px 8px 18px 8px;
-  transform: rotate(-6deg) skew(-4deg);
-  z-index: 5;
-  width: 90px;
-  height: 90px;
-}
 
-.music-album-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  background: #E60012;
-}
-
-.music-vinyl-disc {
-  position: absolute;
-  bottom: -12px;
-  left: -12px;
-  width: 44px;
-  height: 44px;
-  background: #000;
-  border: 3px solid #FFF;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 3px 3px 0px #000;
-  color: var(--p5-yellow);
-  font-size: 1.2rem;
-  z-index: 10;
-}
-
-.music-vinyl-disc.spinning {
-  animation: discSpin 2.5s linear infinite;
-}
-
-@keyframes discSpin {
-  100% { transform: rotate(360deg); }
-}
-
-.music-info-banner {
-  background: #FFFFFF;
-  border: 4px solid #000000;
-  box-shadow: 6px 6px 0px #000000;
-  padding: 12px 24px 12px 35px;
-  margin-left: -20px;
-  transform: skew(var(--skew-heavy));
-  clip-path: polygon(0 0, 100% 0, 95% 100%, 0% 100%);
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  min-width: 280px;
-}
-
-.music-now-playing-label {
-  font-family: var(--font-heading);
-  font-size: 0.85rem;
-  color: #555;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-}
-
-.music-track-title {
-  font-family: var(--font-heading);
-  font-size: 1.5rem;
-  color: #000000;
-  letter-spacing: 1px;
-  white-space: nowrap;
-}
-
-.music-controls-row {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  margin-top: 4px;
-}
-
-.music-ctrl-btn {
-  background: transparent;
-  border: none;
-  color: #000000;
-  font-size: 1.15rem;
-  cursor: pointer;
-  padding: 2px 6px;
-  transition: transform 0.15s ease, color 0.15s ease;
-  line-height: 1;
-}
-
-.music-ctrl-btn:hover {
-  transform: scale(1.3);
-  color: var(--p5-crimson);
-}
 
 /* ==========================================================================
-   OTENTIK PERSONA 5 CHAT BUBBLES (FUNCTIONAL P5 CHAT)
+   PURE CONSOLE GAME VIEWPORT (NO SCROLL, FULLSCREEN VIDEO UN-CROPPED)
    ========================================================================== */
-.p5-chat-stream {
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-  max-height: 520px;
-  overflow-y: auto;
-  padding: 10px 15px;
+html, body {
+  margin: 0 !important;
+  padding: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  max-width: 100vw !important;
+  max-height: 100vh !important;
+  overflow: hidden !important;
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
 }
 
-.p5-received-chat-row {
-  display: flex;
-  align-items: center;
-  position: relative;
-  width: 100%;
+.phan-main-wrapper {
+  width: 100vw !important;
+  height: 100vh !important;
+  max-width: 100vw !important;
+  max-height: 100vh !important;
+  overflow: hidden !important;
+  padding: 0 !important;
+  margin: 0 !important;
 }
 
-.received-chat-bubble {
-  position: relative;
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  background: #0A0A0A;
-  color: #FFFFFF;
-  border: 3px solid #FFFFFF;
-  box-shadow: 5px 5px 0px var(--p5-crimson);
-  padding: 12px 20px;
-  transform: skew(var(--skew-medium));
-  max-width: 88%;
+#screen-main-menu {
+  width: 100vw !important;
+  height: 100vh !important;
+  overflow: hidden !important;
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
 }
 
-.received-avatar-box {
-  width: 52px;
-  height: 52px;
-  border: 2px solid #FFF;
-  overflow: hidden;
-  background: #E60012;
-  flex-shrink: 0;
-  transform: skew(-4deg);
-  box-shadow: 2px 2px 0px #000;
+.p5-video-bg-container {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  z-index: -3 !important;
+  overflow: hidden !important;
+  background: #000 !important;
+  pointer-events: none !important;
 }
 
-.received-avatar-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+.p5-bg-video {
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  object-fit: fill !important;
+  transform: none !important;
+  opacity: 1 !important;
+  filter: none !important;
 }
 
-.received-content-wrap {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
+.p5-video-vignette {
+  display: none !important;
 }
 
-.received-author-name {
-  font-family: var(--font-heading);
-  color: var(--p5-yellow);
-  font-size: 0.95rem;
-  letter-spacing: 1px;
+.menu-brand-header {
+  padding: 24px 0 0 35px !important;
 }
 
-.received-message-text {
-  font-family: var(--font-body);
-  font-size: 0.95rem;
-  font-weight: 600;
-  line-height: 1.35;
-  color: #EEE;
+.p5-menu-stage {
+  padding: 0 0 0 35px !important;
+  min-height: auto !important;
+  display: flex !important;
+  align-items: flex-start !important;
 }
 
-.p5-sent-chat-row {
-  display: flex;
-  justify-content: flex-end;
-  position: relative;
-  width: 100%;
-}
 
-.sent-chat-bubble {
-  position: relative;
-  background: #FFFFFF;
-  color: #0A0A0A;
-  border: 3px solid #000000;
-  box-shadow: 5px 5px 0px #000000;
-  padding: 12px 22px;
-  transform: skew(var(--skew-medium));
-  max-width: 85%;
-}
-
-.sent-author-name {
-  font-family: var(--font-heading);
-  color: var(--p5-crimson);
-  font-size: 0.9rem;
-  letter-spacing: 1px;
-  margin-bottom: 2px;
-  text-align: right;
-}
-
-.sent-message-text {
-  font-family: var(--font-body);
-  font-size: 0.95rem;
-  font-weight: 700;
-  line-height: 1.35;
-  color: #000;
-}
 
 /* ==========================================================================
-   NAVIGATION BACK BAR
-   ========================================================================== */
-.p5-back-nav-bar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 25px;
-}
-
-.p5-back-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  background: var(--p5-black);
-  color: var(--p5-white);
-  border: 3px solid var(--p5-white);
-  padding: 10px 22px;
-  font-family: var(--font-heading);
-  font-size: 1.2rem;
-  letter-spacing: 2px;
-  cursor: pointer;
-  transform: skew(var(--skew-medium));
-  box-shadow: 5px 5px 0px var(--p5-crimson);
-  transition: all 0.15s ease;
-  user-select: none;
-}
-
-.p5-back-btn:hover {
-  background: var(--p5-crimson);
-  color: var(--p5-yellow);
-  border-color: var(--p5-yellow);
-  transform: skew(var(--skew-medium)) translateX(-5px);
-  box-shadow: 6px 6px 0px var(--p5-yellow);
-}
-
-/* ==========================================================================
-   AUTHENTIC PERSONA 5 FANNED-OUT SVG MENU (PLACEMENT MATCHING PHOTO)
+   AUTHENTIC PERSONA 5 FANNED-OUT SVG MENU (LARGER, PURE WHITE DEFAULT)
    ========================================================================== */
 .p5-fanned-menu-container {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   gap: 12px;
-  width: 440px;
-  max-width: 45vw;
+  width: 480px;
+  max-width: 48vw;
   position: relative;
   z-index: 25;
-  margin-top: 65px;
-  margin-left: 20px;
+  margin-top: 85px;
 }
 
 .p5-fanned-buttons-stack {
@@ -533,19 +354,27 @@
 }
 
 .p5-fanned-btn {
-  background: transparent;
-  border: none;
-  padding: 0;
-  margin: 0;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  outline: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
   cursor: pointer;
   display: block;
-  width: 350px;
-  max-width: 85vw;
-  transform-origin: 15px center;
+  width: 430px;
+  max-width: 88vw;
+  transform-origin: 20px center;
   transition: transform 0.22s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   position: relative;
-  outline: none;
   user-select: none;
+}
+
+/* Ensure no inherited card pseudo-elements or red accents peeking through */
+.p5-fanned-btn::before,
+.p5-fanned-btn::after {
+  display: none !important;
+  content: none !important;
 }
 
 /* Initial Fanned Out Angles (Matching Reference Photo) */
@@ -575,6 +404,7 @@
   height: auto;
   display: block;
   overflow: visible;
+  /* Crisp pure black drop shadow in default state - NO RED! */
   filter: drop-shadow(6px 6px 0px #000000);
   transition: filter 0.2s ease;
 }
@@ -590,10 +420,10 @@
 
 .p5-btn-text {
   font-family: var(--font-display), 'Bangers', Impact, cursive, sans-serif;
-  font-size: 28px;
+  font-size: 32px;
   font-weight: 900;
   font-style: italic;
-  letter-spacing: 2px;
+  letter-spacing: 2.5px;
   fill: #000000;
   text-anchor: middle;
   dominant-baseline: central;
@@ -602,28 +432,28 @@
 }
 
 .p5-btn-text-small {
-  font-size: 24px;
-  letter-spacing: 1px;
+  font-size: 28px;
+  letter-spacing: 1.5px;
 }
 
-/* HOVER POP-OUT RECOIL ANIMATION */
+/* HOVER STATE: RED EFFECT ONLY APPEARS HERE! */
 .fanned-btn-1:hover {
-  transform: rotate(-16deg) translateX(36px) scale(1.07);
+  transform: rotate(-16deg) translateX(42px) scale(1.06);
   z-index: 30;
 }
 
 .fanned-btn-2:hover {
-  transform: rotate(-8deg) translate(48px, 0px) scale(1.07);
+  transform: rotate(-8deg) translate(56px, 0px) scale(1.06);
   z-index: 30;
 }
 
 .fanned-btn-3:hover {
-  transform: rotate(0deg) translate(56px, 4px) scale(1.07);
+  transform: rotate(0deg) translate(64px, 4px) scale(1.06);
   z-index: 30;
 }
 
 .fanned-btn-4:hover {
-  transform: rotate(8deg) translate(62px, 8px) scale(1.07);
+  transform: rotate(8deg) translate(70px, 8px) scale(1.06);
   z-index: 30;
 }
 
@@ -636,157 +466,10 @@
 }
 
 .p5-fanned-btn:hover .p5-btn-svg {
-  filter: drop-shadow(10px 10px 0px #000000);
+  /* Rich Persona 5 3D shadow on hover */
+  filter: drop-shadow(10px 10px 0px #000000) drop-shadow(-3px -3px 0px var(--p5-yellow, #FFE600));
 }
 
 .p5-fanned-btn:active {
   transform: scale(0.98) !important;
-}
-
-/* ==========================================================================
-   AUTHENTIC PERSONA 5 MUSIC PLAYER (DYNAMIC ALBUM ART & FULLY ALIGNED CONTROLS)
-   ========================================================================== */
-.p5-music-widget {
-  position: fixed;
-  bottom: 25px;
-  right: 30px;
-  z-index: 1000;
-  display: block;
-  filter: drop-shadow(6px 6px 0px #000000);
-  transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
-
-.p5-music-widget:hover {
-  transform: scale(1.03) translateY(-3px);
-}
-
-.music-asset-container {
-  position: relative;
-  width: 440px;
-  max-width: 38vw;
-  user-select: none;
-}
-
-.music-asset-img {
-  width: 100%;
-  height: auto;
-  display: block;
-  pointer-events: none;
-}
-
-/* Album Polaroid Cover Art */
-.music-polaroid-art {
-  position: absolute;
-  left: 8.5%;
-  top: 13.5%;
-  width: 20.8%;
-  aspect-ratio: 1 / 1;
-  transform: rotate(-5.8deg);
-  border: 2px solid #000000;
-  box-shadow: 2px 2px 0px rgba(0, 0, 0, 0.7);
-  object-fit: cover;
-  z-index: 2;
-  pointer-events: none;
-}
-
-/* Vinyl Disc on Starburst Icon */
-.music-vinyl-spin-badge {
-  position: absolute;
-  left: 1%;
-  bottom: 0%;
-  width: 18%;
-  height: 48%;
-  z-index: 5;
-  cursor: pointer;
-  border-radius: 50%;
-}
-
-.music-vinyl-spin-badge.spinning {
-  animation: discSpin 2.5s linear infinite;
-}
-
-@keyframes discSpin {
-  100% { transform: rotate(360deg); }
-}
-
-/* White Banner Content Overlay */
-.music-banner-overlay {
-  position: absolute;
-  left: 37%;
-  top: 38%;
-  width: 58%;
-  height: 40%;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  gap: 2px;
-  z-index: 10;
-  pointer-events: auto;
-}
-
-.music-now-playing-tag {
-  font-family: var(--font-heading, 'Impact', sans-serif);
-  font-size: 11px;
-  font-style: italic;
-  font-weight: 800;
-  letter-spacing: 2px;
-  color: #333333;
-  line-height: 1;
-  text-transform: uppercase;
-}
-
-.music-track-title {
-  font-family: var(--font-heading, 'Impact', sans-serif);
-  font-size: 18px;
-  font-style: italic;
-  font-weight: 900;
-  letter-spacing: 0.5px;
-  color: #000000;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  line-height: 1.1;
-  margin: 1px 0 4px 0;
-}
-
-.music-controls-row {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-}
-
-.music-ctrl-btn {
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  padding: 0;
-  line-height: 1;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  transition: transform 0.15s ease;
-  user-select: none;
-}
-
-.music-ctrl-btn svg {
-  display: block;
-  overflow: visible;
-}
-
-.music-ctrl-btn svg polygon,
-.music-ctrl-btn svg path {
-  fill: #000000 !important;
-}
-
-.music-ctrl-btn:hover svg polygon,
-.music-ctrl-btn:hover svg path {
-  fill: var(--p5-crimson, #E60012) !important;
-}
-
-.music-ctrl-btn:hover {
-  transform: scale(1.3);
-}
-
-.music-vol-icon {
-  cursor: default;
 }
