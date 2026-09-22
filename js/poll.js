@@ -1,5 +1,5 @@
-/**
- * Persona 5 Public Approval Rating (Poll of the Week) Controller
+﻿/**
+ * Persona 5 Public Approval Rating (Poll of the Week) Controller (Powered by GSAP)
  */
 class P5PollController {
   constructor() {
@@ -20,11 +20,8 @@ class P5PollController {
     if (saved) {
       try {
         return JSON.parse(saved);
-      } catch (e) {
-        // Fallback
-      }
+      } catch (e) {}
     }
-    // Default starting approval rating matching P5 mid-game state (44% or customizable)
     return {
       yesVotes: 14218,
       noVotes: 18095,
@@ -62,14 +59,12 @@ class P5PollController {
   castVote(choice) {
     window.p5Audio?.playStamp();
 
-    // If user changed choice or voting first time
     if (!this.pollData.hasVoted) {
       if (choice === 'yes') this.pollData.yesVotes += 1;
       else this.pollData.noVotes += 1;
       this.pollData.hasVoted = true;
       this.pollData.userChoice = choice;
     } else {
-      // Allow switching vote dynamically
       if (this.pollData.userChoice !== choice) {
         if (choice === 'yes') {
           this.pollData.yesVotes += 1;
@@ -85,16 +80,28 @@ class P5PollController {
     this.saveData();
     this.render(true);
 
-    // Visual feedback ripple on body
-    document.body.classList.add('slash-active');
-    setTimeout(() => document.body.classList.remove('slash-active'), 400);
+    // GSAP Screen Impact Shake
+    if (window.gsap) {
+      gsap.fromTo("#poll-section",
+        { x: -10, rotate: -1 },
+        { x: 0, rotate: 0, duration: 0.35, ease: "elastic.out(1.5, 0.3)" }
+      );
+    }
   }
 
   render(animate = true) {
     const pct = this.getPercentage();
 
     if (this.barFillYes) {
-      this.barFillYes.style.width = `${pct}%`;
+      if (animate && window.gsap) {
+        gsap.to(this.barFillYes, {
+          width: `${pct}%`,
+          duration: 0.8,
+          ease: "elastic.out(1, 0.6)"
+        });
+      } else {
+        this.barFillYes.style.width = `${pct}%`;
+      }
       this.barFillYes.textContent = `${pct}%`;
     }
 
@@ -106,8 +113,17 @@ class P5PollController {
     }
 
     if (this.numberEl) {
-      if (animate) {
-        this.animateCounter(parseInt(this.numberEl.textContent) || 0, pct);
+      if (animate && window.gsap) {
+        const obj = { val: parseInt(this.numberEl.textContent) || 0 };
+        gsap.to(obj, {
+          val: pct,
+          duration: 0.7,
+          ease: "power2.out",
+          onUpdate: () => {
+            this.numberEl.textContent = Math.round(obj.val);
+          }
+        });
+        gsap.fromTo(this.numberEl, { scale: 1.35, color: "#fff" }, { scale: 1, color: "var(--p5-yellow)", duration: 0.45, ease: "back.out(2)" });
       } else {
         this.numberEl.textContent = pct;
       }
@@ -116,25 +132,9 @@ class P5PollController {
     if (this.votedMsgEl && this.pollData.hasVoted) {
       this.votedMsgEl.style.display = 'block';
       this.votedMsgEl.innerHTML = `YOUR VOTE: <span style="color: #fff; background: var(--p5-crimson); padding: 2px 6px;">${this.pollData.userChoice.toUpperCase()}</span> HAS BEEN LOGGED BY THE META-ROUTER`;
+      if (animate && window.gsap) {
+        gsap.fromTo(this.votedMsgEl, { scale: 0.8, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.3, ease: "back.out(2)" });
+      }
     }
-  }
-
-  animateCounter(start, end) {
-    const duration = 600;
-    const startTime = performance.now();
-    const step = (currentTime) => {
-      const elapsed = currentTime - startTime;
-      const progress = Math.min(elapsed / duration, 1);
-      const current = Math.floor(start + (end - start) * progress);
-      if (this.numberEl) {
-        this.numberEl.textContent = current;
-      }
-      if (progress < 1) {
-        requestAnimationFrame(step);
-      } else {
-        if (this.numberEl) this.numberEl.textContent = end;
-      }
-    };
-    requestAnimationFrame(step);
   }
 }
