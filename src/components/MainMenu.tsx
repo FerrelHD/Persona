@@ -18,6 +18,7 @@ interface MenuItemConfig {
   id: ActiveScreen
   label: string
   rotation: string
+  offsetClass: string
   letters: LetterTile[]
 }
 
@@ -26,6 +27,7 @@ const MENU_ITEMS: MenuItemConfig[] = [
     id: 'missions',
     label: 'PROJECTS',
     rotation: '-rotate-3',
+    offsetClass: 'ml-0',
     letters: [
       { char: 'P', bg: 'bg-white text-black', rotate: '-rotate-3' },
       { char: 'R', bg: 'bg-black text-white border border-white', rotate: 'rotate-2' },
@@ -41,6 +43,7 @@ const MENU_ITEMS: MenuItemConfig[] = [
     id: 'skills',
     label: 'SKILLS',
     rotation: '-rotate-2',
+    offsetClass: 'ml-6 sm:ml-10 md:ml-14',
     letters: [
       { char: 'S', bg: 'bg-white text-black', rotate: '-rotate-4' },
       { char: 'K', bg: 'bg-white text-black', rotate: 'rotate-3' },
@@ -54,6 +57,7 @@ const MENU_ITEMS: MenuItemConfig[] = [
     id: 'about',
     label: 'ABOUT',
     rotation: 'rotate-1',
+    offsetClass: 'ml-12 sm:ml-20 md:ml-28',
     letters: [
       { char: 'A', bg: 'bg-white text-black', rotate: '-rotate-3' },
       { char: 'B', bg: 'bg-black text-white border border-white', rotate: 'rotate-3' },
@@ -66,6 +70,7 @@ const MENU_ITEMS: MenuItemConfig[] = [
     id: 'callingCard',
     label: 'CONTACT',
     rotation: 'rotate-3',
+    offsetClass: 'ml-18 sm:ml-30 md:ml-40',
     letters: [
       { char: 'C', bg: 'bg-white text-black', rotate: '-rotate-3' },
       { char: 'O', bg: 'bg-black text-white border border-white', rotate: 'rotate-2' },
@@ -112,17 +117,16 @@ export const MainMenu: React.FC<MainMenuProps> = ({ onSelectScreen }) => {
       </div>
 
       {/* 
-        Positioned directly over Joker's red scarf / torso area 
-        (Immediately to the right of the comic strip, resting comfortably on the red canvas)
+        Container geser lebih ke kiri, dengan efek tangga (stagger / maju per-button)
       */}
-      <div className="z-20 my-auto flex flex-col items-start gap-4 sm:gap-5 md:gap-6 w-fit ml-[12vw] sm:ml-[15vw] md:ml-[18vw] lg:ml-[20vw]">
+      <div className="z-20 my-auto flex flex-col items-start gap-3 sm:gap-4 md:gap-5 w-fit ml-[3vw] sm:ml-[5vw] md:ml-[7vw] lg:ml-[8vw]">
         {MENU_ITEMS.map((item, index) => {
           const isFocused = selectedIndex === index
 
           return (
             <div
               key={item.id}
-              className={`transition-all duration-200 ${item.rotation}`}
+              className={`transition-all duration-200 ${item.rotation} ${item.offsetClass}`}
             >
               <button
                 type="button"
