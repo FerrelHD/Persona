@@ -25,7 +25,7 @@ const MENU_ITEMS: MenuItemConfig[] = [
   {
     id: 'missions',
     label: 'PROJECTS',
-    rotation: '-rotate-2',
+    rotation: '-rotate-3',
     letters: [
       { char: 'P', bg: 'bg-white text-black', rotate: '-rotate-3' },
       { char: 'R', bg: 'bg-black text-white border border-white', rotate: 'rotate-2' },
@@ -40,7 +40,7 @@ const MENU_ITEMS: MenuItemConfig[] = [
   {
     id: 'skills',
     label: 'SKILLS',
-    rotation: '-rotate-1',
+    rotation: '-rotate-2',
     letters: [
       { char: 'S', bg: 'bg-white text-black', rotate: '-rotate-4' },
       { char: 'K', bg: 'bg-white text-black', rotate: 'rotate-3' },
@@ -53,7 +53,7 @@ const MENU_ITEMS: MenuItemConfig[] = [
   {
     id: 'about',
     label: 'ABOUT',
-    rotation: 'rotate-0',
+    rotation: 'rotate-1',
     letters: [
       { char: 'A', bg: 'bg-white text-black', rotate: '-rotate-3' },
       { char: 'B', bg: 'bg-black text-white border border-white', rotate: 'rotate-3' },
@@ -65,7 +65,7 @@ const MENU_ITEMS: MenuItemConfig[] = [
   {
     id: 'callingCard',
     label: 'CONTACT',
-    rotation: 'rotate-2',
+    rotation: 'rotate-3',
     letters: [
       { char: 'C', bg: 'bg-white text-black', rotate: '-rotate-3' },
       { char: 'O', bg: 'bg-black text-white border border-white', rotate: 'rotate-2' },
@@ -115,7 +115,7 @@ export const MainMenu: React.FC<MainMenuProps> = ({ onSelectScreen }) => {
         Positioned directly over Joker's red scarf / torso area 
         (Immediately to the right of the comic strip, resting comfortably on the red canvas)
       */}
-      <div className="z-20 my-auto flex flex-col items-start gap-4 sm:gap-5 md:gap-6 w-fit ml-[22vw] sm:ml-[26vw] md:ml-[30vw] lg:ml-[32vw]">
+      <div className="z-20 my-auto flex flex-col items-start gap-4 sm:gap-5 md:gap-6 w-fit ml-[12vw] sm:ml-[15vw] md:ml-[18vw] lg:ml-[20vw]">
         {MENU_ITEMS.map((item, index) => {
           const isFocused = selectedIndex === index
 
