@@ -47,7 +47,7 @@ export const CallingCardScreen: React.FC<CallingCardScreenProps> = ({ onBack }) 
   }
 
   return (
-    <div className="fixed inset-0 z-30 flex flex-col p-6 sm:p-8 md:p-10 select-none overflow-hidden bg-gradient-to-r from-black/90 via-black/60 to-transparent animate-in fade-in duration-200 pt-24 md:pt-28">
+    <div className="fixed inset-0 z-30 flex flex-col p-6 sm:p-8 md:p-10 select-none overflow-hidden bg-gradient-to-r from-black/90 via-black/60 to-transparent animate-in fade-in duration-200 pt-32 sm:pt-36 md:pt-40">
       {/* Page Cutout Overlay */}
       <PageCutoutOverlay
         title="CALLING CARD"
@@ -59,7 +59,7 @@ export const CallingCardScreen: React.FC<CallingCardScreenProps> = ({ onBack }) 
 
             {/* Main Content: Left side contains UI, Right side is clear for Fuuka */}
       <div className="flex-1 grid grid-cols-1 lg:grid-cols-12 gap-6 mt-10 sm:mt-12 md:mt-14 overflow-hidden z-20">
-        <div className="lg:col-span-7 flex flex-col justify-between max-h-[calc(100vh-180px)] overflow-y-auto pr-2 space-y-4">
+        <div className="lg:col-span-7 flex flex-col justify-between max-h-[calc(100vh-200px)] overflow-y-auto pr-2 space-y-4">
           {/* Quick Direct Communication Channels */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <button

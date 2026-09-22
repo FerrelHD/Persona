@@ -62,14 +62,14 @@ export const PageCutoutOverlay: React.FC<PageCutoutOverlayProps> = ({
           </span>
         </div>
 
-        {/* Interactive Title Button - Slightly counter-rotated (-rotate-6) so it doesn't plunge steeply */}
+        {/* Interactive Title Button - Counter-rotated so the visible slope is very subtle (-rotate-[13deg] offsets the inherent ~16deg slope to a gentle ~3deg) */}
         <div
           onClick={() => {
             playBack()
             onBack()
           }}
           onMouseEnter={playHover}
-          className="relative inline-flex items-center cursor-pointer group transition-all duration-150 -rotate-6 hover:-rotate-3 hover:scale-105 active:scale-95 origin-top-left"
+          className="relative inline-flex items-center cursor-pointer group transition-all duration-150 -rotate-[13deg] hover:-rotate-[11deg] hover:scale-105 active:scale-95 origin-center"
           title="Click or press ESC to return to Main Menu"
         >
           {/* Button Frame Graphic from Persona 5 Assets - Enlarged */}
@@ -83,7 +83,6 @@ export const PageCutoutOverlay: React.FC<PageCutoutOverlayProps> = ({
           <div
             className="absolute inset-0 flex items-center justify-center pointer-events-none"
             style={{
-              // 15.5deg matches the inner white corridor angle of the button graphic
               transform: 'rotate(15.5deg) translate(-1%, 1%)',
             }}
           >
