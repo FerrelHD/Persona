@@ -111,6 +111,12 @@ export const MainMenu: React.FC<MainMenuProps> = ({ onSelectScreen }) => {
 
   return (
     <div className="relative w-screen h-screen overflow-hidden select-none pointer-events-auto flex flex-col justify-between p-6 sm:p-10 md:p-14">
+      {/* Cinematic Left Edge Vignette Shadow */}
+      <div 
+        className="pointer-events-none fixed inset-y-0 left-0 w-[40vw] sm:w-[32vw] md:w-[28vw] z-10 bg-gradient-to-r from-black/90 via-black/45 to-transparent" 
+        aria-hidden="true"
+      />
+
       {/* Top Left: FERREL Title */}
       <div className="z-20">
         <RansomTitle />
