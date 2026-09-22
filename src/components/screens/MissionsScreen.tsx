@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react'
+﻿import React, { useState, useEffect } from 'react'
+import { PageCutoutOverlay } from '@/components/common/PageCutoutOverlay'
 import { MISSIONS_DATA, Mission } from '@/data/personaData'
-import { Button } from '@/components/ui/button'
 import { usePersonaSFX } from '@/hooks/usePersonaSFX'
-import { ArrowLeft, ChevronLeft, ChevronRight, ExternalLink, Globe, Cpu, Flame, Database, Code, ShieldCheck, ShoppingCart, Leaf } from 'lucide-react'
+import { ChevronLeft, ChevronRight, ExternalLink, Globe, Cpu, Flame, Database, Code, ShieldCheck, ShoppingCart, Leaf } from 'lucide-react'
 
 const GithubIcon: React.FC = () => (
   <svg className="size-4" viewBox="0 0 24 24" fill="currentColor">
@@ -33,7 +33,7 @@ interface MissionsScreenProps {
 }
 
 export const MissionsScreen: React.FC<MissionsScreenProps> = ({ onBack }) => {
-  const { playHover, playSlash, playBack } = usePersonaSFX()
+  const { playHover, playSlash } = usePersonaSFX()
   const [currentIndex, setCurrentIndex] = useState(0)
   const currentMission: Mission = MISSIONS_DATA[currentIndex]
 
@@ -59,43 +59,17 @@ export const MissionsScreen: React.FC<MissionsScreenProps> = ({ onBack }) => {
   const titleLetters = titleDisplay.split('').slice(0, 16) // Max 16 characters for neat fit
 
   return (
-    <div className="fixed inset-0 z-30 flex flex-col justify-between p-6 sm:p-8 md:p-10 select-none overflow-hidden bg-gradient-to-r from-black/85 via-black/45 to-transparent animate-in fade-in duration-200">
-      {/* Top Header Bar */}
-      <div className="flex items-center justify-between z-20 pb-3 border-b border-cyan-500/30">
-        <div className="flex items-center gap-4">
-          <Button
-            variant="ghost"
-            onClick={() => {
-              playBack()
-              onBack()
-            }}
-            className="flex items-center gap-2 bg-black/80 hover:bg-cyan-500/20 text-cyan-400 hover:text-white border border-cyan-500/50 px-4 py-2 text-sm font-p5Mono transition-all duration-150"
-          >
-            <ArrowLeft className="size-4" />
-            <span>[ESC] RETURN</span>
-          </Button>
+    <div className="fixed inset-0 z-30 flex flex-col justify-between p-6 sm:p-8 md:p-10 select-none overflow-hidden bg-gradient-to-r from-black/85 via-black/45 to-transparent animate-in fade-in duration-200 pt-20 md:pt-24">
+      {/* Page Cutout Overlay: title top-left, character bottom-right, ESC to go back */}
+      <PageCutoutOverlay
+        title="DEPLOYED MISSIONS"
+        characterRole="PROTAGONIST"
+        characterName="MAKOTO YUKI"
+        accentColor="cyan"
+        onBack={onBack}
+      />
 
-          <div>
-            <div className="flex items-center gap-2">
-              <span className="bg-cyan-500 text-black text-xs font-p5Mono font-extrabold px-2 py-0.5 tracking-wider">
-                S.E.E.S. ARCHIVE
-              </span>
-              <span className="text-cyan-400 text-xs font-p5Mono tracking-widest hidden sm:inline">
-                TARTARUS MISSIONS & HEISTS
-              </span>
-            </div>
-            <h1 className="font-p5Heading text-2xl sm:text-3xl text-white tracking-widest uppercase filter drop-shadow-[2px_2px_0px_#000000]">
-              DEPLOYED MISSIONS
-            </h1>
-          </div>
-        </div>
-
-        <div className="hidden lg:flex items-center gap-2 bg-black/60 border border-cyan-500/30 px-3 py-1 font-p5Mono text-xs text-cyan-300">
-          <span className="animate-pulse text-cyan-400">●</span> PROTAGONIST // MAKOTO YUKI
-        </div>
-      </div>
-
-      {/* Main Content Area: Styled after the reference comic profile card */}
+            {/* Main Content Area: Styled after the reference comic profile card */}
       <div className="flex-1 flex flex-col justify-center my-auto z-20 w-full max-w-4xl lg:max-w-[58%]">
         {/* 1. Ransom Note Project Title (Top Right aligned with card) */}
         <div className="flex items-center gap-1 sm:gap-1.5 flex-wrap ml-auto mb-3 pr-2">
@@ -300,3 +274,4 @@ export const MissionsScreen: React.FC<MissionsScreenProps> = ({ onBack }) => {
     </div>
   )
 }
+

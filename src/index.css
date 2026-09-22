@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Bangers&family=Dela+Gothic+One&family=Outfit:wght@400;600;800;900&family=Space+Mono:wght@400;700&display=swap');
+﻿@import url('https://fonts.googleapis.com/css2?family=Bangers&family=Dela+Gothic+One&family=Outfit:wght@400;600;800;900&family=Space+Mono:wght@400;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -49,4 +49,14 @@
 }
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
   background: #ffffff;
+}
+
+/* ─── Iris Circle Wipe Transition ──────────────────────────────────── */
+@keyframes iris-expand {
+  from { clip-path: circle(0% at 50% 50%); }
+  to   { clip-path: circle(150% at 50% 50%); }
+}
+@keyframes iris-collapse {
+  from { clip-path: circle(150% at 50% 50%); }
+  to   { clip-path: circle(0% at 50% 50%); }
 }

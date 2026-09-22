@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
+import { PageCutoutOverlay } from '@/components/common/PageCutoutOverlay'
 import { Button } from '@/components/ui/button'
 import { usePersonaSFX } from '@/hooks/usePersonaSFX'
-import { ArrowLeft, CheckCircle2, Copy, Flame, Mail, Send, Radio } from 'lucide-react'
+import { CheckCircle2, Copy, Flame, Mail, Send, Radio } from 'lucide-react'
 import confetti from 'canvas-confetti'
 
 interface CallingCardScreenProps {
@@ -15,7 +16,7 @@ const GithubIcon: React.FC = () => (
 )
 
 export const CallingCardScreen: React.FC<CallingCardScreenProps> = ({ onBack }) => {
-  const { playHover, playSlash, playBack, playStamp } = usePersonaSFX()
+  const { playHover, playSlash, playStamp } = usePersonaSFX()
   const [recipient, setRecipient] = useState('Innovative Engineering Team')
   const [message, setMessage] = useState('Sir/Madam, you have stolen the spotlight with impressive challenges. We are prepared to take your tech stack to unprecedented heights.')
   const [isSent, setIsSent] = useState(false)
@@ -46,44 +47,18 @@ export const CallingCardScreen: React.FC<CallingCardScreenProps> = ({ onBack }) 
   }
 
   return (
-    <div className="fixed inset-0 z-30 flex flex-col p-6 sm:p-8 md:p-10 select-none overflow-hidden bg-gradient-to-r from-black/90 via-black/60 to-transparent animate-in fade-in duration-200">
-      {/* Top Header Bar */}
-      <div className="flex items-center justify-between z-20 pb-4 border-b border-emerald-500/30">
-        <div className="flex items-center gap-4">
-          <Button
-            variant="ghost"
-            onClick={() => {
-              playBack()
-              onBack()
-            }}
-            className="flex items-center gap-2 bg-black/80 hover:bg-emerald-500/20 text-emerald-400 hover:text-white border border-emerald-500/50 px-4 py-2 text-sm font-p5Mono transition-all duration-150"
-          >
-            <ArrowLeft className="size-4" />
-            <span>[ESC] RETURN</span>
-          </Button>
+    <div className="fixed inset-0 z-30 flex flex-col p-6 sm:p-8 md:p-10 select-none overflow-hidden bg-gradient-to-r from-black/90 via-black/60 to-transparent animate-in fade-in duration-200 pt-24 md:pt-28">
+      {/* Page Cutout Overlay */}
+      <PageCutoutOverlay
+        title="CALLING CARD"
+        characterRole="NAVIGATOR"
+        characterName="FUUKA YAMAGISHI"
+        accentColor="emerald"
+        onBack={onBack}
+      />
 
-          <div>
-            <div className="flex items-center gap-2">
-              <span className="bg-emerald-500 text-black text-xs font-p5Mono font-extrabold px-2 py-0.5 tracking-wider">
-                SEES NAVIGATOR RADAR
-              </span>
-              <span className="text-emerald-400 text-xs font-p5Mono tracking-widest hidden sm:inline">
-                DIRECT COMM CHANNEL
-              </span>
-            </div>
-            <h1 className="font-p5Heading text-3xl sm:text-4xl text-white tracking-widest uppercase filter drop-shadow-[2px_2px_0px_#000000]">
-              TRANSMIT CALLING CARD
-            </h1>
-          </div>
-        </div>
-
-        <div className="hidden lg:flex items-center gap-2 bg-black/60 border border-emerald-500/30 px-3 py-1 font-p5Mono text-xs text-emerald-300">
-          <span className="animate-pulse text-emerald-400">●</span> NAVIGATOR // FUUKA YAMAGISHI
-        </div>
-      </div>
-
-      {/* Main Content: Left side contains UI, Right side is clear for Fuuka */}
-      <div className="flex-1 grid grid-cols-1 lg:grid-cols-12 gap-6 mt-4 overflow-hidden z-20">
+            {/* Main Content: Left side contains UI, Right side is clear for Fuuka */}
+      <div className="flex-1 grid grid-cols-1 lg:grid-cols-12 gap-6 mt-10 sm:mt-12 md:mt-14 overflow-hidden z-20">
         <div className="lg:col-span-7 flex flex-col justify-between max-h-[calc(100vh-180px)] overflow-y-auto pr-2 space-y-4">
           {/* Quick Direct Communication Channels */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -123,7 +98,7 @@ export const CallingCardScreen: React.FC<CallingCardScreenProps> = ({ onBack }) 
                   <div className="font-p5Mono text-xs text-zinc-400">@FerrelHD</div>
                 </div>
               </div>
-              <span className="text-xs font-p5Mono text-emerald-400">OPEN ↗</span>
+              <span className="text-xs font-p5Mono text-emerald-400">OPEN ?</span>
             </a>
           </div>
 
@@ -203,3 +178,4 @@ export const CallingCardScreen: React.FC<CallingCardScreenProps> = ({ onBack }) 
     </div>
   )
 }
+

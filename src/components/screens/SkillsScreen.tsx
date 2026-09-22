@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
+import { PageCutoutOverlay } from '@/components/common/PageCutoutOverlay'
 import { SKILLS_DATA } from '@/data/personaData'
 import { Button } from '@/components/ui/button'
 import { usePersonaSFX } from '@/hooks/usePersonaSFX'
-import { ArrowLeft, CheckCircle2, Sparkles, Zap } from 'lucide-react'
+import { CheckCircle2, Sparkles, Zap } from 'lucide-react'
 import confetti from 'canvas-confetti'
 
 interface SkillsScreenProps {
@@ -10,7 +11,7 @@ interface SkillsScreenProps {
 }
 
 export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
-  const { playHover, playBack, playStamp } = usePersonaSFX()
+  const { playHover, playStamp } = usePersonaSFX()
   const [endorseCount, setEndorseCount] = useState(148)
   const [hasEndorsed, setHasEndorsed] = useState(false)
 
@@ -33,44 +34,18 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
   }
 
   return (
-    <div className="fixed inset-0 z-30 flex flex-col p-6 sm:p-8 md:p-10 select-none overflow-hidden bg-gradient-to-r from-black/90 via-black/60 to-transparent animate-in fade-in duration-200">
-      {/* Top Header Bar */}
-      <div className="flex items-center justify-between z-20 pb-4 border-b border-red-500/30">
-        <div className="flex items-center gap-4">
-          <Button
-            variant="ghost"
-            onClick={() => {
-              playBack()
-              onBack()
-            }}
-            className="flex items-center gap-2 bg-black/80 hover:bg-red-500/20 text-p5-crimson hover:text-white border border-red-500/50 px-4 py-2 text-sm font-p5Mono transition-all duration-150"
-          >
-            <ArrowLeft className="size-4" />
-            <span>[ESC] RETURN</span>
-          </Button>
+    <div className="fixed inset-0 z-30 flex flex-col p-6 sm:p-8 md:p-10 select-none overflow-hidden bg-gradient-to-r from-black/90 via-black/60 to-transparent animate-in fade-in duration-200 pt-20 md:pt-24">
+      {/* Page Cutout Overlay */}
+      <PageCutoutOverlay
+        title="SKILL PARAMETERS"
+        characterRole="FIGHTER"
+        characterName="AKIHIKO SANADA"
+        accentColor="red"
+        onBack={onBack}
+      />
 
-          <div>
-            <div className="flex items-center gap-2">
-              <span className="bg-p5-crimson text-white text-xs font-p5Mono font-extrabold px-2 py-0.5 tracking-wider">
-                COMBAT STATS
-              </span>
-              <span className="text-red-400 text-xs font-p5Mono tracking-widest hidden sm:inline">
-                S.E.E.S. BATTLE MASTERY
-              </span>
-            </div>
-            <h1 className="font-p5Heading text-3xl sm:text-4xl text-white tracking-widest uppercase filter drop-shadow-[2px_2px_0px_#000000]">
-              PERSONA SKILL PARAMETERS
-            </h1>
-          </div>
-        </div>
-
-        <div className="hidden lg:flex items-center gap-2 bg-black/60 border border-red-500/30 px-3 py-1 font-p5Mono text-xs text-red-300">
-          <span className="animate-pulse text-p5-crimson">●</span> FIGHTER // AKIHIKO SANADA
-        </div>
-      </div>
-
-      {/* Main Content: Left Half has UI, Right Half is transparent for Akihiko */}
-      <div className="flex-1 grid grid-cols-1 lg:grid-cols-12 gap-6 mt-4 overflow-hidden z-20">
+            {/* Main Content: Left Half has UI, Right Half is transparent for Akihiko */}
+      <div className="flex-1 grid grid-cols-1 lg:grid-cols-12 gap-6 mt-10 sm:mt-12 md:mt-14 overflow-hidden z-20">
         <div className="lg:col-span-7 flex flex-col justify-between max-h-[calc(100vh-180px)] overflow-y-auto pr-2">
           {/* Skill List */}
           <div className="space-y-4">
@@ -156,3 +131,4 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
     </div>
   )
 }
+

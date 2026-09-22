@@ -1,7 +1,7 @@
-import React from 'react'
-import { Button } from '@/components/ui/button'
+﻿import React from 'react'
+import { PageCutoutOverlay } from '@/components/common/PageCutoutOverlay'
 import { usePersonaSFX } from '@/hooks/usePersonaSFX'
-import { ArrowLeft, BookOpen, Compass, Heart, Shield, Sparkles } from 'lucide-react'
+import { BookOpen, Compass, Heart, Shield, Sparkles } from 'lucide-react'
 
 interface AboutScreenProps {
   onBack: () => void
@@ -16,46 +16,20 @@ const SOCIAL_STATS = [
 ]
 
 export const AboutScreen: React.FC<AboutScreenProps> = ({ onBack }) => {
-  const { playHover, playBack } = usePersonaSFX()
+  const { playHover } = usePersonaSFX()
 
   return (
-    <div className="fixed inset-0 z-30 flex flex-col p-6 sm:p-8 md:p-10 select-none overflow-hidden bg-gradient-to-l from-black/90 via-black/60 to-transparent animate-in fade-in duration-200">
-      {/* Top Header Bar */}
-      <div className="flex items-center justify-between z-20 pb-4 border-b border-pink-500/30">
-        <div className="flex items-center gap-4">
-          <Button
-            variant="ghost"
-            onClick={() => {
-              playBack()
-              onBack()
-            }}
-            className="flex items-center gap-2 bg-black/80 hover:bg-pink-500/20 text-pink-400 hover:text-white border border-pink-500/50 px-4 py-2 text-sm font-p5Mono transition-all duration-150"
-          >
-            <ArrowLeft className="size-4" />
-            <span>[ESC] RETURN</span>
-          </Button>
+    <div className="fixed inset-0 z-30 flex flex-col p-6 sm:p-8 md:p-10 select-none overflow-hidden bg-gradient-to-l from-black/90 via-black/60 to-transparent animate-in fade-in duration-200 pt-20 md:pt-24">
+      {/* Page Cutout Overlay */}
+      <PageCutoutOverlay
+        title="ABOUT THE DEV"
+        characterRole="ARCHER"
+        characterName="YUKARI TAKEBA"
+        accentColor="pink"
+        onBack={onBack}
+      />
 
-          <div>
-            <div className="flex items-center gap-2">
-              <span className="bg-pink-600 text-white text-xs font-p5Mono font-extrabold px-2 py-0.5 tracking-wider">
-                CONFIDANT // DOSSIER
-              </span>
-              <span className="text-pink-400 text-xs font-p5Mono tracking-widest hidden sm:inline">
-                S.E.E.S. ARCHIVE RECORD
-              </span>
-            </div>
-            <h1 className="font-p5Heading text-3xl sm:text-4xl text-white tracking-widest uppercase filter drop-shadow-[2px_2px_0px_#000000]">
-              ABOUT THE DEVELOPER
-            </h1>
-          </div>
-        </div>
-
-        <div className="hidden lg:flex items-center gap-2 bg-black/60 border border-pink-500/30 px-3 py-1 font-p5Mono text-xs text-pink-300">
-          <span className="animate-pulse text-pink-400">●</span> ARCHER // YUKARI TAKEBA
-        </div>
-      </div>
-
-      {/* Main Content: Left side is clear for Yukari, Right side contains the UI */}
+            {/* Main Content: Left side is clear for Yukari, Right side contains the UI */}
       <div className="flex-1 grid grid-cols-1 lg:grid-cols-12 gap-6 mt-4 overflow-hidden z-20">
         {/* Left side (5 cols) intentionally transparent to display Yukari */}
         <div className="hidden lg:block lg:col-span-5 pointer-events-none" />
@@ -124,3 +98,4 @@ export const AboutScreen: React.FC<AboutScreenProps> = ({ onBack }) => {
     </div>
   )
 }
+
