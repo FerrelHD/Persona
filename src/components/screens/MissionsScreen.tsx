@@ -2,7 +2,13 @@ import React, { useState } from 'react'
 import { MISSIONS_DATA, TESTIMONIALS_DATA, Mission } from '@/data/personaData'
 import { Button } from '@/components/ui/button'
 import { usePersonaSFX } from '@/hooks/usePersonaSFX'
-import { ArrowLeft, ShieldCheck, X } from 'lucide-react'
+import { ArrowLeft, ExternalLink, ShieldCheck, X } from 'lucide-react'
+
+const GithubIcon: React.FC = () => (
+  <svg className="size-4" viewBox="0 0 24 24" fill="currentColor">
+    <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+  </svg>
+)
 
 interface MissionsScreenProps {
   onBack: () => void
@@ -10,12 +16,12 @@ interface MissionsScreenProps {
 
 export const MissionsScreen: React.FC<MissionsScreenProps> = ({ onBack }) => {
   const { playHover, playSlash, playBack } = usePersonaSFX()
-  const [filter, setFilter] = useState<'all' | 'featured' | 'in_prod' | 'shipped'>('all')
+  const [filter, setFilter] = useState<'all' | 'web' | 'ai' | 'game' | 'ecommerce'>('all')
   const [selectedMission, setSelectedMission] = useState<Mission | null>(null)
   const [testimonials, setTestimonials] = useState(TESTIMONIALS_DATA)
   const [newComment, setNewComment] = useState('')
 
-  const filteredMissions = MISSIONS_DATA.filter(m => filter === 'all' || m.status === filter)
+  const filteredMissions = MISSIONS_DATA.filter(m => filter === 'all' || m.category === filter)
 
   const handlePostComment = (e: React.FormEvent) => {
     e.preventDefault()
@@ -51,10 +57,10 @@ export const MissionsScreen: React.FC<MissionsScreenProps> = ({ onBack }) => {
 
           <div className="flex items-center gap-2">
             <span className="bg-p5-crimson text-white px-3 py-1 font-p5Heading text-2xl -skew-x-12 shadow-[3px_3px_0px_#000000]">
-              HEISTS & MISSIONS
+              PROJECTS // GITHUB REPOSITORIES
             </span>
             <span className="hidden md:inline-block bg-white text-black font-p5Sub text-xs px-2 py-1 uppercase -skew-x-6">
-              PHANTOM PORTFOLIO ARCHIVES
+              VERIFIED WORK @FerrelHD
             </span>
           </div>
         </div>
@@ -70,18 +76,24 @@ export const MissionsScreen: React.FC<MissionsScreenProps> = ({ onBack }) => {
         <div className="lg:col-span-8 flex flex-col min-h-0">
           {/* Filter Tabs */}
           <div className="flex items-center gap-2 mb-4 overflow-x-auto pb-1">
-            {(['all', 'featured', 'in_prod', 'shipped'] as const).map(tab => (
+            {([
+              { key: 'all', label: 'ALL HEISTS' },
+              { key: 'web', label: 'WEB & INTERACTIVE' },
+              { key: 'ai', label: 'AI & DATA SCIENCE' },
+              { key: 'game', label: 'GAME & SHADERS' },
+              { key: 'ecommerce', label: 'ECOMMERCE' }
+            ] as const).map(tab => (
               <button
-                key={tab}
-                onClick={() => { playSlash(); setFilter(tab); }}
+                key={tab.key}
+                onClick={() => { playSlash(); setFilter(tab.key); }}
                 onMouseEnter={playHover}
-                className={`px-4 py-1.5 font-p5Heading text-base uppercase -skew-x-12 transition-all cursor-pointer ${
-                  filter === tab
+                className={`px-4 py-1.5 font-p5Heading text-base uppercase -skew-x-12 transition-all cursor-pointer whitespace-nowrap ${
+                  filter === tab.key
                     ? 'bg-p5-crimson text-white shadow-[4px_4px_0px_#000000]'
                     : 'bg-zinc-900 text-zinc-300 hover:bg-zinc-800 border border-zinc-700'
                 }`}
               >
-                {tab === 'all' ? 'ALL MISSIONS' : tab === 'featured' ? '★ FEATURED' : tab === 'in_prod' ? 'IN PROD' : 'SHIPPED'}
+                {tab.label}
               </button>
             ))}
           </div>
@@ -123,7 +135,7 @@ export const MissionsScreen: React.FC<MissionsScreenProps> = ({ onBack }) => {
                   </div>
 
                   <div className="flex items-center justify-between border-t border-zinc-800 pt-2 text-xs font-p5Sub">
-                    <span className="text-p5-yellow">CLIENT: {mission.client}</span>
+                    <span className="text-p5-yellow">{mission.client}</span>
                     <span className="text-p5-crimson group-hover:underline flex items-center gap-1 font-p5Heading text-sm">
                       VIEW DOSSIER →
                     </span>
@@ -195,8 +207,8 @@ export const MissionsScreen: React.FC<MissionsScreenProps> = ({ onBack }) => {
             </button>
 
             <div className="flex items-center gap-2 mb-2">
-              <span className="bg-p5-crimson text-white font-p5Heading text-sm px-2.5 py-0.5 -skew-x-6">
-                {selectedMission.status.toUpperCase()} MISSION
+              <span className="bg-p5-crimson text-white font-p5Heading text-sm px-2.5 py-0.5 -skew-x-6 uppercase">
+                {selectedMission.category} // HEIST
               </span>
               <span className="text-xs font-p5Mono text-zinc-400">DISTORTION LEVEL: {selectedMission.distortionLevel}%</span>
             </div>
@@ -206,7 +218,7 @@ export const MissionsScreen: React.FC<MissionsScreenProps> = ({ onBack }) => {
             </h2>
 
             <div className="text-xs font-p5Sub text-p5-yellow mb-4">
-              CLIENT: {selectedMission.client} // ROLE: {selectedMission.role}
+              ROLE: {selectedMission.role} // DATE: {selectedMission.date}
             </div>
 
             <p className="font-p5Body text-zinc-200 text-base leading-relaxed mb-6">
@@ -232,7 +244,29 @@ export const MissionsScreen: React.FC<MissionsScreenProps> = ({ onBack }) => {
               ))}
             </div>
 
-            <div className="flex justify-end">
+            {/* Action Buttons: Live Demo & GitHub Link */}
+            <div className="flex items-center justify-between border-t border-zinc-800 pt-4 flex-wrap gap-3">
+              <div className="flex items-center gap-3">
+                {selectedMission.liveUrl && (
+                  <a
+                    href={selectedMission.liveUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex items-center gap-2 bg-p5-crimson hover:bg-white hover:text-black text-white font-p5Heading text-lg px-4 py-2 border-2 border-black shadow-[3px_3px_0px_#000000] -skew-x-6 transition-all"
+                  >
+                    <ExternalLink className="size-4" /> VISIT LIVE DEMO ↗
+                  </a>
+                )}
+                <a
+                  href={selectedMission.githubUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center gap-2 bg-zinc-800 hover:bg-p5-yellow hover:text-black text-white font-p5Heading text-lg px-4 py-2 border-2 border-black shadow-[3px_3px_0px_#000000] -skew-x-6 transition-all"
+                >
+                  <GithubIcon /> GITHUB REPO ↗
+                </a>
+              </div>
+
               <Button
                 variant="p5"
                 onClick={() => { playBack(); setSelectedMission(null); }}

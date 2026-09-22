@@ -1,61 +1,86 @@
 import React, { useState, useEffect } from 'react'
 import { RansomTitle } from '@/components/RansomTitle'
 import { usePersonaSFX } from '@/hooks/usePersonaSFX'
-import { ChevronRight } from 'lucide-react'
 
-export type ActiveScreen = 'menu' | 'missions' | 'skills' | 'callingCard' | 'about'
+export type ActiveScreen = 'menu' | 'missions' | 'skills' | 'about' | 'callingCard'
 
 interface MainMenuProps {
   onSelectScreen: (screen: ActiveScreen) => void
 }
 
+interface LetterConfig {
+  char: string
+  bg: string // e.g. 'bg-white text-black' or 'bg-p5-crimson text-white'
+  rotate: string
+}
+
 interface MenuItem {
   id: ActiveScreen
-  num: string
   label: string
-  sublabel: string
   rotation: string
-  marginOffset: string
+  letters: LetterConfig[]
 }
 
 const MENU_ITEMS: MenuItem[] = [
   {
     id: 'missions',
-    num: '01',
-    label: 'MISSIONS',
-    sublabel: 'PORTFOLIO // HEISTS',
-    rotation: '-rotate-2',
-    marginOffset: 'ml-0',
+    label: 'PROJECTS',
+    rotation: '-rotate-3',
+    letters: [
+      { char: 'P', bg: 'bg-white text-black', rotate: '-rotate-3' },
+      { char: 'R', bg: 'bg-black text-white border border-white', rotate: 'rotate-2' },
+      { char: 'O', bg: 'bg-p5-crimson text-white font-extrabold', rotate: '-rotate-2' },
+      { char: 'J', bg: 'bg-white text-black', rotate: 'rotate-4' },
+      { char: 'E', bg: 'bg-black text-white border border-white', rotate: '-rotate-3' },
+      { char: 'C', bg: 'bg-white text-black', rotate: 'rotate-2' },
+      { char: 'T', bg: 'bg-black text-white border border-white', rotate: '-rotate-2' },
+      { char: 'S', bg: 'bg-white text-black', rotate: 'rotate-3' },
+    ]
   },
   {
     id: 'skills',
-    num: '02',
     label: 'SKILLS',
-    sublabel: 'CONFIDANT // COMBAT STATS',
     rotation: '-rotate-1',
-    marginOffset: 'ml-5 md:ml-8',
-  },
-  {
-    id: 'callingCard',
-    num: '03',
-    label: 'CALLING CARD',
-    sublabel: 'TRANSMIT // HIRE ME',
-    rotation: 'rotate-0',
-    marginOffset: 'ml-10 md:ml-16',
+    letters: [
+      { char: 'S', bg: 'bg-white text-black', rotate: '-rotate-4' },
+      { char: 'K', bg: 'bg-white text-black', rotate: 'rotate-3' },
+      { char: 'I', bg: 'bg-p5-crimson text-white font-extrabold scale-110', rotate: '-rotate-1' },
+      { char: 'L', bg: 'bg-white text-black', rotate: 'rotate-4' },
+      { char: 'L', bg: 'bg-white text-black', rotate: '-rotate-3' },
+      { char: 'S', bg: 'bg-white text-black', rotate: 'rotate-2' },
+    ]
   },
   {
     id: 'about',
-    num: '04',
     label: 'ABOUT',
-    sublabel: 'THIEF DOSSIER // BIO',
-    rotation: 'rotate-2',
-    marginOffset: 'ml-14 md:ml-24',
+    rotation: 'rotate-0',
+    letters: [
+      { char: 'A', bg: 'bg-white text-black', rotate: '-rotate-3' },
+      { char: 'B', bg: 'bg-black text-white border border-white', rotate: 'rotate-3' },
+      { char: 'O', bg: 'bg-p5-crimson text-white font-extrabold scale-110', rotate: '-rotate-2' },
+      { char: 'U', bg: 'bg-white text-black', rotate: 'rotate-4' },
+      { char: 'T', bg: 'bg-white text-black', rotate: '-rotate-2' },
+    ]
   },
+  {
+    id: 'callingCard',
+    label: 'CONTACT',
+    rotation: 'rotate-2',
+    letters: [
+      { char: 'C', bg: 'bg-white text-black', rotate: '-rotate-3' },
+      { char: 'O', bg: 'bg-black text-white border border-white', rotate: 'rotate-2' },
+      { char: 'N', bg: 'bg-white text-black', rotate: '-rotate-2' },
+      { char: 'T', bg: 'bg-p5-crimson text-white font-extrabold scale-110', rotate: 'rotate-3' },
+      { char: 'A', bg: 'bg-white text-black', rotate: '-rotate-4' },
+      { char: 'C', bg: 'bg-black text-white border border-white', rotate: 'rotate-2' },
+      { char: 'T', bg: 'bg-white text-black', rotate: 'rotate-3' },
+    ]
+  }
 ]
 
 export const MainMenu: React.FC<MainMenuProps> = ({ onSelectScreen }) => {
   const { playHover, playSlash } = usePersonaSFX()
-  const [selectedIndex, setSelectedIndex] = useState(0)
+  const [selectedIndex, setSelectedIndex] = useState(1) // Default to SKILLS as in reference
 
   // Keyboard navigation support: Arrow Up/Down & Enter
   useEffect(() => {
@@ -86,16 +111,16 @@ export const MainMenu: React.FC<MainMenuProps> = ({ onSelectScreen }) => {
         <RansomTitle />
       </div>
 
-      {/* Left Center: Fanned Out Buttons Stack */}
-      {/* Positioned comfortably below the comic text on the left, fanning towards Joker */}
-      <div className="z-20 my-auto flex flex-col gap-4 md:gap-5 w-full max-w-xl">
+      {/* Left Center: Persona 5 Authentic Menu Stack */}
+      {/* Positioned cleanly below the comic text on the left, fanning towards Joker */}
+      <div className="z-20 my-auto flex flex-col gap-5 md:gap-7 w-full max-w-2xl pl-2 md:pl-6">
         {MENU_ITEMS.map((item, index) => {
           const isFocused = selectedIndex === index
 
           return (
             <div
               key={item.id}
-              className={`transition-transform duration-200 ${item.marginOffset} ${item.rotation}`}
+              className={`transition-all duration-200 ${item.rotation}`}
             >
               <button
                 type="button"
@@ -107,37 +132,71 @@ export const MainMenu: React.FC<MainMenuProps> = ({ onSelectScreen }) => {
                   playHover()
                   setSelectedIndex(index)
                 }}
-                className={`group relative w-[320px] sm:w-[370px] md:w-[420px] min-h-[64px] md:min-h-[72px] px-6 md:px-8 py-3.5 -skew-x-8 transition-all duration-150 ease-out border-4 border-black cursor-pointer flex items-center justify-between text-left ${
-                  isFocused
-                    ? 'bg-p5-crimson text-white shadow-[12px_12px_0px_#000000] translate-x-7 scale-[1.05] z-10'
-                    : 'bg-white text-black shadow-[6px_6px_0px_#000000] hover:bg-p5-crimson hover:text-white hover:shadow-[12px_12px_0px_#000000] hover:translate-x-7 hover:scale-[1.05]'
-                }`}
+                className="group relative inline-flex items-center text-left cursor-pointer outline-none transition-transform duration-150"
               >
-                {/* Left side: Number + Title */}
-                <div className="flex items-center gap-3 md:gap-4">
-                  <span className={`font-p5Heading text-xl md:text-2xl transition-colors ${
-                    isFocused ? 'text-p5-yellow' : 'text-zinc-500 group-hover:text-p5-yellow'
-                  }`}>
-                    {item.num}
-                  </span>
-                  <div>
-                    <div className="font-p5Heading text-2xl md:text-3xl tracking-widest leading-none">
-                      {item.label}
-                    </div>
-                    <div className={`font-p5Sub text-[10px] md:text-xs tracking-wider transition-colors mt-0.5 ${
-                      isFocused ? 'text-zinc-200' : 'text-zinc-600 group-hover:text-zinc-200'
-                    }`}>
-                      {item.sublabel}
+                {isFocused ? (
+                  /* =======================================================
+                     ACTIVE / HOVER STATE: Persona 5 Jagged Ribbon + Ransom Cutout
+                     ======================================================= */
+                  <div className="relative flex items-center translate-x-4 md:translate-x-6 scale-105 transition-all duration-150">
+                    {/* SVG Jagged Persona 5 Ribbon Frame */}
+                    <svg
+                      viewBox="0 0 540 100"
+                      preserveAspectRatio="none"
+                      className="absolute -inset-x-6 -inset-y-3 w-[calc(100%+48px)] h-[calc(100%+24px)] pointer-events-none filter drop-shadow-[8px_8px_0px_#000000]"
+                    >
+                      {/* White border layer */}
+                      <polygon
+                        points="20,52 6,40 38,10 135,6 148,0 162,10 475,20 535,42 485,60 528,78 455,86 115,96 55,84 15,88 6,74"
+                        fill="#000000"
+                        stroke="#FFFFFF"
+                        strokeWidth="5"
+                        strokeLinejoin="miter"
+                        strokeMiterlimit="4"
+                      />
+                      {/* Top left white speed spike */}
+                      <polygon
+                        points="42,12 120,8 140,0 55,8"
+                        fill="#FFFFFF"
+                      />
+                      {/* Right white corner spike */}
+                      <polygon
+                        points="475,22 530,42 490,48"
+                        fill="#FFFFFF"
+                      />
+                      <polygon
+                        points="480,62 525,78 475,76"
+                        fill="#FFFFFF"
+                      />
+                    </svg>
+
+                    {/* Ransom Cutout Letters Stack */}
+                    <div className="relative z-10 flex items-center gap-1 md:gap-1.5 px-4 md:px-6 py-2">
+                      {item.letters.map((ltr, ltrIdx) => (
+                        <span
+                          key={ltrIdx}
+                          className={`inline-flex items-center justify-center min-w-[34px] md:min-w-[44px] h-[52px] md:h-[64px] px-2 font-p5Heading text-3xl md:text-5xl uppercase shadow-[3px_3px_0px_#000000] border-2 border-black ${ltr.bg} ${ltr.rotate} transition-transform duration-100 hover:scale-125`}
+                        >
+                          {ltr.char}
+                        </span>
+                      ))}
+
+                      {/* Right Play Arrow Triangle */}
+                      <span className="text-white text-2xl md:text-3xl ml-3 md:ml-5 -skew-x-12 animate-pulse filter drop-shadow-[2px_2px_0px_#000000]">
+                        ▶
+                      </span>
                     </div>
                   </div>
-                </div>
-
-                {/* Right Arrow indicator */}
-                <ChevronRight className={`size-6 md:size-7 transition-all duration-150 ${
-                  isFocused
-                    ? 'translate-x-1 opacity-100 text-white'
-                    : 'opacity-0 group-hover:opacity-100 group-hover:translate-x-1 text-white'
-                }`} />
+                ) : (
+                  /* =======================================================
+                     DEFAULT / RESTING STATE: Clean, Bold White Text
+                     ======================================================= */
+                  <div className="px-4 py-2 hover:translate-x-2 transition-transform duration-150">
+                    <span className="font-p5Heading text-5xl md:text-6xl lg:text-7xl text-white tracking-widest uppercase filter drop-shadow-[5px_5px_0px_#000000] hover:text-p5-yellow transition-colors">
+                      {item.label}
+                    </span>
+                  </div>
+                )}
               </button>
             </div>
           )
