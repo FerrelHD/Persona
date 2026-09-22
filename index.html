@@ -55,7 +55,7 @@
   <main class="phan-main-wrapper" style="padding-top: 35px;">
 
     <!-- ====================================================================
-         SCREEN 1: CINEMATIC MAIN MENU (P5 STYLE)
+         SCREEN 1: CINEMATIC MAIN MENU (P5 STYLE WITH SEAMLESS CHARACTER)
          ==================================================================== -->
     <div id="screen-main-menu" class="p5-screen-view active">
 
@@ -67,9 +67,9 @@
         </div>
       </div>
 
-      <div class="p5-menu-stage" style="padding-top: 10px;">
+      <div class="p5-menu-stage">
 
-        <!-- Left Menu Options Column -->
+        <!-- Left Menu Options Column (In front of Character) -->
         <div class="menu-options-column">
           <div class="ribbon-banner" style="margin-bottom: 8px;">
             SYSTEM PROTOCOL // SELECT ACTION
@@ -116,16 +116,12 @@
           </div>
         </div>
 
-        <!-- Right Character Showcase Column -->
-        <div class="menu-character-showcase">
-          <div class="character-portrait-card" id="character-portrait-card">
-            <img id="menu-character-img" class="character-img" src="assets/joker.jpg" alt="Phantom Thief Character">
-            <div class="character-badge-tag" id="menu-char-tag">JOKER</div>
-            
-            <div class="character-switcher">
-              <button class="char-switch-btn active" data-char="joker">JOKER</button>
-              <button class="char-switch-btn" data-char="morgana">MONA</button>
-            </div>
+        <!-- Right Standalone Full-Body Character Layer (No Card / No Box) -->
+        <div class="seamless-character-backdrop">
+          <div class="character-aura-rays"></div>
+          <div class="character-silhouette-wrap" id="character-silhouette-wrap">
+            <img id="character-standalone-img" class="character-standalone-img" src="assets/joker_full.jpg" alt="Joker Phantom Thief">
+            <div class="seamless-char-tag">JOKER</div>
           </div>
         </div>
 
@@ -142,7 +138,6 @@
       </div>
 
       <div class="phan-grid" style="grid-template-columns: 1fr 340px;">
-        <!-- Center Target Cards -->
         <div>
           <div class="phorum-top-bar">
             <div class="phorum-filter-tabs">
@@ -157,7 +152,6 @@
           <div id="target-cards-container" class="target-cards-grid"></div>
         </div>
 
-        <!-- Right Murmurs Feed -->
         <aside class="grid-col-right">
           <div class="murmurs-container">
             <div class="murmurs-title-bar">

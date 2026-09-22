@@ -1,5 +1,5 @@
 ﻿/**
- * Persona 5 Game Flow & Character Interactive Animation Controller (Powered by GSAP)
+ * Persona 5 Game Flow & Full-Body Character Background Parallax (Powered by GSAP)
  */
 class P5FlowController {
   constructor() {
@@ -7,25 +7,9 @@ class P5FlowController {
     this.screens = document.querySelectorAll('.p5-screen-view');
     this.menuChoices = document.querySelectorAll('.menu-choice-item');
     this.backBtns = document.querySelectorAll('.p5-back-btn');
-    this.charImg = document.getElementById('menu-character-img');
-    this.charTag = document.getElementById('menu-char-tag');
-    this.charBtns = document.querySelectorAll('.char-switch-btn');
-    this.charCard = document.getElementById('character-portrait-card');
+    this.charWrapper = document.getElementById('character-silhouette-wrap');
+    this.charImg = document.getElementById('character-standalone-img');
 
-    this.characters = {
-      joker: {
-        name: 'JOKER',
-        src: 'assets/joker.jpg',
-        quote: 'Show me your true form!'
-      },
-      morgana: {
-        name: 'MONA',
-        src: 'assets/morgana.jpg',
-        quote: 'Looking cool, Joker!'
-      }
-    };
-
-    this.currentChar = 'joker';
     this.currentScreen = 'screen-main-menu';
 
     this.init();
@@ -70,22 +54,23 @@ class P5FlowController {
       });
     }
 
-    // 2. Menu Navigation Choices with GSAP hover feedback
+    // 2. Menu Navigation Choices with GSAP hover & character focus
     this.menuChoices.forEach(choice => {
       choice.addEventListener('mouseenter', () => {
         window.p5Audio?.playHover();
         if (window.gsap) {
           gsap.to(choice, {
-            x: 24,
+            x: 28,
             scale: 1.04,
             duration: 0.2,
             ease: "back.out(2)"
           });
-          if (this.charCard) {
-            gsap.to(this.charCard, {
-              scale: 1.03,
-              rotate: -2,
-              duration: 0.25,
+          if (this.charWrapper) {
+            gsap.to(this.charWrapper, {
+              scale: 1.05,
+              x: -15,
+              rotate: -1.5,
+              duration: 0.3,
               ease: "power2.out"
             });
           }
@@ -100,11 +85,12 @@ class P5FlowController {
             duration: 0.2,
             ease: "power2.out"
           });
-          if (this.charCard) {
-            gsap.to(this.charCard, {
+          if (this.charWrapper) {
+            gsap.to(this.charWrapper, {
               scale: 1,
+              x: 0,
               rotate: 0,
-              duration: 0.25,
+              duration: 0.3,
               ease: "power2.out"
             });
           }
@@ -126,16 +112,6 @@ class P5FlowController {
       btn.addEventListener('click', () => {
         window.p5Audio?.playSlash();
         this.navigateTo('screen-main-menu');
-      });
-    });
-
-    // 4. Character Switcher Buttons (Joker / Morgana)
-    this.charBtns.forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        window.p5Audio?.playStamp();
-        const charKey = btn.getAttribute('data-char');
-        this.switchCharacter(charKey);
       });
     });
   }
@@ -161,51 +137,30 @@ class P5FlowController {
       }
     );
 
-    if (this.charCard) {
-      gsap.fromTo(this.charCard,
-        { scale: 0.85, opacity: 0, x: 120, rotate: 6 },
-        { scale: 1, opacity: 1, x: 0, rotate: 0, duration: 0.7, ease: "elastic.out(1, 0.75)" }
+    if (this.charWrapper) {
+      gsap.fromTo(this.charWrapper,
+        { scale: 0.88, opacity: 0, x: 80, y: 50 },
+        { scale: 1, opacity: 1, x: 0, y: 0, duration: 0.8, ease: "power3.out" }
       );
     }
   }
 
-  switchCharacter(key) {
-    if (!this.characters[key] || this.currentChar === key) return;
-    this.currentChar = key;
-    const char = this.characters[key];
-
-    this.charBtns.forEach(b => b.classList.remove('active'));
-    const activeBtn = document.querySelector(`.char-switch-btn[data-char="${key}"]`);
-    if (activeBtn) activeBtn.classList.add('active');
-
-    // GSAP character slash flash animation
-    if (window.gsap && this.charCard) {
-      gsap.timeline()
-        .to(this.charCard, { scale: 0.94, filter: "brightness(2) contrast(1.5)", duration: 0.12 })
-        .call(() => {
-          if (this.charImg) this.charImg.src = char.src;
-          if (this.charTag) this.charTag.textContent = char.name;
-        })
-        .to(this.charCard, { scale: 1, filter: "brightness(1) contrast(1.08)", duration: 0.35, ease: "back.out(2)" });
-    } else {
-      if (this.charImg) this.charImg.src = char.src;
-      if (this.charTag) this.charTag.textContent = char.name;
-    }
-  }
-
-  // Smooth GSAP Parallax mouse movement
+  // Fluid Full-Body Parallax mouse physics
   initGSAPParallax() {
-    if (!this.charCard || !window.gsap) return;
+    if (!this.charWrapper || !window.gsap) return;
 
-    const quickX = gsap.quickTo(this.charCard, "x", { duration: 0.4, ease: "power2.out" });
-    const quickY = gsap.quickTo(this.charCard, "y", { duration: 0.4, ease: "power2.out" });
+    const quickX = gsap.quickTo(this.charWrapper, "x", { duration: 0.5, ease: "power2.out" });
+    const quickY = gsap.quickTo(this.charWrapper, "y", { duration: 0.5, ease: "power2.out" });
+    const quickRot = gsap.quickTo(this.charWrapper, "rotate", { duration: 0.6, ease: "power2.out" });
 
     window.addEventListener('mousemove', (e) => {
       if (this.currentScreen !== 'screen-main-menu') return;
-      const xOffset = (e.clientX / window.innerWidth - 0.5) * 36;
-      const yOffset = (e.clientY / window.innerHeight - 0.5) * 36;
+      const xOffset = (e.clientX / window.innerWidth - 0.5) * 45;
+      const yOffset = (e.clientY / window.innerHeight - 0.5) * 25;
+      const rotOffset = (e.clientX / window.innerWidth - 0.5) * -3;
       quickX(xOffset);
       quickY(yOffset);
+      quickRot(rotOffset);
     });
   }
 
