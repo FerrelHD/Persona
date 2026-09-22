@@ -213,7 +213,7 @@ export const MainMenu: React.FC<MainMenuProps> = ({ onSelectScreen }) => {
       </div>
 
       {/* Bottom Bar: Retro Console Key Hints only (NO footer text, NO music player) */}
-      <div className="z-20 flex items-center gap-3 font-p5Mono text-xs text-zinc-300 bg-black/85 border border-zinc-800 px-4 py-2 self-start -skew-x-6 shadow-[3px_3px_0px_#000000]">
+      <div className="z-20 flex items-center gap-3 font-p5Mono text-xs text-zinc-300 bg-black/85 border border-zinc-800 px-4 py-2 self-end -skew-x-6 shadow-[3px_3px_0px_#000000]">
         <span className="text-p5-yellow">[▲/▼]</span> NAVIGATE
         <span className="text-zinc-600">|</span>
         <span className="text-p5-crimson">[ENTER]</span> SELECT
