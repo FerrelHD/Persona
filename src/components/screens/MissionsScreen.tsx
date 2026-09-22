@@ -1,8 +1,8 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { MISSIONS_DATA, Mission } from '@/data/personaData'
 import { Button } from '@/components/ui/button'
 import { usePersonaSFX } from '@/hooks/usePersonaSFX'
-import { ArrowLeft, ExternalLink, ShieldCheck } from 'lucide-react'
+import { ArrowLeft, ChevronLeft, ChevronRight, ExternalLink, Globe, Cpu, Flame, Database, Code, ShieldCheck, ShoppingCart, Leaf } from 'lucide-react'
 
 const GithubIcon: React.FC = () => (
   <svg className="size-4" viewBox="0 0 24 24" fill="currentColor">
@@ -10,18 +10,58 @@ const GithubIcon: React.FC = () => (
   </svg>
 )
 
+// Decorative 5-point star SVG
+const StarIcon: React.FC<{ className?: string; fill?: string }> = ({ className = 'size-6', fill = '#E60012' }) => (
+  <svg viewBox="0 0 24 24" className={className} fill={fill}>
+    <polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26" />
+  </svg>
+)
+
+// Project icon helper
+const getProjectIcon = (category: string) => {
+  switch (category) {
+    case 'web': return <Globe className="size-16 text-cyan-400" />
+    case 'ai': return <Cpu className="size-16 text-purple-400" />
+    case 'game': return <Flame className="size-16 text-red-500" />
+    case 'ecommerce': return <ShoppingCart className="size-16 text-emerald-400" />
+    default: return <Code className="size-16 text-white" />
+  }
+}
+
 interface MissionsScreenProps {
   onBack: () => void
 }
 
 export const MissionsScreen: React.FC<MissionsScreenProps> = ({ onBack }) => {
   const { playHover, playSlash, playBack } = usePersonaSFX()
-  const [selectedMission, setSelectedMission] = useState<Mission>(MISSIONS_DATA[0])
+  const [currentIndex, setCurrentIndex] = useState(0)
+  const currentMission: Mission = MISSIONS_DATA[currentIndex]
+
+  // Keyboard navigation support: Left / Right arrows
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'ArrowRight') {
+        e.preventDefault()
+        playHover()
+        setCurrentIndex(prev => (prev + 1) % MISSIONS_DATA.length)
+      } else if (e.key === 'ArrowLeft') {
+        e.preventDefault()
+        playHover()
+        setCurrentIndex(prev => (prev - 1 + MISSIONS_DATA.length) % MISSIONS_DATA.length)
+      }
+    }
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [playHover])
+
+  // Extract a clean display name for the ransom note tiles
+  const titleDisplay = currentMission.title.split('//')[0].trim().toUpperCase()
+  const titleLetters = titleDisplay.split('').slice(0, 16) // Max 16 characters for neat fit
 
   return (
-    <div className="fixed inset-0 z-30 flex flex-col p-6 sm:p-8 md:p-10 select-none overflow-hidden bg-gradient-to-r from-black/90 via-black/60 to-transparent animate-in fade-in duration-200">
+    <div className="fixed inset-0 z-30 flex flex-col justify-between p-6 sm:p-8 md:p-10 select-none overflow-hidden bg-gradient-to-r from-black/85 via-black/45 to-transparent animate-in fade-in duration-200">
       {/* Top Header Bar */}
-      <div className="flex items-center justify-between z-20 pb-4 border-b border-cyan-500/30">
+      <div className="flex items-center justify-between z-20 pb-3 border-b border-cyan-500/30">
         <div className="flex items-center gap-4">
           <Button
             variant="ghost"
@@ -41,10 +81,10 @@ export const MissionsScreen: React.FC<MissionsScreenProps> = ({ onBack }) => {
                 S.E.E.S. ARCHIVE
               </span>
               <span className="text-cyan-400 text-xs font-p5Mono tracking-widest hidden sm:inline">
-                TARTARUS MISSIONS & DEPLOYMENTS
+                TARTARUS MISSIONS & HEISTS
               </span>
             </div>
-            <h1 className="font-p5Heading text-3xl sm:text-4xl text-white tracking-widest uppercase filter drop-shadow-[2px_2px_0px_#000000]">
+            <h1 className="font-p5Heading text-2xl sm:text-3xl text-white tracking-widest uppercase filter drop-shadow-[2px_2px_0px_#000000]">
               DEPLOYED MISSIONS
             </h1>
           </div>
@@ -55,120 +95,207 @@ export const MissionsScreen: React.FC<MissionsScreenProps> = ({ onBack }) => {
         </div>
       </div>
 
-      {/* Main Content: Left-Aligned UI, Leaving Right Side Open for Makoto */}
-      <div className="flex-1 grid grid-cols-1 lg:grid-cols-12 gap-6 mt-4 overflow-hidden z-20">
-        {/* Left Column: Mission Directory List */}
-        <div className="lg:col-span-5 flex flex-col gap-2 overflow-y-auto pr-2 max-h-[calc(100vh-180px)]">
-          <span className="font-p5Mono text-xs text-cyan-400/80 uppercase tracking-widest mb-1">
-            // SELECT TARGET ({MISSIONS_DATA.length})
-          </span>
-
-          {MISSIONS_DATA.map((mission, idx) => {
-            const isSelected = selectedMission.id === mission.id
+      {/* Main Content Area: Styled after the reference comic profile card */}
+      <div className="flex-1 flex flex-col justify-center my-auto z-20 w-full max-w-4xl lg:max-w-[58%]">
+        {/* 1. Ransom Note Project Title (Top Right aligned with card) */}
+        <div className="flex items-center gap-1 sm:gap-1.5 flex-wrap ml-auto mb-3 pr-2">
+          {titleLetters.map((char, idx) => {
+            if (char === ' ') {
+              return <span key={idx} className="w-2 sm:w-3" />
+            }
+            const isRed = idx === 0 || char === 'O' || char === 'I'
+            const rotation = idx % 3 === 0 ? '-rotate-3' : idx % 3 === 1 ? 'rotate-2' : '-rotate-1'
 
             return (
-              <div
-                key={mission.id}
-                onMouseEnter={() => playHover()}
-                onClick={() => {
-                  playSlash()
-                  setSelectedMission(mission)
-                }}
-                className={`group cursor-pointer p-3 transition-all duration-150 border-l-4 -skew-x-2 ${
-                  isSelected
-                    ? 'bg-cyan-950/70 border-cyan-400 text-white translate-x-2 shadow-[0_0_15px_rgba(0,212,255,0.3)]'
-                    : 'bg-black/60 hover:bg-black/80 border-zinc-700 hover:border-cyan-500/60 text-zinc-300'
-                }`}
+              <span
+                key={idx}
+                className={`inline-flex items-center justify-center min-w-[28px] sm:min-w-[34px] md:min-w-[38px] h-[40px] sm:h-[48px] md:h-[54px] px-1.5 font-p5Heading text-2xl sm:text-3xl md:text-4xl uppercase border-2 sm:border-[3px] border-black shadow-[3px_3px_0px_#000000] ${
+                  isRed
+                    ? 'bg-p5-crimson text-white font-extrabold scale-105'
+                    : 'bg-white text-black'
+                } ${rotation} transition-transform hover:scale-125`}
               >
-                <div className="flex items-center justify-between text-xs font-p5Mono mb-1">
-                  <span className={isSelected ? 'text-cyan-400 font-bold' : 'text-zinc-500'}>
-                    MISSION #{String(idx + 1).padStart(2, '0')}
-                  </span>
-                  <span className="text-[10px] px-1.5 py-0.5 bg-black/70 border border-zinc-700 text-zinc-300">
-                    {mission.status}
-                  </span>
-                </div>
-                <div className="font-p5Heading text-lg tracking-wide uppercase group-hover:text-cyan-300 transition-colors">
-                  {mission.title}
-                </div>
-                <div className="text-xs text-zinc-400 line-clamp-1 mt-0.5">
-                  {mission.client} // {mission.role}
-                </div>
-              </div>
+                {char}
+              </span>
             )
           })}
         </div>
 
-        {/* Middle Column: Selected Mission Detail Card */}
-        <div className="lg:col-span-6 flex flex-col justify-between bg-black/75 backdrop-blur-md border border-cyan-500/40 p-6 -skew-x-1 shadow-[0_0_20px_rgba(0,0,0,0.8)] max-h-[calc(100vh-180px)] overflow-y-auto">
-          <div className="space-y-4">
-            <div className="flex items-start justify-between gap-4 border-b border-cyan-500/20 pb-3">
-              <div>
-                <span className="text-xs font-p5Mono text-cyan-400 uppercase tracking-widest">
-                  CLIENT: {selectedMission.client}
-                </span>
-                <h2 className="font-p5Heading text-2xl sm:text-3xl text-white tracking-wide uppercase mt-1">
-                  {selectedMission.title}
-                </h2>
+        {/* 2. Main Row: Left Polaroid Frame + Right White Card */}
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-5 items-start">
+          {/* Left Column: Photo / Preview Polaroid Box */}
+          <div className="md:col-span-4 flex flex-col items-center">
+            {/* Angled Polaroid Box */}
+            <div className="relative w-44 sm:w-52 md:w-full aspect-square bg-zinc-950 border-[5px] border-black shadow-[7px_7px_0px_#000000] -rotate-3 p-3 flex flex-col items-center justify-center overflow-hidden group">
+              {/* Halftone / Grid Pattern Background */}
+              <div 
+                className="absolute inset-0 opacity-20 pointer-events-none"
+                style={{
+                  backgroundImage: 'radial-gradient(#FFFFFF 1.5px, transparent 1.5px)',
+                  backgroundSize: '10px 10px'
+                }}
+              />
+
+              {/* Large Icon / Graphic Preview */}
+              <div className="relative z-10 p-4 rounded-lg bg-black/40 border border-zinc-800 transition-transform duration-300 group-hover:scale-110">
+                {getProjectIcon(currentMission.category)}
               </div>
-              <span className="flex items-center gap-1.5 px-3 py-1 bg-cyan-500/20 border border-cyan-400 text-cyan-300 font-p5Mono text-xs font-bold">
-                <ShieldCheck className="size-4 text-cyan-400" />
-                VERIFIED
-              </span>
+
+              {/* Category Ribbon */}
+              <div className="relative z-10 mt-3 font-p5Mono text-[11px] uppercase tracking-widest px-2.5 py-0.5 bg-black text-cyan-400 border border-cyan-500/50">
+                {currentMission.category.toUpperCase()} // HEIST
+              </div>
             </div>
 
-            <p className="font-p5Body text-sm sm:text-base text-zinc-200 leading-relaxed">
-              {selectedMission.fullDossier || selectedMission.excerpt}
-            </p>
-
-            {/* Tech Stack Badges */}
-            <div>
-              <span className="text-xs font-p5Mono text-zinc-400 uppercase block mb-2">
-                EQUIPPED PERSONA & TECH
-              </span>
-              <div className="flex flex-wrap gap-1.5">
-                {selectedMission.tech.map(t => (
-                  <span
-                    key={t}
-                    className="text-xs font-p5Mono bg-zinc-900 border border-cyan-500/30 text-cyan-300 px-2.5 py-1"
-                  >
-                    {t}
-                  </span>
-                ))}
+            {/* Comic Speech Bubble below photo */}
+            <div className="relative mt-3 self-center -rotate-2">
+              <div className="bg-white text-black border-2 border-black px-4 py-1 font-p5Heading text-xs sm:text-sm font-bold shadow-[3px_3px_0px_#000000] flex items-center gap-1.5">
+                <span className="size-2 rounded-full bg-p5-crimson animate-ping" />
+                <span>MISSION #{String(currentIndex + 1).padStart(2, '0')}</span>
               </div>
+              {/* Speech bubble pointer triangle */}
+              <div className="w-0 h-0 border-l-[6px] border-l-transparent border-r-[6px] border-r-transparent border-t-[8px] border-t-black ml-4" />
             </div>
           </div>
 
-          {/* Action Links */}
-          <div className="pt-6 border-t border-zinc-800 flex flex-wrap gap-3 mt-4">
-            {selectedMission.liveUrl && (
-              <a
-                href={selectedMission.liveUrl}
-                target="_blank"
-                rel="noreferrer"
-                className="inline-flex items-center gap-2 px-5 py-2.5 bg-cyan-500 hover:bg-cyan-400 text-black font-p5Mono font-extrabold text-sm tracking-wider uppercase transition-all duration-150 hover:scale-105 shadow-[0_0_15px_rgba(0,212,255,0.4)]"
-              >
-                <span>VISIT LIVE DEMO</span>
-                <ExternalLink className="size-4" />
-              </a>
-            )}
+          {/* Right Column: Angled White Card with Stars */}
+          <div className="md:col-span-8 relative">
+            {/* Persona Stars: Top-Left Edge */}
+            <div className="absolute -left-4 -top-3 z-20 flex items-center -space-x-1 pointer-events-none">
+              <StarIcon className="size-7 sm:size-8 -rotate-12 filter drop-shadow-[2px_2px_0px_#000000]" fill="#000000" />
+              <StarIcon className="size-6 sm:size-7 rotate-12 filter drop-shadow-[2px_2px_0px_#000000]" fill="#E60012" />
+            </div>
 
-            {selectedMission.githubUrl && (
-              <a
-                href={selectedMission.githubUrl}
-                target="_blank"
-                rel="noreferrer"
-                className="inline-flex items-center gap-2 px-5 py-2.5 bg-black/80 hover:bg-zinc-800 text-white border border-zinc-700 hover:border-cyan-400 font-p5Mono text-sm tracking-wider uppercase transition-all duration-150 hover:scale-105"
-              >
-                <GithubIcon />
-                <span>GITHUB REPO</span>
-              </a>
-            )}
+            {/* Main White Content Card */}
+            <div className="relative bg-white text-black border-[5px] border-black shadow-[8px_8px_0px_#000000] p-6 sm:p-7 -skew-x-2 -rotate-1">
+              {/* Client Tag */}
+              <div className="font-p5Mono text-xs text-zinc-600 uppercase tracking-wider mb-1 flex items-center justify-between">
+                <span>CLIENT: {currentMission.client}</span>
+                <span className="text-[10px] font-bold px-2 py-0.5 bg-black text-white">
+                  {currentMission.role}
+                </span>
+              </div>
+
+              {/* Title / Heading */}
+              <h3 className="font-p5Heading text-2xl sm:text-3xl text-black uppercase tracking-wide leading-tight mb-2">
+                About this mission...
+              </h3>
+
+              {/* Project Description */}
+              <p className="font-p5Body text-xs sm:text-sm text-zinc-800 leading-relaxed mb-4">
+                {currentMission.fullDossier || currentMission.excerpt}
+              </p>
+
+              {/* Tech Stack Badges */}
+              <div className="mb-5">
+                <span className="font-p5Mono text-[10px] text-zinc-500 uppercase tracking-widest block mb-1.5">
+                  EQUIPPED TECH & PERSONA:
+                </span>
+                <div className="flex flex-wrap gap-1.5">
+                  {currentMission.tech.map((t) => (
+                    <span
+                      key={t}
+                      className="font-p5Mono text-xs bg-black text-white px-2.5 py-0.5 font-bold shadow-[2px_2px_0px_#888888]"
+                    >
+                      {t}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              {/* Action Buttons */}
+              <div className="flex flex-wrap items-center gap-3 pt-3 border-t-2 border-black">
+                {currentMission.liveUrl && (
+                  <a
+                    href={currentMission.liveUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex items-center gap-2 px-5 py-2.5 bg-p5-crimson hover:bg-red-700 text-white font-p5Mono font-extrabold text-xs sm:text-sm tracking-wider uppercase transition-all duration-150 shadow-[3px_3px_0px_#000000] hover:translate-x-1"
+                  >
+                    <span>VISIT LIVE DEMO</span>
+                    <ExternalLink className="size-4" />
+                  </a>
+                )}
+
+                {currentMission.githubUrl && (
+                  <a
+                    href={currentMission.githubUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex items-center gap-2 px-5 py-2.5 bg-black hover:bg-zinc-800 text-white font-p5Mono font-extrabold text-xs sm:text-sm tracking-wider uppercase transition-all duration-150 shadow-[3px_3px_0px_#000000] hover:translate-x-1"
+                  >
+                    <GithubIcon />
+                    <span>GITHUB REPO</span>
+                  </a>
+                )}
+              </div>
+            </div>
+
+            {/* Persona Stars: Bottom-Right Edge */}
+            <div className="absolute -right-4 -bottom-4 z-20 flex items-center -space-x-1 pointer-events-none">
+              <StarIcon className="size-6 sm:size-7 -rotate-6 filter drop-shadow-[2px_2px_0px_#000000]" fill="#000000" />
+              <StarIcon className="size-9 sm:size-10 rotate-12 filter drop-shadow-[3px_3px_0px_#000000]" fill="#E60012" />
+            </div>
           </div>
         </div>
 
-        {/* Right side (1 col) intentionally transparent for Makoto wallpaper */}
-        <div className="hidden lg:block lg:col-span-1 pointer-events-none" />
+        {/* 3. Bottom Mission Navigation Bar */}
+        <div className="flex items-center justify-between mt-4 px-2">
+          {/* Previous Button */}
+          <button
+            type="button"
+            onClick={() => {
+              playHover()
+              setCurrentIndex(prev => (prev - 1 + MISSIONS_DATA.length) % MISSIONS_DATA.length)
+            }}
+            className="flex items-center gap-1.5 font-p5Mono text-xs bg-black/80 hover:bg-p5-crimson text-white px-3 py-1.5 border border-zinc-700 transition-all duration-150 -skew-x-6 cursor-pointer shadow-[2px_2px_0px_#000000]"
+          >
+            <ChevronLeft className="size-4" />
+            <span>PREV MISSION</span>
+          </button>
+
+          {/* Stepper Dots / Counter */}
+          <div className="flex items-center gap-1.5 font-p5Mono text-xs text-zinc-300">
+            {MISSIONS_DATA.map((_, idx) => (
+              <button
+                key={idx}
+                type="button"
+                onClick={() => {
+                  playSlash()
+                  setCurrentIndex(idx)
+                }}
+                className={`size-2.5 sm:size-3 transition-all duration-150 cursor-pointer ${
+                  currentIndex === idx
+                    ? 'bg-p5-crimson scale-125 shadow-[0_0_8px_#E60012]'
+                    : 'bg-zinc-700 hover:bg-white'
+                }`}
+              />
+            ))}
+            <span className="ml-2 text-cyan-400 font-bold">
+              {currentIndex + 1} / {MISSIONS_DATA.length}
+            </span>
+          </div>
+
+          {/* Next Button */}
+          <button
+            type="button"
+            onClick={() => {
+              playHover()
+              setCurrentIndex(prev => (prev + 1) % MISSIONS_DATA.length)
+            }}
+            className="flex items-center gap-1.5 font-p5Mono text-xs bg-black/80 hover:bg-p5-crimson text-white px-3 py-1.5 border border-zinc-700 transition-all duration-150 -skew-x-6 cursor-pointer shadow-[2px_2px_0px_#000000]"
+          >
+            <span>NEXT MISSION</span>
+            <ChevronRight className="size-4" />
+          </button>
+        </div>
+      </div>
+
+      {/* Bottom Hint */}
+      <div className="z-20 flex items-center gap-3 font-p5Mono text-xs text-zinc-400 bg-black/80 border border-zinc-800 px-4 py-1.5 self-start -skew-x-6">
+        <span className="text-cyan-400">[◄/►]</span> SWITCH MISSIONS
+        <span className="text-zinc-600">|</span>
+        <span className="text-white">[ESC]</span> RETURN
       </div>
     </div>
   )
