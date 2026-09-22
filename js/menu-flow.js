@@ -154,7 +154,7 @@ class P5FlowController {
   animateMenuEntrance() {
     if (!window.gsap) return;
 
-    const fannedBtns = document.querySelectorAll('.p5-fanned-btn');
+    const fannedBtns = document.querySelectorAll('.p5-png-btn');
     if (fannedBtns.length > 0) {
       gsap.fromTo(fannedBtns,
         { opacity: 0, x: -60 },
@@ -257,7 +257,7 @@ window.p5Flow = null;
 
 // Bind hover SFX to fanned buttons
 document.addEventListener('DOMContentLoaded', () => {
-  document.querySelectorAll('.p5-fanned-btn').forEach(btn => {
+  document.querySelectorAll('.p5-png-btn').forEach(btn => {
     btn.addEventListener('mouseenter', () => {
       if (window.p5Audio && typeof window.p5Audio.playNav === 'function') {
         window.p5Audio.playNav();
@@ -269,7 +269,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Bind hover SFX to fanned buttons
 document.addEventListener('DOMContentLoaded', () => {
-  document.querySelectorAll('.p5-fanned-btn').forEach(btn => {
+  document.querySelectorAll('.p5-png-btn').forEach(btn => {
     btn.addEventListener('mouseenter', () => {
       if (window.p5Audio && typeof window.p5Audio.playNav === 'function') {
         window.p5Audio.playNav();
@@ -281,7 +281,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Direct navigation for fanned menu buttons
 document.addEventListener('DOMContentLoaded', () => {
-  document.querySelectorAll('.p5-fanned-btn').forEach(btn => {
+  document.querySelectorAll('.p5-png-btn').forEach(btn => {
     btn.addEventListener('click', (e) => {
       e.preventDefault();
       const target = btn.getAttribute('data-target-screen');
