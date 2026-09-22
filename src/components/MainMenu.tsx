@@ -111,8 +111,11 @@ export const MainMenu: React.FC<MainMenuProps> = ({ onSelectScreen }) => {
         <RansomTitle />
       </div>
 
-      {/* Right Area: Persona 5 Authentic Menu Stack in Red Coat Area */}
-      <div className="z-20 my-auto flex flex-col items-end gap-5 md:gap-7 w-full max-w-xl ml-auto pr-2 md:pr-10 lg:pr-16">
+      {/* 
+        Positioned directly over Joker's red scarf / torso area 
+        (Immediately to the right of the comic strip, resting comfortably on the red canvas)
+      */}
+      <div className="z-20 my-auto flex flex-col items-start gap-4 sm:gap-5 md:gap-6 w-fit ml-[22vw] sm:ml-[26vw] md:ml-[30vw] lg:ml-[32vw]">
         {MENU_ITEMS.map((item, index) => {
           const isFocused = selectedIndex === index
 
@@ -131,13 +134,13 @@ export const MainMenu: React.FC<MainMenuProps> = ({ onSelectScreen }) => {
                   playHover()
                   setSelectedIndex(index)
                 }}
-                className="group relative inline-flex items-center text-right cursor-pointer outline-none transition-transform duration-150"
+                className="group relative inline-flex items-center text-left cursor-pointer outline-none transition-transform duration-150"
               >
                 {isFocused ? (
                   /* =======================================================
                      ACTIVE / HOVER STATE: Persona 5 Jagged Ribbon + Ransom Cutout
                      ======================================================= */
-                  <div className="relative flex items-center -translate-x-2 md:-translate-x-4 scale-105 transition-all duration-150">
+                  <div className="relative flex items-center translate-x-3 sm:translate-x-5 md:translate-x-6 scale-105 transition-all duration-150">
                     {/* SVG Jagged Persona 5 Ribbon Frame */}
                     <svg
                       viewBox="0 0 540 100"
@@ -187,7 +190,7 @@ export const MainMenu: React.FC<MainMenuProps> = ({ onSelectScreen }) => {
                   /* =======================================================
                      DEFAULT / RESTING STATE: Clean, Bold White Text
                      ======================================================= */
-                  <div className="px-4 py-2 hover:-translate-x-2 transition-transform duration-150 text-right">
+                  <div className="px-4 py-2 hover:translate-x-2 transition-transform duration-150">
                     <span className="font-p5Heading text-5xl md:text-6xl lg:text-7xl text-white tracking-widest uppercase filter drop-shadow-[5px_5px_0px_#000000] hover:text-p5-yellow transition-colors">
                       {item.label}
                     </span>
