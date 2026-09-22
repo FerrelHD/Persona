@@ -125,7 +125,7 @@ export const MainMenu: React.FC<MainMenuProps> = ({ onSelectScreen }) => {
       {/* 
         Container geser lebih ke kiri, dengan efek tangga (stagger / maju per-button)
       */}
-      <div className="z-20 my-auto flex flex-col items-start gap-3 sm:gap-4 md:gap-5 w-fit ml-[3vw] sm:ml-[5vw] md:ml-[7vw] lg:ml-[8vw]">
+      <div className="z-20 my-auto flex flex-col items-start gap-3 sm:gap-4 md:gap-5 w-fit ml-0">
         {MENU_ITEMS.map((item, index) => {
           const isFocused = selectedIndex === index
 
