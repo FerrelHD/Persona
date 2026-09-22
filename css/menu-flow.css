@@ -525,3 +525,85 @@
   box-shadow: 6px 6px 0px var(--p5-yellow);
 }
 
+/* Interactive Persona 5 Original Music Player Asset Component */
+.p5-music-widget {
+  position: fixed;
+  bottom: 25px;
+  right: 30px;
+  z-index: 1000;
+  display: inline-block;
+  cursor: pointer;
+  filter: drop-shadow(6px 6px 0px #000000);
+  transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.p5-music-widget:hover {
+  transform: scale(1.04) translateY(-3px);
+}
+
+.music-asset-container {
+  position: relative;
+  width: 440px;
+  max-width: 38vw;
+}
+
+.music-asset-img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Functional Invisible Interactive Click Hotspots placed precisely over the PNG buttons */
+.music-hotspot {
+  position: absolute;
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  outline: none;
+}
+
+.hotspot-play {
+  left: 56%;
+  top: 60%;
+  width: 15%;
+  height: 32%;
+}
+
+.hotspot-play:hover {
+  background: rgba(230, 0, 18, 0.25);
+  box-shadow: 0 0 10px rgba(230, 0, 18, 0.5);
+}
+
+.hotspot-prev {
+  left: 40%;
+  top: 60%;
+  width: 12%;
+  height: 32%;
+}
+
+.hotspot-prev:hover {
+  background: rgba(255, 230, 0, 0.25);
+}
+
+.hotspot-next {
+  left: 73%;
+  top: 60%;
+  width: 12%;
+  height: 32%;
+}
+
+.hotspot-next:hover {
+  background: rgba(255, 230, 0, 0.25);
+}
+
+.hotspot-vinyl {
+  left: 1%;
+  bottom: 0%;
+  width: 18%;
+  height: 48%;
+  border-radius: 50%;
+}
+
+.hotspot-vinyl.spinning {
+  animation: discSpin 2.5s linear infinite;
+}
