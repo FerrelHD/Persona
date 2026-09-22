@@ -23,6 +23,15 @@
   <div class="halftone-overlay"></div>
   <div class="scanlines"></div>
 
+  <!-- FLOATING MINIMAL HUD (SOUND & CALENDAR) -->
+  <div class="floating-hud-bar">
+    <div class="topbar-calendar">
+      <span id="calendar-date" class="calendar-date">APR 11 MON</span>
+      <span id="calendar-period" class="calendar-period">[AFTER SCHOOL]</span>
+    </div>
+    <button id="sfx-toggle" class="sfx-toggle-btn">🔊 SFX: ON</button>
+  </div>
+
   <!-- 1. CINEMATIC SPLASH / TITLE SCREEN -->
   <div id="p5-splash-screen" class="p5-splash-screen">
     <svg class="splash-center-emblem" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -42,48 +51,23 @@
     </div>
   </div>
 
-  <!-- Top System Bar -->
-  <header class="p5-topbar">
-    <div class="topbar-brand" onclick="window.p5Flow?.navigateTo('screen-main-menu')" style="cursor: pointer;">
-      <svg class="brand-emblem-svg" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M50 8 C30 8 15 26 15 48 C15 72 40 88 50 94 C60 88 85 72 85 48 C85 26 70 8 50 8 Z" fill="#E60012" stroke="#FFFFFF" stroke-width="3"/>
-        <path d="M50 18 L68 36 L58 54 L50 44 L42 54 L32 36 Z" fill="#0A0A0A" stroke="#FFFFFF" stroke-width="2"/>
-        <path d="M50 24 C45 32 35 38 24 38 C32 44 42 46 50 42 C58 46 68 44 76 38 C65 38 55 32 50 24 Z" fill="#FFFFFF"/>
-        <polygon points="50,46 56,60 50,56 44,60" fill="#FFE600"/>
-      </svg>
-      <div>
-        <div class="auto-ransom hero-title-small">PHAN-SITE</div>
-        <span class="brand-subtext">META-NETWORK #005 // RESTRICTED ACCESS</span>
-      </div>
-    </div>
-
-    <!-- Center Calendar & Period -->
-    <div class="topbar-calendar">
-      <span id="calendar-date" class="calendar-date">APR 11 MON</span>
-      <span id="calendar-period" class="calendar-period">[AFTER SCHOOL]</span>
-    </div>
-
-    <!-- Right Controls -->
-    <div class="topbar-right-controls">
-      <nav class="topbar-nav-links">
-        <button class="nav-link-btn" onclick="window.p5Flow?.navigateTo('screen-main-menu')">MAIN MENU</button>
-        <button class="nav-link-btn" onclick="window.p5Flow?.navigateTo('screen-phorum')">PHORUM</button>
-        <button class="nav-link-btn" onclick="window.p5Flow?.navigateTo('screen-poll')">POLL</button>
-        <button class="nav-link-btn" onclick="window.p5Flow?.navigateTo('screen-transmit')">TRANSMIT</button>
-        <button class="nav-link-btn open-calling-card-btn" style="background: var(--p5-crimson); color: #fff;">CALLING CARD</button>
-      </nav>
-      <button id="sfx-toggle" class="sfx-toggle-btn">🔊 SFX: ON</button>
-    </div>
-  </header>
-
   <!-- Main Container With Screen Management -->
-  <main class="phan-main-wrapper">
+  <main class="phan-main-wrapper" style="padding-top: 35px;">
 
     <!-- ====================================================================
          SCREEN 1: CINEMATIC MAIN MENU (P5 STYLE)
          ==================================================================== -->
     <div id="screen-main-menu" class="p5-screen-view active">
-      <div class="p5-menu-stage">
+
+      <!-- Bold Persona 5 Cutout Header Title -->
+      <div class="menu-brand-header">
+        <div class="brand-title-wrap">
+          <div class="auto-ransom hero-brand-cutout">PHAN-SITE</div>
+          <div class="brand-meta-badge">META-CHANNEL #005 // THE PHANTOM THIEVES OF HEARTS</div>
+        </div>
+      </div>
+
+      <div class="p5-menu-stage" style="padding-top: 10px;">
 
         <!-- Left Menu Options Column -->
         <div class="menu-options-column">
@@ -154,7 +138,7 @@
     <div id="screen-phorum" class="p5-screen-view">
       <div class="p5-back-nav-bar">
         <button class="p5-back-btn">◀ BACK TO MAIN MENU</button>
-        <span class="comic-badge" style="background: var(--p5-crimson);">PHORUM / TARGET BOARD</span>
+        <div class="auto-ransom" style="font-size: 1.8rem;">PHORUM</div>
       </div>
 
       <div class="phan-grid" style="grid-template-columns: 1fr 340px;">
@@ -196,7 +180,7 @@
     <div id="screen-poll" class="p5-screen-view">
       <div class="p5-back-nav-bar">
         <button class="p5-back-btn">◀ BACK TO MAIN MENU</button>
-        <span class="comic-badge" style="background: var(--p5-crimson);">PUBLIC OPINION POLL</span>
+        <div class="auto-ransom" style="font-size: 1.8rem;">POLL</div>
       </div>
 
       <div style="max-width: 820px; margin: 0 auto;">
@@ -243,7 +227,7 @@
     <div id="screen-transmit" class="p5-screen-view">
       <div class="p5-back-nav-bar">
         <button class="p5-back-btn">◀ BACK TO MAIN MENU</button>
-        <span class="comic-badge" style="background: var(--p5-crimson);">ENCRYPTED UPLINK</span>
+        <div class="auto-ransom" style="font-size: 1.8rem;">TRANSMIT</div>
       </div>
 
       <div class="submit-target-section" style="max-width: 900px; margin: 0 auto;">
@@ -313,7 +297,7 @@
     <div id="screen-confidants" class="p5-screen-view">
       <div class="p5-back-nav-bar">
         <button class="p5-back-btn">◀ BACK TO MAIN MENU</button>
-        <span class="comic-badge" style="background: var(--p5-crimson);">PHANTOM THIEVES ROSTER</span>
+        <div class="auto-ransom" style="font-size: 1.8rem;">CONFIDANTS</div>
       </div>
 
       <div class="subscreen-content-box">
@@ -421,32 +405,18 @@
     </div>
   </div>
 
-  <!-- Footer -->
-  <footer class="p5-footer">
-    <div class="footer-content">
-      <div class="footer-left">
-        <svg width="36" height="36" viewBox="0 0 100 100" fill="none">
-          <polygon points="50,5 92,26 92,74 50,95 8,74 8,26" fill="#E60012" stroke="#FFF" stroke-width="4"/>
-          <circle cx="50" cy="50" r="22" fill="#000"/>
-        </svg>
-        <div>
-          <div style="font-family: var(--font-display); font-size: 1.2rem; color: #fff;">
-            PHAN-SITE // RESTRICTED CHANNEL
-          </div>
-          <div class="footer-legal">
-            Based on ATLUS Persona 5 universe. Built with Web Audio API, Vanilla CSS & Modern JS.
-          </div>
-        </div>
-      </div>
-
-      <div style="font-family: var(--font-heading); font-size: 1.1rem; color: var(--p5-yellow); letter-spacing: 1px;">
-        "WE SHALL TAKE YOUR DISTORTED DESIRES WITHOUT FAIL."
+  <!-- Minimal Footer -->
+  <footer class="p5-footer" style="margin-top: 30px; padding: 20px;">
+    <div class="footer-content" style="justify-content: center; text-align: center;">
+      <div style="font-family: var(--font-heading); font-size: 1.1rem; color: var(--p5-yellow); letter-spacing: 2px;">
+        ★ THE PHANTOM THIEVES OF HEARTS // WE SHALL STEAL YOUR DISTORTED DESIRES ★
       </div>
     </div>
   </footer>
 
-  <!-- JavaScript Modules -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>`n  <script src="js/sfx.js"></script>
+  <!-- Scripts -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="js/sfx.js"></script>
   <script src="js/data.js"></script>
   <script src="js/poll.js"></script>
   <script src="js/phorum.js"></script>
@@ -457,4 +427,3 @@
   <script src="js/app.js"></script>
 </body>
 </html>
-
