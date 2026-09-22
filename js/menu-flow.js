@@ -154,27 +154,11 @@ class P5FlowController {
   animateMenuEntrance() {
     if (!window.gsap) return;
 
-    gsap.fromTo(".menu-options-column .ribbon-banner", 
-      { x: -100, opacity: 0, skewX: 15 },
-      { x: 0, opacity: 1, skewX: -7, duration: 0.45, ease: "power3.out" }
-    );
-
-    gsap.fromTo(this.menuChoices,
-      { x: -160, opacity: 0, skewX: 12 },
-      { 
-        x: 0, 
-        opacity: 1, 
-        skewX: -7, 
-        duration: 0.5, 
-        stagger: 0.08, 
-        ease: "back.out(1.8)" 
-      }
-    );
-
-    if (this.charWrapper) {
-      gsap.fromTo(this.charWrapper,
-        { scale: 0.88, opacity: 0, x: 80, y: 50 },
-        { scale: 1, opacity: 1, x: 0, y: 0, duration: 0.8, ease: "power3.out" }
+    const fannedBtns = document.querySelectorAll('.p5-fanned-btn');
+    if (fannedBtns.length > 0) {
+      gsap.fromTo(fannedBtns,
+        { opacity: 0, x: -60 },
+        { opacity: 1, x: 0, duration: 0.5, stagger: 0.08, ease: "power2.out", clearProps: "x,opacity" }
       );
     }
   }
@@ -269,3 +253,27 @@ class P5FlowController {
 
 // Global flow instance
 window.p5Flow = null;
+
+
+// Bind hover SFX to fanned buttons
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('.p5-fanned-btn').forEach(btn => {
+    btn.addEventListener('mouseenter', () => {
+      if (window.p5Audio && typeof window.p5Audio.playNav === 'function') {
+        window.p5Audio.playNav();
+      }
+    });
+  });
+});
+
+
+// Bind hover SFX to fanned buttons
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('.p5-fanned-btn').forEach(btn => {
+    btn.addEventListener('mouseenter', () => {
+      if (window.p5Audio && typeof window.p5Audio.playNav === 'function') {
+        window.p5Audio.playNav();
+      }
+    });
+  });
+});

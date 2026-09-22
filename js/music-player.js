@@ -67,12 +67,16 @@ class P5MusicPlayer {
     this.initAudio();
     this.isPlaying = !this.isPlaying;
 
-    if (this.isPlaying) {
-      this.playBtn.innerHTML = '&#9646;&#9646;'; // Pause icon
+                if (this.isPlaying) {
+      if (this.playBtn) {
+        this.playBtn.innerHTML = '<svg viewBox="0 0 24 24" width="22" height="22"><polygon points="6,4 10,4 10,20 6,20" fill="#000000"/><polygon points="14,4 18,4 18,20 14,20" fill="#000000"/></svg>';
+      }
       if (this.discEl) this.discEl.classList.add('spinning');
       this.startSynthesizerLoop();
     } else {
-      this.playBtn.innerHTML = '&#9654;'; // Play icon
+      if (this.playBtn) {
+        this.playBtn.innerHTML = '<svg viewBox="0 0 24 24" width="22" height="22"><polygon points="7,4 20,12 7,20" fill="#000000"/></svg>';
+      }
       if (this.discEl) this.discEl.classList.remove('spinning');
       this.stopSynthesizerLoop();
     }

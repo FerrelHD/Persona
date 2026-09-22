@@ -17,28 +17,17 @@
 
 .p5-bg-video {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  min-width: 100vw;
-  min-height: 100vh;
-  width: auto;
-  height: auto;
-  transform: translate(-50%, -50%) scale(1.05);
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
   object-fit: cover;
-  opacity: 0.92;
-  transition: opacity 0.5s ease;
-  filter: contrast(1.1) brightness(0.95);
+  transform: none;
+  opacity: 1;
 }
 
 .p5-video-vignette {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: radial-gradient(circle at 60% 45%, rgba(0,0,0,0.1) 0%, rgba(10,10,10,0.85) 85%);
-  pointer-events: none;
-  z-index: -2;
+  display: none !important;
 }
 
 /* ==========================================================================
@@ -102,15 +91,7 @@
 /* ==========================================================================
    FLOATING HUD BAR & CUTOUT TITLE BRANDING
    ========================================================================== */
-.floating-hud-bar {
-  position: fixed;
-  top: 18px;
-  right: 25px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  z-index: 1000;
-}
+
 
 .menu-brand-header {
   margin-bottom: 25px;
@@ -491,7 +472,9 @@
   color: #000;
 }
 
-/* Navigation Back Bar */
+/* ==========================================================================
+   NAVIGATION BACK BAR
+   ========================================================================== */
 .p5-back-nav-bar {
   display: flex;
   align-items: center;
@@ -525,10 +508,143 @@
   box-shadow: 6px 6px 0px var(--p5-yellow);
 }
 
+/* ==========================================================================
+   AUTHENTIC PERSONA 5 FANNED-OUT SVG MENU (PLACEMENT MATCHING PHOTO)
+   ========================================================================== */
+.p5-fanned-menu-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+  width: 440px;
+  max-width: 45vw;
+  position: relative;
+  z-index: 25;
+  margin-top: 65px;
+  margin-left: 20px;
+}
 
+.p5-fanned-buttons-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  position: relative;
+}
+
+.p5-fanned-btn {
+  background: transparent;
+  border: none;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  display: block;
+  width: 350px;
+  max-width: 85vw;
+  transform-origin: 15px center;
+  transition: transform 0.22s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  position: relative;
+  outline: none;
+  user-select: none;
+}
+
+/* Initial Fanned Out Angles (Matching Reference Photo) */
+.fanned-btn-1 {
+  transform: rotate(-18deg) translate(0px, 0px);
+  z-index: 14;
+}
+
+.fanned-btn-2 {
+  transform: rotate(-10deg) translate(16px, 2px);
+  z-index: 13;
+}
+
+.fanned-btn-3 {
+  transform: rotate(-2deg) translate(24px, 6px);
+  z-index: 12;
+}
+
+.fanned-btn-4 {
+  transform: rotate(6deg) translate(30px, 10px);
+  z-index: 11;
+}
+
+/* SVG Shape & Typography */
+.p5-btn-svg {
+  width: 100%;
+  height: auto;
+  display: block;
+  overflow: visible;
+  filter: drop-shadow(6px 6px 0px #000000);
+  transition: filter 0.2s ease;
+}
+
+.p5-btn-shape {
+  fill: #FFFFFF;
+  stroke: #000000;
+  stroke-width: 7;
+  stroke-linejoin: miter;
+  stroke-miterlimit: 4;
+  transition: fill 0.18s ease;
+}
+
+.p5-btn-text {
+  font-family: var(--font-display), 'Bangers', Impact, cursive, sans-serif;
+  font-size: 28px;
+  font-weight: 900;
+  font-style: italic;
+  letter-spacing: 2px;
+  fill: #000000;
+  text-anchor: middle;
+  dominant-baseline: central;
+  transition: fill 0.18s ease;
+  user-select: none;
+}
+
+.p5-btn-text-small {
+  font-size: 24px;
+  letter-spacing: 1px;
+}
+
+/* HOVER POP-OUT RECOIL ANIMATION */
+.fanned-btn-1:hover {
+  transform: rotate(-16deg) translateX(36px) scale(1.07);
+  z-index: 30;
+}
+
+.fanned-btn-2:hover {
+  transform: rotate(-8deg) translate(48px, 0px) scale(1.07);
+  z-index: 30;
+}
+
+.fanned-btn-3:hover {
+  transform: rotate(0deg) translate(56px, 4px) scale(1.07);
+  z-index: 30;
+}
+
+.fanned-btn-4:hover {
+  transform: rotate(8deg) translate(62px, 8px) scale(1.07);
+  z-index: 30;
+}
+
+.p5-fanned-btn:hover .p5-btn-shape {
+  fill: var(--p5-crimson, #E60012);
+}
+
+.p5-fanned-btn:hover .p5-btn-text {
+  fill: #FFFFFF;
+}
+
+.p5-fanned-btn:hover .p5-btn-svg {
+  filter: drop-shadow(10px 10px 0px #000000);
+}
+
+.p5-fanned-btn:active {
+  transform: scale(0.98) !important;
+}
 
 /* ==========================================================================
-   AUTHENTIC PERSONA 5 MUSIC PLAYER (DYNAMIC ALBUM ART & LIVE TEXT)
+   AUTHENTIC PERSONA 5 MUSIC PLAYER (DYNAMIC ALBUM ART & FULLY ALIGNED CONTROLS)
    ========================================================================== */
 .p5-music-widget {
   position: fixed;
@@ -596,32 +712,32 @@
 /* White Banner Content Overlay */
 .music-banner-overlay {
   position: absolute;
-  left: 36.5%;
+  left: 37%;
   top: 38%;
-  width: 57%;
-  bottom: 10%;
+  width: 58%;
+  height: 40%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  z-index: 4;
-  pointer-events: auto;
+  justify-content: flex-start;
   gap: 2px;
+  z-index: 10;
+  pointer-events: auto;
 }
 
 .music-now-playing-tag {
   font-family: var(--font-heading, 'Impact', sans-serif);
-  font-size: clamp(0.65rem, 0.82vw, 0.76rem);
+  font-size: 11px;
   font-style: italic;
   font-weight: 800;
   letter-spacing: 2px;
-  color: #222222;
+  color: #333333;
   line-height: 1;
   text-transform: uppercase;
 }
 
 .music-track-title {
   font-family: var(--font-heading, 'Impact', sans-serif);
-  font-size: clamp(0.95rem, 1.35vw, 1.25rem);
+  font-size: 18px;
   font-style: italic;
   font-weight: 900;
   letter-spacing: 0.5px;
@@ -630,33 +746,47 @@
   overflow: hidden;
   text-overflow: ellipsis;
   line-height: 1.1;
-  margin: 1px 0 3px 0;
+  margin: 1px 0 4px 0;
 }
 
 .music-controls-row {
   display: flex;
   align-items: center;
-  gap: clamp(12px, 1.8vw, 18px);
+  gap: 20px;
 }
 
 .music-ctrl-btn {
   background: transparent;
   border: none;
-  color: #000000;
-  font-size: clamp(0.9rem, 1.1vw, 1.1rem);
   cursor: pointer;
-  padding: 0 2px;
+  padding: 0;
   line-height: 1;
-  font-weight: 900;
-  transition: transform 0.15s ease, color 0.15s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.15s ease;
   user-select: none;
 }
 
-.music-ctrl-btn:hover {
-  transform: scale(1.35);
-  color: var(--p5-crimson, #E60012);
+.music-ctrl-btn svg {
+  display: block;
+  overflow: visible;
 }
 
-.music-vol-btn {
-  font-size: clamp(0.85rem, 1vw, 1rem);
+.music-ctrl-btn svg polygon,
+.music-ctrl-btn svg path {
+  fill: #000000 !important;
+}
+
+.music-ctrl-btn:hover svg polygon,
+.music-ctrl-btn:hover svg path {
+  fill: var(--p5-crimson, #E60012) !important;
+}
+
+.music-ctrl-btn:hover {
+  transform: scale(1.3);
+}
+
+.music-vol-icon {
+  cursor: default;
 }
