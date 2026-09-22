@@ -1,5 +1,5 @@
 ﻿/**
- * Persona 5 Game Flow & Full-Body Character Background Parallax (Powered by GSAP)
+ * Persona 5 Game Flow, Pure Transparent Cutout Renderer & Music Player
  */
 class P5FlowController {
   constructor() {
@@ -8,7 +8,7 @@ class P5FlowController {
     this.menuChoices = document.querySelectorAll('.menu-choice-item');
     this.backBtns = document.querySelectorAll('.p5-back-btn');
     this.charWrapper = document.getElementById('character-silhouette-wrap');
-    this.charImg = document.getElementById('character-standalone-img');
+    this.jokerCanvas = document.getElementById('joker-cutout-canvas');
 
     this.currentScreen = 'screen-main-menu';
 
@@ -16,9 +16,48 @@ class P5FlowController {
   }
 
   init() {
+    this.renderTransparentJoker();
     this.bindEvents();
     this.initGSAPParallax();
     this.animateMenuEntrance();
+  }
+
+  // Render Joker onto Canvas and dynamically make the dark rectangle 100% transparent!
+  renderTransparentJoker() {
+    if (!this.jokerCanvas) return;
+    const ctx = this.jokerCanvas.getContext('2d');
+    const img = new Image();
+    img.src = 'assets/joker_full.jpg';
+    img.onload = () => {
+      this.jokerCanvas.width = img.width;
+      this.jokerCanvas.height = img.height;
+      ctx.drawImage(img, 0, 0);
+
+      try {
+        const imgData = ctx.getImageData(0, 0, this.jokerCanvas.width, this.jokerCanvas.height);
+        const data = imgData.data;
+
+        // Keying out pure black background while keeping character with smooth alpha ramp
+        for (let i = 0; i < data.length; i += 4) {
+          const r = data[i];
+          const g = data[i + 1];
+          const b = data[i + 2];
+          const maxVal = Math.max(r, g, b);
+
+          if (maxVal < 18) {
+            // Full transparent for pure black backdrop
+            data[i + 3] = 0;
+          } else if (maxVal < 40) {
+            // Soft anti-aliased edge blend
+            data[i + 3] = Math.round(((maxVal - 18) / 22) * 255);
+          }
+        }
+
+        ctx.putImageData(imgData, 0, 0);
+      } catch (e) {
+        console.warn('Canvas pixel transparency fallback:', e);
+      }
+    };
   }
 
   bindEvents() {

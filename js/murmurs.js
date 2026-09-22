@@ -1,13 +1,23 @@
-/**
- * Persona 5 Citizen Murmurs / Tokyo Netizen Feed Controller
+﻿/**
+ * Persona 5 Citizen Murmurs / Tokyo Netizen Feed Controller with Authentic IM Chat UI
  */
 class P5MurmursController {
   constructor() {
     this.listEl = document.getElementById('murmurs-list');
     this.inputEl = document.getElementById('murmur-user-input');
     this.submitBtn = document.getElementById('murmur-submit-btn');
-    this.murmurs = [...P5_INITIAL_MURMURS];
-    this.pool = [...P5_MURMURS_POOL];
+
+    this.murmurs = [
+      { id: 'm-1', type: 'received', author: 'Mishima', avatar: 'assets/joker.jpg', text: 'Target requests incoming! Everyone stay alert.' },
+      { id: 'm-2', type: 'received', author: 'Ryuji', avatar: 'assets/morgana.jpg', text: 'FOR REAL?! Look at the approval rating climbing!' },
+      { id: 'm-3', type: 'sent', author: 'You', text: 'We shall steal their heart without fail.' }
+    ];
+
+    this.pool = [
+      { author: 'Student', avatar: 'assets/joker.jpg', text: 'Did Kamoshida really confess? Holy crap!' },
+      { author: 'Mishima', avatar: 'assets/joker.jpg', text: 'The Thieves are reading our board right now!' },
+      { author: 'Citizen', avatar: 'assets/morgana.jpg', text: 'Please investigate the corrupt CEO next!' }
+    ];
 
     this.init();
   }
@@ -35,15 +45,15 @@ class P5MurmursController {
 
     const newComment = {
       id: `m-usr-${Date.now()}`,
-      author: 'You (Anonymous Citizen)',
-      role: 'fan',
-      text: text,
-      time: 'Just now'
+      type: 'sent',
+      author: 'You',
+      text: text
     };
 
-    this.murmurs.unshift(newComment);
+    this.murmurs.push(newComment);
     this.inputEl.value = '';
     this.render();
+    this.scrollToBottom();
   }
 
   startAutoFeed() {
@@ -53,41 +63,55 @@ class P5MurmursController {
       const nextComment = this.pool[poolIndex % this.pool.length];
       poolIndex++;
 
-      this.murmurs.unshift({
+      this.murmurs.push({
         id: `m-auto-${Date.now()}`,
+        type: 'received',
         author: nextComment.author,
-        role: nextComment.role,
-        text: nextComment.text,
-        time: 'Just now'
+        avatar: nextComment.avatar,
+        text: nextComment.text
       });
 
-      // Keep length manageable
-      if (this.murmurs.length > 20) {
-        this.murmurs.pop();
+      if (this.murmurs.length > 25) {
+        this.murmurs.shift();
       }
 
       this.render();
+      this.scrollToBottom();
     }, 12000);
+  }
+
+  scrollToBottom() {
+    if (this.listEl) {
+      this.listEl.scrollTop = this.listEl.scrollHeight;
+    }
   }
 
   render() {
     if (!this.listEl) return;
 
     this.listEl.innerHTML = this.murmurs.map(m => {
-      let roleClass = 'author-neutral';
-      if (m.role === 'admin') roleClass = 'author-admin';
-      else if (m.role === 'fan') roleClass = 'author-fan';
-      else if (m.role === 'skeptic') roleClass = 'author-skeptic';
-
-      return `
-        <div class="chat-bubble">
-          <div class="chat-bubble-author ${roleClass}">
-            <span>▶</span> ${m.author}
+      if (m.type === 'sent') {
+        return `
+          <div class="p5-sent-chat-row">
+            <div class="sent-chat-container">
+              <img class="sent-chat-bg-img" src="assets/Sent chat.png" alt="Sent Chat Bubble">
+              <div class="sent-message-text">${m.text}</div>
+            </div>
           </div>
-          <div class="chat-bubble-text">${m.text}</div>
-          <div class="chat-bubble-time">${m.time}</div>
-        </div>
-      `;
+        `;
+      } else {
+        return `
+          <div class="p5-received-chat-row">
+            <div class="received-chat-container">
+              <img class="received-chat-bg-img" src="assets/Received chat 1.png" alt="Received Chat Bubble">
+              <div class="received-avatar-box">
+                <img class="received-avatar-img" src="${m.avatar || 'assets/joker.jpg'}" alt="${m.author}">
+              </div>
+              <div class="received-message-text">${m.text}</div>
+            </div>
+          </div>
+        `;
+      }
     }).join('');
   }
 }

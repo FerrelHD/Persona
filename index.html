@@ -32,6 +32,11 @@
     <button id="sfx-toggle" class="sfx-toggle-btn">🔊 SFX: ON</button>
   </div>
 
+  <!-- FLOATING MUSIC PLAYER (P5 OST WIDGET) -->
+  <div class="p5-music-widget" id="p5-music-player">
+    <img src="assets/Music Player.png" class="music-widget-img" alt="Persona 5 Music Player">
+  </div>
+
   <!-- 1. CINEMATIC SPLASH / TITLE SCREEN -->
   <div id="p5-splash-screen" class="p5-splash-screen">
     <svg class="splash-center-emblem" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -116,11 +121,10 @@
           </div>
         </div>
 
-        <!-- Right Standalone Full-Body Character Layer (No Card / No Box) -->
+        <!-- Right Standalone Full-Body Character Layer (Canvas Cutout - 100% Seamless on Spiral) -->
         <div class="seamless-character-backdrop">
-          <div class="character-aura-rays"></div>
           <div class="character-silhouette-wrap" id="character-silhouette-wrap">
-            <img id="character-standalone-img" class="character-standalone-img" src="assets/joker_full.jpg" alt="Joker Phantom Thief">
+            <canvas id="joker-cutout-canvas"></canvas>
             <div class="seamless-char-tag">JOKER</div>
           </div>
         </div>
@@ -129,7 +133,7 @@
     </div>
 
     <!-- ====================================================================
-         SCREEN 2: PHORUM REQUEST BOARD (FULLSCREEN)
+         SCREEN 2: PHORUM REQUEST BOARD (FULLSCREEN WITH IM CHAT UI)
          ==================================================================== -->
     <div id="screen-phorum" class="p5-screen-view">
       <div class="p5-back-nav-bar">
@@ -137,7 +141,7 @@
         <div class="auto-ransom" style="font-size: 1.8rem;">PHORUM</div>
       </div>
 
-      <div class="phan-grid" style="grid-template-columns: 1fr 340px;">
+      <div class="phan-grid" style="grid-template-columns: 1fr 440px;">
         <div>
           <div class="phorum-top-bar">
             <div class="phorum-filter-tabs">
@@ -152,15 +156,16 @@
           <div id="target-cards-container" class="target-cards-grid"></div>
         </div>
 
+        <!-- Right IM Chat Feed -->
         <aside class="grid-col-right">
-          <div class="murmurs-container">
+          <div class="murmurs-container" style="background: rgba(10,10,10,0.92);">
             <div class="murmurs-title-bar">
-              <h3 style="font-family: var(--font-display); font-size: 1.4rem; color: var(--p5-yellow);">CITIZEN MURMURS</h3>
+              <h3 style="font-family: var(--font-display); font-size: 1.4rem; color: var(--p5-yellow);">CITIZEN MURMURS (IM)</h3>
               <span class="comic-badge" style="background: var(--p5-crimson); font-size: 0.75rem;">LIVE FEED</span>
             </div>
-            <div id="murmurs-list" class="murmurs-list"></div>
-            <div class="murmur-input-box">
-              <input type="text" id="murmur-user-input" class="murmur-input" placeholder="Join Tokyo discussion...">
+            <div id="murmurs-list" class="p5-chat-stream"></div>
+            <div class="murmur-input-box" style="margin-top: 15px;">
+              <input type="text" id="murmur-user-input" class="murmur-input" placeholder="Type a message to Phantom Thieves...">
               <button id="murmur-submit-btn" class="p5-btn p5-btn-red" style="padding: 6px 14px; font-size: 0.9rem;">SEND</button>
             </div>
           </div>
