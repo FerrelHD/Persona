@@ -7,9 +7,12 @@ dist-ssr/
 
 # Public assets junction
 public/assets
+public/assets/
 
-# Extra downloads / archives
+# Extra downloads / archives / large P3R videos
 assets/Persona 3 Reload*/
+assets/p3r_videos/
+public/assets/p3r_videos/
 
 # Logs
 *.log

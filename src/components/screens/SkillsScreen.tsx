@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { SKILLS_DATA } from '@/data/personaData'
 import { Button } from '@/components/ui/button'
 import { usePersonaSFX } from '@/hooks/usePersonaSFX'
-import { ArrowLeft, CheckCircle2, Sparkles } from 'lucide-react'
+import { ArrowLeft, CheckCircle2, Sparkles, Zap } from 'lucide-react'
 import confetti from 'canvas-confetti'
 
 interface SkillsScreenProps {
@@ -25,121 +25,133 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
         particleCount: 80,
         spread: 70,
         origin: { y: 0.6 },
-        colors: ['#E60012', '#000000', '#FFF100', '#FFFFFF']
+        colors: ['#00D4FF', '#E60012', '#FFFFFF', '#FFD700']
       })
     } catch {
-      // ignore
+      // Fallback
     }
   }
 
   return (
-    <div className="fixed inset-0 z-30 flex flex-col p-6 md:p-10 bg-black/75 backdrop-blur-sm select-none overflow-hidden animate-in fade-in duration-200">
+    <div className="fixed inset-0 z-30 flex flex-col p-6 sm:p-8 md:p-10 select-none overflow-hidden bg-gradient-to-r from-black/90 via-black/60 to-transparent animate-in fade-in duration-200">
       {/* Top Header Bar */}
-      <div className="flex items-center justify-between border-b-4 border-p5-crimson pb-4 mb-6">
+      <div className="flex items-center justify-between z-20 pb-4 border-b border-red-500/30">
         <div className="flex items-center gap-4">
           <Button
-            variant="p5Action"
-            onClick={() => { playBack(); onBack(); }}
-            onMouseEnter={playHover}
-            className="flex items-center gap-2"
+            variant="ghost"
+            onClick={() => {
+              playBack()
+              onBack()
+            }}
+            className="flex items-center gap-2 bg-black/80 hover:bg-red-500/20 text-p5-crimson hover:text-white border border-red-500/50 px-4 py-2 text-sm font-p5Mono transition-all duration-150"
           >
-            <ArrowLeft className="size-5" /> [ESC] BACK TO MENU
+            <ArrowLeft className="size-4" />
+            <span>[ESC] RETURN</span>
           </Button>
 
-          <div className="flex items-center gap-2">
-            <span className="bg-p5-crimson text-white px-3 py-1 font-p5Heading text-2xl -skew-x-12 shadow-[3px_3px_0px_#000000]">
-              SKILLS & COMBAT STATS
-            </span>
-            <span className="hidden md:inline-block bg-white text-black font-p5Sub text-xs px-2 py-1 uppercase -skew-x-6">
-              QUEEN'S TACTICAL AUDIT
-            </span>
+          <div>
+            <div className="flex items-center gap-2">
+              <span className="bg-p5-crimson text-white text-xs font-p5Mono font-extrabold px-2 py-0.5 tracking-wider">
+                COMBAT STATS
+              </span>
+              <span className="text-red-400 text-xs font-p5Mono tracking-widest hidden sm:inline">
+                S.E.E.S. BATTLE MASTERY
+              </span>
+            </div>
+            <h1 className="font-p5Heading text-3xl sm:text-4xl text-white tracking-widest uppercase filter drop-shadow-[2px_2px_0px_#000000]">
+              PERSONA SKILL PARAMETERS
+            </h1>
           </div>
         </div>
 
-        <div className="text-xs md:text-sm font-p5Mono text-p5-yellow bg-black/90 px-3 py-1.5 border border-p5-yellow -skew-x-6">
-          MAKOTO NIJIMA // ANALYSIS: S-RANK
+        <div className="hidden lg:flex items-center gap-2 bg-black/60 border border-red-500/30 px-3 py-1 font-p5Mono text-xs text-red-300">
+          <span className="animate-pulse text-p5-crimson">●</span> FIGHTER // AKIHIKO SANADA
         </div>
       </div>
 
-      {/* Main Content Area */}
-      <div className="max-w-4xl mx-auto w-full flex-1 flex flex-col justify-center min-h-0">
-        {/* Big Endorsement Card */}
-        <div className="bg-zinc-950/90 border-4 border-black shadow-[10px_10px_0px_#E60012] p-6 md:p-8 -skew-x-2">
-          <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 border-b-2 border-zinc-800 pb-4 mb-6">
-            <div>
-              <span className="bg-p5-yellow text-black font-p5Heading text-sm px-3 py-0.5 -skew-x-12 uppercase">
-                PUBLIC CONFIDANT APPROVAL
-              </span>
-              <h2 className="font-p5Heading text-3xl md:text-4xl text-white mt-1">
-                CLIENT & PEER SATISFACTION RATING
-              </h2>
-            </div>
-
-            <div className="flex items-baseline gap-2">
-              <span className="font-p5Heading text-6xl md:text-7xl text-p5-crimson">98.6</span>
-              <span className="font-p5Heading text-3xl text-white">%</span>
-            </div>
-          </div>
-
-          {/* Progress Bar */}
-          <div className="relative w-full h-8 bg-zinc-800 border-2 border-black overflow-hidden -skew-x-6 mb-6">
-            <div
-              className="h-full bg-p5-crimson transition-all duration-1000 flex items-center justify-end pr-3 font-p5Heading text-white text-sm"
-              style={{ width: '98.6%' }}
-            >
-              ★ 98.6% VERIFIED EXCELLENCE
-            </div>
-          </div>
-
-          {/* Skills Breakdown Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-            {SKILLS_DATA.map((item, idx) => (
-              <div key={idx} className="bg-zinc-900/90 border-l-4 border-p5-crimson p-4 -skew-x-2">
-                <div className="flex items-center justify-between mb-1">
-                  <span className="font-p5Heading text-lg text-white">{item.category}</span>
-                  <span className="font-p5Heading text-xl text-p5-yellow">LV.{item.level}</span>
+      {/* Main Content: Left Half has UI, Right Half is transparent for Akihiko */}
+      <div className="flex-1 grid grid-cols-1 lg:grid-cols-12 gap-6 mt-4 overflow-hidden z-20">
+        <div className="lg:col-span-7 flex flex-col justify-between max-h-[calc(100vh-180px)] overflow-y-auto pr-2">
+          {/* Skill List */}
+          <div className="space-y-4">
+            {SKILLS_DATA.map((skill) => (
+              <div
+                key={skill.category}
+                onMouseEnter={() => playHover()}
+                className="bg-black/75 backdrop-blur-md border border-zinc-800 hover:border-red-500/60 p-4 -skew-x-2 transition-all duration-150 hover:translate-x-1"
+              >
+                <div className="flex items-center justify-between mb-2">
+                  <div className="flex items-center gap-2">
+                    <Zap className="size-4 text-p5-crimson" />
+                    <span className="font-p5Heading text-lg sm:text-xl text-white tracking-wide uppercase">
+                      {skill.category}
+                    </span>
+                  </div>
+                  <span className="font-p5Mono font-extrabold text-sm px-2.5 py-0.5 bg-p5-crimson text-white">
+                    LV. {skill.level}
+                  </span>
                 </div>
-                <div className="w-full h-2 bg-zinc-800 border border-black mb-2">
+
+                {/* Level Gauge Bar */}
+                <div className="w-full bg-zinc-900 border border-zinc-700 h-3 mb-3 relative overflow-hidden">
                   <div
-                    className="h-full bg-p5-crimson"
-                    style={{ width: item.level + '%' }}
+                    className="h-full bg-gradient-to-r from-red-700 via-p5-crimson to-yellow-400 transition-all duration-500"
+                    style={{ width: `${skill.level}%` }}
                   />
                 </div>
-                <p className="text-xs font-p5Mono text-zinc-300">
-                  {item.stack}
-                </p>
+
+                {/* Sub-skills Pills */}
+                <div className="flex flex-wrap gap-1.5">
+                  {skill.stack.split(', ').map((item) => (
+                    <span
+                      key={item}
+                      className="text-xs font-p5Mono bg-zinc-900/90 text-zinc-300 border border-zinc-700 px-2 py-0.5"
+                    >
+                      {item}
+                    </span>
+                  ))}
+                </div>
               </div>
             ))}
           </div>
 
-          {/* Endorsement Actions */}
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-4 border-t border-zinc-800">
-            <div className="text-xs font-p5Sub text-zinc-400">
-              ENDORSEMENTS RECEIVED: <span className="text-p5-yellow font-bold text-base">{endorseCount}</span> RECRUITERS & ENGINEERS
+          {/* Endorse / Power Boost Bar */}
+          <div className="mt-4 pt-4 border-t border-zinc-800 flex items-center justify-between bg-black/80 p-4 -skew-x-2 border border-zinc-800">
+            <div>
+              <div className="font-p5Heading text-base sm:text-lg text-white">
+                BATTLE COMMENDATIONS
+              </div>
+              <div className="font-p5Mono text-xs text-zinc-400">
+                TOTAL ENDORSEMENTS: <span className="text-yellow-400 font-bold">{endorseCount}</span>
+              </div>
             </div>
 
-            <button
+            <Button
               onClick={handleEndorse}
-              onMouseEnter={playHover}
               disabled={hasEndorsed}
-              className={`px-8 py-3 font-p5Heading text-xl uppercase -skew-x-6 transition-all duration-150 flex items-center gap-2 cursor-pointer ${
+              className={`font-p5Mono font-extrabold text-sm uppercase px-5 py-2.5 tracking-wider transition-all duration-150 ${
                 hasEndorsed
-                  ? 'bg-zinc-800 text-zinc-400 cursor-not-allowed border border-zinc-700'
-                  : 'bg-p5-crimson text-white hover:bg-white hover:text-black border-2 border-black shadow-[6px_6px_0px_#000000] hover:scale-105 active:scale-95'
+                  ? 'bg-zinc-800 text-zinc-500 cursor-not-allowed border border-zinc-700'
+                  : 'bg-p5-crimson hover:bg-red-600 text-white shadow-[0_0_15px_rgba(230,0,18,0.5)] hover:scale-105'
               }`}
             >
               {hasEndorsed ? (
-                <>
-                  <CheckCircle2 className="size-5 text-green-400" /> ENDORSED & NOTED!
-                </>
+                <span className="flex items-center gap-1.5">
+                  <CheckCircle2 className="size-4 text-green-400" />
+                  CONFIRMED
+                </span>
               ) : (
-                <>
-                  <Sparkles className="size-5" /> [A] ENDORSE FERREL'S CRAFT
-                </>
+                <span className="flex items-center gap-1.5">
+                  <Sparkles className="size-4" />
+                  COMMEND SKILL
+                </span>
               )}
-            </button>
+            </Button>
           </div>
         </div>
+
+        {/* Right side (5 cols) intentionally transparent for Akihiko wallpaper */}
+        <div className="hidden lg:block lg:col-span-5 pointer-events-none" />
       </div>
     </div>
   )

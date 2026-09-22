@@ -2,38 +2,38 @@ import React, { useState, useEffect } from 'react'
 import { RansomTitle } from '@/components/RansomTitle'
 import { usePersonaSFX } from '@/hooks/usePersonaSFX'
 
-export type ActiveScreen = 'menu' | 'missions' | 'skills' | 'about' | 'callingCard'
+export type ActiveScreen = 'menu' | 'missions' | 'skills' | 'callingCard' | 'about'
 
 interface MainMenuProps {
   onSelectScreen: (screen: ActiveScreen) => void
 }
 
-interface LetterConfig {
+interface LetterTile {
   char: string
-  bg: string // e.g. 'bg-white text-black' or 'bg-p5-crimson text-white'
+  bg: string
   rotate: string
 }
 
-interface MenuItem {
+interface MenuItemConfig {
   id: ActiveScreen
   label: string
   rotation: string
-  letters: LetterConfig[]
+  letters: LetterTile[]
 }
 
-const MENU_ITEMS: MenuItem[] = [
+const MENU_ITEMS: MenuItemConfig[] = [
   {
     id: 'missions',
     label: 'PROJECTS',
-    rotation: '-rotate-3',
+    rotation: '-rotate-2',
     letters: [
       { char: 'P', bg: 'bg-white text-black', rotate: '-rotate-3' },
       { char: 'R', bg: 'bg-black text-white border border-white', rotate: 'rotate-2' },
-      { char: 'O', bg: 'bg-p5-crimson text-white font-extrabold', rotate: '-rotate-2' },
-      { char: 'J', bg: 'bg-white text-black', rotate: 'rotate-4' },
-      { char: 'E', bg: 'bg-black text-white border border-white', rotate: '-rotate-3' },
-      { char: 'C', bg: 'bg-white text-black', rotate: 'rotate-2' },
-      { char: 'T', bg: 'bg-black text-white border border-white', rotate: '-rotate-2' },
+      { char: 'O', bg: 'bg-white text-black', rotate: '-rotate-4' },
+      { char: 'J', bg: 'bg-black text-white border border-white', rotate: 'rotate-3' },
+      { char: 'E', bg: 'bg-white text-black', rotate: '-rotate-2' },
+      { char: 'C', bg: 'bg-black text-white border border-white', rotate: 'rotate-2' },
+      { char: 'T', bg: 'bg-p5-crimson text-white font-extrabold scale-110 shadow-lg', rotate: '-rotate-2' },
       { char: 'S', bg: 'bg-white text-black', rotate: 'rotate-3' },
     ]
   },
@@ -44,10 +44,10 @@ const MENU_ITEMS: MenuItem[] = [
     letters: [
       { char: 'S', bg: 'bg-white text-black', rotate: '-rotate-4' },
       { char: 'K', bg: 'bg-white text-black', rotate: 'rotate-3' },
-      { char: 'I', bg: 'bg-p5-crimson text-white font-extrabold scale-110', rotate: '-rotate-1' },
+      { char: 'I', bg: 'bg-black text-white border border-white', rotate: '-rotate-1' },
       { char: 'L', bg: 'bg-white text-black', rotate: 'rotate-4' },
       { char: 'L', bg: 'bg-white text-black', rotate: '-rotate-3' },
-      { char: 'S', bg: 'bg-white text-black', rotate: 'rotate-2' },
+      { char: 'S', bg: 'bg-p5-crimson text-white font-extrabold scale-110 shadow-lg', rotate: 'rotate-2' },
     ]
   },
   {
@@ -57,9 +57,9 @@ const MENU_ITEMS: MenuItem[] = [
     letters: [
       { char: 'A', bg: 'bg-white text-black', rotate: '-rotate-3' },
       { char: 'B', bg: 'bg-black text-white border border-white', rotate: 'rotate-3' },
-      { char: 'O', bg: 'bg-p5-crimson text-white font-extrabold scale-110', rotate: '-rotate-2' },
-      { char: 'U', bg: 'bg-white text-black', rotate: 'rotate-4' },
-      { char: 'T', bg: 'bg-white text-black', rotate: '-rotate-2' },
+      { char: 'O', bg: 'bg-white text-black', rotate: '-rotate-2' },
+      { char: 'U', bg: 'bg-black text-white border border-white', rotate: 'rotate-4' },
+      { char: 'T', bg: 'bg-p5-crimson text-white font-extrabold scale-110 shadow-lg', rotate: '-rotate-2' },
     ]
   },
   {
@@ -70,17 +70,17 @@ const MENU_ITEMS: MenuItem[] = [
       { char: 'C', bg: 'bg-white text-black', rotate: '-rotate-3' },
       { char: 'O', bg: 'bg-black text-white border border-white', rotate: 'rotate-2' },
       { char: 'N', bg: 'bg-white text-black', rotate: '-rotate-2' },
-      { char: 'T', bg: 'bg-p5-crimson text-white font-extrabold scale-110', rotate: 'rotate-3' },
+      { char: 'T', bg: 'bg-black text-white border border-white', rotate: 'rotate-3' },
       { char: 'A', bg: 'bg-white text-black', rotate: '-rotate-4' },
-      { char: 'C', bg: 'bg-black text-white border border-white', rotate: 'rotate-2' },
-      { char: 'T', bg: 'bg-white text-black', rotate: 'rotate-3' },
+      { char: 'C', bg: 'bg-white text-black', rotate: 'rotate-2' },
+      { char: 'T', bg: 'bg-p5-crimson text-white font-extrabold scale-110 shadow-lg', rotate: 'rotate-3' },
     ]
   }
 ]
 
 export const MainMenu: React.FC<MainMenuProps> = ({ onSelectScreen }) => {
   const { playHover, playSlash } = usePersonaSFX()
-  const [selectedIndex, setSelectedIndex] = useState(1) // Default to SKILLS as in reference
+  const [selectedIndex, setSelectedIndex] = useState(1) // Default to SKILLS
 
   // Keyboard navigation support: Arrow Up/Down & Enter
   useEffect(() => {
@@ -105,15 +105,14 @@ export const MainMenu: React.FC<MainMenuProps> = ({ onSelectScreen }) => {
   }, [selectedIndex, onSelectScreen, playHover, playSlash])
 
   return (
-    <div className="relative w-screen h-screen overflow-hidden select-none pointer-events-auto flex flex-col justify-between p-8 md:p-12 lg:p-16">
-      {/* Top Left: FERREL Ransom Title */}
+    <div className="relative w-screen h-screen overflow-hidden select-none pointer-events-auto flex flex-col justify-between p-6 sm:p-10 md:p-14">
+      {/* Top Left: FERREL Title */}
       <div className="z-20">
         <RansomTitle />
       </div>
 
-      {/* Left Center: Persona 5 Authentic Menu Stack */}
-      {/* Positioned cleanly below the comic text on the left, fanning towards Joker */}
-      <div className="z-20 my-auto flex flex-col gap-5 md:gap-7 w-full max-w-2xl pl-2 md:pl-6">
+      {/* Right Area: Persona 5 Authentic Menu Stack in Red Coat Area */}
+      <div className="z-20 my-auto flex flex-col items-end gap-5 md:gap-7 w-full max-w-xl ml-auto pr-2 md:pr-10 lg:pr-16">
         {MENU_ITEMS.map((item, index) => {
           const isFocused = selectedIndex === index
 
@@ -132,20 +131,19 @@ export const MainMenu: React.FC<MainMenuProps> = ({ onSelectScreen }) => {
                   playHover()
                   setSelectedIndex(index)
                 }}
-                className="group relative inline-flex items-center text-left cursor-pointer outline-none transition-transform duration-150"
+                className="group relative inline-flex items-center text-right cursor-pointer outline-none transition-transform duration-150"
               >
                 {isFocused ? (
                   /* =======================================================
                      ACTIVE / HOVER STATE: Persona 5 Jagged Ribbon + Ransom Cutout
                      ======================================================= */
-                  <div className="relative flex items-center translate-x-4 md:translate-x-6 scale-105 transition-all duration-150">
+                  <div className="relative flex items-center -translate-x-2 md:-translate-x-4 scale-105 transition-all duration-150">
                     {/* SVG Jagged Persona 5 Ribbon Frame */}
                     <svg
                       viewBox="0 0 540 100"
                       preserveAspectRatio="none"
                       className="absolute -inset-x-6 -inset-y-3 w-[calc(100%+48px)] h-[calc(100%+24px)] pointer-events-none filter drop-shadow-[8px_8px_0px_#000000]"
                     >
-                      {/* White border layer */}
                       <polygon
                         points="20,52 6,40 38,10 135,6 148,0 162,10 475,20 535,42 485,60 528,78 455,86 115,96 55,84 15,88 6,74"
                         fill="#000000"
@@ -154,12 +152,10 @@ export const MainMenu: React.FC<MainMenuProps> = ({ onSelectScreen }) => {
                         strokeLinejoin="miter"
                         strokeMiterlimit="4"
                       />
-                      {/* Top left white speed spike */}
                       <polygon
                         points="42,12 120,8 140,0 55,8"
                         fill="#FFFFFF"
                       />
-                      {/* Right white corner spike */}
                       <polygon
                         points="475,22 530,42 490,48"
                         fill="#FFFFFF"
@@ -191,7 +187,7 @@ export const MainMenu: React.FC<MainMenuProps> = ({ onSelectScreen }) => {
                   /* =======================================================
                      DEFAULT / RESTING STATE: Clean, Bold White Text
                      ======================================================= */
-                  <div className="px-4 py-2 hover:translate-x-2 transition-transform duration-150">
+                  <div className="px-4 py-2 hover:-translate-x-2 transition-transform duration-150 text-right">
                     <span className="font-p5Heading text-5xl md:text-6xl lg:text-7xl text-white tracking-widest uppercase filter drop-shadow-[5px_5px_0px_#000000] hover:text-p5-yellow transition-colors">
                       {item.label}
                     </span>

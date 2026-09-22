@@ -10,10 +10,10 @@ import { usePersonaSFX } from '@/hooks/usePersonaSFX'
 
 const VIDEO_MAP: Record<ActiveScreen, string> = {
   menu: '/assets/p5r_videos/joker.mp4',
-  missions: '/assets/p5r_videos/futaba.mp4',
-  skills: '/assets/p5r_videos/makoto.mp4',
-  callingCard: '/assets/p5r_videos/ryuji.mp4',
-  about: '/assets/p5r_videos/yusuke.mp4',
+  missions: '/assets/p3r_videos/Makoto animated wallpaper.mp4',
+  skills: '/assets/p3r_videos/Akihiko animated wallpaper.mp4',
+  about: '/assets/p3r_videos/Yukari animated wallpaper.mp4',
+  callingCard: '/assets/p3r_videos/Fuuka animated wallpaper.mp4',
 }
 
 export function App() {
@@ -66,11 +66,11 @@ export function App() {
           {currentScreen === 'skills' && (
             <SkillsScreen onBack={handleBackToMenu} />
           )}
-          {currentScreen === 'callingCard' && (
-            <CallingCardScreen onBack={handleBackToMenu} />
-          )}
           {currentScreen === 'about' && (
             <AboutScreen onBack={handleBackToMenu} />
+          )}
+          {currentScreen === 'callingCard' && (
+            <CallingCardScreen onBack={handleBackToMenu} />
           )}
         </div>
       )}

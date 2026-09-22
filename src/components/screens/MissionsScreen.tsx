@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
-import { MISSIONS_DATA, TESTIMONIALS_DATA, Mission } from '@/data/personaData'
+import { MISSIONS_DATA, Mission } from '@/data/personaData'
 import { Button } from '@/components/ui/button'
 import { usePersonaSFX } from '@/hooks/usePersonaSFX'
-import { ArrowLeft, ExternalLink, ShieldCheck, X } from 'lucide-react'
+import { ArrowLeft, ExternalLink, ShieldCheck } from 'lucide-react'
 
 const GithubIcon: React.FC = () => (
   <svg className="size-4" viewBox="0 0 24 24" fill="currentColor">
@@ -16,268 +16,160 @@ interface MissionsScreenProps {
 
 export const MissionsScreen: React.FC<MissionsScreenProps> = ({ onBack }) => {
   const { playHover, playSlash, playBack } = usePersonaSFX()
-  const [filter, setFilter] = useState<'all' | 'web' | 'ai' | 'game' | 'ecommerce'>('all')
-  const [selectedMission, setSelectedMission] = useState<Mission | null>(null)
-  const [testimonials, setTestimonials] = useState(TESTIMONIALS_DATA)
-  const [newComment, setNewComment] = useState('')
-
-  const filteredMissions = MISSIONS_DATA.filter(m => filter === 'all' || m.category === filter)
-
-  const handlePostComment = (e: React.FormEvent) => {
-    e.preventDefault()
-    if (!newComment.trim()) return
-    playSlash()
-    setTestimonials(prev => [
-      {
-        id: 't-' + Date.now(),
-        author: 'Tokyo_Visitor',
-        role: 'Recruiter / Peer',
-        text: newComment.trim(),
-        time: 'Just now',
-        avatarLetter: 'V'
-      },
-      ...prev
-    ])
-    setNewComment('')
-  }
+  const [selectedMission, setSelectedMission] = useState<Mission>(MISSIONS_DATA[0])
 
   return (
-    <div className="fixed inset-0 z-30 flex flex-col p-6 md:p-10 bg-black/75 backdrop-blur-sm select-none overflow-hidden animate-in fade-in duration-200">
+    <div className="fixed inset-0 z-30 flex flex-col p-6 sm:p-8 md:p-10 select-none overflow-hidden bg-gradient-to-r from-black/90 via-black/60 to-transparent animate-in fade-in duration-200">
       {/* Top Header Bar */}
-      <div className="flex items-center justify-between border-b-4 border-p5-crimson pb-4 mb-6">
+      <div className="flex items-center justify-between z-20 pb-4 border-b border-cyan-500/30">
         <div className="flex items-center gap-4">
           <Button
-            variant="p5Action"
-            onClick={() => { playBack(); onBack(); }}
-            onMouseEnter={playHover}
-            className="flex items-center gap-2"
+            variant="ghost"
+            onClick={() => {
+              playBack()
+              onBack()
+            }}
+            className="flex items-center gap-2 bg-black/80 hover:bg-cyan-500/20 text-cyan-400 hover:text-white border border-cyan-500/50 px-4 py-2 text-sm font-p5Mono transition-all duration-150"
           >
-            <ArrowLeft className="size-5" /> [ESC] BACK TO MENU
+            <ArrowLeft className="size-4" />
+            <span>[ESC] RETURN</span>
           </Button>
 
-          <div className="flex items-center gap-2">
-            <span className="bg-p5-crimson text-white px-3 py-1 font-p5Heading text-2xl -skew-x-12 shadow-[3px_3px_0px_#000000]">
-              PROJECTS // GITHUB REPOSITORIES
-            </span>
-            <span className="hidden md:inline-block bg-white text-black font-p5Sub text-xs px-2 py-1 uppercase -skew-x-6">
-              VERIFIED WORK @FerrelHD
-            </span>
+          <div>
+            <div className="flex items-center gap-2">
+              <span className="bg-cyan-500 text-black text-xs font-p5Mono font-extrabold px-2 py-0.5 tracking-wider">
+                S.E.E.S. ARCHIVE
+              </span>
+              <span className="text-cyan-400 text-xs font-p5Mono tracking-widest hidden sm:inline">
+                TARTARUS MISSIONS & DEPLOYMENTS
+              </span>
+            </div>
+            <h1 className="font-p5Heading text-3xl sm:text-4xl text-white tracking-widest uppercase filter drop-shadow-[2px_2px_0px_#000000]">
+              DEPLOYED MISSIONS
+            </h1>
           </div>
         </div>
 
-        <div className="text-xs md:text-sm font-p5Mono text-p5-yellow bg-black/90 px-3 py-1.5 border border-p5-yellow -skew-x-6">
-          FUTABA NAVI // TARGETS ACQUIRED: {filteredMissions.length}
+        <div className="hidden lg:flex items-center gap-2 bg-black/60 border border-cyan-500/30 px-3 py-1 font-p5Mono text-xs text-cyan-300">
+          <span className="animate-pulse text-cyan-400">●</span> PROTAGONIST // MAKOTO YUKI
         </div>
       </div>
 
-      {/* Main Split Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 flex-1 min-h-0">
-        {/* Left Heist Cards (8 cols) */}
-        <div className="lg:col-span-8 flex flex-col min-h-0">
-          {/* Filter Tabs */}
-          <div className="flex items-center gap-2 mb-4 overflow-x-auto pb-1">
-            {([
-              { key: 'all', label: 'ALL HEISTS' },
-              { key: 'web', label: 'WEB & INTERACTIVE' },
-              { key: 'ai', label: 'AI & DATA SCIENCE' },
-              { key: 'game', label: 'GAME & SHADERS' },
-              { key: 'ecommerce', label: 'ECOMMERCE' }
-            ] as const).map(tab => (
-              <button
-                key={tab.key}
-                onClick={() => { playSlash(); setFilter(tab.key); }}
-                onMouseEnter={playHover}
-                className={`px-4 py-1.5 font-p5Heading text-base uppercase -skew-x-12 transition-all cursor-pointer whitespace-nowrap ${
-                  filter === tab.key
-                    ? 'bg-p5-crimson text-white shadow-[4px_4px_0px_#000000]'
-                    : 'bg-zinc-900 text-zinc-300 hover:bg-zinc-800 border border-zinc-700'
-                }`}
-              >
-                {tab.label}
-              </button>
-            ))}
-          </div>
+      {/* Main Content: Left-Aligned UI, Leaving Right Side Open for Makoto */}
+      <div className="flex-1 grid grid-cols-1 lg:grid-cols-12 gap-6 mt-4 overflow-hidden z-20">
+        {/* Left Column: Mission Directory List */}
+        <div className="lg:col-span-5 flex flex-col gap-2 overflow-y-auto pr-2 max-h-[calc(100vh-180px)]">
+          <span className="font-p5Mono text-xs text-cyan-400/80 uppercase tracking-widest mb-1">
+            // SELECT TARGET ({MISSIONS_DATA.length})
+          </span>
 
-          {/* Cards Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 overflow-y-auto pr-2 custom-scrollbar">
-            {filteredMissions.map((mission) => (
+          {MISSIONS_DATA.map((mission, idx) => {
+            const isSelected = selectedMission.id === mission.id
+
+            return (
               <div
                 key={mission.id}
-                onClick={() => { playSlash(); setSelectedMission(mission); }}
-                onMouseEnter={playHover}
-                className="group relative bg-zinc-950/90 border-4 border-zinc-700 hover:border-p5-crimson p-5 -skew-x-3 transition-all duration-200 hover:-translate-y-1 hover:shadow-[8px_8px_0px_#E60012] cursor-pointer flex flex-col justify-between"
+                onMouseEnter={() => playHover()}
+                onClick={() => {
+                  playSlash()
+                  setSelectedMission(mission)
+                }}
+                className={`group cursor-pointer p-3 transition-all duration-150 border-l-4 -skew-x-2 ${
+                  isSelected
+                    ? 'bg-cyan-950/70 border-cyan-400 text-white translate-x-2 shadow-[0_0_15px_rgba(0,212,255,0.3)]'
+                    : 'bg-black/60 hover:bg-black/80 border-zinc-700 hover:border-cyan-500/60 text-zinc-300'
+                }`}
               >
-                <div>
-                  <div className="flex items-center justify-between gap-2 mb-2">
-                    <span className="bg-p5-crimson text-white text-xs font-p5Sub px-2 py-0.5 uppercase -skew-x-6">
-                      {mission.role}
-                    </span>
-                    <span className="text-xs font-p5Mono text-zinc-400">{mission.date}</span>
-                  </div>
-
-                  <h3 className="font-p5Heading text-2xl text-white group-hover:text-p5-yellow transition-colors leading-tight mb-2">
-                    {mission.title}
-                  </h3>
-
-                  <p className="font-p5Body text-zinc-300 text-sm line-clamp-3 mb-4">
-                    {mission.excerpt}
-                  </p>
+                <div className="flex items-center justify-between text-xs font-p5Mono mb-1">
+                  <span className={isSelected ? 'text-cyan-400 font-bold' : 'text-zinc-500'}>
+                    MISSION #{String(idx + 1).padStart(2, '0')}
+                  </span>
+                  <span className="text-[10px] px-1.5 py-0.5 bg-black/70 border border-zinc-700 text-zinc-300">
+                    {mission.status}
+                  </span>
                 </div>
-
-                <div>
-                  {/* Tech stack pills */}
-                  <div className="flex flex-wrap gap-1.5 mb-3">
-                    {mission.tech.map((t, i) => (
-                      <span key={i} className="bg-zinc-800 text-zinc-300 text-[11px] font-p5Mono px-2 py-0.5 border border-zinc-700">
-                        {t}
-                      </span>
-                    ))}
-                  </div>
-
-                  <div className="flex items-center justify-between border-t border-zinc-800 pt-2 text-xs font-p5Sub">
-                    <span className="text-p5-yellow">{mission.client}</span>
-                    <span className="text-p5-crimson group-hover:underline flex items-center gap-1 font-p5Heading text-sm">
-                      VIEW DOSSIER →
-                    </span>
-                  </div>
+                <div className="font-p5Heading text-lg tracking-wide uppercase group-hover:text-cyan-300 transition-colors">
+                  {mission.title}
+                </div>
+                <div className="text-xs text-zinc-400 line-clamp-1 mt-0.5">
+                  {mission.client} // {mission.role}
                 </div>
               </div>
-            ))}
-          </div>
+            )
+          })}
         </div>
 
-        {/* Right Feedback & Chatter Feed (4 cols) */}
-        <div className="lg:col-span-4 flex flex-col bg-zinc-950/90 border-4 border-black shadow-[6px_6px_0px_#000000] p-4 min-h-0 -skew-x-2">
-          <div className="flex items-center justify-between border-b-2 border-zinc-800 pb-2 mb-3">
-            <div className="flex items-center gap-2">
-              <ShieldCheck className="size-5 text-p5-yellow" />
-              <h4 className="font-p5Heading text-xl text-white">COMMUNITY VERIFICATION</h4>
-            </div>
-            <span className="bg-p5-crimson text-white text-[10px] font-p5Sub px-2 py-0.5 uppercase -skew-x-6">
-              PHAN-CHAT
-            </span>
-          </div>
-
-          {/* Testimonial Stream */}
-          <div className="flex-1 overflow-y-auto space-y-3 pr-2 custom-scrollbar min-h-0">
-            {testimonials.map(item => (
-              <div key={item.id} className="bg-zinc-900/90 border-l-4 border-p5-crimson p-3 -skew-x-2 shadow-[2px_2px_0px_#000000]">
-                <div className="flex items-center justify-between text-xs mb-1 font-p5Sub">
-                  <span className="text-p5-yellow font-bold">{item.author}</span>
-                  <span className="text-zinc-500 font-p5Mono text-[10px]">{item.time}</span>
-                </div>
-                <p className="text-zinc-200 text-xs font-p5Body leading-relaxed">
-                  "{item.text}"
-                </p>
-                <div className="text-[10px] text-zinc-400 font-p5Mono mt-1">
-                  // {item.role}
-                </div>
+        {/* Middle Column: Selected Mission Detail Card */}
+        <div className="lg:col-span-6 flex flex-col justify-between bg-black/75 backdrop-blur-md border border-cyan-500/40 p-6 -skew-x-1 shadow-[0_0_20px_rgba(0,0,0,0.8)] max-h-[calc(100vh-180px)] overflow-y-auto">
+          <div className="space-y-4">
+            <div className="flex items-start justify-between gap-4 border-b border-cyan-500/20 pb-3">
+              <div>
+                <span className="text-xs font-p5Mono text-cyan-400 uppercase tracking-widest">
+                  CLIENT: {selectedMission.client}
+                </span>
+                <h2 className="font-p5Heading text-2xl sm:text-3xl text-white tracking-wide uppercase mt-1">
+                  {selectedMission.title}
+                </h2>
               </div>
-            ))}
-          </div>
-
-          {/* Comment Form */}
-          <form onSubmit={handlePostComment} className="mt-3 pt-3 border-t border-zinc-800 flex gap-2">
-            <input
-              type="text"
-              value={newComment}
-              onChange={e => setNewComment(e.target.value)}
-              placeholder="Drop a quick endorsement..."
-              className="flex-1 bg-zinc-900 border border-zinc-700 px-3 py-1.5 text-xs text-white focus:outline-none focus:border-p5-crimson -skew-x-3"
-            />
-            <button
-              type="submit"
-              className="bg-p5-crimson hover:bg-red-700 text-white font-p5Heading px-3 py-1 text-sm uppercase -skew-x-6 shadow-[2px_2px_0px_#000000] cursor-pointer"
-            >
-              POST
-            </button>
-          </form>
-        </div>
-      </div>
-
-      {/* Heist Detail Modal */}
-      {selectedMission && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-in fade-in duration-150">
-          <div className="relative w-full max-w-2xl bg-zinc-950 border-4 border-p5-crimson shadow-[12px_12px_0px_#000000] p-6 -skew-x-2">
-            <button
-              onClick={() => { playBack(); setSelectedMission(null); }}
-              className="absolute top-4 right-4 bg-p5-crimson text-white p-1 hover:bg-white hover:text-black transition-colors -skew-x-6 cursor-pointer"
-            >
-              <X className="size-6" />
-            </button>
-
-            <div className="flex items-center gap-2 mb-2">
-              <span className="bg-p5-crimson text-white font-p5Heading text-sm px-2.5 py-0.5 -skew-x-6 uppercase">
-                {selectedMission.category} // HEIST
+              <span className="flex items-center gap-1.5 px-3 py-1 bg-cyan-500/20 border border-cyan-400 text-cyan-300 font-p5Mono text-xs font-bold">
+                <ShieldCheck className="size-4 text-cyan-400" />
+                VERIFIED
               </span>
-              <span className="text-xs font-p5Mono text-zinc-400">DISTORTION LEVEL: {selectedMission.distortionLevel}%</span>
             </div>
 
-            <h2 className="font-p5Heading text-3xl md:text-4xl text-white mb-2">
-              {selectedMission.title}
-            </h2>
-
-            <div className="text-xs font-p5Sub text-p5-yellow mb-4">
-              ROLE: {selectedMission.role} // DATE: {selectedMission.date}
-            </div>
-
-            <p className="font-p5Body text-zinc-200 text-base leading-relaxed mb-6">
-              {selectedMission.fullDossier}
+            <p className="font-p5Body text-sm sm:text-base text-zinc-200 leading-relaxed">
+              {selectedMission.fullDossier || selectedMission.excerpt}
             </p>
 
-            {/* Metric Stats */}
-            <div className="grid grid-cols-3 gap-3 mb-6">
-              {selectedMission.stats.map((st, i) => (
-                <div key={i} className="bg-zinc-900 border-l-4 border-p5-yellow p-3 -skew-x-3">
-                  <div className="text-[11px] font-p5Sub text-zinc-400">{st.label}</div>
-                  <div className="text-xl font-p5Heading text-white">{st.value}</div>
-                </div>
-              ))}
-            </div>
-
-            {/* Tech stack */}
-            <div className="flex flex-wrap gap-2 mb-6">
-              {selectedMission.tech.map((t, i) => (
-                <span key={i} className="bg-zinc-800 text-white text-xs font-p5Mono px-3 py-1 border border-zinc-600">
-                  {t}
-                </span>
-              ))}
-            </div>
-
-            {/* Action Buttons: Live Demo & GitHub Link */}
-            <div className="flex items-center justify-between border-t border-zinc-800 pt-4 flex-wrap gap-3">
-              <div className="flex items-center gap-3">
-                {selectedMission.liveUrl && (
-                  <a
-                    href={selectedMission.liveUrl}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="inline-flex items-center gap-2 bg-p5-crimson hover:bg-white hover:text-black text-white font-p5Heading text-lg px-4 py-2 border-2 border-black shadow-[3px_3px_0px_#000000] -skew-x-6 transition-all"
+            {/* Tech Stack Badges */}
+            <div>
+              <span className="text-xs font-p5Mono text-zinc-400 uppercase block mb-2">
+                EQUIPPED PERSONA & TECH
+              </span>
+              <div className="flex flex-wrap gap-1.5">
+                {selectedMission.tech.map(t => (
+                  <span
+                    key={t}
+                    className="text-xs font-p5Mono bg-zinc-900 border border-cyan-500/30 text-cyan-300 px-2.5 py-1"
                   >
-                    <ExternalLink className="size-4" /> VISIT LIVE DEMO ↗
-                  </a>
-                )}
-                <a
-                  href={selectedMission.githubUrl}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="inline-flex items-center gap-2 bg-zinc-800 hover:bg-p5-yellow hover:text-black text-white font-p5Heading text-lg px-4 py-2 border-2 border-black shadow-[3px_3px_0px_#000000] -skew-x-6 transition-all"
-                >
-                  <GithubIcon /> GITHUB REPO ↗
-                </a>
+                    {t}
+                  </span>
+                ))}
               </div>
-
-              <Button
-                variant="p5"
-                onClick={() => { playBack(); setSelectedMission(null); }}
-                onMouseEnter={playHover}
-              >
-                CLOSE DOSSIER
-              </Button>
             </div>
           </div>
+
+          {/* Action Links */}
+          <div className="pt-6 border-t border-zinc-800 flex flex-wrap gap-3 mt-4">
+            {selectedMission.liveUrl && (
+              <a
+                href={selectedMission.liveUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-2 px-5 py-2.5 bg-cyan-500 hover:bg-cyan-400 text-black font-p5Mono font-extrabold text-sm tracking-wider uppercase transition-all duration-150 hover:scale-105 shadow-[0_0_15px_rgba(0,212,255,0.4)]"
+              >
+                <span>VISIT LIVE DEMO</span>
+                <ExternalLink className="size-4" />
+              </a>
+            )}
+
+            {selectedMission.githubUrl && (
+              <a
+                href={selectedMission.githubUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-2 px-5 py-2.5 bg-black/80 hover:bg-zinc-800 text-white border border-zinc-700 hover:border-cyan-400 font-p5Mono text-sm tracking-wider uppercase transition-all duration-150 hover:scale-105"
+              >
+                <GithubIcon />
+                <span>GITHUB REPO</span>
+              </a>
+            )}
+          </div>
         </div>
-      )}
+
+        {/* Right side (1 col) intentionally transparent for Makoto wallpaper */}
+        <div className="hidden lg:block lg:col-span-1 pointer-events-none" />
+      </div>
     </div>
   )
 }
