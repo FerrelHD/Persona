@@ -1,0 +1,328 @@
+﻿/* Persona 5 Menu Flow & Dynamic Character Animations */
+
+/* ==========================================================================
+   TITLE / SPLASH SCREEN
+   ========================================================================== */
+.p5-splash-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: var(--p5-black);
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.6s cubic-bezier(0.85, 0, 0.15, 1), opacity 0.5s ease;
+  overflow: hidden;
+}
+
+.p5-splash-screen.dismissed {
+  transform: translateY(-100%) skewY(-8deg);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.splash-center-emblem {
+  width: 220px;
+  height: 220px;
+  animation: p5Jitter 4s infinite ease-in-out;
+  filter: drop-shadow(0 0 25px var(--p5-crimson));
+  margin-bottom: 20px;
+}
+
+.splash-title-wrap {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.splash-prompt {
+  font-family: var(--font-heading);
+  font-size: 2rem;
+  letter-spacing: 4px;
+  color: var(--p5-yellow);
+  text-shadow: 4px 4px 0px #000;
+  animation: promptBlink 1.2s infinite ease-in-out;
+  background: var(--p5-black);
+  padding: 8px 30px;
+  border: 3px solid var(--p5-white);
+  transform: skew(var(--skew-medium));
+  box-shadow: 6px 6px 0px var(--p5-crimson);
+}
+
+@keyframes promptBlink {
+  0%, 100% { opacity: 1; transform: skew(var(--skew-medium)) scale(1); }
+  50% { opacity: 0.35; transform: skew(var(--skew-medium)) scale(0.97); }
+}
+
+/* ==========================================================================
+   SCREEN STATE MANAGEMENT (PAGE FLOW)
+   ========================================================================== */
+.p5-screen-view {
+  display: none;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.35s ease, transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.p5-screen-view.active {
+  display: block;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ==========================================================================
+   CINEMATIC MAIN MENU SCREEN
+   ========================================================================== */
+.p5-menu-stage {
+  position: relative;
+  min-height: calc(100vh - 120px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 40px;
+  overflow: hidden;
+  gap: 40px;
+}
+
+/* Character Showcase (Right Side) */
+.menu-character-showcase {
+  position: relative;
+  flex: 1;
+  height: 82vh;
+  max-width: 620px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: auto;
+}
+
+.character-portrait-card {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  max-height: 720px;
+  transform: skew(var(--skew-medium));
+  border: 5px solid var(--p5-white);
+  box-shadow: 14px 14px 0px var(--p5-crimson), 20px 20px 0px #000000;
+  overflow: hidden;
+  background: #000;
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.character-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  animation: characterIdleBreath 4.5s ease-in-out infinite;
+  transition: transform 0.4s ease, filter 0.3s ease;
+  filter: contrast(1.08) brightness(1.02);
+}
+
+@keyframes characterIdleBreath {
+  0%, 100% {
+    transform: scale(1) translateY(0);
+  }
+  50% {
+    transform: scale(1.025) translateY(-8px);
+  }
+}
+
+.character-badge-tag {
+  position: absolute;
+  bottom: 25px;
+  left: -10px;
+  background: var(--p5-yellow);
+  color: var(--p5-black);
+  padding: 8px 24px;
+  font-family: var(--font-display);
+  font-size: 2.2rem;
+  letter-spacing: 2px;
+  transform: rotate(-4deg) skew(var(--skew-heavy));
+  border: 3px solid var(--p5-black);
+  box-shadow: 5px 5px 0px var(--p5-crimson);
+  z-index: 5;
+}
+
+.character-switcher {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  display: flex;
+  gap: 8px;
+  z-index: 10;
+}
+
+.char-switch-btn {
+  background: var(--p5-black);
+  color: #fff;
+  border: 2px solid #fff;
+  padding: 4px 12px;
+  font-family: var(--font-heading);
+  font-size: 0.95rem;
+  cursor: pointer;
+  transform: skew(var(--skew-medium));
+  box-shadow: 3px 3px 0px #000;
+  transition: all 0.15s ease;
+}
+
+.char-switch-btn.active, .char-switch-btn:hover {
+  background: var(--p5-crimson);
+  color: var(--p5-yellow);
+  border-color: var(--p5-yellow);
+}
+
+/* Menu Options Column (Left Side) */
+.menu-options-column {
+  flex: 1;
+  max-width: 620px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  z-index: 10;
+}
+
+.menu-choice-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  background: var(--p5-black);
+  border: 4px solid var(--p5-white);
+  padding: 16px 24px;
+  transform: skew(var(--skew-heavy));
+  box-shadow: 8px 8px 0px var(--p5-crimson);
+  cursor: pointer;
+  transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), background 0.15s ease, border-color 0.15s ease, box-shadow 0.2s ease;
+  user-select: none;
+  text-decoration: none;
+}
+
+.menu-choice-item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 10px;
+  height: 100%;
+  background: var(--p5-crimson);
+  transition: width 0.2s ease;
+}
+
+.menu-choice-item:hover, .menu-choice-item.keyboard-selected {
+  background: var(--p5-crimson);
+  transform: skew(var(--skew-heavy)) translateX(20px) scale(1.03);
+  border-color: var(--p5-yellow);
+  box-shadow: 12px 12px 0px var(--p5-yellow);
+}
+
+.menu-choice-item:hover::before, .menu-choice-item.keyboard-selected::before {
+  width: 16px;
+  background: var(--p5-yellow);
+}
+
+.menu-choice-icon {
+  font-family: var(--font-display);
+  font-size: 2.2rem;
+  color: var(--p5-yellow);
+  line-height: 1;
+  text-shadow: 3px 3px 0px #000;
+  transition: transform 0.2s ease;
+}
+
+.menu-choice-item:hover .menu-choice-icon {
+  transform: scale(1.2) rotate(-5deg);
+  color: #fff;
+}
+
+.menu-choice-text-wrap {
+  display: flex;
+  flex-direction: column;
+}
+
+.menu-choice-title {
+  font-family: var(--font-display);
+  font-size: 2.3rem;
+  letter-spacing: 2px;
+  color: #fff;
+  line-height: 1;
+}
+
+.menu-choice-item:hover .menu-choice-title {
+  color: var(--p5-yellow);
+}
+
+.menu-choice-sub {
+  font-family: var(--font-heading);
+  font-size: 0.95rem;
+  letter-spacing: 1px;
+  color: var(--p5-gray-text);
+  margin-top: 4px;
+}
+
+.menu-choice-item:hover .menu-choice-sub {
+  color: #fff;
+}
+
+/* ==========================================================================
+   NAVIGATION BACK BUTTON (INSIDE SUB-SCREENS)
+   ========================================================================== */
+.p5-back-nav-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 25px;
+}
+
+.p5-back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--p5-black);
+  color: var(--p5-white);
+  border: 3px solid var(--p5-white);
+  padding: 10px 22px;
+  font-family: var(--font-heading);
+  font-size: 1.2rem;
+  letter-spacing: 2px;
+  cursor: pointer;
+  transform: skew(var(--skew-medium));
+  box-shadow: 5px 5px 0px var(--p5-crimson);
+  transition: all 0.15s ease;
+  user-select: none;
+}
+
+.p5-back-btn:hover {
+  background: var(--p5-crimson);
+  color: var(--p5-yellow);
+  border-color: var(--p5-yellow);
+  transform: skew(var(--skew-medium)) translateX(-5px);
+  box-shadow: 6px 6px 0px var(--p5-yellow);
+}
+
+/* Confidants / Team Grid */
+.confidants-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 22px;
+  margin-top: 20px;
+}
+
+.confidant-card {
+  background: var(--p5-black);
+  border: 3px solid var(--p5-white);
+  box-shadow: 6px 6px 0px #000;
+  padding: 20px;
+  transform: skew(var(--skew-subtle));
+  transition: all 0.2s ease;
+}
+
+.confidant-card:hover {
+  transform: skew(var(--skew-subtle)) translateY(-6px);
+  border-color: var(--p5-yellow);
+  box-shadow: 8px 8px 0px var(--p5-crimson);
+}

@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Persona 5 Phan-Site Main Application Bootstrap
  */
 document.addEventListener('DOMContentLoaded', () => {
@@ -14,7 +14,8 @@ document.addEventListener('DOMContentLoaded', () => {
   // 4. Initialize Audio Control
   initAudioToggle();
 
-  // 5. Instantiate Core Modules
+  // 5. Instantiate Flow Controller & Core Modules
+  window.p5Flow = new P5FlowController();
   window.p5Poll = new P5PollController();
   window.p5Phorum = new P5PhorumController();
   window.p5SubmitTarget = new P5SubmitTargetController(window.p5Phorum);
@@ -48,7 +49,7 @@ function initSpiralCanvas() {
 
   function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    const cx = canvas.width * 0.28; // Bias towards the hero logo
+    const cx = canvas.width * 0.28;
     const cy = canvas.height * 0.28;
 
     ctx.save();
@@ -64,7 +65,6 @@ function initSpiralCanvas() {
 
     ctx.restore();
 
-    // Dark vignette overlay so content on top remains readable
     const gradient = ctx.createRadialGradient(
       canvas.width * 0.5, canvas.height * 0.5, 200,
       canvas.width * 0.5, canvas.height * 0.5, canvas.width * 0.9
@@ -75,7 +75,7 @@ function initSpiralCanvas() {
     ctx.fillStyle = gradient;
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    rotation += 0.0012; // slow hypnotic spin
+    rotation += 0.0012;
     requestAnimationFrame(draw);
   }
 
@@ -101,7 +101,6 @@ function initCalendar() {
     dateEl.textContent = `${m} ${d} ${dayName}`;
   }
 
-  // Persona 5 daily period: EARLY MORNING, MORNING, AFTERNOON, AFTER SCHOOL, EVENING
   const hours = now.getHours();
   let period = 'AFTER SCHOOL';
   if (hours >= 5 && hours < 8) period = 'EARLY MORNING';
