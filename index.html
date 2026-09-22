@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>PERSONA 5 // Developer Portfolio & Heists</title>
-  <meta name="description" content="Cinematic Persona 5 Interactive Developer Portfolio with animated P5R video backgrounds, standalone character renders, project heists, skills stats, and calling card contact.">
+  <meta name="description" content="Cinematic Persona 5 Interactive Developer Portfolio with animated P5R video backgrounds, project heists, skills stats, and calling card contact.">
   
   <!-- CSS Stylesheets -->
   <link rel="stylesheet" href="css/variables.css">
@@ -38,9 +38,33 @@
     <button id="sfx-toggle" class="sfx-toggle-btn">🔊 SFX: ON</button>
   </div>
 
-  <!-- FLOATING MUSIC PLAYER (P5 OST WIDGET) -->
+  <!-- INTERACTIVE FUNCTIONAL MUSIC PLAYER -->
   <div class="p5-music-widget" id="p5-music-player">
-    <img src="assets/Music Player.png" class="music-widget-img" alt="Persona 5 Music Player">
+    <div class="p5-music-player-box">
+      <!-- Album Polaroid Art -->
+      <div class="music-album-polaroid">
+        <div class="music-album-img">
+          <svg viewBox="0 0 100 100" fill="none" style="width:100%;height:100%;">
+            <circle cx="50" cy="50" r="45" fill="#E60012"/>
+            <path d="M50 18 L68 36 L58 54 L50 44 L42 54 L32 36 Z" fill="#0A0A0A" stroke="#FFF" stroke-width="2"/>
+            <circle cx="50" cy="50" r="14" fill="#FFE600"/>
+          </svg>
+        </div>
+        <!-- Spinning vinyl badge -->
+        <div class="music-vinyl-disc" id="music-disc-spin">&#9835;</div>
+      </div>
+
+      <!-- Jagged White Info Banner -->
+      <div class="music-info-banner">
+        <div class="music-now-playing-label">NOW PLAYING // P5 OST</div>
+        <div class="music-track-title" id="music-track-title">When Mother Was There</div>
+        <div class="music-controls-row">
+          <button class="music-ctrl-btn" id="music-prev-btn" title="Previous Track">&#9616;&#9664;</button>
+          <button class="music-ctrl-btn" id="music-play-btn" title="Play / Pause" style="font-size: 1.35rem;">&#9654;</button>
+          <button class="music-ctrl-btn" id="music-next-btn" title="Next Track">&#9654;&#9612;</button>
+        </div>
+      </div>
+    </div>
   </div>
 
   <!-- 1. CINEMATIC SPLASH / TITLE SCREEN -->
@@ -66,7 +90,7 @@
   <main class="phan-main-wrapper" style="padding-top: 35px;">
 
     <!-- ====================================================================
-         SCREEN 1: CINEMATIC MAIN MENU (P5 STYLE WITH JOKER VIDEO & RENDER)
+         SCREEN 1: CINEMATIC MAIN MENU (P5R VIDEO IN BACKGROUND - NO DUPLICATE CUTOUT)
          ==================================================================== -->
     <div id="screen-main-menu" class="p5-screen-view active">
 
@@ -80,7 +104,7 @@
 
       <div class="p5-menu-stage">
 
-        <!-- Left Menu Options Column (In front of Character) -->
+        <!-- Left Menu Options Column -->
         <div class="menu-options-column">
           <div class="ribbon-banner" style="margin-bottom: 8px;">
             SYSTEM PROTOCOL // SELECT ACTION
@@ -124,14 +148,6 @@
               <span class="menu-choice-title">ABOUT THE THIEF</span>
               <span class="menu-choice-sub">Background story, development philosophy & experience</span>
             </div>
-          </div>
-        </div>
-
-        <!-- Right Standalone Full-Body Character Layer (Official P5R Transparent PNG Render) -->
-        <div class="seamless-character-backdrop">
-          <div class="character-silhouette-wrap" id="character-silhouette-wrap">
-            <img id="character-png-render" class="character-png-render" src="assets/p5r_renders/joker.png" alt="Phantom Thief Render">
-            <div class="seamless-char-tag">JOKER</div>
           </div>
         </div>
 
@@ -212,7 +228,6 @@
             <div><span style="color: #999;">BUGS IN PROD:</span> <strong id="poll-no-count">2%</strong></div>
           </div>
 
-          <!-- Breakdown Grid -->
           <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 20px;">
             <div style="background: #181818; border-left: 4px solid var(--p5-yellow); padding: 12px;">
               <strong style="color: var(--p5-yellow); font-family: var(--font-heading);">FRONTEND ARCHITECTURE:</strong> 96%
@@ -424,6 +439,7 @@
   <script src="js/submit-target.js"></script>
   <script src="js/calling-card.js"></script>
   <script src="js/murmurs.js"></script>
+  <script src="js/music-player.js"></script>
   <script src="js/menu-flow.js"></script>
   <script src="js/app.js"></script>
 </body>
