@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PERSONA 5 // The Phantom Thieves Meta-Channel</title>
-  <meta name="description" content="Cinematic Persona 5 web portal with interactive main menu, animated characters, Mementos request board, approval poll, and calling card studio.">
+  <title>PERSONA 5 // Developer Portfolio & Heists</title>
+  <meta name="description" content="Cinematic Persona 5 Interactive Developer Portfolio with animated P5R video backgrounds, standalone character renders, project heists, skills stats, and calling card contact.">
   
   <!-- CSS Stylesheets -->
   <link rel="stylesheet" href="css/variables.css">
@@ -18,8 +18,14 @@
 </head>
 <body>
 
-  <!-- Dynamic Background Canvas & Textures -->
-  <canvas id="spiral-canvas" class="spiral-bg-canvas"></canvas>
+  <!-- AMBIENT DYNAMIC P5R VIDEO BACKGROUND -->
+  <div class="p5-video-bg-container">
+    <video id="p5-bg-video" class="p5-bg-video" autoplay loop muted playsinline preload="auto">
+      <source src="assets/p5r_videos/joker.mp4" type="video/mp4">
+    </video>
+    <div class="p5-video-vignette"></div>
+  </div>
+
   <div class="halftone-overlay"></div>
   <div class="scanlines"></div>
 
@@ -48,7 +54,7 @@
     <div class="splash-title-wrap">
       <h1 class="auto-ransom" style="font-size: 3.5rem;">PERSONA 5</h1>
       <p style="font-family: var(--font-heading); color: var(--p5-yellow); font-size: 1.3rem; letter-spacing: 4px; margin-top: 6px;">
-        PHANTOM THIEVES OF HEARTS // META-ROUTER
+        DEVELOPER PORTFOLIO // PHANTOM HEISTS
       </p>
     </div>
     <div class="splash-prompt">
@@ -60,15 +66,15 @@
   <main class="phan-main-wrapper" style="padding-top: 35px;">
 
     <!-- ====================================================================
-         SCREEN 1: CINEMATIC MAIN MENU (P5 STYLE WITH SEAMLESS CHARACTER)
+         SCREEN 1: CINEMATIC MAIN MENU (P5 STYLE WITH JOKER VIDEO & RENDER)
          ==================================================================== -->
     <div id="screen-main-menu" class="p5-screen-view active">
 
       <!-- Bold Persona 5 Cutout Header Title -->
       <div class="menu-brand-header">
         <div class="brand-title-wrap">
-          <div class="auto-ransom hero-brand-cutout">PHAN-SITE</div>
-          <div class="brand-meta-badge">META-CHANNEL #005 // THE PHANTOM THIEVES OF HEARTS</div>
+          <div class="auto-ransom hero-brand-cutout">PORTFOLIO</div>
+          <div class="brand-meta-badge">META-CHANNEL #005 // FULL-STACK DEVELOPER & CREATIVE ENGINEER</div>
         </div>
       </div>
 
@@ -83,48 +89,48 @@
           <div class="menu-choice-item" data-target-screen="screen-phorum">
             <span class="menu-choice-icon">01</span>
             <div class="menu-choice-text-wrap">
-              <span class="menu-choice-title">PHORUM REQUESTS</span>
-              <span class="menu-choice-sub">Browse Mementos target cases & civilian cries for help</span>
+              <span class="menu-choice-title">MISSIONS & HEISTS</span>
+              <span class="menu-choice-sub">Explore full-stack software projects, web apps & systems</span>
             </div>
           </div>
 
           <div class="menu-choice-item" data-target-screen="screen-poll">
             <span class="menu-choice-icon">02</span>
             <div class="menu-choice-text-wrap">
-              <span class="menu-choice-title">APPROVAL RATING POLL</span>
-              <span class="menu-choice-sub">Public belief percentage meter & live voting system</span>
+              <span class="menu-choice-title">SKILLS & STATS</span>
+              <span class="menu-choice-sub">Tech stack mastery levels, client approvals & metrics</span>
             </div>
           </div>
 
           <div class="menu-choice-item" data-target-screen="screen-transmit">
             <span class="menu-choice-icon">03</span>
             <div class="menu-choice-text-wrap">
-              <span class="menu-choice-title">TRANSMIT TARGET</span>
-              <span class="menu-choice-sub">Post encrypted anonymous report about corrupt villains</span>
+              <span class="menu-choice-title">TRANSMIT REQUEST</span>
+              <span class="menu-choice-sub">Hire me, send collaboration inquiries & confidential proposals</span>
             </div>
           </div>
 
           <div class="menu-choice-item open-calling-card-btn" data-target-screen="screen-calling-card">
             <span class="menu-choice-icon">04</span>
             <div class="menu-choice-text-wrap">
-              <span class="menu-choice-title">CALLING CARD STUDIO</span>
-              <span class="menu-choice-sub">Forge official declaration of theft to steal their heart</span>
+              <span class="menu-choice-title">PHANTOM RESUME</span>
+              <span class="menu-choice-sub">Interactive Calling Card CV ready to export & print</span>
             </div>
           </div>
 
           <div class="menu-choice-item" data-target-screen="screen-confidants">
             <span class="menu-choice-icon">05</span>
             <div class="menu-choice-text-wrap">
-              <span class="menu-choice-title">CONFIDANTS & SQUAD</span>
-              <span class="menu-choice-sub">The Phantom Thieves syndicate operative files</span>
+              <span class="menu-choice-title">ABOUT THE THIEF</span>
+              <span class="menu-choice-sub">Background story, development philosophy & experience</span>
             </div>
           </div>
         </div>
 
-        <!-- Right Standalone Full-Body Character Layer (Canvas Cutout - 100% Seamless on Spiral) -->
+        <!-- Right Standalone Full-Body Character Layer (Official P5R Transparent PNG Render) -->
         <div class="seamless-character-backdrop">
           <div class="character-silhouette-wrap" id="character-silhouette-wrap">
-            <canvas id="joker-cutout-canvas"></canvas>
+            <img id="character-png-render" class="character-png-render" src="assets/p5r_renders/joker.png" alt="Phantom Thief Render">
             <div class="seamless-char-tag">JOKER</div>
           </div>
         </div>
@@ -133,40 +139,40 @@
     </div>
 
     <!-- ====================================================================
-         SCREEN 2: PHORUM REQUEST BOARD (FULLSCREEN WITH IM CHAT UI)
+         SCREEN 2: MISSIONS & HEISTS (FUTABA THEME - PROJECTS)
          ==================================================================== -->
     <div id="screen-phorum" class="p5-screen-view">
       <div class="p5-back-nav-bar">
         <button class="p5-back-btn">◀ BACK TO MAIN MENU</button>
-        <div class="auto-ransom" style="font-size: 1.8rem;">PHORUM</div>
+        <div class="auto-ransom" style="font-size: 1.8rem;">HEISTS</div>
       </div>
 
       <div class="phan-grid" style="grid-template-columns: 1fr 440px;">
         <div>
           <div class="phorum-top-bar">
             <div class="phorum-filter-tabs">
-              <button class="filter-tab-btn active" data-filter="all">ALL TARGETS</button>
-              <button class="filter-tab-btn" data-filter="new">NEW REQUESTS</button>
-              <button class="filter-tab-btn" data-filter="investigating">UNDER INVESTIGATION</button>
-              <button class="filter-tab-btn" data-filter="reformed">HEART CHANGED</button>
+              <button class="filter-tab-btn active" data-filter="all">ALL HEISTS</button>
+              <button class="filter-tab-btn" data-filter="new">FEATURED</button>
+              <button class="filter-tab-btn" data-filter="investigating">IN PRODUCTION</button>
+              <button class="filter-tab-btn" data-filter="reformed">SHIPPED</button>
             </div>
-            <input type="text" id="phorum-search" class="phorum-search-input" placeholder="🔍 Search target, crime...">
+            <input type="text" id="phorum-search" class="phorum-search-input" placeholder="🔍 Search stack, project...">
           </div>
 
           <div id="target-cards-container" class="target-cards-grid"></div>
         </div>
 
-        <!-- Right IM Chat Feed -->
+        <!-- Right IM Chat Feed (Client & Peer Testimonials) -->
         <aside class="grid-col-right">
           <div class="murmurs-container" style="background: rgba(10,10,10,0.92);">
             <div class="murmurs-title-bar">
-              <h3 style="font-family: var(--font-display); font-size: 1.4rem; color: var(--p5-yellow);">CITIZEN MURMURS (IM)</h3>
-              <span class="comic-badge" style="background: var(--p5-crimson); font-size: 0.75rem;">LIVE FEED</span>
+              <h3 style="font-family: var(--font-display); font-size: 1.4rem; color: var(--p5-yellow);">FEEDBACK & TESTIMONIALS</h3>
+              <span class="comic-badge" style="background: var(--p5-crimson); font-size: 0.75rem;">VERIFIED</span>
             </div>
             <div id="murmurs-list" class="p5-chat-stream"></div>
             <div class="murmur-input-box" style="margin-top: 15px;">
-              <input type="text" id="murmur-user-input" class="murmur-input" placeholder="Type a message to Phantom Thieves...">
-              <button id="murmur-submit-btn" class="p5-btn p5-btn-red" style="padding: 6px 14px; font-size: 0.9rem;">SEND</button>
+              <input type="text" id="murmur-user-input" class="murmur-input" placeholder="Leave a testimonial / quick reaction...">
+              <button id="murmur-submit-btn" class="p5-btn p5-btn-red" style="padding: 6px 14px; font-size: 0.9rem;">POST</button>
             </div>
           </div>
         </aside>
@@ -174,44 +180,56 @@
     </div>
 
     <!-- ====================================================================
-         SCREEN 3: APPROVAL RATING POLL (FULLSCREEN)
+         SCREEN 3: SKILLS & STATS (MAKOTO THEME - TECHNICAL MASTERY)
          ==================================================================== -->
     <div id="screen-poll" class="p5-screen-view">
       <div class="p5-back-nav-bar">
         <button class="p5-back-btn">◀ BACK TO MAIN MENU</button>
-        <div class="auto-ransom" style="font-size: 1.8rem;">POLL</div>
+        <div class="auto-ransom" style="font-size: 1.8rem;">STATS</div>
       </div>
 
-      <div style="max-width: 820px; margin: 0 auto;">
+      <div style="max-width: 860px; margin: 0 auto;">
         <section id="poll-section" class="poll-card" style="padding: 35px 30px;">
-          <div class="poll-header-badge" style="font-size: 1.6rem;">POLL OF THE WEEK</div>
+          <div class="poll-header-badge" style="font-size: 1.6rem;">TECHNICAL MASTERY // QUEEN'S ANALYSIS</div>
           
-          <div class="poll-question-box" style="font-size: 1.4rem; padding: 18px;">
-            <span class="poll-question-tag" style="font-size: 1.8rem;">Q:</span>
-            Do you believe in the Phantom Thieves of Hearts?
+          <div class="poll-question-box" style="font-size: 1.3rem; padding: 18px;">
+            <span class="poll-question-tag" style="font-size: 1.6rem;">Q:</span>
+            Overall Client & Team Approval Rating for Technical Deliverables:
           </div>
 
           <div class="poll-percentage-wrapper" style="margin: 25px 0;">
-            <span id="poll-number" class="poll-big-number" style="font-size: 8rem;">44</span>
+            <span id="poll-number" class="poll-big-number" style="font-size: 8rem;">98</span>
             <span class="poll-percent-symbol" style="font-size: 4rem;">%</span>
           </div>
 
           <div class="poll-bar-container" style="height: 50px;">
-            <div id="poll-bar-yes" class="poll-bar-fill-yes" style="width: 44%; font-size: 1.3rem;">44%</div>
+            <div id="poll-bar-yes" class="poll-bar-fill-yes" style="width: 98%; font-size: 1.3rem;">98%</div>
             <div class="poll-bar-fill-no"></div>
           </div>
 
-          <div class="poll-labels" style="font-size: 1.3rem; margin: 20px 0;">
-            <div><span style="color: var(--p5-crimson);">YES (BELIEVE):</span> <strong id="poll-yes-count">14,218</strong></div>
-            <div><span style="color: #999;">NO (CRIMINALS):</span> <strong id="poll-no-count">18,095</strong></div>
+          <div class="poll-labels" style="font-size: 1.2rem; margin: 20px 0;">
+            <div><span style="color: var(--p5-crimson);">CLIENT SATISFACTION:</span> <strong id="poll-yes-count">98%</strong></div>
+            <div><span style="color: #999;">BUGS IN PROD:</span> <strong id="poll-no-count">2%</strong></div>
           </div>
 
-          <div class="poll-actions-grid" style="gap: 20px;">
-            <button id="vote-btn-yes" class="poll-vote-btn vote-btn-yes" style="font-size: 1.4rem; padding: 18px;">
-              [A] YES - CHANGE THEIR HEARTS!
+          <!-- Breakdown Grid -->
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 20px;">
+            <div style="background: #181818; border-left: 4px solid var(--p5-yellow); padding: 12px;">
+              <strong style="color: var(--p5-yellow); font-family: var(--font-heading);">FRONTEND ARCHITECTURE:</strong> 96%
+              <p style="font-size: 0.85rem; color: #ccc;">React, Next.js, Modern CSS, Web Audio, GSAP Animations</p>
+            </div>
+            <div style="background: #181818; border-left: 4px solid var(--p5-crimson); padding: 12px;">
+              <strong style="color: var(--p5-crimson); font-family: var(--font-heading);">BACKEND & API DESIGN:</strong> 92%
+              <p style="font-size: 0.85rem; color: #ccc;">Node.js, Express, PostgreSQL, REST/GraphQL, Authentication</p>
+            </div>
+          </div>
+
+          <div class="poll-actions-grid" style="gap: 20px; margin-top: 25px;">
+            <button id="vote-btn-yes" class="poll-vote-btn vote-btn-yes" style="font-size: 1.3rem; padding: 16px;">
+              [A] ENDORSE SKILLS & HEISTS!
             </button>
-            <button id="vote-btn-no" class="poll-vote-btn vote-btn-no" style="font-size: 1.4rem; padding: 18px;">
-              [B] NO - THEY ARE VIGILANTES
+            <button id="vote-btn-no" class="poll-vote-btn vote-btn-no" style="font-size: 1.3rem; padding: 16px;">
+              [B] REQUEST CODE AUDIT
             </button>
           </div>
 
@@ -221,67 +239,64 @@
     </div>
 
     <!-- ====================================================================
-         SCREEN 4: TRANSMIT TARGET (FULLSCREEN)
+         SCREEN 4: TRANSMIT REQUEST (RYUJI THEME - HIRE ME / CONTACT)
          ==================================================================== -->
     <div id="screen-transmit" class="p5-screen-view">
       <div class="p5-back-nav-bar">
         <button class="p5-back-btn">◀ BACK TO MAIN MENU</button>
-        <div class="auto-ransom" style="font-size: 1.8rem;">TRANSMIT</div>
+        <div class="auto-ransom" style="font-size: 1.8rem;">CONTACT</div>
       </div>
 
       <div class="submit-target-section" style="max-width: 900px; margin: 0 auto;">
         <div class="ribbon-banner" style="position: absolute; top: -16px; left: 20px;">
-          TRANSMIT ANONYMOUS REQUEST
+          TRANSMIT PROJECT PROPOSAL / HIRE ME
         </div>
 
         <p style="font-size: 1.05rem; color: #D0D0D0; margin-top: 20px; margin-bottom: 20px; line-height: 1.5;">
-          Provide verified details about the target's abuse of power. All communications are automatically encrypted against SIU surveillance.
+          Have a vision, contract, or full-time opportunity? Send an encrypted transmission directly to my inbox.
         </p>
 
         <form id="submit-target-form">
           <div class="form-grid">
             <div>
-              <label class="p5-form-label" for="form-target-name">TARGET FULL NAME / ALIAS *</label>
-              <input type="text" id="form-target-name" class="p5-input" placeholder="e.g. Suguru Kamoshida, Chief Tanaka..." required>
+              <label class="p5-form-label" for="form-target-name">YOUR NAME / ORGANIZATION *</label>
+              <input type="text" id="form-target-name" class="p5-input" placeholder="e.g. Acme Tech Studio, Recruiter Jane..." required>
             </div>
 
             <div>
-              <label class="p5-form-label" for="form-target-loc">LOCATION / COGNITIVE SPHERE</label>
-              <input type="text" id="form-target-loc" class="p5-input" placeholder="e.g. Shibuya, Shujin Academy, Yongen...">
+              <label class="p5-form-label" for="form-target-loc">CONTACT EMAIL / LINKEDIN *</label>
+              <input type="text" id="form-target-loc" class="p5-input" placeholder="e.g. jane@company.com" required>
             </div>
 
             <div>
-              <label class="p5-form-label" for="form-target-sin">ROOT SIN / DESIRE</label>
+              <label class="p5-form-label" for="form-target-sin">OPPORTUNITY TYPE</label>
               <select id="form-target-sin" class="p5-select">
-                <option value="Pride">PRIDE (Hubris, Arrogance)</option>
-                <option value="Greed">GREED (Avarice, Exploitation)</option>
-                <option value="Wrath">WRATH (Bullying, Violence)</option>
-                <option value="Lust">LUST (Coercion, Abuse)</option>
-                <option value="Envy">ENVY (Jealousy, Sabotage)</option>
-                <option value="Sloth">SLOTH (Neglect, Exploitative Labor)</option>
-                <option value="Gluttony">GLUTTONY (Overconsumption)</option>
+                <option value="Full-Time Engineering">Full-Time Software Engineer</option>
+                <option value="Frontend Contract">Frontend / Creative Dev Contract</option>
+                <option value="UI/UX & Web Project">Web App Heist / Project Build</option>
+                <option value="Casual Coffee Chat">Coffee Chat / Networking</option>
               </select>
             </div>
 
             <div>
               <label class="p5-form-label" for="form-distortion-slider">
-                DISTORTION LEVEL: <span id="distortion-val-display" style="color: var(--p5-crimson);">80%</span>
+                PROJECT TIMELINE / PRIORITY: <span id="distortion-val-display" style="color: var(--p5-crimson);">HIGH</span>
               </label>
-              <input type="range" id="form-distortion-slider" class="p5-range" min="50" max="99" value="80">
+              <input type="range" id="form-distortion-slider" class="p5-range" min="50" max="99" value="85">
             </div>
 
             <div class="form-group-full">
-              <label class="p5-form-label" for="form-target-desc">CORRUPT DEED / EVIDENCE *</label>
-              <textarea id="form-target-desc" class="p5-textarea" placeholder="Describe how this person hurts others, their abuse of power, or their twisted desires..." required></textarea>
+              <label class="p5-form-label" for="form-target-desc">PROJECT BRIEF / MESSAGE *</label>
+              <textarea id="form-target-desc" class="p5-textarea" placeholder="Tell me about what you are building, the goals, tech requirements, or role details..." required></textarea>
             </div>
           </div>
 
           <div style="margin-top: 25px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;">
             <span style="font-family: var(--font-accent); font-size: 0.95rem; color: #00FF66;">
-              ● METAVERSE NAVIGATOR: READY TO TRANSMIT
+              ● METAVERSE TRANSMISSION: READY TO DISPATCH
             </span>
             <button type="submit" class="p5-btn p5-btn-red" style="font-size: 1.25rem; padding: 14px 34px;">
-              POST REQUEST TO THE THIEVES ▶
+              DISPATCH PROPOSAL ▶
             </button>
           </div>
         </form>
@@ -291,49 +306,39 @@
     </div>
 
     <!-- ====================================================================
-         SCREEN 5: CONFIDANTS & SQUAD
+         SCREEN 5: ABOUT THE THIEF (YUSUKE THEME - PROFILE & BIO)
          ==================================================================== -->
     <div id="screen-confidants" class="p5-screen-view">
       <div class="p5-back-nav-bar">
         <button class="p5-back-btn">◀ BACK TO MAIN MENU</button>
-        <div class="auto-ransom" style="font-size: 1.8rem;">CONFIDANTS</div>
+        <div class="auto-ransom" style="font-size: 1.8rem;">ABOUT</div>
       </div>
 
       <div class="subscreen-content-box">
-        <h2 style="font-family: var(--font-display); font-size: 2.5rem; color: var(--p5-yellow); margin-bottom: 8px;">
-          ACTIVE COGNITIVE AGENTS
+        <h2 style="font-family: var(--font-display); font-size: 2.8rem; color: var(--p5-yellow); margin-bottom: 8px;">
+          THE PHANTOM DEVELOPER // CODING DOSSIER
         </h2>
-        <p style="color: #ccc; font-size: 1.05rem;">
-          Classified profiles of the Phantom Thieves syndicate infiltrating Tokyo's distorted palaces.
+        <p style="color: #ccc; font-size: 1.15rem; max-width: 820px; line-height: 1.6;">
+          Passionate software engineer and creative technologist who crafts high-impact web apps, bespoke game-inspired interfaces, and rock-solid systems.
         </p>
 
         <div class="confidants-grid">
           <div class="confidant-card">
-            <span class="comic-badge" style="background: var(--p5-crimson);">CODE: JOKER</span>
-            <h3 style="font-family: var(--font-heading); font-size: 1.8rem; margin: 8px 0; color: #fff;">PROTAGONIST</h3>
-            <p style="font-size: 0.95rem; color: #bbb;">Leader of the Phantom Thieves. Wields the Wild Card ability with Arsene as his primary Persona.</p>
-            <div style="margin-top: 10px; font-family: var(--font-accent); color: var(--p5-yellow); font-size: 0.9rem;">ARCANA: 0 / THE FOOL</div>
+            <span class="comic-badge" style="background: var(--p5-crimson);">DISCIPLINE</span>
+            <h3 style="font-family: var(--font-heading); font-size: 1.8rem; margin: 8px 0; color: #fff;">FULL-STACK CRAFT</h3>
+            <p style="font-size: 0.95rem; color: #bbb;">Turning complex backend architecture into slick, cinematic, responsive frontends with buttery 60 FPS animations.</p>
           </div>
 
           <div class="confidant-card">
-            <span class="comic-badge" style="background: var(--p5-yellow); color: #000;">CODE: MONA</span>
-            <h3 style="font-family: var(--font-heading); font-size: 1.8rem; margin: 8px 0; color: #fff;">MORGANA</h3>
-            <p style="font-size: 0.95rem; color: #bbb;">Cognitive guide, strategist, and Mementos vehicle transformation. Persona: Zorro.</p>
-            <div style="margin-top: 10px; font-family: var(--font-accent); color: var(--p5-yellow); font-size: 0.9rem;">ARCANA: I / THE MAGICIAN</div>
+            <span class="comic-badge" style="background: var(--p5-yellow); color: #000;">PHILOSOPHY</span>
+            <h3 style="font-family: var(--font-heading); font-size: 1.8rem; margin: 8px 0; color: #fff;">STEAL THE SHOW</h3>
+            <p style="font-size: 0.95rem; color: #bbb;">Standard boring templates are obsolete. Every application should spark curiosity and make users say 'WOW'.</p>
           </div>
 
           <div class="confidant-card">
-            <span class="comic-badge" style="background: var(--p5-crimson);">CODE: SKULL</span>
-            <h3 style="font-family: var(--font-heading); font-size: 1.8rem; margin: 8px 0; color: #fff;">RYUJI SAKAMOTO</h3>
-            <p style="font-size: 0.95rem; color: #bbb;">Frontline assault & passionate rebel. Sworn enemy of corrupt athletes. Persona: Captain Kidd.</p>
-            <div style="margin-top: 10px; font-family: var(--font-accent); color: var(--p5-yellow); font-size: 0.9rem;">ARCANA: VII / THE CHARIOT</div>
-          </div>
-
-          <div class="confidant-card">
-            <span class="comic-badge" style="background: var(--p5-yellow); color: #000;">CODE: PANTHER</span>
-            <h3 style="font-family: var(--font-heading); font-size: 1.8rem; margin: 8px 0; color: #fff;">ANN TAKAMAKI</h3>
-            <p style="font-size: 0.95rem; color: #bbb;">Fire specialist with devastating charm and relentless compassion. Persona: Carmen.</p>
-            <div style="margin-top: 10px; font-family: var(--font-accent); color: var(--p5-yellow); font-size: 0.9rem;">ARCANA: VI / THE LOVERS</div>
+            <span class="comic-badge" style="background: var(--p5-crimson);">EDUCATION</span>
+            <h3 style="font-family: var(--font-heading); font-size: 1.8rem; margin: 8px 0; color: #fff;">ACADEMIC PURSUITS</h3>
+            <p style="font-size: 0.95rem; color: #bbb;">Pursuing software engineering and computer science, continually building real-world projects and open source.</p>
           </div>
         </div>
       </div>
@@ -341,7 +346,7 @@
 
   </main>
 
-  <!-- Dossier Detail Modal -->
+  <!-- Dossier Detail Modal (Project Heist Deep Dive) -->
   <div id="dossier-modal" class="p5-modal-backdrop">
     <div class="p5-modal-dialog">
       <div id="dossier-modal-close" class="modal-close-btn">✕</div>
@@ -349,39 +354,36 @@
     </div>
   </div>
 
-  <!-- Calling Card Generator Modal -->
+  <!-- Calling Card Generator Modal (Phantom Resume) -->
   <div id="calling-card-modal" class="p5-modal-backdrop">
     <div class="p5-modal-dialog" style="max-width: 860px;">
       <div id="calling-card-modal-close" class="modal-close-btn">✕</div>
       
       <div style="border-bottom: 3px solid var(--p5-crimson); padding-bottom: 12px; margin-bottom: 20px;">
         <h2 style="font-family: var(--font-display); font-size: 2.2rem; color: var(--p5-yellow);">
-          CALLING CARD GENERATOR STUDIO
+          PHANTOM RESUME // CALLING CARD STUDIO
         </h2>
         <span style="font-family: var(--font-heading); color: #fff; letter-spacing: 1px;">
-          OFFICIAL PHANTOM THIEVES DECLARATION OF THEFT
+          OFFICIAL DECLARATION OF AVAILABILITY & SKILLS
         </span>
       </div>
 
       <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 24px;">
         <div>
-          <label class="p5-form-label" for="cc-target-input">RECIPIENT / TARGET NAME</label>
-          <input type="text" id="cc-target-input" class="p5-input" value="Suguru Kamoshida">
+          <label class="p5-form-label" for="cc-target-input">RECIPIENT / COMPANY</label>
+          <input type="text" id="cc-target-input" class="p5-input" value="Innovative Engineering Team">
         </div>
         <div>
-          <label class="p5-form-label" for="cc-sin-select">CARDINAL SIN</label>
+          <label class="p5-form-label" for="cc-sin-select">TARGET ROLE</label>
           <select id="cc-sin-select" class="p5-select">
-            <option value="Lust & Pride">LUST & PRIDE</option>
-            <option value="Greed & Vanity">GREED & VANITY</option>
-            <option value="Gluttony & Extortion">GLUTTONY & EXTORTION</option>
-            <option value="Wrath & Abuse">WRATH & ABUSE</option>
-            <option value="Envy & Deceit">ENVY & DECEIT</option>
-            <option value="Sloth & Apathy">SLOTH & APATHY</option>
+            <option value="Full-Stack Engineering">FULL-STACK ENGINEER</option>
+            <option value="Frontend Development">FRONTEND ARCHITECT</option>
+            <option value="Creative Web Technologist">CREATIVE TECHNOLOGIST</option>
           </select>
         </div>
         <div style="grid-column: 1 / -1;">
-          <label class="p5-form-label" for="cc-crime-input">HEINOUS ACT / ACCUSATION</label>
-          <input type="text" id="cc-crime-input" class="p5-input" value="abusing your authority and tormenting the helpless students of Shujin Academy">
+          <label class="p5-form-label" for="cc-crime-input">CORE STATEMENT</label>
+          <input type="text" id="cc-crime-input" class="p5-input" value="building high-performance web systems and unforgettable digital experiences that leave users in awe">
         </div>
       </div>
 
@@ -392,14 +394,14 @@
           <circle cx="50" cy="50" r="14" fill="#FFE600"/>
         </svg>
 
-        <div id="cc-preview-salutation" class="calling-card-salutation">Sir / Madam Suguru Kamoshida,</div>
+        <div id="cc-preview-salutation" class="calling-card-salutation">To: Innovative Engineering Team,</div>
         <div id="cc-preview-body" class="calling-card-body"></div>
-        <div class="calling-card-signature">FROM: THE PHANTOM THIEVES OF HEARTS ★</div>
+        <div class="calling-card-signature">FROM: THE PHANTOM DEVELOPER ★</div>
       </div>
 
       <div style="margin-top: 24px; display: flex; justify-content: flex-end; gap: 12px; flex-wrap: wrap;">
-        <button id="cc-copy-btn" class="p5-btn p5-btn-black">📋 COPY CALLING CARD TEXT</button>
-        <button id="cc-print-btn" class="p5-btn p5-btn-red">🖨️ PRINT / EXPORT CARD</button>
+        <button id="cc-copy-btn" class="p5-btn p5-btn-black">📋 COPY RESUME PROCLAMATION</button>
+        <button id="cc-print-btn" class="p5-btn p5-btn-red">🖨️ PRINT / EXPORT RESUME</button>
       </div>
     </div>
   </div>
@@ -408,7 +410,7 @@
   <footer class="p5-footer" style="margin-top: 30px; padding: 20px;">
     <div class="footer-content" style="justify-content: center; text-align: center;">
       <div style="font-family: var(--font-heading); font-size: 1.1rem; color: var(--p5-yellow); letter-spacing: 2px;">
-        ★ THE PHANTOM THIEVES OF HEARTS // WE SHALL STEAL YOUR DISTORTED DESIRES ★
+        ★ THE PHANTOM DEVELOPER // CRAFTING CODE THAT STEALS HEARTS ★
       </div>
     </div>
   </footer>

@@ -1,4 +1,45 @@
-﻿/* Persona 5 Menu Flow & Seamless Character Background Integration */
+﻿/* Persona 5 Dynamic Ambient Video Background & Seamless Character Integration */
+
+/* ==========================================================================
+   AMBIENT DYNAMIC P5R VIDEO BACKGROUND (FULLSCREEN LOOP)
+   ========================================================================== */
+.p5-video-bg-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -3;
+  overflow: hidden;
+  background: #000;
+  pointer-events: none;
+}
+
+.p5-bg-video {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  min-width: 100vw;
+  min-height: 100vh;
+  width: auto;
+  height: auto;
+  transform: translate(-50%, -50%) scale(1.05);
+  object-fit: cover;
+  opacity: 0.85;
+  transition: opacity 0.5s ease;
+  filter: contrast(1.1) brightness(0.95);
+}
+
+.p5-video-vignette {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at 60% 45%, rgba(0,0,0,0.15) 0%, rgba(10,10,10,0.85) 85%);
+  pointer-events: none;
+  z-index: -2;
+}
 
 /* ==========================================================================
    TITLE / SPLASH SCREEN
@@ -122,7 +163,7 @@
 }
 
 /* ==========================================================================
-   SEAMLESS CHARACTER BACKGROUND (P5 CANVAS INTEGRATION - NO RECTANGLE)
+   SEAMLESS CHARACTER BACKGROUND (P5R TRANSPARENT PNG - NO CARD / NO BOX)
    ========================================================================== */
 .p5-menu-stage {
   position: relative;
@@ -133,12 +174,12 @@
   padding: 10px 40px 60px 40px;
 }
 
-/* Standalone Character Cutout on Canvas */
+/* The Official P5R Transparent PNG Character Layer */
 .seamless-character-backdrop {
   position: absolute;
-  right: 4%;
+  right: 5%;
   bottom: -20px;
-  width: 620px;
+  width: 600px;
   max-width: 48vw;
   height: 94vh;
   pointer-events: none;
@@ -159,12 +200,12 @@
   transform-origin: bottom center;
 }
 
-#joker-cutout-canvas {
+.character-png-render {
   width: 100%;
   height: 100%;
   object-fit: contain;
   object-position: bottom center;
-  filter: drop-shadow(0 0 35px rgba(230, 0, 18, 0.6)) contrast(1.15);
+  filter: drop-shadow(0 0 35px rgba(230, 0, 18, 0.65)) contrast(1.1);
   animation: jokerStandBreathing 4.5s ease-in-out infinite;
 }
 
@@ -177,7 +218,6 @@
   }
 }
 
-/* Character Name Stamp Overlay */
 .seamless-char-tag {
   position: absolute;
   bottom: 40px;
@@ -202,7 +242,7 @@
   position: relative;
   z-index: 25;
   width: 100%;
-  max-width: 640px;
+  max-width: 650px;
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -213,7 +253,7 @@
   display: flex;
   align-items: center;
   gap: 18px;
-  background: rgba(10, 10, 10, 0.94);
+  background: rgba(10, 10, 10, 0.92);
   border: 4px solid var(--p5-white);
   padding: 16px 26px;
   transform: skew(var(--skew-heavy));
@@ -315,29 +355,6 @@
   display: block;
 }
 
-.music-controls-overlay {
-  position: absolute;
-  right: 25px;
-  bottom: 18px;
-  display: flex;
-  gap: 16px;
-}
-
-.music-ctrl-btn {
-  background: transparent;
-  border: none;
-  color: #000;
-  font-size: 1.2rem;
-  cursor: pointer;
-  padding: 4px;
-  transition: transform 0.15s ease;
-}
-
-.music-ctrl-btn:hover {
-  transform: scale(1.25);
-  color: var(--p5-crimson);
-}
-
 /* ==========================================================================
    OTENTIK PERSONA 5 CHAT BUBBLES (RECEIVED & SENT CHAT)
    ========================================================================== */
@@ -350,7 +367,6 @@
   padding: 10px 15px;
 }
 
-/* Received Chat Item (Image Frame + Text) */
 .p5-received-chat-row {
   display: flex;
   align-items: center;
@@ -405,7 +421,6 @@
   padding-right: 12px;
 }
 
-/* Sent Chat Item (White Jagged Bubble) */
 .p5-sent-chat-row {
   display: flex;
   justify-content: flex-end;
@@ -472,4 +487,21 @@
   border-color: var(--p5-yellow);
   transform: skew(var(--skew-medium)) translateX(-5px);
   box-shadow: 6px 6px 0px var(--p5-yellow);
+}
+
+/* Project Cards in Portfolio */
+.project-card {
+  background: rgba(18, 18, 18, 0.94);
+  border: 3px solid var(--p5-white);
+  box-shadow: 8px 8px 0px var(--p5-crimson);
+  padding: 24px;
+  transform: skew(var(--skew-subtle));
+  margin-bottom: 22px;
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.project-card:hover {
+  transform: skew(var(--skew-subtle)) translateY(-4px);
+  border-color: var(--p5-yellow);
+  box-shadow: 12px 12px 0px var(--p5-yellow);
 }

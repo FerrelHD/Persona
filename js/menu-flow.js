@@ -1,5 +1,5 @@
 ﻿/**
- * Persona 5 Game Flow, Pure Transparent Cutout Renderer & Music Player
+ * Persona 5 Game Flow, Dynamic P5R Video Background & Screen Character Switcher
  */
 class P5FlowController {
   constructor() {
@@ -8,7 +8,37 @@ class P5FlowController {
     this.menuChoices = document.querySelectorAll('.menu-choice-item');
     this.backBtns = document.querySelectorAll('.p5-back-btn');
     this.charWrapper = document.getElementById('character-silhouette-wrap');
-    this.jokerCanvas = document.getElementById('joker-cutout-canvas');
+    this.charImg = document.getElementById('character-png-render');
+    this.bgVideo = document.getElementById('p5-bg-video');
+
+    // Dynamic Character & Video Theme Map per Screen
+    this.screenThemes = {
+      'screen-main-menu': {
+        video: 'assets/p5r_videos/joker.mp4',
+        render: 'assets/p5r_renders/joker.png',
+        tag: 'JOKER'
+      },
+      'screen-phorum': {
+        video: 'assets/p5r_videos/futaba.mp4',
+        render: 'assets/p5r_renders/futaba.png',
+        tag: 'ORACLE / FUTABA'
+      },
+      'screen-poll': {
+        video: 'assets/p5r_videos/makoto.mp4',
+        render: 'assets/p5r_renders/makoto.png',
+        tag: 'QUEEN / MAKOTO'
+      },
+      'screen-transmit': {
+        video: 'assets/p5r_videos/ryuji.mp4',
+        render: 'assets/p5r_renders/ryuji.png',
+        tag: 'SKULL / RYUJI'
+      },
+      'screen-confidants': {
+        video: 'assets/p5r_videos/yusuke.mp4',
+        render: 'assets/p5r_renders/yusuke.png',
+        tag: 'FOX / YUSUKE'
+      }
+    };
 
     this.currentScreen = 'screen-main-menu';
 
@@ -16,48 +46,9 @@ class P5FlowController {
   }
 
   init() {
-    this.renderTransparentJoker();
     this.bindEvents();
     this.initGSAPParallax();
     this.animateMenuEntrance();
-  }
-
-  // Render Joker onto Canvas and dynamically make the dark rectangle 100% transparent!
-  renderTransparentJoker() {
-    if (!this.jokerCanvas) return;
-    const ctx = this.jokerCanvas.getContext('2d');
-    const img = new Image();
-    img.src = 'assets/joker_full.jpg';
-    img.onload = () => {
-      this.jokerCanvas.width = img.width;
-      this.jokerCanvas.height = img.height;
-      ctx.drawImage(img, 0, 0);
-
-      try {
-        const imgData = ctx.getImageData(0, 0, this.jokerCanvas.width, this.jokerCanvas.height);
-        const data = imgData.data;
-
-        // Keying out pure black background while keeping character with smooth alpha ramp
-        for (let i = 0; i < data.length; i += 4) {
-          const r = data[i];
-          const g = data[i + 1];
-          const b = data[i + 2];
-          const maxVal = Math.max(r, g, b);
-
-          if (maxVal < 18) {
-            // Full transparent for pure black backdrop
-            data[i + 3] = 0;
-          } else if (maxVal < 40) {
-            // Soft anti-aliased edge blend
-            data[i + 3] = Math.round(((maxVal - 18) / 22) * 255);
-          }
-        }
-
-        ctx.putImageData(imgData, 0, 0);
-      } catch (e) {
-        console.warn('Canvas pixel transparency fallback:', e);
-      }
-    };
   }
 
   bindEvents() {
@@ -65,6 +56,10 @@ class P5FlowController {
     if (this.splashScreen) {
       const dismissSplash = () => {
         window.p5Audio?.playCallingCardSting();
+
+        if (this.bgVideo) {
+          this.bgVideo.play().catch(e => console.log('Autoplay policy', e));
+        }
 
         if (window.gsap) {
           gsap.to(this.splashScreen, {
@@ -203,10 +198,43 @@ class P5FlowController {
     });
   }
 
+  // Switch Video Background & Character per Screen
+  switchThemeForScreen(screenId) {
+    const theme = this.screenThemes[screenId] || this.screenThemes['screen-main-menu'];
+
+    if (this.bgVideo && theme.video) {
+      if (window.gsap) {
+        gsap.to(this.bgVideo, {
+          opacity: 0,
+          duration: 0.25,
+          onComplete: () => {
+            this.bgVideo.src = theme.video;
+            this.bgVideo.load();
+            this.bgVideo.play().catch(e => console.log(e));
+            gsap.to(this.bgVideo, { opacity: 0.85, duration: 0.45 });
+          }
+        });
+      } else {
+        this.bgVideo.src = theme.video;
+        this.bgVideo.load();
+        this.bgVideo.play().catch(e => console.log(e));
+      }
+    }
+
+    if (this.charImg && theme.render) {
+      this.charImg.src = theme.render;
+      const tag = document.querySelector('.seamless-char-tag');
+      if (tag) tag.textContent = theme.tag;
+    }
+  }
+
   navigateTo(screenId) {
     const prevScreen = document.getElementById(this.currentScreen);
     const targetScreen = document.getElementById(screenId);
     if (!targetScreen) return;
+
+    // Switch character & video for destination screen
+    this.switchThemeForScreen(screenId);
 
     if (window.gsap && prevScreen) {
       gsap.to(prevScreen, {
