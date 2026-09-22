@@ -43,7 +43,7 @@ const MENU_ITEMS: MenuItemConfig[] = [
     id: 'skills',
     label: 'SKILLS',
     rotation: '-rotate-2',
-    offsetClass: 'ml-6 sm:ml-10 md:ml-14',
+    offsetClass: 'ml-2 sm:ml-3 md:ml-4',
     letters: [
       { char: 'S', bg: 'bg-white text-black', rotate: '-rotate-4' },
       { char: 'K', bg: 'bg-white text-black', rotate: 'rotate-3' },
@@ -57,7 +57,7 @@ const MENU_ITEMS: MenuItemConfig[] = [
     id: 'about',
     label: 'ABOUT',
     rotation: 'rotate-1',
-    offsetClass: 'ml-12 sm:ml-20 md:ml-28',
+    offsetClass: 'ml-4 sm:ml-6 md:ml-8',
     letters: [
       { char: 'A', bg: 'bg-white text-black', rotate: '-rotate-3' },
       { char: 'B', bg: 'bg-black text-white border border-white', rotate: 'rotate-3' },
@@ -70,7 +70,7 @@ const MENU_ITEMS: MenuItemConfig[] = [
     id: 'callingCard',
     label: 'CONTACT',
     rotation: 'rotate-3',
-    offsetClass: 'ml-18 sm:ml-30 md:ml-40',
+    offsetClass: 'ml-6 sm:ml-9 md:ml-12',
     letters: [
       { char: 'C', bg: 'bg-white text-black', rotate: '-rotate-3' },
       { char: 'O', bg: 'bg-black text-white border border-white', rotate: 'rotate-2' },
