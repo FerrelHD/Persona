@@ -1,4 +1,4 @@
-﻿import React, { useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { usePersonaSFX } from '@/hooks/usePersonaSFX'
 
 interface PageCutoutOverlayProps {
@@ -77,8 +77,8 @@ export const PageCutoutOverlay: React.FC<PageCutoutOverlayProps> = ({
             alt={displayTitle}
             className={`h-auto object-contain filter drop-shadow-[8px_8px_0px_#000000] pointer-events-none ${
               isLong
-                ? 'w-[275px] sm:w-[325px] md:w-[375px] lg:w-[410px]'
-                : 'w-[250px] sm:w-[295px] md:w-[340px] lg:w-[370px]'
+                ? 'w-[275px] sm:w-[325px] md:w-[375px] lg:w-[410px] laptop-title-sm-long'
+                : 'w-[250px] sm:w-[295px] md:w-[340px] lg:w-[370px] laptop-title-sm'
             }`}
           />
 
@@ -99,8 +99,8 @@ export const PageCutoutOverlay: React.FC<PageCutoutOverlayProps> = ({
                     className={`
                       inline-flex items-center justify-center shrink-0
                       ${isLong
-                        ? 'min-w-[15px] sm:min-w-[19px] md:min-w-[23px] h-[24px] sm:h-[30px] md:h-[36px] px-0.5 font-p5Heading text-sm sm:text-lg md:text-xl'
-                        : 'min-w-[21px] sm:min-w-[26px] md:min-w-[30px] h-[32px] sm:h-[39px] md:h-[45px] px-1 font-p5Heading text-xl sm:text-2xl md:text-3xl shadow-[3px_3px_0px_#000000]'
+                        ? 'min-w-[15px] sm:min-w-[19px] md:min-w-[23px] h-[24px] sm:h-[30px] md:h-[36px] px-0.5 font-p5Heading text-sm sm:text-lg md:text-xl laptop-char-letter-long'
+                        : 'min-w-[21px] sm:min-w-[26px] md:min-w-[30px] h-[32px] sm:h-[39px] md:h-[45px] px-1 font-p5Heading text-xl sm:text-2xl md:text-3xl shadow-[3px_3px_0px_#000000] laptop-char-letter'
                       }
                       uppercase border-[1.5px] border-black shadow-[2px_2px_0px_#000000]
                       ${isAccent ? ac.badge : 'bg-black text-white'}

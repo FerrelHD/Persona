@@ -1,4 +1,4 @@
-﻿import React, { useState } from 'react'
+import React, { useState } from 'react'
 import { PageCutoutOverlay } from '@/components/common/PageCutoutOverlay'
 import { usePersonaSFX } from '@/hooks/usePersonaSFX'
 import { Mail, CheckCircle2, Copy, Send, Radio, ExternalLink, Flame, ShieldAlert } from 'lucide-react'
@@ -127,7 +127,7 @@ export const CallingCardScreen: React.FC<CallingCardScreenProps> = ({ onBack }) 
       />
 
       {/* Main Content Area: Centered vertically */}
-      <div className="flex-1 flex flex-col justify-center items-start my-auto z-20 w-full max-w-2xl lg:max-w-[53%] pl-2 sm:pl-6 md:pl-8">
+      <div className="flex-1 flex flex-col justify-center items-start my-auto z-20 w-full max-w-2xl lg:max-w-[53%] pl-2 sm:pl-6 md:pl-8 laptop-comms-deck">
 
         {/* Authentic Physical Calling Card Postcard with Push Pin & Dog-Ear Corner */}
         <div

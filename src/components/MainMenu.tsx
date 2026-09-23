@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { RansomTitle } from '@/components/RansomTitle'
 import { usePersonaSFX } from '@/hooks/usePersonaSFX'
 
@@ -131,8 +131,8 @@ export const MainMenu: React.FC<MainMenuProps> = ({ onSelectScreen, onBackToTitl
         <RansomTitle />
       </div>
 
-      {/* Menu Container: Diposisikan agak ke bawah dikit dari sebelumnya (posisi sedeng) */}
-      <div className="z-20 my-auto mt-16 sm:mt-24 laptop-main-menu-mt flex flex-col items-start gap-2.5 sm:gap-3.5 md:gap-4 laptop-compact-deck w-fit ml-0">
+      {/* Menu Container: Centered vertically between title and footer with pleasant downward balance */}
+      <div className="z-20 my-auto translate-y-3 sm:translate-y-5 md:translate-y-6 flex flex-col items-start gap-2.5 sm:gap-3.5 md:gap-4 laptop-compact-deck w-fit ml-0">
         {MENU_ITEMS.map((item, index) => {
           const isFocused = selectedIndex === index
 
