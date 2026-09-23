@@ -165,7 +165,7 @@ export const AboutScreen: React.FC<AboutScreenProps> = ({ onBack }) => {
               top: '47.5%',
               width: '17.4%',
               height: '76%',
-              transform: 'translate(-50%, -50%) rotate(5.8deg)',
+              transform: 'translate(-50%, -50%) rotate(6.6deg)',
             }}
           >
             {/* Subtle Manga Comic Halftone Specks in Screen Background */}
