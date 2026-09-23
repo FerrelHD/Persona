@@ -146,3 +146,128 @@
     transform: rotate(6deg) translateY(-3px);
   }
 }
+
+/* ── HYBRID ADAPTIVE LAPTOP VIEWPORT UTILITIES ── */
+/* Laptop Standard (<= 820px viewport height: 1080p @ 125% Windows scaling, 768p displays) */
+@media (max-height: 820px) {
+  .laptop-compact-deck {
+    padding-top: 0.25rem !important;
+    padding-bottom: 0.25rem !important;
+    gap: 0.4rem !important;
+  }
+  .laptop-title-sm {
+    width: 250px !important;
+  }
+  .laptop-title-sm-long {
+    width: 285px !important;
+  }
+  .laptop-char-letter {
+    min-width: 20px !important;
+    height: 30px !important;
+    font-size: 1.15rem !important;
+  }
+  .laptop-char-letter-long {
+    min-width: 16px !important;
+    height: 25px !important;
+    font-size: 0.9rem !important;
+  }
+  .laptop-legend-bottom {
+    bottom: 0.65rem !important;
+  }
+  .laptop-legend-bottom-right {
+    bottom: 0.65rem !important;
+  }
+  .laptop-skills-pad {
+    padding-top: 3.5rem !important;
+    padding-bottom: 0.25rem !important;
+  }
+  .laptop-radar-svg {
+    width: 96px !important;
+    height: 96px !important;
+  }
+  .laptop-stat-row {
+    padding-top: 0.1rem !important;
+    padding-bottom: 0.1rem !important;
+  }
+  .laptop-skill-btn {
+    padding: 0.35rem 0.5rem !important;
+  }
+  .laptop-inspector-pad {
+    padding: 0.5rem 0.75rem !important;
+  }
+  .laptop-completed-text {
+    font-size: 3.25rem !important;
+    line-height: 1 !important;
+  }
+  .laptop-phone-wrapper {
+    height: 82vh !important;
+    transform: translateY(1.5rem) translateX(-12%) !important;
+  }
+  .laptop-calendar-top {
+    top: 3.5rem !important;
+  }
+  .laptop-postcard-pad {
+    padding: 0.65rem 0.85rem !important;
+  }
+  .laptop-main-menu-mt {
+    margin-top: 2.25rem !important;
+  }
+  .laptop-main-btn {
+    height: 52px !important;
+  }
+  .laptop-main-text {
+    font-size: 2.5rem !important;
+    line-height: 1.1 !important;
+  }
+  .laptop-main-letter {
+    min-width: 30px !important;
+    height: 42px !important;
+  }
+  .laptop-main-letter-text {
+    font-size: 1.5rem !important;
+  }
+  .laptop-ransom-tile {
+    width: 2.75rem !important;
+    height: 3.5rem !important;
+    font-size: 2rem !important;
+  }
+}
+
+/* Compact Laptop / Low-Res (<= 720px viewport height: 1080p @ 150% scaling, 720p HD) */
+@media (max-height: 720px) {
+  .laptop-completed-text {
+    font-size: 2.65rem !important;
+  }
+  .laptop-phone-wrapper {
+    height: 78vh !important;
+    transform: translateY(1rem) translateX(-12%) !important;
+  }
+  .laptop-main-menu-mt {
+    margin-top: 1.25rem !important;
+  }
+  .laptop-main-btn {
+    height: 44px !important;
+  }
+  .laptop-main-text {
+    font-size: 2.15rem !important;
+  }
+  .laptop-main-letter {
+    min-width: 26px !important;
+    height: 36px !important;
+  }
+  .laptop-main-letter-text {
+    font-size: 1.25rem !important;
+  }
+  .laptop-radar-svg {
+    width: 80px !important;
+    height: 80px !important;
+  }
+  .laptop-skills-pad {
+    padding-top: 3rem !important;
+  }
+  .laptop-ransom-tile {
+    width: 2.5rem !important;
+    height: 3.15rem !important;
+    font-size: 1.75rem !important;
+  }
+}

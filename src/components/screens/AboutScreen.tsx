@@ -131,7 +131,7 @@ export const AboutScreen: React.FC<AboutScreenProps> = ({ onBack }) => {
       <div className="relative w-full h-full flex items-center justify-start overflow-hidden">
         
         {/* Top-Left Calendar Widget outside phone frame */}
-        <div className="absolute top-18 sm:top-20 md:top-22 left-6 sm:left-12 md:left-16 z-30 flex items-center gap-3 -rotate-3 select-none pointer-events-none filter drop-shadow-[4px_4px_0px_#000]">
+        <div className="absolute top-18 sm:top-20 md:top-22 laptop-calendar-top left-6 sm:left-12 md:left-16 z-30 flex items-center gap-3 -rotate-3 select-none pointer-events-none filter drop-shadow-[4px_4px_0px_#000]">
           <div className="flex items-center gap-1.5 bg-white text-black px-3 py-1 border-2 border-black -skew-x-12">
             <span className="font-p5Heading text-2xl sm:text-3xl font-black tracking-tighter">9/23</span>
             <div className="flex flex-col leading-none ml-1">
@@ -148,7 +148,7 @@ export const AboutScreen: React.FC<AboutScreenProps> = ({ onBack }) => {
 
         {/* The 16:9 Frame Holding the Phone (Shifted Down & Left as requested) */}
         <div 
-          className="relative h-[84vh] sm:h-[88vh] md:h-[90vh] aspect-[1673/940] max-w-none -translate-x-[18%] sm:-translate-x-[14%] md:-translate-x-[10%] translate-y-12 sm:translate-y-16 md:translate-y-18 pointer-events-auto"
+          className="relative h-[84vh] sm:h-[88vh] md:h-[90vh] laptop-phone-wrapper aspect-[1673/940] max-w-none -translate-x-[18%] sm:-translate-x-[14%] md:-translate-x-[10%] translate-y-12 sm:translate-y-16 md:translate-y-18 pointer-events-auto"
         >
           {/* 1. Base Phone Artwork with Seamless Pre-filled Crimson Red Screen (Solusi 1) */}
           <img

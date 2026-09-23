@@ -118,7 +118,7 @@ export const PageCutoutOverlay: React.FC<PageCutoutOverlayProps> = ({
 
       {/* Fixed Persona 5 Controller Legend - Locked to exact universal coordinates */}
       {!hideBottomLegend && (
-        <div className="fixed bottom-5 sm:bottom-7 md:bottom-8 left-6 sm:left-10 md:left-14 z-40 flex items-center gap-3 sm:gap-5 flex-wrap text-xs sm:text-sm text-zinc-300 pointer-events-auto select-none">
+        <div className="fixed bottom-5 sm:bottom-7 md:bottom-8 laptop-legend-bottom left-6 sm:left-10 md:left-14 z-40 flex items-center gap-3 sm:gap-5 flex-wrap text-xs sm:text-sm text-zinc-300 pointer-events-auto select-none">
           {/* (O) BACK button */}
           <button
             type="button"
@@ -157,7 +157,7 @@ export const PageCutoutOverlay: React.FC<PageCutoutOverlayProps> = ({
       )}
 
       {/* ── BOTTOM-RIGHT: Ribbon character badge ── */}
-      <div className="pointer-events-none fixed bottom-6 sm:bottom-8 md:bottom-10 right-6 sm:right-8 md:right-10 z-40 select-none">
+      <div className="pointer-events-none fixed bottom-6 sm:bottom-8 md:bottom-10 laptop-legend-bottom-right right-6 sm:right-8 md:right-10 z-40 select-none">
         <div
           className={`
             flex items-center bg-black border-l-4 ${ac.border}

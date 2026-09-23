@@ -27,7 +27,7 @@ export const RansomTitle: React.FC = () => {
         {LETTERS.map((item, idx) => (
           <div
             key={idx}
-            className={`flex items-center justify-center w-12 h-16 md:w-16 md:h-20 border-[3.5px] font-p5Heading text-4xl md:text-5xl tracking-normal shadow-[4px_4px_0px_#000000] ${item.bg} ${item.rotate} ${item.scale} transition-transform duration-200 hover:scale-125 hover:z-20 cursor-default`}
+            className={`flex items-center justify-center w-12 h-16 md:w-16 md:h-20 laptop-ransom-tile border-[3.5px] font-p5Heading text-4xl md:text-5xl tracking-normal shadow-[4px_4px_0px_#000000] ${item.bg} ${item.rotate} ${item.scale} transition-transform duration-200 hover:scale-125 hover:z-20 cursor-default`}
           >
             {item.char}
           </div>

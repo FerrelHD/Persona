@@ -116,7 +116,7 @@ export const CallingCardScreen: React.FC<CallingCardScreenProps> = ({ onBack }) 
   }
 
   return (
-    <div className="fixed inset-0 z-30 flex flex-col justify-between p-4 sm:p-6 md:p-8 select-none overflow-hidden bg-gradient-to-r from-black/95 from-0% via-black/80 via-35% to-transparent to-55% animate-in fade-in duration-200 pt-20 sm:pt-24 md:pt-26 pb-6">
+    <div className="fixed inset-0 z-30 flex flex-col justify-between p-4 sm:p-6 md:p-8 select-none overflow-hidden bg-gradient-to-r from-black/95 from-0% via-black/80 via-35% to-transparent to-55% animate-in fade-in duration-200 pt-20 sm:pt-24 md:pt-26 laptop-skills-pad pb-6">
       {/* Page Title Cutout Overlay with COMMS label */}
       <PageCutoutOverlay
         title="COMMS"
@@ -131,7 +131,7 @@ export const CallingCardScreen: React.FC<CallingCardScreenProps> = ({ onBack }) 
 
         {/* Authentic Physical Calling Card Postcard with Push Pin & Dog-Ear Corner */}
         <div
-          className={`relative w-full bg-[#FAF8F5] text-black border-4 sm:border-[5px] border-black shadow-[10px_10px_0px_#000000] -rotate-1 transition-transform duration-300 p-4 sm:p-5 ${isShaking ? 'animate-bounce' : ''
+          className={`relative w-full bg-[#FAF8F5] text-black border-4 sm:border-[5px] border-black shadow-[10px_10px_0px_#000000] -rotate-1 transition-transform duration-300 p-4 sm:p-5 laptop-postcard-pad ${isShaking ? 'animate-bounce' : ''
             }`}
         >
           {/* 3D Bulletin Thumbtack Pin */}
@@ -161,7 +161,7 @@ export const CallingCardScreen: React.FC<CallingCardScreenProps> = ({ onBack }) 
           </div>
 
           {/* Form */}
-          <form onSubmit={handleSend} className="space-y-3">
+          <form onSubmit={handleSend} className="space-y-3 laptop-compact-deck">
             {/* Target Input with Ransom Cutout Styling */}
             <div className="flex items-center gap-2 font-p5Heading text-sm sm:text-base border-b-2 border-zinc-800 pb-1">
               <div className="flex items-center gap-0.5">

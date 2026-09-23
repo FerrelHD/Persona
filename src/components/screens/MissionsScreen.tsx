@@ -31,7 +31,7 @@ const StarLensBurst: React.FC = () => (
 
 // COMPLETED Typography with stars inside O and D
 const CompletedTitle: React.FC = () => (
-  <div className="relative inline-flex items-center text-white font-p5Heading text-5xl sm:text-6xl md:text-7xl lg:text-8xl tracking-wider select-none drop-shadow-[5px_5px_0px_#000000]">
+  <div className="relative inline-flex items-center text-white font-p5Heading text-5xl sm:text-6xl md:text-7xl lg:text-8xl laptop-completed-text tracking-wider select-none drop-shadow-[5px_5px_0px_#000000]">
     <span>C</span>
     {/* O with Star cutout */}
     <span className="relative inline-flex items-center justify-center">
@@ -125,8 +125,8 @@ export const MissionsScreen: React.FC<MissionsScreenProps> = ({ onBack }) => {
       </div>
 
       {/* ── MAIN SLANTED SAVE SLOTS DECK (No clipping, natural Persona slant) ── */}
-      <div className="flex-1 flex flex-col justify-center items-start w-full max-w-4xl lg:max-w-[58%] pl-6 sm:pl-10 md:pl-14 lg:pl-16 z-20 py-12 sm:py-16 overflow-visible">
-        <div className="w-full flex flex-col gap-3.5 sm:gap-4.5 justify-center overflow-visible">
+      <div className="flex-1 flex flex-col justify-center items-start w-full max-w-4xl lg:max-w-[58%] pl-6 sm:pl-10 md:pl-14 lg:pl-16 z-20 py-12 sm:py-16 laptop-compact-deck overflow-visible">
+        <div className="w-full flex flex-col gap-3.5 sm:gap-4.5 laptop-compact-deck justify-center overflow-visible">
           {MISSIONS_DATA.map((mission, idx) => {
             const isSelected = idx === selectedIndex
             const diff = idx - selectedIndex
@@ -194,7 +194,7 @@ export const MissionsScreen: React.FC<MissionsScreenProps> = ({ onBack }) => {
                 </div>
 
                 {/* Center Content: Giant "COMPLETED" + Play Time */}
-                <div className="relative z-10 px-6 sm:px-8 py-2 sm:py-3 flex flex-col md:flex-row md:items-end justify-between gap-3">
+                <div className="relative z-10 px-6 sm:px-8 py-2 sm:py-3 laptop-inspector-pad flex flex-col md:flex-row md:items-end justify-between gap-3">
                   <div>
                     {/* The Giant Cutout COMPLETED Title */}
                     <CompletedTitle />
@@ -312,7 +312,7 @@ export const MissionsScreen: React.FC<MissionsScreenProps> = ({ onBack }) => {
       </div>
 
       {/* ── BOTTOM CONTROLLER LEGEND ── */}
-      <div className="fixed bottom-5 sm:bottom-7 md:bottom-8 left-6 sm:left-10 md:left-14 z-40 flex items-center gap-3 sm:gap-5 flex-wrap text-xs sm:text-sm text-zinc-300 pointer-events-auto select-none">
+      <div className="fixed bottom-5 sm:bottom-7 md:bottom-8 laptop-legend-bottom left-6 sm:left-10 md:left-14 z-40 flex items-center gap-3 sm:gap-5 flex-wrap text-xs sm:text-sm text-zinc-300 pointer-events-auto select-none">
         <button
           onClick={() => {
             playBack()

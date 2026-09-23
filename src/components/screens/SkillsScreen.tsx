@@ -149,7 +149,7 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
   }).join(' ')
 
   return (
-    <div className="fixed inset-0 z-30 flex flex-col justify-between p-4 sm:p-6 md:p-8 select-none overflow-hidden bg-gradient-to-r from-black/95 from-0% via-black/80 via-35% to-transparent to-55% animate-in fade-in duration-200 pt-16 sm:pt-20 md:pt-22 pb-4">
+    <div className="fixed inset-0 z-30 flex flex-col justify-between p-4 sm:p-6 md:p-8 select-none overflow-hidden bg-gradient-to-r from-black/95 from-0% via-black/80 via-35% to-transparent to-55% animate-in fade-in duration-200 pt-16 sm:pt-20 md:pt-22 laptop-skills-pad pb-4">
       {/* Page Title Cutout Overlay */}
       <PageCutoutOverlay
         title="SKILL PARAMETERS"
@@ -161,17 +161,17 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
 
       {/* Main Content Area: Left side (58% max width) so Futaba character on right remains visible */}
       <div className="flex-1 flex flex-col justify-center items-start my-auto z-20 w-full max-w-4xl lg:max-w-[58%] pl-2 sm:pl-6 md:pl-8">
-        <div className="w-full space-y-2.5">
+        <div className="w-full space-y-2.5 laptop-compact-deck">
 
           {/* 1. Top Section: Tactical Pentagon Radar + High-Contrast Stat Summary */}
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-3 bg-black/95 border-2 border-white p-3 -skew-x-2 shadow-[6px_6px_0px_#000000]">
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-3 bg-black/95 border-2 border-white p-3 laptop-inspector-pad -skew-x-2 shadow-[6px_6px_0px_#000000]">
             {/* SVG Pentagon Radar */}
             <div className="md:col-span-5 flex flex-col items-center justify-center relative">
               <span className="font-p5Sub text-[10px] text-white font-bold tracking-widest uppercase self-start mb-0.5 flex items-center gap-1.5">
                 <span className="size-2 bg-zinc-400 animate-pulse" />
                 PARAMETER RADAR // LV. 99
               </span>
-              <svg viewBox="0 0 150 150" className="w-[125px] h-[125px]">
+              <svg viewBox="0 0 150 150" className="w-[125px] h-[125px] laptop-radar-svg">
                 <polygon points={getPoints(1.0)} fill="none" stroke="#555555" strokeWidth="1.2" />
                 <polygon points={getPoints(0.75)} fill="none" stroke="#333333" strokeWidth="1" />
                 <polygon points={getPoints(0.5)} fill="none" stroke="#222222" strokeWidth="1" />
@@ -230,7 +230,7 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
             {/* Radar Stat Readout Cards (High Contrast) */}
             <div className="md:col-span-7 flex flex-col justify-center gap-1 font-p5Mono">
               {RADAR_STATS.map(stat => (
-                <div key={stat.key} className="flex items-center justify-between bg-zinc-950 px-2.5 py-1 border border-zinc-700 text-xs">
+                <div key={stat.key} className="flex items-center justify-between bg-zinc-950 px-2.5 py-1 laptop-stat-row border border-zinc-700 text-xs">
                   <div className="flex items-center gap-2">
                     <span className="font-black text-zinc-300 text-xs">{stat.key}</span>
                     <span className="text-white font-bold text-[11px]">{stat.label}</span>
@@ -272,7 +272,7 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
                     }}
                     onMouseEnter={playHover}
                     className={`
-                      relative p-2.5 text-left border-2 transition-all duration-150 -skew-x-2 cursor-pointer
+                      relative p-2.5 laptop-skill-btn text-left border-2 transition-all duration-150 -skew-x-2 cursor-pointer
                       ${isSelected
                         ? 'bg-zinc-600 border-white text-white shadow-[4px_4px_0px_#FFFFFF] scale-[1.02] z-10'
                         : 'bg-black/95 border-zinc-600 text-white hover:border-white hover:bg-zinc-900 shadow-[3px_3px_0px_#000000]'
@@ -303,7 +303,7 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
           </div>
 
           {/* 3. Bottom Section: Active Skill Inspector Readout Panel (High Contrast & Clear) */}
-          <div className="bg-black/95 border-3 border-zinc-500 p-3 sm:p-4 -skew-x-2 shadow-[6px_6px_0px_#000000]">
+          <div className="bg-black/95 border-3 border-zinc-500 p-3 sm:p-4 laptop-inspector-pad -skew-x-2 shadow-[6px_6px_0px_#000000]">
             <div className="flex items-center justify-between border-b-2 border-zinc-700 pb-2 mb-2 flex-wrap gap-2">
               <div className="flex items-center gap-2">
                 <span className={`px-2 py-0.5 font-p5Mono text-[11px] font-black border border-black shadow-[1px_1px_0px_#000] ${ELEMENT_BADGES[activeSkill.element].bg}`}>

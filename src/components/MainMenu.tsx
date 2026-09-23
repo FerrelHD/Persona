@@ -132,7 +132,7 @@ export const MainMenu: React.FC<MainMenuProps> = ({ onSelectScreen, onBackToTitl
       </div>
 
       {/* Menu Container: Diposisikan agak ke bawah dikit dari sebelumnya (posisi sedeng) */}
-      <div className="z-20 my-auto mt-16 sm:mt-24 flex flex-col items-start gap-2.5 sm:gap-3.5 md:gap-4 w-fit ml-0">
+      <div className="z-20 my-auto mt-16 sm:mt-24 laptop-main-menu-mt flex flex-col items-start gap-2.5 sm:gap-3.5 md:gap-4 laptop-compact-deck w-fit ml-0">
         {MENU_ITEMS.map((item, index) => {
           const isFocused = selectedIndex === index
 
@@ -178,7 +178,7 @@ export const MainMenu: React.FC<MainMenuProps> = ({ onSelectScreen, onBackToTitl
                       {item.letters.map((ltr, ltrIdx) => (
                         <span
                           key={ltrIdx}
-                          className={`inline-flex items-center justify-center min-w-[32px] md:min-w-[40px] h-[46px] md:h-[56px] px-1.5 md:px-2.5 font-p5Heading text-2xl sm:text-3xl md:text-4xl uppercase shadow-[3px_3px_0px_#000000] border-2 border-black ${ltr.bg} ${ltr.rotate} transition-transform duration-100 hover:scale-120`}
+                          className={`inline-flex items-center justify-center min-w-[32px] md:min-w-[40px] h-[46px] md:h-[56px] laptop-main-letter px-1.5 md:px-2.5 font-p5Heading text-2xl sm:text-3xl md:text-4xl laptop-main-letter-text uppercase shadow-[3px_3px_0px_#000000] border-2 border-black ${ltr.bg} ${ltr.rotate} transition-transform duration-100 hover:scale-120`}
                         >
                           {ltr.char}
                         </span>
@@ -192,7 +192,7 @@ export const MainMenu: React.FC<MainMenuProps> = ({ onSelectScreen, onBackToTitl
                 ) : (
                   /* DEFAULT RESTING STATE */
                   <div className="px-3 py-1 hover:translate-x-2 transition-transform duration-150">
-                    <span className="font-p5Heading text-4xl sm:text-5xl md:text-6xl text-white tracking-widest uppercase filter drop-shadow-[4px_4px_0px_#000000] hover:text-p5-yellow transition-colors">
+                    <span className="font-p5Heading text-4xl sm:text-5xl md:text-6xl laptop-main-text text-white tracking-widest uppercase filter drop-shadow-[4px_4px_0px_#000000] hover:text-p5-yellow transition-colors">
                       {item.label}
                     </span>
                   </div>
@@ -204,7 +204,7 @@ export const MainMenu: React.FC<MainMenuProps> = ({ onSelectScreen, onBackToTitl
       </div>
 
       {/* Bottom Bar: Action Legend */}
-      <div className="z-20 flex items-center gap-3 sm:gap-5 flex-wrap text-xs sm:text-sm text-zinc-300 pointer-events-auto">
+      <div className="z-20 flex items-center gap-3 sm:gap-5 flex-wrap text-xs sm:text-sm text-zinc-300 laptop-legend-bottom pointer-events-auto">
         {onBackToTitle && (
           <button
             onClick={() => {
