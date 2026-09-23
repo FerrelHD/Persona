@@ -277,13 +277,52 @@
   will-change: transform, opacity;
 }
 
+/* ── Persona 5 Subway Train Rush Exit Animation ── */
+@keyframes p5-train-rush {
+  0% {
+    transform: translate3d(0, 0, 0) skewX(0deg);
+  }
+  20% {
+    transform: translate3d(24px, 0, 0) skewX(2deg);
+  }
+  100% {
+    transform: translate3d(-115vw, 0, 0) skewX(-20deg);
+  }
+}
+
+@keyframes p5-speedline-streak {
+  0% {
+    transform: translate3d(100vw, 0, 0) scaleX(0.5);
+    opacity: 0;
+  }
+  30% {
+    opacity: 0.9;
+  }
+  100% {
+    transform: translate3d(-120vw, 0, 0) scaleX(3);
+    opacity: 0;
+  }
+}
+
+.p5-train-rush-active {
+  animation: p5-train-rush 0.38s cubic-bezier(0.3, 0, 0.2, 1) forwards;
+  will-change: transform;
+}
+
+.p5-speedline {
+  animation: p5-speedline-streak 0.35s cubic-bezier(0.1, 0.8, 0.2, 1) forwards;
+  will-change: transform, opacity;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .p5-menu-entrance,
   .p5-badge-slash,
   .p5-badge-stamp,
   .p5-tile-entrance,
   .p5-sub-entrance,
-  .p5-footer-entrance {
+  .p5-footer-entrance,
+  .p5-train-rush-active,
+  .p5-speedline {
     animation: none !important;
   }
 }

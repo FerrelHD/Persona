@@ -63,9 +63,10 @@ export function App() {
     if (hasTriggeredFadeRef.current) return
     if (minTimerPassedRef.current && videoReadyRef.current) {
       hasTriggeredFadeRef.current = true
+      playSlash()
       setLoadingFadingOut(true)
     }
-  }, [])
+  }, [playSlash])
 
   // Initial loading timer: at least 900ms to appreciate transit animation, and max 2.8s safety fallback
   useEffect(() => {
@@ -77,6 +78,7 @@ export function App() {
     const maxTimer = setTimeout(() => {
       if (!hasTriggeredFadeRef.current) {
         hasTriggeredFadeRef.current = true
+        playSlash()
         setLoadingFadingOut(true)
       }
     }, 2800)
@@ -85,14 +87,14 @@ export function App() {
       clearTimeout(minTimer)
       clearTimeout(maxTimer)
     }
-  }, [checkLoadingComplete])
+  }, [checkLoadingComplete, playSlash])
 
-  // Safety watchdog for loading fade-out
+  // Safety watchdog for train rush exit animation (380ms animation duration)
   useEffect(() => {
     if (loadingFadingOut && initialLoading) {
       const timer = setTimeout(() => {
         handleLoadingFadeEnd()
-      }, 350)
+      }, 420)
       return () => clearTimeout(timer)
     }
   }, [loadingFadingOut, initialLoading, handleLoadingFadeEnd])

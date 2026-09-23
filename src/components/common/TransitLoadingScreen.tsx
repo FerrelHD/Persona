@@ -12,11 +12,20 @@ export const TransitLoadingScreen: React.FC<TransitLoadingScreenProps> = ({
 }) => {
   return (
     <div
-      className={`fixed inset-0 z-[10000] bg-[#0c0c0e] overflow-hidden select-none pointer-events-none transition-opacity duration-300 ease-out ${
-        isFadingOut ? 'opacity-0' : 'opacity-100'
+      className={`fixed inset-0 z-[10000] bg-[#0c0c0e] overflow-hidden select-none pointer-events-none ${
+        isFadingOut ? 'p5-train-rush-active' : ''
       }`}
-      onTransitionEnd={onFadeEnd}
+      onAnimationEnd={isFadingOut ? onFadeEnd : undefined}
     >
+      {/* ── SUBWAY TRAIN RUSH SPEEDLINES (Active during exit rush) ── */}
+      {isFadingOut && (
+        <div className="absolute inset-0 pointer-events-none z-50 overflow-hidden">
+          <div className="absolute top-[20%] right-0 w-[80vw] h-1.5 bg-white -skew-x-12 p5-speedline shadow-[0_0_12px_#ffffff]" style={{ animationDelay: '0ms' }} />
+          <div className="absolute top-[45%] right-0 w-[90vw] h-3 bg-[#E60012] -skew-x-12 p5-speedline shadow-[0_0_15px_#E60012]" style={{ animationDelay: '40ms' }} />
+          <div className="absolute top-[60%] right-0 w-[70vw] h-1 bg-[#FEE000] -skew-x-12 p5-speedline shadow-[0_0_10px_#FEE000]" style={{ animationDelay: '70ms' }} />
+          <div className="absolute top-[75%] right-0 w-[85vw] h-2 bg-white -skew-x-12 p5-speedline shadow-[0_0_12px_#ffffff]" style={{ animationDelay: '100ms' }} />
+        </div>
+      )}
       {/* ── BACKGROUND: Persona 5 Crimson Jagged Slash ── */}
       <div
         className="absolute inset-0 bg-[#E60012] pointer-events-none transform -skew-x-12 translate-x-12 sm:translate-x-24 scale-110 opacity-95 shadow-[0_0_80px_rgba(230,0,18,0.5)]"
