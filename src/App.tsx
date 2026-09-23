@@ -158,10 +158,15 @@ export function App() {
         onReady={handleVideoReady}
       />
 
-      {/* Main Screens: Pre-mounted in DOM behind SplashScreen */}
+      {/* Main Screens */}
       <div className={`relative z-10 w-full h-full transition-opacity duration-150 ${!hasStarted ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
-        {currentScreen === 'menu' && (
-          <MainMenu onSelectScreen={handleSelectScreen} onBackToTitle={handleBackToTitle} initialSelectedScreen={lastVisitedScreen} />
+        {hasStarted && currentScreen === 'menu' && (
+          <MainMenu
+            onSelectScreen={handleSelectScreen}
+            onBackToTitle={handleBackToTitle}
+            initialSelectedScreen={lastVisitedScreen}
+            isRevealed={transPhase === 'idle'}
+          />
         )}
         {currentScreen === 'missions' && (
           <MissionsScreen onBack={handleBackToMenu} />

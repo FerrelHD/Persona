@@ -8,6 +8,7 @@ interface MainMenuProps {
   onSelectScreen: (screen: ActiveScreen) => void
   onBackToTitle?: () => void
   initialSelectedScreen?: ActiveScreen | null
+  isRevealed?: boolean
 }
 
 interface MenuItem {
@@ -77,7 +78,7 @@ const MENU_ITEMS: MenuItem[] = [
   }
 ]
 
-export const MainMenu: React.FC<MainMenuProps> = ({ onSelectScreen, onBackToTitle, initialSelectedScreen = null }) => {
+export const MainMenu: React.FC<MainMenuProps> = ({ onSelectScreen, onBackToTitle, initialSelectedScreen = null, isRevealed = true }) => {
   const { playHover, playSlash, playBack } = usePersonaSFX()
   
   // Calculate initial selected index from last visited screen, or null if fresh start
@@ -127,7 +128,7 @@ export const MainMenu: React.FC<MainMenuProps> = ({ onSelectScreen, onBackToTitl
       />
 
       {/* Top Left Title */}
-      <div className="z-20 p5-title-entrance">
+      <div className={`z-20 ${isRevealed ? 'p5-title-entrance' : 'opacity-0'}`}>
         <RansomTitle />
       </div>
 
@@ -139,8 +140,8 @@ export const MainMenu: React.FC<MainMenuProps> = ({ onSelectScreen, onBackToTitl
           return (
             <div
               key={item.id}
-              className="p5-menu-entrance"
-              style={{ animationDelay: `${index * 60 + 70}ms` }}
+              className={isRevealed ? 'p5-menu-entrance' : 'opacity-0'}
+              style={isRevealed ? { animationDelay: `${index * 60 + 70}ms` } : undefined}
             >
               <div className={`transition-all duration-200 ${item.rotation} ${item.offsetClass}`}>
                 <button
@@ -207,7 +208,7 @@ export const MainMenu: React.FC<MainMenuProps> = ({ onSelectScreen, onBackToTitl
       </div>
 
       {/* Bottom Bar: Action Legend */}
-      <div className="z-20 flex items-center gap-3 sm:gap-5 flex-wrap text-xs sm:text-sm text-zinc-300 laptop-legend-bottom pointer-events-auto p5-footer-entrance">
+      <div className={`z-20 flex items-center gap-3 sm:gap-5 flex-wrap text-xs sm:text-sm text-zinc-300 laptop-legend-bottom pointer-events-auto ${isRevealed ? 'p5-footer-entrance' : 'opacity-0'}`}>
         {onBackToTitle && (
           <button
             onClick={() => {

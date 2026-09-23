@@ -190,17 +190,17 @@
 }
 
 .p5-menu-entrance {
-  animation: p5-menu-enter 0.38s cubic-bezier(0.16, 1, 0.3, 1) backwards;
+  animation: p5-menu-enter 0.38s cubic-bezier(0.16, 1, 0.3, 1) both;
   will-change: transform, opacity;
 }
 
 .p5-title-entrance {
-  animation: p5-title-enter 0.42s cubic-bezier(0.16, 1, 0.3, 1) backwards;
+  animation: p5-title-enter 0.42s cubic-bezier(0.16, 1, 0.3, 1) both;
   will-change: transform, opacity;
 }
 
 .p5-footer-entrance {
-  animation: p5-footer-enter 0.36s cubic-bezier(0.16, 1, 0.3, 1) 0.28s backwards;
+  animation: p5-footer-enter 0.36s cubic-bezier(0.16, 1, 0.3, 1) 0.28s both;
   will-change: transform, opacity;
 }
 
