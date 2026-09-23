@@ -2,7 +2,7 @@
 import { PageCutoutOverlay } from '@/components/common/PageCutoutOverlay'
 import { MISSIONS_DATA, Mission } from '@/data/personaData'
 import { usePersonaSFX } from '@/hooks/usePersonaSFX'
-import { ChevronLeft, ChevronRight, ExternalLink, Globe, Cpu, Flame, Database, Code, ShieldCheck, ShoppingCart, Leaf } from 'lucide-react'
+import { ExternalLink, X, ChevronUp, ChevronDown, Sparkles } from 'lucide-react'
 
 const GithubIcon: React.FC = () => (
   <svg className="size-4" viewBox="0 0 24 24" fill="currentColor">
@@ -11,56 +11,113 @@ const GithubIcon: React.FC = () => (
 )
 
 // Decorative 5-point star SVG
-const StarIcon: React.FC<{ className?: string; fill?: string }> = ({ className = 'size-6', fill = '#E60012' }) => (
+const StarIcon: React.FC<{ className?: string; fill?: string }> = ({ className = 'size-4', fill = '#ffffff' }) => (
   <svg viewBox="0 0 24 24" className={className} fill={fill}>
     <polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26" />
   </svg>
 )
 
-// Project icon helper
-const getProjectIcon = (category: string) => {
-  switch (category) {
-    case 'web': return <Globe className="size-16 text-cyan-400" />
-    case 'ai': return <Cpu className="size-16 text-purple-400" />
-    case 'game': return <Flame className="size-16 text-red-500" />
-    case 'ecommerce': return <ShoppingCart className="size-16 text-emerald-400" />
-    default: return <Code className="size-16 text-white" />
-  }
-}
+// Big Starburst Lens Flare cutting through the active card
+const StarLensBurst: React.FC = () => (
+  <div className="absolute -left-12 top-1/2 -translate-y-1/2 w-48 h-48 pointer-events-none z-20 flex items-center justify-center">
+    {/* Horizontal beam */}
+    <div className="absolute w-72 h-1.5 bg-gradient-to-r from-transparent via-white to-transparent opacity-95 rotate-12" />
+    {/* Vertical beam */}
+    <div className="absolute h-72 w-1.5 bg-gradient-to-b from-transparent via-white to-transparent opacity-95 -rotate-12" />
+    {/* Secondary 45deg beams */}
+    <div className="absolute w-44 h-1 bg-gradient-to-r from-transparent via-white to-transparent opacity-70 -rotate-45" />
+    {/* Core star diamond */}
+    <div className="size-8 bg-white rotate-45 shadow-[0_0_20px_#ffffff] animate-pulse" />
+  </div>
+)
+
+// COMPLETED Typography with stars inside O and D
+const CompletedTitle: React.FC = () => (
+  <div className="relative inline-flex items-center text-white font-p5Heading text-5xl sm:text-6xl md:text-7xl lg:text-8xl tracking-wider select-none drop-shadow-[5px_5px_0px_#000000]">
+    <span>C</span>
+    {/* O with Star cutout */}
+    <span className="relative inline-flex items-center justify-center">
+      <span>O</span>
+      <span className="absolute inset-0 flex items-center justify-center pointer-events-none">
+        <StarIcon className="size-4 sm:size-6 text-black fill-black" />
+      </span>
+    </span>
+    <span>MPLETE</span>
+    {/* D with Star cutout */}
+    <span className="relative inline-flex items-center justify-center">
+      <span>D</span>
+      <span className="absolute inset-0 flex items-center justify-center pointer-events-none">
+        <StarIcon className="size-3.5 sm:size-5 text-black fill-black" />
+      </span>
+    </span>
+    <span className="text-3xl sm:text-4xl md:text-5xl ml-1 self-start">.</span>
+  </div>
+)
 
 interface MissionsScreenProps {
   onBack: () => void
 }
 
 export const MissionsScreen: React.FC<MissionsScreenProps> = ({ onBack }) => {
-  const { playHover, playSlash } = usePersonaSFX()
-  const [currentIndex, setCurrentIndex] = useState(0)
-  const currentMission: Mission = MISSIONS_DATA[currentIndex]
+  const { playHover, playSlash, playBack } = usePersonaSFX()
+  const [selectedIndex, setSelectedIndex] = useState(0)
+  const [showDossierModal, setShowDossierModal] = useState(false)
 
-  // Keyboard navigation support: Left / Right arrows
+  const activeMission: Mission = MISSIONS_DATA[selectedIndex]
+
+  // Keyboard navigation: Up / Down arrow to switch slots, Enter to open Demo, Esc to back
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'ArrowRight') {
+      if (showDossierModal) {
+        if (e.key === 'Escape') {
+          e.preventDefault()
+          playBack()
+          setShowDossierModal(false)
+        }
+        return
+      }
+
+      if (e.key === 'ArrowDown') {
         e.preventDefault()
         playHover()
-        setCurrentIndex(prev => (prev + 1) % MISSIONS_DATA.length)
-      } else if (e.key === 'ArrowLeft') {
+        setSelectedIndex(prev => (prev + 1) % MISSIONS_DATA.length)
+      } else if (e.key === 'ArrowUp') {
         e.preventDefault()
         playHover()
-        setCurrentIndex(prev => (prev - 1 + MISSIONS_DATA.length) % MISSIONS_DATA.length)
+        setSelectedIndex(prev => (prev - 1 + MISSIONS_DATA.length) % MISSIONS_DATA.length)
+      } else if (e.key === 'Enter') {
+        e.preventDefault()
+        playSlash()
+        if (activeMission.liveUrl) {
+          window.open(activeMission.liveUrl, '_blank')
+        } else {
+          setShowDossierModal(true)
+        }
+      } else if (e.key === ' ' || e.key.toLowerCase() === 'd') {
+        e.preventDefault()
+        playSlash()
+        setShowDossierModal(true)
       }
     }
     window.addEventListener('keydown', handleKeyDown)
     return () => window.removeEventListener('keydown', handleKeyDown)
-  }, [playHover])
-
-  // Extract a clean display name for the ransom note tiles
-  const titleDisplay = currentMission.title.split('//')[0].trim().toUpperCase()
-  const titleLetters = titleDisplay.split('').slice(0, 16) // Max 16 characters for neat fit
+  }, [playHover, playSlash, playBack, activeMission, showDossierModal])
 
   return (
-    <div className="fixed inset-0 z-30 flex flex-col justify-between p-6 sm:p-8 md:p-10 select-none overflow-hidden bg-gradient-to-r from-black/85 via-black/45 to-transparent animate-in fade-in duration-200 pt-32 sm:pt-36 md:pt-40">
-      {/* Page Cutout Overlay: title top-left, character bottom-right, ESC to go back */}
+    <div className="fixed inset-0 z-30 flex flex-col justify-between select-none overflow-hidden bg-black/90 animate-in fade-in duration-300">
+      {/* Background Halftone & Shadow Accents */}
+      <div
+        className="absolute inset-0 pointer-events-none opacity-20"
+        style={{
+          backgroundImage: 'radial-gradient(#E60012 1.5px, transparent 1.5px)',
+          backgroundSize: '12px 12px',
+        }}
+      />
+
+      {/* Red Ambient Glow on Bottom Right like Leblanc Coffee Cup silhouette in reference */}
+      <div className="absolute -bottom-24 -right-24 w-[500px] h-[350px] bg-p5-crimson/35 rounded-full blur-3xl pointer-events-none" />
+
+      {/* Top Header Prompt & Menu Title */}
       <PageCutoutOverlay
         title="DEPLOYED MISSIONS"
         characterRole="PROTAGONIST"
@@ -69,128 +126,374 @@ export const MissionsScreen: React.FC<MissionsScreenProps> = ({ onBack }) => {
         onBack={onBack}
       />
 
-            {/* Main Content Area: Styled after the reference comic profile card */}
-      <div className="flex-1 flex flex-col justify-center my-auto z-20 w-full max-w-4xl lg:max-w-[58%]">
-        {/* 1. Ransom Note Project Title (Top Right aligned with card) */}
-        <div className="flex items-center gap-1 sm:gap-1.5 flex-wrap ml-auto mb-3 pr-2">
-          {titleLetters.map((char, idx) => {
-            if (char === ' ') {
-              return <span key={idx} className="w-2 sm:w-3" />
-            }
-            const isRed = idx === 0 || char === 'O' || char === 'I'
-            const rotation = idx % 3 === 0 ? '-rotate-3' : idx % 3 === 1 ? 'rotate-2' : '-rotate-1'
+      {/* Top Center Question Prompt (Exact Persona 5 Save/Load text) */}
+      <div className="fixed top-5 left-1/2 -translate-x-1/2 z-40 text-center pointer-events-none hidden md:block">
+        <p className="font-serif italic text-white/95 text-base lg:text-lg tracking-wider drop-shadow-[2px_2px_0px_#000000]">
+          Reread your entries up to this point?
+        </p>
+      </div>
 
-            return (
-              <span
-                key={idx}
-                className={`inline-flex items-center justify-center min-w-[28px] sm:min-w-[34px] md:min-w-[38px] h-[40px] sm:h-[48px] md:h-[54px] px-1.5 font-p5Heading text-2xl sm:text-3xl md:text-4xl uppercase border-2 sm:border-[3px] border-black shadow-[3px_3px_0px_#000000] ${
-                  isRed
-                    ? 'bg-p5-crimson text-white font-extrabold scale-105'
-                    : 'bg-white text-black'
-                } ${rotation} transition-transform hover:scale-125`}
+      {/* Top Right Difficulty / Status Badge */}
+      <div className="fixed top-4 right-6 z-40 hidden sm:flex items-center gap-2">
+        <span className="font-p5Heading text-2xl lg:text-3xl text-white tracking-widest drop-shadow-[3px_3px_0px_#000]">
+          Lv <span className="text-cyan-400">{activeMission.level}</span>
+        </span>
+        <span className="font-p5Sub text-xs text-zinc-400 tracking-wider bg-black/80 px-2.5 py-1 border border-zinc-700">
+          HEIST ARCHIVE
+        </span>
+      </div>
+
+      {/* Left Vertical Filmstrip Spine ("LoaD" / "SAVE DATA") */}
+      <div className="fixed left-2 sm:left-4 md:left-8 top-32 bottom-20 w-16 sm:w-20 z-20 flex flex-col items-center pointer-events-none hidden lg:flex">
+        {/* Slanted "LoaD" Ransom Header */}
+        <div className="bg-black border-[3px] border-white shadow-[4px_4px_0px_#000000] p-1.5 -rotate-6 mb-2">
+          <div className="flex flex-col items-center leading-none">
+            <span className="font-p5Heading text-3xl text-white">L</span>
+            <span className="size-6 rounded-full bg-p5-crimson flex items-center justify-center font-p5Heading text-base text-white my-0.5 border border-white">
+              o
+            </span>
+            <span className="font-p5Heading text-2xl text-white lowercase">a</span>
+            <span className="font-p5Heading text-3xl text-white">D</span>
+          </div>
+        </div>
+
+        {/* Vertical 35mm Filmstrip Sprocket Holes Line */}
+        <div className="flex-1 w-7 bg-zinc-950 border-x-2 border-zinc-800 flex flex-col justify-around items-center py-2 opacity-80">
+          {Array.from({ length: 14 }).map((_, i) => (
+            <div key={i} className="size-2 rounded-[1px] bg-black border border-zinc-700" />
+          ))}
+        </div>
+      </div>
+
+      {/* "?"? MAIN SLANTED SAVE SLOTS DECK (~ -14deg slant) "?"? */}
+      <div className="flex-1 flex flex-col justify-center items-center w-full max-w-7xl mx-auto px-4 sm:px-8 lg:pl-28 lg:pr-8 z-20 py-16 overflow-hidden">
+        <div className="w-full flex flex-col gap-2.5 sm:gap-3.5 max-h-[75vh] justify-center">
+          {MISSIONS_DATA.map((mission, idx) => {
+            const isSelected = idx === selectedIndex
+            // Distance from selected index for smooth stacked perspective
+            const diff = idx - selectedIndex
+            // Only show a window of slots for clean visibility on all screens
+            if (Math.abs(diff) > 2) return null
+
+            return isSelected ? (
+              /* "?"? ACTIVE SELECTED SLOT (Expanded Red Persona 5 Save Banner) "?"? */
+              <div
+                key={mission.id}
+                onClick={() => playSlash()}
+                className="relative w-full bg-p5-crimson border-4 sm:border-[5px] border-black shadow-[10px_10px_0px_#000000] -rotate-3 sm:-rotate-[4.5deg] transition-all duration-300 overflow-hidden cursor-pointer group"
+                style={{
+                  clipPath: 'polygon(0% 0%, 98% 0%, 100% 100%, 2% 100%)',
+                }}
               >
-                {char}
-              </span>
+                {/* OPTION B: High Contrast Project Image Blend into Background */}
+                <div className="absolute inset-0 pointer-events-none overflow-hidden">
+                  <img
+                    src={mission.image}
+                    alt={mission.title}
+                    className="w-full h-full object-cover filter grayscale contrast-150 brightness-90 mix-blend-multiply opacity-55 scale-105 transition-transform duration-700 group-hover:scale-110"
+                  />
+                  {/* Persona Halftone Texture Overlay */}
+                  <div
+                    className="absolute inset-0 opacity-25"
+                    style={{
+                      backgroundImage: 'radial-gradient(#000000 2px, transparent 2px)',
+                      backgroundSize: '8px 8px',
+                    }}
+                  />
+                  {/* Subtle Red Vignette Gradients */}
+                  <div className="absolute inset-0 bg-gradient-to-r from-p5-crimson via-transparent to-p5-crimson/90" />
+                </div>
+
+                {/* Left Starburst Flare Lens */}
+                <StarLensBurst />
+
+                {/* Top Info Bar inside Red Slot */}
+                <div className="relative z-10 flex items-center justify-between px-6 pt-3 sm:pt-4 text-white">
+                  <div className="flex items-center gap-3">
+                    {/* Number Badge (e.g. No. 1) */}
+                    <div className="bg-black text-white font-p5Heading text-lg sm:text-2xl px-2.5 py-0.5 border border-white shadow-[2px_2px_0px_#000] -rotate-2">
+                      {mission.slotNumber}
+                    </div>
+
+                    {/* Date / Day Badge (e.g. 2/3 Fr Evening) */}
+                    <div className="bg-white text-p5-crimson font-p5Heading text-base sm:text-xl px-3 py-0.5 border-2 border-black shadow-[2px_2px_0px_#000] flex items-center gap-1.5">
+                      <span className="font-extrabold text-p5-crimson">{mission.calendarDate.split(' ')[0]}</span>
+                      <span className="bg-p5-crimson text-white text-xs px-1.5 py-0.2 rounded font-sans font-bold uppercase">
+                        {mission.calendarDate.split(' ')[1] || 'Fr'}
+                      </span>
+                      <span className="text-black text-xs font-p5Sub ml-1 uppercase">
+                        {mission.calendarDate.split(' ').slice(2).join(' ') || 'Evening'}
+                      </span>
+                    </div>
+
+                    {/* Mission Category Pill */}
+                    <span className="hidden md:inline-block font-p5Sub text-[10px] tracking-wider text-black bg-yellow-300 px-2 py-0.5 border border-black uppercase font-bold">
+                      {mission.category.toUpperCase()}
+                    </span>
+                  </div>
+
+                  {/* Level & Location Stamp */}
+                  <div className="flex items-center gap-4 text-right">
+                    <div className="hidden sm:block text-xs font-p5Sub text-zinc-100 uppercase tracking-widest">
+                      {mission.location}
+                    </div>
+                    <div className="font-p5Heading text-2xl sm:text-3xl text-white tracking-widest drop-shadow-[2px_2px_0px_#000]">
+                      Lv {mission.level}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Center Content: Giant "COMPLETED" + Play Time */}
+                <div className="relative z-10 px-6 sm:px-10 py-2 sm:py-3 flex flex-col md:flex-row md:items-end justify-between gap-3">
+                  <div>
+                    {/* The Giant Cutout COMPLETED Title */}
+                    <CompletedTitle />
+
+                    {/* Real Project Title Subtext */}
+                    <div className="mt-1 flex items-center gap-2">
+                      <span className="bg-black text-white font-p5Heading text-lg sm:text-2xl px-3 py-0.5 border-2 border-white shadow-[3px_3px_0px_#000] tracking-wider">
+                        {mission.title}
+                      </span>
+                      <span className="hidden sm:inline-block font-p5Mono text-xs text-zinc-200 bg-black/60 px-2 py-0.5 border border-zinc-600">
+                        {mission.role}
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Subtext info: "STaRt a NEW GaME." & "PLaY TiME 97:58" */}
+                  <div className="flex flex-col items-start md:items-end gap-1.5 text-white">
+                    <div className="flex items-center gap-2">
+                      <span className="font-p5Heading text-sm sm:text-base tracking-widest text-zinc-200">
+                        PLaY TiME
+                      </span>
+                      <span className="font-p5Heading text-2xl sm:text-3xl text-yellow-300 drop-shadow-[2px_2px_0px_#000]">
+                        {mission.playTime}
+                      </span>
+                    </div>
+
+                    {/* Action buttons inside the active card */}
+                    <div className="flex items-center gap-2 mt-1">
+                      {mission.liveUrl && (
+                        <a
+                          href={mission.liveUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          onClick={e => e.stopPropagation()}
+                          className="inline-flex items-center gap-1.5 px-3 py-1 bg-white hover:bg-yellow-300 text-black font-p5Heading text-sm tracking-wider uppercase border-2 border-black shadow-[3px_3px_0px_#000000] transition-transform hover:scale-105 active:scale-95"
+                        >
+                          <ExternalLink className="size-3.5" />
+                          LAUNCH DEMO
+                        </a>
+                      )}
+
+                      <a
+                        href={mission.githubUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={e => e.stopPropagation()}
+                        className="inline-flex items-center gap-1.5 px-3 py-1 bg-black hover:bg-zinc-900 text-white font-p5Heading text-sm tracking-wider uppercase border-2 border-white shadow-[3px_3px_0px_#000000] transition-transform hover:scale-105 active:scale-95"
+                      >
+                        <GithubIcon />
+                        GITHUB REPO
+                      </a>
+
+                      <button
+                        onClick={e => {
+                          e.stopPropagation()
+                          playSlash()
+                          setShowDossierModal(true)
+                        }}
+                        className="px-3 py-1 bg-black text-yellow-300 font-p5Heading text-sm tracking-wider uppercase border-2 border-yellow-300 shadow-[3px_3px_0px_#000000] hover:bg-yellow-300 hover:text-black transition-all"
+                      >
+                        DOSSIER [D]
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Bottom Border Film Perforation Teeth */}
+                <div className="w-full h-3 bg-black flex items-center justify-around px-4">
+                  {Array.from({ length: 32 }).map((_, i) => (
+                    <div key={i} className="w-2.5 h-1.5 bg-p5-crimson rounded-[0.5px]" />
+                  ))}
+                </div>
+              </div>
+            ) : (
+              /* "?"? INACTIVE SLOT (White/Grey Slanted Filmstrip Ribbons) "?"? */
+              <div
+                key={mission.id}
+                onClick={() => {
+                  playHover()
+                  setSelectedIndex(idx)
+                }}
+                className="relative w-full bg-zinc-100 hover:bg-white text-black border-[3px] border-black shadow-[6px_6px_0px_#000000] -rotate-3 sm:-rotate-[4.5deg] py-2 sm:py-2.5 px-5 sm:px-8 transition-all duration-200 cursor-pointer hover:translate-x-2 group flex items-center justify-between overflow-hidden"
+                style={{
+                  clipPath: 'polygon(0% 0%, 98% 0%, 100% 100%, 2% 100%)',
+                }}
+              >
+                {/* Left Filmstrip Sprockets & Number */}
+                <div className="flex items-center gap-3 z-10">
+                  <div className="bg-black text-white font-p5Heading text-base sm:text-xl px-2 py-0.5 border border-black shadow-[2px_2px_0px_#000] -rotate-1 group-hover:bg-p5-crimson transition-colors">
+                    {mission.slotNumber}
+                  </div>
+
+                  {/* Phantom Thieves Star Icon */}
+                  <StarIcon className="size-4 text-p5-crimson fill-p5-crimson" />
+
+                  {/* Date Stamp */}
+                  <div className="font-p5Heading text-sm sm:text-base text-p5-crimson tracking-wider">
+                    {mission.calendarDate}
+                  </div>
+                </div>
+
+                {/* Watermark Project Name (Styled like "NoNE" in reference screenshot) */}
+                <div className="font-p5Heading text-xl sm:text-3xl md:text-4xl text-zinc-400 group-hover:text-black tracking-widest uppercase transition-colors truncate max-w-[50%]">
+                  {mission.title.split('//')[0]}
+                </div>
+
+                {/* Level Tag Right */}
+                <div className="z-10 font-p5Heading text-lg sm:text-2xl text-zinc-700 group-hover:text-p5-crimson transition-colors">
+                  Lv {mission.level}
+                </div>
+
+                {/* Left Perforation Strip on Hover */}
+                <div className="absolute left-0 top-0 bottom-0 w-2 bg-black group-hover:bg-p5-crimson transition-colors" />
+              </div>
             )
           })}
         </div>
+      </div>
 
-        {/* 2. Main Row: Left Polaroid Frame + Right White Card */}
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-5 items-start">
-          {/* Left Column: Photo / Preview Polaroid Box */}
-          <div className="md:col-span-4 flex flex-col items-center">
-            {/* Angled Polaroid Box with Real Image Support */}
-            <div className="relative w-44 sm:w-52 md:w-full aspect-square bg-zinc-950 border-[5px] border-black shadow-[7px_7px_0px_#000000] -rotate-3 flex flex-col items-center justify-center overflow-hidden group">
-              {currentMission.image ? (
-                /* Real Project Photo */
-                <div className="relative w-full h-full overflow-hidden">
-                  <img
-                    src={currentMission.image}
-                    alt={currentMission.title}
-                    className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110 filter contrast-105"
-                  />
-                  {/* Subtle Comic Halftone Scanlines Overlay */}
-                  <div
-                    className="absolute inset-0 opacity-15 pointer-events-none"
-                    style={{
-                      backgroundImage: 'radial-gradient(#000000 1.5px, transparent 1.5px)',
-                      backgroundSize: '6px 6px',
-                    }}
-                  />
-                  {/* Category Ribbon in Corner */}
-                  <div className="absolute bottom-2 left-2 z-10 font-p5Mono text-[10px] sm:text-[11px] uppercase tracking-widest px-2 py-0.5 bg-black/90 text-cyan-400 border border-cyan-400 shadow-[2px_2px_0px_#000]">
-                    {currentMission.category.toUpperCase()} // HEIST
-                  </div>
-                </div>
-              ) : (
-                /* Fallback Icon Graphic Preview */
-                <div className="w-full h-full p-3 flex flex-col items-center justify-center">
-                  <div 
-                    className="absolute inset-0 opacity-20 pointer-events-none"
-                    style={{
-                      backgroundImage: 'radial-gradient(#FFFFFF 1.5px, transparent 1.5px)',
-                      backgroundSize: '10px 10px'
-                    }}
-                  />
-                  <div className="relative z-10 p-4 rounded-lg bg-black/40 border border-zinc-800 transition-transform duration-300 group-hover:scale-110">
-                    {getProjectIcon(currentMission.category)}
-                  </div>
-                  <div className="relative z-10 mt-3 font-p5Mono text-[11px] uppercase tracking-widest px-2.5 py-0.5 bg-black text-cyan-400 border border-cyan-500/50">
-                    {currentMission.category.toUpperCase()} // HEIST
-                  </div>
-                </div>
-              )}
-            </div>
+      {/* "?"? BOTTOM CONTROLLER LEGEND (PlayStation Style Buttons) "?"? */}
+      <div className="fixed bottom-3 sm:bottom-4 left-4 sm:left-8 right-4 sm:right-8 z-40 flex items-center justify-between text-xs sm:text-sm text-zinc-300 pointer-events-auto">
+        {/* Left: PlayStation Style Prompts */}
+        <div className="flex items-center gap-3 sm:gap-5 flex-wrap">
+          {/* Back button */}
+          <button
+            onClick={() => {
+              playBack()
+              onBack()
+            }}
+            className="flex items-center gap-1.5 hover:text-white group"
+          >
+            <span className="size-5 rounded-full border-2 border-red-500 text-red-500 font-bold flex items-center justify-center text-[11px] group-hover:bg-red-500 group-hover:text-white transition-colors">
+              O
+            </span>
+            <span className="font-p5Heading text-sm tracking-wider uppercase">BACK</span>
+          </button>
 
-            {/* Comic Speech Bubble below photo */}
-            <div className="relative mt-3 self-center -rotate-2">
-              <div className="bg-white text-black border-2 border-black px-4 py-1 font-p5Heading text-xs sm:text-sm font-bold shadow-[3px_3px_0px_#000000] flex items-center gap-1.5">
-                <span className="size-2 rounded-full bg-p5-crimson animate-ping" />
-                <span>MISSION #{String(currentIndex + 1).padStart(2, '0')}</span>
-              </div>
-              {/* Speech bubble pointer triangle */}
-              <div className="w-0 h-0 border-l-[6px] border-l-transparent border-r-[6px] border-r-transparent border-t-[8px] border-t-black ml-4" />
-            </div>
+          {/* Confirm / Launch Demo button */}
+          {activeMission.liveUrl && (
+            <a
+              href={activeMission.liveUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-1.5 hover:text-white group"
+            >
+              <span className="size-5 rounded-full border-2 border-cyan-400 text-cyan-400 font-bold flex items-center justify-center text-[11px] group-hover:bg-cyan-400 group-hover:text-black transition-colors">
+                X
+              </span>
+              <span className="font-p5Heading text-sm tracking-wider uppercase">LAUNCH DEMO</span>
+            </a>
+          )}
+
+          {/* GitHub Repo button */}
+          <a
+            href={activeMission.githubUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-1.5 hover:text-white group"
+          >
+            <span className="size-5 rounded-full border-2 border-emerald-400 text-emerald-400 font-bold flex items-center justify-center text-[11px] group-hover:bg-emerald-400 group-hover:text-black transition-colors">
+              △
+            </span>
+            <span className="font-p5Heading text-sm tracking-wider uppercase">GITHUB</span>
+          </a>
+
+          {/* Full Dossier Toggle */}
+          <button
+            onClick={() => {
+              playSlash()
+              setShowDossierModal(true)
+            }}
+            className="flex items-center gap-1.5 hover:text-white group"
+          >
+            <span className="size-5 rounded-full border-2 border-pink-400 text-pink-400 font-bold flex items-center justify-center text-[11px] group-hover:bg-pink-400 group-hover:text-black transition-colors">
+              □
+            </span>
+            <span className="font-p5Heading text-sm tracking-wider uppercase">DOSSIER</span>
+          </button>
+        </div>
+
+        {/* Right Navigation Arrows & ATLUS Watermark */}
+        <div className="flex items-center gap-3">
+          <div className="flex items-center gap-1">
+            <button
+              onClick={() => {
+                playHover()
+                setSelectedIndex(prev => (prev - 1 + MISSIONS_DATA.length) % MISSIONS_DATA.length)
+              }}
+              className="size-7 bg-black border border-white hover:bg-p5-crimson flex items-center justify-center text-white"
+            >
+              <ChevronUp className="size-4" />
+            </button>
+            <button
+              onClick={() => {
+                playHover()
+                setSelectedIndex(prev => (prev + 1) % MISSIONS_DATA.length)
+              }}
+              className="size-7 bg-black border border-white hover:bg-p5-crimson flex items-center justify-center text-white"
+            >
+              <ChevronDown className="size-4" />
+            </button>
           </div>
+          <span className="font-p5Heading text-sm tracking-widest text-zinc-500 uppercase hidden sm:inline">
+            ATLUS / P5R ARCHIVE
+          </span>
+        </div>
+      </div>
 
-          {/* Right Column: Angled White Card with Stars */}
-          <div className="md:col-span-8 relative">
-            {/* Persona Stars: Top-Left Edge */}
-            <div className="absolute -left-4 -top-3 z-20 flex items-center -space-x-1 pointer-events-none">
-              <StarIcon className="size-7 sm:size-8 -rotate-12 filter drop-shadow-[2px_2px_0px_#000000]" fill="#000000" />
-              <StarIcon className="size-6 sm:size-7 rotate-12 filter drop-shadow-[2px_2px_0px_#000000]" fill="#E60012" />
+      {/* "?"? DOSSIER MODAL (Full Project Specifications) "?"? */}
+      {showDossierModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-sm animate-in fade-in zoom-in-95 duration-200">
+          <div className="relative w-full max-w-2xl bg-zinc-950 border-[5px] border-black shadow-[14px_14px_0px_#E60012] p-6 -rotate-1">
+            {/* Modal Header */}
+            <div className="flex items-center justify-between pb-3 border-b-2 border-zinc-800 mb-4">
+              <div className="flex items-center gap-2">
+                <span className="bg-p5-crimson text-white font-p5Heading text-lg px-2.5 py-0.5">
+                  {activeMission.slotNumber}
+                </span>
+                <h3 className="font-p5Heading text-2xl sm:text-3xl text-white tracking-wide">
+                  {activeMission.title}
+                </h3>
+              </div>
+              <button
+                onClick={() => {
+                  playBack()
+                  setShowDossierModal(false)
+                }}
+                className="size-8 bg-black hover:bg-p5-crimson border-2 border-white flex items-center justify-center text-white transition-colors"
+              >
+                <X className="size-5" />
+              </button>
             </div>
 
-            {/* Main White Content Card */}
-            <div className="relative bg-white text-black border-[5px] border-black shadow-[8px_8px_0px_#000000] p-6 sm:p-7 -skew-x-2 -rotate-1">
-              {/* Client Tag */}
-              <div className="font-p5Mono text-xs text-zinc-600 uppercase tracking-wider mb-1 flex items-center justify-between">
-                <span>CLIENT: {currentMission.client}</span>
-                <span className="text-[10px] font-bold px-2 py-0.5 bg-black text-white">
-                  {currentMission.role}
-                </span>
-              </div>
-
-              {/* Title / Heading */}
-              <h3 className="font-p5Heading text-2xl sm:text-3xl text-black uppercase tracking-wide leading-tight mb-2">
-                About this mission...
-              </h3>
-
-              {/* Project Description */}
-              <p className="font-p5Body text-xs sm:text-sm text-zinc-800 leading-relaxed mb-4">
-                {currentMission.fullDossier || currentMission.excerpt}
+            {/* Modal Body */}
+            <div className="space-y-4">
+              <p className="font-p5Body text-zinc-300 text-sm sm:text-base leading-relaxed">
+                {activeMission.fullDossier}
               </p>
 
-              {/* Tech Stack Badges */}
-              <div className="mb-5">
-                <span className="font-p5Mono text-[10px] text-zinc-500 uppercase tracking-widest block mb-1.5">
-                  EQUIPPED TECH & PERSONA:
+              {/* Tech Stack Pills */}
+              <div>
+                <span className="font-p5Sub text-xs text-zinc-400 uppercase tracking-wider block mb-1.5">
+                  OPERATIONAL STACK:
                 </span>
                 <div className="flex flex-wrap gap-1.5">
-                  {currentMission.tech.map((t) => (
+                  {activeMission.tech.map((t, i) => (
                     <span
-                      key={t}
-                      className="font-p5Mono text-xs bg-black text-white px-2.5 py-0.5 font-bold shadow-[2px_2px_0px_#888888]"
+                      key={i}
+                      className="font-p5Mono text-xs text-white bg-zinc-900 border border-zinc-700 px-2.5 py-1"
                     >
                       {t}
                     </span>
@@ -198,101 +501,41 @@ export const MissionsScreen: React.FC<MissionsScreenProps> = ({ onBack }) => {
                 </div>
               </div>
 
-              {/* Action Buttons */}
-              <div className="flex flex-wrap items-center gap-3 pt-3 border-t-2 border-black">
-                {currentMission.liveUrl && (
-                  <a
-                    href={currentMission.liveUrl}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="inline-flex items-center gap-2 px-5 py-2.5 bg-p5-crimson hover:bg-red-700 text-white font-p5Mono font-extrabold text-xs sm:text-sm tracking-wider uppercase transition-all duration-150 shadow-[3px_3px_0px_#000000] hover:translate-x-1"
-                  >
-                    <span>VISIT LIVE DEMO</span>
-                    <ExternalLink className="size-4" />
-                  </a>
-                )}
+              {/* Stats Grid */}
+              <div className="grid grid-cols-3 gap-2 pt-2 border-t border-zinc-800">
+                {activeMission.stats.map((s, i) => (
+                  <div key={i} className="bg-black/70 p-2 border border-zinc-800">
+                    <span className="block font-p5Sub text-[9px] text-zinc-400 uppercase">{s.label}</span>
+                    <span className="font-p5Heading text-base text-yellow-300">{s.value}</span>
+                  </div>
+                ))}
+              </div>
 
-                {currentMission.githubUrl && (
+              {/* Action buttons */}
+              <div className="flex items-center gap-3 pt-3">
+                {activeMission.liveUrl && (
                   <a
-                    href={currentMission.githubUrl}
+                    href={activeMission.liveUrl}
                     target="_blank"
-                    rel="noreferrer"
-                    className="inline-flex items-center gap-2 px-5 py-2.5 bg-black hover:bg-zinc-800 text-white font-p5Mono font-extrabold text-xs sm:text-sm tracking-wider uppercase transition-all duration-150 shadow-[3px_3px_0px_#000000] hover:translate-x-1"
+                    rel="noopener noreferrer"
+                    className="flex-1 py-2 bg-p5-crimson hover:bg-red-600 text-white font-p5Heading text-center text-lg tracking-wider border-2 border-black shadow-[4px_4px_0px_#000]"
                   >
-                    <GithubIcon />
-                    <span>GITHUB REPO</span>
+                    LAUNCH APPLICATION
                   </a>
                 )}
+                <a
+                  href={activeMission.githubUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex-1 py-2 bg-white hover:bg-yellow-300 text-black font-p5Heading text-center text-lg tracking-wider border-2 border-black shadow-[4px_4px_0px_#000]"
+                >
+                  VIEW SOURCE CODE
+                </a>
               </div>
             </div>
-
-            {/* Persona Stars: Bottom-Right Edge */}
-            <div className="absolute -right-4 -bottom-4 z-20 flex items-center -space-x-1 pointer-events-none">
-              <StarIcon className="size-6 sm:size-7 -rotate-6 filter drop-shadow-[2px_2px_0px_#000000]" fill="#000000" />
-              <StarIcon className="size-9 sm:size-10 rotate-12 filter drop-shadow-[3px_3px_0px_#000000]" fill="#E60012" />
-            </div>
           </div>
         </div>
-
-        {/* 3. Bottom Mission Navigation Bar */}
-        <div className="flex items-center justify-between mt-4 px-2">
-          {/* Previous Button */}
-          <button
-            type="button"
-            onClick={() => {
-              playHover()
-              setCurrentIndex(prev => (prev - 1 + MISSIONS_DATA.length) % MISSIONS_DATA.length)
-            }}
-            className="flex items-center gap-1.5 font-p5Mono text-xs bg-black/80 hover:bg-p5-crimson text-white px-3 py-1.5 border border-zinc-700 transition-all duration-150 -skew-x-6 cursor-pointer shadow-[2px_2px_0px_#000000]"
-          >
-            <ChevronLeft className="size-4" />
-            <span>PREV MISSION</span>
-          </button>
-
-          {/* Stepper Dots / Counter */}
-          <div className="flex items-center gap-1.5 font-p5Mono text-xs text-zinc-300">
-            {MISSIONS_DATA.map((_, idx) => (
-              <button
-                key={idx}
-                type="button"
-                onClick={() => {
-                  playSlash()
-                  setCurrentIndex(idx)
-                }}
-                className={`size-2.5 sm:size-3 transition-all duration-150 cursor-pointer ${
-                  currentIndex === idx
-                    ? 'bg-p5-crimson scale-125 shadow-[0_0_8px_#E60012]'
-                    : 'bg-zinc-700 hover:bg-white'
-                }`}
-              />
-            ))}
-            <span className="ml-2 text-cyan-400 font-bold">
-              {currentIndex + 1} / {MISSIONS_DATA.length}
-            </span>
-          </div>
-
-          {/* Next Button */}
-          <button
-            type="button"
-            onClick={() => {
-              playHover()
-              setCurrentIndex(prev => (prev + 1) % MISSIONS_DATA.length)
-            }}
-            className="flex items-center gap-1.5 font-p5Mono text-xs bg-black/80 hover:bg-p5-crimson text-white px-3 py-1.5 border border-zinc-700 transition-all duration-150 -skew-x-6 cursor-pointer shadow-[2px_2px_0px_#000000]"
-          >
-            <span>NEXT MISSION</span>
-            <ChevronRight className="size-4" />
-          </button>
-        </div>
-      </div>
-
-      {/* Bottom Hint */}
-      <div className="z-20 flex items-center gap-3 font-p5Mono text-xs text-zinc-400 bg-black/80 border border-zinc-800 px-4 py-1.5 self-start -skew-x-6">
-        <span className="text-cyan-400">[◄/►]</span> SWITCH MISSIONS
-        <span className="text-zinc-600">|</span>
-        <span className="text-white">[ESC]</span> RETURN
-      </div>
+      )}
     </div>
   )
 }
-
