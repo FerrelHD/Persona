@@ -1,7 +1,6 @@
 import React, { useState, useCallback, useRef } from 'react'
 import { PersonaVideoBg } from '@/components/PersonaVideoBg'
 import { MainMenu, ActiveScreen } from '@/components/MainMenu'
-import { SplashScreen } from '@/components/SplashScreen'
 import { MissionsScreen } from '@/components/screens/MissionsScreen'
 import { SkillsScreen } from '@/components/screens/SkillsScreen'
 import { CallingCardScreen } from '@/components/screens/CallingCardScreen'
@@ -33,8 +32,6 @@ export function App() {
   // Quietly prefetch all 5 compressed videos and key artwork in background
   useAssetPreloader()
 
-  const [hasStarted, setHasStarted] = useState(false)
-  const [isStartingUp, setIsStartingUp] = useState(false)
   const [currentScreen, setCurrentScreen] = useState<ActiveScreen>('menu')
   const [lastVisitedScreen, setLastVisitedScreen] = useState<ActiveScreen | null>(null)
   const [pendingScreen, setPendingScreen] = useState<ActiveScreen | null>(null)
@@ -46,18 +43,8 @@ export function App() {
 
   const { playSlash, playBack } = usePersonaSFX()
 
-  // Color of the iris overlay: Crimson #E60012 for startup, or destination screen color
-  const irisColor = isStartingUp ? '#E60012' : (pendingScreen ? SCREEN_COLOR[pendingScreen] : SCREEN_COLOR[currentScreen])
-
-  // Triggered when clicking start on the splash screen - direct instant entrance without loading screen
-  const handleStartGame = useCallback(() => {
-    setLastVisitedScreen(null)
-    setHasStarted(true)
-    setCurrentScreen('menu')
-    setIsStartingUp(false)
-    setIsVideoLoading(false)
-    setTransPhase('idle')
-  }, [])
+  // Color of the iris overlay
+  const irisColor = pendingScreen ? SCREEN_COLOR[pendingScreen] : SCREEN_COLOR[currentScreen]
 
   const navigateTo = useCallback((next: ActiveScreen, sfx?: () => void) => {
     if (transPhase !== 'idle') return
@@ -75,11 +62,6 @@ export function App() {
   const handleBackToMenu = useCallback(() => {
     navigateTo('menu', playBack)
   }, [navigateTo, playBack])
-
-  const handleBackToTitle = useCallback(() => {
-    playBack()
-    setHasStarted(false)
-  }, [playBack])
 
   const proceedToCollapse = useCallback(() => {
     if (fallbackTimerRef.current) {
@@ -102,20 +84,13 @@ export function App() {
 
   // Phase 1 ends: screen is 100% covered by the iris color -> swap content immediately without loading stall
   const handleExpandEnd = useCallback(() => {
-    if (isStartingUp) {
-      setHasStarted(true)
-      setIsStartingUp(false)
-      proceedToCollapse()
-      return
-    }
-
     if (pendingScreen) {
       setCurrentScreen(pendingScreen)
       setPendingScreen(null)
     }
 
     proceedToCollapse()
-  }, [isStartingUp, pendingScreen, proceedToCollapse])
+  }, [pendingScreen, proceedToCollapse])
 
   // Phase 2 ends: iris has fully reopened -> back to idle
   const handleCollapseEnd = useCallback(() => {
@@ -150,11 +125,10 @@ export function App() {
       />
 
       {/* Main Screens */}
-      <div className={`relative z-10 w-full h-full transition-opacity duration-150 ${!hasStarted ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
-        {hasStarted && currentScreen === 'menu' && (
+      <div className="relative z-10 w-full h-full opacity-100">
+        {currentScreen === 'menu' && (
           <MainMenu
             onSelectScreen={handleSelectScreen}
-            onBackToTitle={handleBackToTitle}
             initialSelectedScreen={lastVisitedScreen}
           />
         )}
@@ -171,11 +145,6 @@ export function App() {
           <CallingCardScreen onBack={handleBackToMenu} />
         )}
       </div>
-
-      {/* Splash Screen on top (z-50) */}
-      {!hasStarted && (
-        <SplashScreen onStart={handleStartGame} />
-      )}
 
       {/* Seamless Persona 5 Iris Circle Wipe Overlay */}
       {transPhase !== 'idle' && (
