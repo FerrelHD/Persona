@@ -8,6 +8,7 @@ import { AboutScreen } from '@/components/screens/AboutScreen'
 import { usePersonaSFX } from '@/hooks/usePersonaSFX'
 import { PersonaCursor } from '@/components/common/PersonaCursor'
 import { TakeYourTime } from '@/components/common/TakeYourTime'
+import { TransitLoadingScreen } from '@/components/common/TransitLoadingScreen'
 import { useAssetPreloader } from '@/hooks/useAssetPreloader'
 
 // Accent color per screen - used for the iris overlay tint
@@ -33,7 +34,7 @@ export function App() {
   // Quietly prefetch all 5 compressed videos and key artwork in background
   useAssetPreloader()
 
-  // Initial atmospheric loading screen
+  // Initial atmospheric transit loading screen
   const [initialLoading, setInitialLoading] = useState(true)
   const [loadingFadingOut, setLoadingFadingOut] = useState(false)
   const [menuReady, setMenuReady] = useState(false)
@@ -45,6 +46,8 @@ export function App() {
   const [isVideoLoading, setIsVideoLoading] = useState(false)
   
   const videoReadyRef = useRef(false)
+  const minTimerPassedRef = useRef(false)
+  const hasTriggeredFadeRef = useRef(false)
   const fallbackTimerRef = useRef<NodeJS.Timeout | null>(null)
 
   const { playSlash, playBack } = usePersonaSFX()
@@ -55,14 +58,34 @@ export function App() {
     setMenuReady(true)
   }, [])
 
-  // Initial loading timer: waits for video or at least 1.1s for authentic Persona 5 vibe
-  useEffect(() => {
-    const timer = setTimeout(() => {
+  // Check if both minimum display time has passed and the background video is playing
+  const checkLoadingComplete = useCallback(() => {
+    if (hasTriggeredFadeRef.current) return
+    if (minTimerPassedRef.current && videoReadyRef.current) {
+      hasTriggeredFadeRef.current = true
       setLoadingFadingOut(true)
-    }, 1100)
-
-    return () => clearTimeout(timer)
+    }
   }, [])
+
+  // Initial loading timer: at least 900ms to appreciate transit animation, and max 2.8s safety fallback
+  useEffect(() => {
+    const minTimer = setTimeout(() => {
+      minTimerPassedRef.current = true
+      checkLoadingComplete()
+    }, 900)
+
+    const maxTimer = setTimeout(() => {
+      if (!hasTriggeredFadeRef.current) {
+        hasTriggeredFadeRef.current = true
+        setLoadingFadingOut(true)
+      }
+    }, 2800)
+
+    return () => {
+      clearTimeout(minTimer)
+      clearTimeout(maxTimer)
+    }
+  }, [checkLoadingComplete])
 
   // Safety watchdog for loading fade-out
   useEffect(() => {
@@ -111,7 +134,8 @@ export function App() {
     if (isVideoLoading) {
       proceedToCollapse()
     }
-  }, [isVideoLoading, proceedToCollapse])
+    checkLoadingComplete()
+  }, [isVideoLoading, proceedToCollapse, checkLoadingComplete])
 
   // Phase 1 ends: screen is 100% covered by the iris color -> swap content immediately without loading stall
   const handleExpandEnd = useCallback(() => {
@@ -177,20 +201,12 @@ export function App() {
         )}
       </div>
 
-      {/* Authentic Persona 5 Initial Loading Screen */}
+      {/* Authentic Persona 5 Shibuya Transit Loading Screen */}
       {initialLoading && (
-        <div
-          className={`fixed inset-0 z-[10000] bg-black pointer-events-none transition-opacity duration-300 ease-out ${
-            loadingFadingOut ? 'opacity-0' : 'opacity-100'
-          }`}
-          onTransitionEnd={handleLoadingFadeEnd}
-        >
-          {/* Subtle Halftone Pattern */}
-          <div className="absolute inset-0 bg-[radial-gradient(#262626_1px,transparent_1px)] [background-size:16px_16px] opacity-40 pointer-events-none" />
-
-          {/* Take Your Time Indicator */}
-          <TakeYourTime visible={true} />
-        </div>
+        <TransitLoadingScreen
+          isFadingOut={loadingFadingOut}
+          onFadeEnd={handleLoadingFadeEnd}
+        />
       )}
 
       {/* Take Your Time during route video loading (if any) */}

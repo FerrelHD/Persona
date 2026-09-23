@@ -1,4 +1,4 @@
-﻿import React, { useRef, useEffect, useState } from 'react'
+import React, { useRef, useEffect, useState } from 'react'
 
 interface PersonaVideoBgProps {
   videoSrc: string
@@ -45,6 +45,7 @@ export const PersonaVideoBg: React.FC<PersonaVideoBgProps> = ({ videoSrc, onRead
         ref={videoRef}
         key={currentSrc}
         src={currentSrc}
+        poster={currentSrc === '/assets/videos/joker.mp4' ? '/assets/joker_full.jpg' : undefined}
         autoPlay
         muted
         loop
@@ -52,6 +53,7 @@ export const PersonaVideoBg: React.FC<PersonaVideoBgProps> = ({ videoSrc, onRead
         preload="auto"
         onPlaying={handlePlaying}
         onCanPlay={handlePlaying}
+        onLoadedData={handlePlaying}
         onError={handleError}
         className="w-full h-full object-cover object-center select-none"
       />

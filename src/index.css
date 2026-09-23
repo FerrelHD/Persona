@@ -147,6 +147,16 @@
   }
 }
 
+/* Persona 5 Transit Silhouette Walking Bob Cycle */
+@keyframes p5-walk-bob {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
 /* ── Persona 5 Main Menu Kinetic Entrance Animations (Hardware-Accelerated) ── */
 @keyframes p5-menu-enter {
   0% {
