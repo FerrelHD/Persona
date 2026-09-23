@@ -1,126 +1,121 @@
-import React, { useState } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import { PageCutoutOverlay } from '@/components/common/PageCutoutOverlay'
 import { usePersonaSFX } from '@/hooks/usePersonaSFX'
-import { 
-  Sparkles, 
-  Code2, 
-  Brain, 
-  Gamepad2, 
-  Terminal, 
-  ShieldCheck, 
-  Flame, 
-  Layers, 
-  Cpu, 
-  FolderLock, 
-  Fingerprint,
-  Zap
-} from 'lucide-react'
+import { Sun, MessageSquare, ChevronDown } from 'lucide-react'
 
 interface AboutScreenProps {
   onBack: () => void
 }
 
-type TabId = 'dossier' | 'parameters' | 'arsenal'
-
-interface TabOption {
-  id: TabId
-  number: string
-  label: string
+interface ChatMessage {
+  id: number
+  sender: 'FUTABA' | 'MORGANA' | 'FERREL' | 'JOKER'
+  role: string
+  avatarBg: string
+  badgeColor: string
+  avatarText: string
+  avatarSub: string
+  text: string
+  highlight?: string
+  hasQuestionMark?: boolean
 }
 
-const TABS: TabOption[] = [
-  { id: 'dossier',    number: '01', label: 'DOSSIER' },
-  { id: 'parameters', number: '02', label: 'PARAMETERS' },
-  { id: 'arsenal',    number: '03', label: 'ARSENAL' },
-]
-
-const PARAMETERS = [
-  { 
-    name: 'FRONTEND ARCHITECTURE', 
-    category: 'PROFICIENCY', 
-    rank: 'RANK MAX', 
-    level: 98, 
-    badgeColor: 'bg-p5-crimson text-white',
-    desc: 'Ultra-responsive reactive architectures, fluid 60 FPS shader-level web animations & design systems.',
-    skills: ['TypeScript', 'React 19', 'Next.js 15', 'Tailwind', 'Three.js']
-  },
-  { 
-    name: 'AI & DATA SCIENCE', 
-    category: 'KNOWLEDGE', 
-    rank: 'RANK MAX', 
-    level: 94, 
-    badgeColor: 'bg-purple-600 text-white',
-    desc: 'IndoBERT fine-tuning, natural language processing pipelines & PyTorch neural architectures.',
-    skills: ['Python', 'IndoBERT', 'PyTorch', 'HuggingFace', 'NLP']
-  },
-  { 
-    name: 'GAME & SHADER DEV', 
-    category: 'GUTS', 
-    rank: 'RANK S', 
-    level: 90, 
-    badgeColor: 'bg-yellow-400 text-black',
-    desc: 'Interactive 3D simulation in Unity, custom HLSL surface shaders & vehicle physics systems.',
-    skills: ['Unity 3D', 'HLSL Shaders', 'C#', 'Vector Math', 'GLSL']
-  },
-  { 
-    name: 'BACKEND & DEPLOYMENT', 
-    category: 'ENDURANCE', 
-    rank: 'RANK S', 
-    level: 89, 
-    badgeColor: 'bg-emerald-500 text-black',
-    desc: 'Scalable RESTful API infrastructure, serverless deployments, database tuning & CI/CD pipelines.',
-    skills: ['PHP Laravel', 'Node.js', 'MySQL', 'Vercel', 'Git CI/CD']
-  },
-]
-
-const ARSENAL_CARDS = [
+const CHAT_MESSAGES: ChatMessage[] = [
   {
-    type: 'PHYS',
-    category: 'CORE WEB & UI',
-    color: 'border-cyan-400 text-cyan-400',
-    bgBadge: 'bg-cyan-400 text-black',
-    items: ['TypeScript', 'React 19', 'Next.js 15', 'Tailwind CSS', 'Vite', 'Framer Motion'],
-    note: 'Extreme reactivity, sub-second load times & tactile Persona-grade micro-interactions.'
+    id: 1,
+    sender: 'FUTABA',
+    role: 'NAVI // INTEL',
+    avatarBg: 'bg-gradient-to-br from-amber-500 to-orange-600',
+    badgeColor: 'border-amber-400 text-amber-300',
+    avatarText: 'FUTABA',
+    avatarSub: 'NAVI',
+    text: 'Target identified! Ferrel, a Creative Fullstack Architect from Jakarta!',
+    highlight: 'Creative Fullstack Architect'
   },
   {
-    type: 'GUN',
-    category: 'BACKEND & CLOUD',
-    color: 'border-emerald-400 text-emerald-400',
-    bgBadge: 'bg-emerald-400 text-black',
-    items: ['PHP Laravel 11', 'Node.js', 'REST APIs', 'MySQL / PostgreSQL', 'Serverless', 'Vercel'],
-    note: 'Robust transactional backends, auth pipelines & battle-tested production stability.'
+    id: 2,
+    sender: 'MORGANA',
+    role: 'MONA // GUIDE',
+    avatarBg: 'bg-gradient-to-br from-cyan-500 to-blue-600',
+    badgeColor: 'border-cyan-400 text-cyan-300',
+    avatarText: 'MORGANA',
+    avatarSub: 'MONA',
+    text: 'Heh! Look at his parameters. Enterprise reactivity, sub-second renders, and custom HLSL shaders?!',
+    highlight: 'Enterprise reactivity & custom HLSL'
   },
   {
-    type: 'PSI',
-    category: 'AI & INTELLIGENCE',
-    color: 'border-purple-400 text-purple-400',
-    bgBadge: 'bg-purple-400 text-white',
-    items: ['Python 3', 'PyTorch', 'IndoBERT Model', 'Transformers', 'NLP Preprocessing', 'Scikit-Learn'],
-    note: 'Fine-tuned Indonesian language transformers & custom predictive data pipelines.'
+    id: 3,
+    sender: 'FUTABA',
+    role: 'NAVI // INTEL',
+    avatarBg: 'bg-gradient-to-br from-amber-500 to-orange-600',
+    badgeColor: 'border-amber-400 text-amber-300',
+    avatarText: 'FUTABA',
+    avatarSub: 'NAVI',
+    text: 'And his AI stack is certified! Transformer fine-tuning (IndoBERT) & PyTorch neural architectures on lock!',
+    highlight: 'IndoBERT & PyTorch'
   },
   {
-    type: 'NUKE',
-    category: 'SIMULATION & 3D',
-    color: 'border-p5-crimson text-p5-crimson',
-    bgBadge: 'bg-p5-crimson text-white',
-    items: ['Unity 3D', 'C# Scripting', 'HLSL / GLSL Shaders', 'Compute Shaders', 'Physics Engines'],
-    note: 'Custom graphical rendering passes, real-time lighting & interactive game mechanics.'
+    id: 4,
+    sender: 'FERREL',
+    role: 'ARCHITECT // METAVERSE',
+    avatarBg: 'bg-gradient-to-br from-red-600 to-black',
+    badgeColor: 'border-p5-crimson text-white',
+    avatarText: 'FERREL',
+    avatarSub: 'ARCHITECT',
+    text: '"Never settle for ordinary interfaces. Every screen deserves character, fluid physics, and soul."',
+    highlight: 'Never settle for ordinary interfaces'
   },
+  {
+    id: 5,
+    sender: 'JOKER',
+    role: 'LEADER // PHANTOM',
+    avatarBg: 'bg-gradient-to-br from-zinc-700 to-black',
+    badgeColor: 'border-white text-white',
+    avatarText: 'JOKER',
+    avatarSub: 'LEADER',
+    text: 'Sounds like our kind of architect. Shall we steal some hearts together?',
+    hasQuestionMark: true
+  },
+  {
+    id: 6,
+    sender: 'FUTABA',
+    role: 'NAVI // INTEL',
+    avatarBg: 'bg-gradient-to-br from-amber-500 to-orange-600',
+    badgeColor: 'border-amber-400 text-amber-300',
+    avatarText: 'FUTABA',
+    avatarSub: 'NAVI',
+    text: 'Ready when you are! Check out his MISSIONS or send a direct dispatch in COMMS!',
+    highlight: 'MISSIONS or COMMS'
+  }
 ]
 
 export const AboutScreen: React.FC<AboutScreenProps> = ({ onBack }) => {
   const { playHover, playSlash } = usePersonaSFX()
-  const [activeTab, setActiveTab] = useState<TabId>('dossier')
-  const [selectedParamIndex, setSelectedParamIndex] = useState(0)
+  const chatScrollRef = useRef<HTMLDivElement>(null)
+  const [visibleCount, setVisibleCount] = useState<number>(CHAT_MESSAGES.length)
 
-  const handleTabChange = (tabId: TabId) => {
+  // Scroll to bottom when new messages arrive
+  useEffect(() => {
+    if (chatScrollRef.current) {
+      chatScrollRef.current.scrollTop = chatScrollRef.current.scrollHeight
+    }
+  }, [visibleCount])
+
+  const handleNextMessage = () => {
     playSlash()
-    setActiveTab(tabId)
+    if (visibleCount < CHAT_MESSAGES.length) {
+      setVisibleCount(prev => prev + 1)
+    } else {
+      // Loop or reset scroll to top
+      if (chatScrollRef.current) {
+        chatScrollRef.current.scrollTo({ top: 0, behavior: 'smooth' })
+      }
+    }
   }
 
   return (
-    <div className="fixed inset-0 z-30 flex flex-col justify-between p-4 sm:p-6 md:p-8 select-none overflow-hidden bg-gradient-to-r from-black/95 from-0% via-black/80 via-40% to-transparent to-60% animate-in fade-in duration-200 pt-20 sm:pt-24 md:pt-26 pb-6">
-      {/* Page Title Cutout Overlay with Unified Controller Legend */}
+    <div className="fixed inset-0 z-30 flex flex-col justify-between p-4 sm:p-6 md:p-8 select-none overflow-hidden bg-gradient-to-r from-black/95 from-0% via-black/75 via-45% to-transparent to-65% animate-in fade-in duration-200 pt-20 sm:pt-24 pb-6">
+      {/* Page Title Cutout Overlay with Locked Universal Controller Legend */}
       <PageCutoutOverlay
         title="ABOUT THE DEV"
         characterRole="ENFORCER"
@@ -129,286 +124,200 @@ export const AboutScreen: React.FC<AboutScreenProps> = ({ onBack }) => {
         onBack={onBack}
         extraShortcuts={
           <button
-            onClick={() => {
-              playSlash()
-              const nextIdx = (TABS.findIndex(t => t.id === activeTab) + 1) % TABS.length
-              setActiveTab(TABS[nextIdx].id)
-            }}
+            onClick={handleNextMessage}
             className="flex items-center gap-1.5 hover:text-white group cursor-pointer transition-colors"
-            title="Cycle Dossier Tab"
+            title="Next Chat Message"
           >
-            <span className="size-5 rounded-full border-2 border-pink-400 text-pink-400 font-bold flex items-center justify-center text-[11px] group-hover:bg-pink-400 group-hover:text-black transition-colors shadow-[0_0_6px_rgba(244,114,182,0.4)]">
-              □
+            <span className="size-5 rounded-full border-2 border-cyan-400 text-cyan-400 font-bold flex items-center justify-center text-[11px] group-hover:bg-cyan-400 group-hover:text-black transition-colors shadow-[0_0_6px_rgba(34,211,238,0.4)]">
+              X
             </span>
-            <span className="font-p5Heading text-sm tracking-wider uppercase">SWITCH TAB</span>
+            <span className="font-p5Heading text-sm tracking-wider uppercase">NEXT / SCROLL</span>
           </button>
         }
       />
 
-      {/* Main Content Area: Left-aligned, balanced against Shinjiro Aragaki on the right */}
-      <div className="flex-1 flex flex-col justify-center items-start my-auto z-20 w-full max-w-2xl lg:max-w-[52%] pl-2 sm:pl-6 md:pl-8">
+      {/* ── Main Content Area: Left-Aligned Persona 5 Smartphone IM View ── */}
+      <div className="flex-1 flex flex-col justify-center items-start my-auto z-20 w-full max-w-xl lg:max-w-[46%] pl-2 sm:pl-6 md:pl-8">
+        
+        {/* Authentic Top-Left Calendar & Weather Widget (From Screenshot) */}
+        <div className="flex items-center gap-3 mb-2 ml-3 sm:ml-6 -rotate-3 z-30 select-none pointer-events-none">
+          {/* Calendar Badge: 9 / 23 WEDNESDAY */}
+          <div className="flex items-center gap-1.5 bg-white text-black px-3 py-1 border-2 border-black shadow-[4px_4px_0px_#000000] -skew-x-12">
+            <span className="font-p5Heading text-2xl sm:text-3xl font-black tracking-tighter">9/23</span>
+            <div className="flex flex-col leading-none ml-1">
+              <span className="font-p5Heading text-xs sm:text-sm text-p5-crimson font-black tracking-wider uppercase">WEDNESDAY</span>
+              <span className="font-p5Sub text-[9px] text-zinc-800 uppercase tracking-widest font-bold">AFTER SCHOOL</span>
+            </div>
+          </div>
 
-        {/* ── TOP ASYMMETRICAL TABS (Concept 3: Multi-Tab Confidant Switcher) ── */}
-        <div className="flex items-center gap-1 sm:gap-2 mb-[-3px] z-30 ml-2 sm:ml-4">
-          {TABS.map((tab) => {
-            const isActive = activeTab === tab.id
-            return (
-              <button
-                key={tab.id}
-                onClick={() => handleTabChange(tab.id)}
-                onMouseEnter={playHover}
-                className={`
-                  relative px-3 sm:px-4 py-1.5 sm:py-2 font-p5Heading text-xs sm:text-sm tracking-wider uppercase -skew-x-12 cursor-pointer transition-all duration-150 border-t-2 border-x-2 border-black
-                  ${isActive 
-                    ? 'bg-p5-crimson text-white shadow-[3px_-3px_0px_#000] -translate-y-1 scale-105 z-10' 
-                    : 'bg-zinc-900/95 text-zinc-400 hover:text-white hover:bg-zinc-800'
-                  }
-                `}
-              >
-                <div className="flex items-center gap-1.5 skew-x-12">
-                  <span className={`text-[10px] font-p5Mono px-1 ${isActive ? 'bg-black text-p5-yellow' : 'text-zinc-500'}`}>
-                    {tab.number}
-                  </span>
-                  <span>{tab.label}</span>
-                </div>
-              </button>
-            )
-          })}
+          {/* Daytime Weather Badge with Sun Icon */}
+          <div className="flex items-center gap-1 bg-black text-white px-2.5 py-1 border-2 border-white shadow-[3px_3px_0px_#000000] -skew-x-6">
+            <Sun className="size-4 text-p5-yellow animate-spin" style={{ animationDuration: '12s' }} />
+            <span className="font-p5Heading text-xs text-p5-yellow tracking-wider">DAYTIME</span>
+          </div>
         </div>
 
-        {/* ── MAIN DOSSIER CARD BODY (Concept 1: Phantom Thief Confidential File) ── */}
-        <div className="w-full bg-zinc-950/95 border-4 sm:border-[5px] border-black shadow-[8px_8px_0px_#E60012] -rotate-1 p-4 sm:p-5 sm:pb-6 relative overflow-hidden">
+        {/* ── The Smartphone Device (Held by Joker's Gloved Hand) ── */}
+        <div className="relative w-full max-w-[390px] sm:max-w-[430px] md:max-w-[460px] -rotate-2 transition-transform duration-200 hover:-rotate-1">
           
-          {/* Authentic Persona 5 Halftone Background Watermark */}
-          <div 
-            className="absolute inset-0 pointer-events-none opacity-[0.04] bg-[radial-gradient(#FFFFFF_1px,transparent_1px)] [background-size:12px_12px]" 
-            aria-hidden="true" 
-          />
-
-          {/* Authentic Top-Right Slanted Red Stamp: [CONFIDENTIAL // S-RANK THIEF] */}
-          <div className="absolute -top-1 -right-2 sm:right-3 pointer-events-none z-20 rotate-12 select-none">
-            <div className="border-2 sm:border-[2.5px] border-p5-crimson/90 bg-black/60 px-3 py-1 font-p5Heading text-[10px] sm:text-xs text-p5-crimson tracking-widest uppercase shadow-[3px_3px_0px_rgba(230,0,18,0.4)]">
-              CONFIDENTIAL // METAVERSE S-RANK
-            </div>
+          {/* Joker Glove: Left Thumb Silhouette Gripping Phone */}
+          <div className="absolute -left-6 sm:-left-8 top-28 sm:top-36 z-40 pointer-events-none filter drop-shadow-[5px_5px_0px_#000000]">
+            <svg width="44" height="120" viewBox="0 0 44 120" fill="none">
+              {/* White glove thumb with black comic outline */}
+              <path
+                d="M4 10 C4 4, 18 0, 30 6 C40 12, 44 26, 44 48 C44 75, 42 105, 30 114 C18 122, 4 115, 4 100 C4 82, 10 50, 4 10 Z"
+                fill="#FFFFFF"
+                stroke="#000000"
+                strokeWidth="4"
+                strokeLinejoin="round"
+              />
+              {/* Glove fold lines */}
+              <path d="M12 34 C20 36, 32 38, 38 34" stroke="#000000" strokeWidth="2.5" strokeLinecap="round" />
+              <path d="M14 62 C22 64, 30 64, 36 60" stroke="#000000" strokeWidth="2.5" strokeLinecap="round" />
+            </svg>
           </div>
 
-          {/* Card Header Strip: Code Name, Arcana & Serial Barcode */}
-          <div className="flex items-start justify-between pb-3 mb-3 border-b-2 border-zinc-800 relative z-10">
-            <div>
-              <div className="flex items-center gap-2 flex-wrap">
-                <span className="font-p5Heading text-2xl sm:text-3xl md:text-4xl text-white tracking-wider filter drop-shadow-[2px_2px_0px_#000]">
-                  FERREL
-                </span>
-                <span className="bg-p5-crimson text-white font-p5Heading text-xs sm:text-sm px-2.5 py-0.5 border border-white shadow-[2px_2px_0px_#000] -rotate-2">
-                  THE ARCHITECT
-                </span>
-              </div>
-              <div className="font-p5Mono text-[10px] sm:text-[11px] text-zinc-400 mt-1 flex items-center gap-2">
-                <span>JAKARTA, ID // CREATIVE FULLSTACK & AI ARCHITECT</span>
-                <span className="text-zinc-600 hidden sm:inline">•</span>
-                <span className="text-yellow-400/90 hidden sm:inline">SERIAL: 2026-FRL-P5</span>
-              </div>
-            </div>
-
-            {/* Tarot Card Miniature Badge: THE FOOL // RANK MAX */}
-            <div className="hidden sm:flex flex-col items-end shrink-0 pr-2">
-              <div className="bg-zinc-900 border-2 border-yellow-400 text-yellow-400 px-2.5 py-1 font-p5Heading text-xs tracking-widest uppercase flex items-center gap-1.5 shadow-[2px_2px_0px_#000] rotate-1">
-                <Sparkles className="size-3 text-yellow-400 animate-spin" />
-                <span>THE FOOL // RANK MAX</span>
-              </div>
-              <span className="text-[9px] font-p5Mono text-zinc-500 mt-0.5 tracking-tighter">
-                ARCANA 0 // CONFIDANT PROTOCOL
-              </span>
-            </div>
+          {/* Joker Glove: Right Fingers Gripping Corner */}
+          <div className="absolute -right-5 sm:-right-7 bottom-10 sm:bottom-14 z-40 pointer-events-none filter drop-shadow-[5px_5px_0px_#000000]">
+            <svg width="46" height="110" viewBox="0 0 46 110" fill="none">
+              <path
+                d="M40 8 C40 2, 28 0, 16 6 C6 12, 0 24, 0 46 C0 72, 4 100, 16 106 C28 112, 40 106, 40 90 C40 70, 34 40, 40 8 Z"
+                fill="#FFFFFF"
+                stroke="#000000"
+                strokeWidth="4"
+                strokeLinejoin="round"
+              />
+              <path d="M30 32 C22 34, 12 34, 6 30" stroke="#000000" strokeWidth="2.5" strokeLinecap="round" />
+              <path d="M28 58 C20 60, 14 60, 8 56" stroke="#000000" strokeWidth="2.5" strokeLinecap="round" />
+            </svg>
           </div>
 
-          {/* ── TAB 1 CONTENT: [ 01 // DOSSIER ] ── */}
-          {activeTab === 'dossier' && (
-            <div className="space-y-3 animate-in fade-in slide-in-from-bottom-2 duration-150 relative z-10">
-              {/* Specialization Triad */}
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 font-p5Mono">
-                <div className="bg-black/90 border border-zinc-800 hover:border-cyan-400 p-2.5 space-y-1 transition-colors group">
-                  <div className="flex items-center gap-1.5 text-cyan-400 font-p5Heading text-xs">
-                    <Code2 className="size-3.5 group-hover:scale-110 transition-transform" />
-                    <span>WEB ARCHITECTURE</span>
-                  </div>
-                  <p className="text-[10px] text-zinc-300 leading-tight">
-                    Reactive web design, design systems, sub-second renders & Persona 5 game-grade frontends.
-                  </p>
-                </div>
+          {/* Phone Body with Thick Comic Border & Slanted Silhouette */}
+          <div className="relative bg-black p-3 sm:p-4 rounded-xl border-4 sm:border-[5px] border-black shadow-[10px_10px_0px_#000000] overflow-hidden">
+            
+            {/* Phone Screen: Authentic Persona 5 Crimson Red (#D90011) */}
+            <div className="relative bg-[#D90011] rounded-lg border-2 border-black p-3 sm:p-4 overflow-hidden h-[54vh] sm:h-[58vh] md:h-[60vh] flex flex-col justify-between">
+              
+              {/* Subtle Manga Comic Particle Specks in Screen Background */}
+              <div 
+                className="absolute inset-0 pointer-events-none opacity-20 bg-[radial-gradient(#FFFFFF_1.5px,transparent_1.5px)] [background-size:16px_16px]"
+                aria-hidden="true"
+              />
 
-                <div className="bg-black/90 border border-zinc-800 hover:border-purple-400 p-2.5 space-y-1 transition-colors group">
-                  <div className="flex items-center gap-1.5 text-purple-400 font-p5Heading text-xs">
-                    <Brain className="size-3.5 group-hover:scale-110 transition-transform" />
-                    <span>AI & NLP PIPELINES</span>
+              {/* ── PHONE HEADER BAR: Authentic 'IM' Logo & Group Status ── */}
+              <div className="relative z-10 flex items-center justify-between pb-2 border-b-2 border-black/40">
+                {/* Slanted 'IM' Logo with Notification Count */}
+                <div className="flex items-center gap-2">
+                  <div className="relative flex items-center bg-black text-white px-2.5 py-0.5 -skew-x-12 border-2 border-white shadow-[2px_2px_0px_#000000]">
+                    <span className="font-p5Heading text-lg sm:text-xl font-black tracking-tight text-white">
+                      I<span className="text-p5-crimson">M</span>
+                    </span>
                   </div>
-                  <p className="text-[10px] text-zinc-300 leading-tight">
-                    IndoBERT fine-tuning, contextual embeddings, sentiment engines & PyTorch model optimization.
-                  </p>
-                </div>
 
-                <div className="bg-black/90 border border-zinc-800 hover:border-red-400 p-2.5 space-y-1 transition-colors group">
-                  <div className="flex items-center gap-1.5 text-red-400 font-p5Heading text-xs">
-                    <Gamepad2 className="size-3.5 group-hover:scale-110 transition-transform" />
-                    <span>SIMULATION & 3D</span>
+                  {/* Red Notification Pill (From Screenshot) */}
+                  <div className="bg-white text-p5-crimson font-p5Heading text-[10px] sm:text-xs font-black px-1.5 py-0.2 rounded-full border border-black shadow-[1px_1px_0px_#000000] -rotate-6 animate-bounce">
+                    6
                   </div>
-                  <p className="text-[10px] text-zinc-300 leading-tight">
-                    Unity engine vehicle physics, procedural generation & custom mathematical HLSL shaders.
-                  </p>
-                </div>
-              </div>
 
-              {/* Bio Summary / Confidential Intelligence Brief */}
-              <div className="bg-zinc-900/80 border border-zinc-800 p-3 space-y-1.5 font-p5Body text-xs leading-relaxed text-zinc-300">
-                <div className="flex items-center justify-between text-[10px] font-p5Mono text-zinc-400 uppercase tracking-wider pb-1 border-b border-zinc-800">
-                  <span className="flex items-center gap-1 text-p5-yellow">
-                    <Fingerprint className="size-3" />
-                    <span>METAVERSE OPERATIVE PROFILE</span>
+                  <span className="font-p5Heading text-xs text-white tracking-widest uppercase ml-1 drop-shadow-[1px_1px_0px_#000]">
+                    PHANTOM_CHAT
                   </span>
-                  <span>STATUS: ACTIVE // CODENAME CONFIRMED</span>
                 </div>
-                <p>
-                  Fullstack architect and creative technologist who merges high-precision software engineering with authentic comic-book aesthetics. Driven by building web apps that feel tactile, responsive, and completely alive.
-                </p>
+
+                {/* Speaker Grill / Camera Dot */}
+                <div className="flex items-center gap-1.5 opacity-80">
+                  <div className="w-8 h-1.5 bg-black rounded-full" />
+                  <div className="size-2 bg-black rounded-full" />
+                </div>
               </div>
 
-              {/* Philosophy Banner Quote */}
-              <div className="bg-black border-l-4 border-p5-crimson p-2.5 -skew-x-1 flex items-center justify-between shadow-[2px_2px_0px_#000]">
-                <span className="font-p5Heading text-xs sm:text-sm text-white tracking-wide">
-                  "NEVER SETTLE FOR ORDINARY INTERFACES. EVERY SCREEN DESERVES CHARACTER."
-                </span>
-                <span className="font-p5Mono text-[10px] text-p5-crimson font-bold ml-2 shrink-0">
-                  // FERREL
-                </span>
-              </div>
-            </div>
-          )}
-
-          {/* ── TAB 2 CONTENT: [ 02 // PARAMETERS ] ── */}
-          {activeTab === 'parameters' && (
-            <div className="space-y-2.5 animate-in fade-in slide-in-from-bottom-2 duration-150 relative z-10">
-              <div className="flex items-center justify-between font-p5Sub text-[9px] text-zinc-400 uppercase tracking-widest pb-1 border-b border-zinc-800">
-                <span className="flex items-center gap-1.5 text-p5-yellow">
-                  <Zap className="size-3" />
-                  <span>PERSONA 5 ABILITY MATRIX</span>
-                </span>
-                <span className="text-p5-crimson font-bold">ALL S-RANK // APEX MASTER</span>
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                {PARAMETERS.map((param, idx) => {
-                  const isSelected = selectedParamIndex === idx
+              {/* ── SCROLLABLE CHAT MESSAGES THREAD (Option A: Phantom Thieves Group Chat) ── */}
+              <div 
+                ref={chatScrollRef}
+                className="relative z-10 flex-1 overflow-y-auto space-y-3.5 my-2.5 pr-1.5 custom-scrollbar"
+              >
+                {CHAT_MESSAGES.slice(0, visibleCount).map((msg) => {
+                  const isFerrel = msg.sender === 'FERREL'
                   return (
-                    <div
-                      key={idx}
-                      onClick={() => {
-                        playSlash()
-                        setSelectedParamIndex(idx)
-                      }}
+                    <div 
+                      key={msg.id} 
+                      className="flex items-start gap-2 sm:gap-2.5 animate-in fade-in slide-in-from-bottom-2 duration-200 group"
                       onMouseEnter={playHover}
-                      className={`
-                        p-2.5 border transition-all cursor-pointer group relative
-                        ${isSelected 
-                          ? 'bg-black border-p5-crimson shadow-[4px_4px_0px_#000] scale-[1.02]' 
-                          : 'bg-black/60 border-zinc-800 hover:border-zinc-600'
-                        }
-                      `}
                     >
-                      <div className="flex items-center justify-between mb-1">
-                        <div className="flex items-center gap-1.5">
-                          <span className="text-[9px] font-p5Mono px-1 bg-zinc-800 text-yellow-400 border border-zinc-700">
-                            {param.category}
+                      {/* Character Avatar Box: Slanted with Portrait Icon */}
+                      <div className="shrink-0 -rotate-3 group-hover:rotate-0 transition-transform">
+                        <div className={`size-10 sm:size-12 ${msg.avatarBg} border-2 border-black shadow-[3px_3px_0px_#000000] flex flex-col items-center justify-center -skew-x-6 p-0.5`}>
+                          <span className="font-p5Heading text-[9px] sm:text-[10px] text-white font-black tracking-wider leading-none text-center">
+                            {msg.avatarText}
                           </span>
-                          <span className="text-white font-p5Heading text-xs tracking-wider group-hover:text-yellow-300 transition-colors">
-                            {param.name}
+                          <span className="font-p5Mono text-[7px] text-yellow-300 font-bold tracking-tighter uppercase mt-0.5 leading-none">
+                            {msg.avatarSub}
                           </span>
                         </div>
-                        <span className={`text-[10px] font-p5Mono font-bold px-1.5 py-0.2 ${param.badgeColor}`}>
-                          {param.rank}
-                        </span>
                       </div>
 
-                      {/* Stat Gauge Bar */}
-                      <div className="w-full h-2 bg-zinc-900 border border-zinc-700 overflow-hidden my-1">
-                        <div
-                          className="h-full bg-gradient-to-r from-p5-crimson via-red-500 to-yellow-400 transition-all duration-500"
-                          style={{ width: `${param.level}%` }}
+                      {/* Persona 5 Asymmetrical Speech Bubble */}
+                      <div className="relative flex-1">
+                        {/* Speech Bubble Comic Beak/Tail */}
+                        <div 
+                          className="absolute -left-2 top-3 w-0 h-0 border-y-8 border-y-transparent border-r-[10px] border-r-white z-10 filter drop-shadow-[-1px_0px_0px_#000]" 
                         />
-                      </div>
 
-                      <p className="text-[10px] text-zinc-300 font-p5Body leading-tight mt-1 line-clamp-1">
-                        {param.desc}
-                      </p>
+                        {/* Speech Balloon Body */}
+                        <div 
+                          className={`
+                            relative bg-white text-black p-2.5 sm:p-3 border-2 border-black shadow-[4px_4px_0px_#000000] -skew-x-3 transition-transform duration-100 group-hover:scale-[1.01]
+                            ${isFerrel ? 'bg-amber-50 border-p5-crimson shadow-[4px_4px_0px_#E60012]' : ''}
+                          `}
+                        >
+                          {/* Sender Micro Badge */}
+                          <div className="flex items-center justify-between text-[9px] font-p5Mono text-zinc-500 mb-0.5">
+                            <span className="font-bold text-black uppercase tracking-wider">
+                              {msg.sender}
+                            </span>
+                            <span className="text-[8px] text-zinc-600">
+                              {msg.role}
+                            </span>
+                          </div>
 
-                      <div className="flex items-center gap-1 mt-1.5 flex-wrap">
-                        {param.skills.map((sk, sIdx) => (
-                          <span key={sIdx} className="text-[8px] font-p5Mono bg-zinc-900 text-zinc-400 px-1 border border-zinc-800">
-                            {sk}
-                          </span>
-                        ))}
+                          {/* Message Text */}
+                          <p className="font-p5Body text-xs sm:text-[13px] font-semibold text-black leading-snug tracking-tight">
+                            {msg.text}
+                          </p>
+
+                          {/* Optional Question Mark Badge (Like in Screenshot) */}
+                          {msg.hasQuestionMark && (
+                            <span className="absolute -top-3 -right-2 bg-p5-crimson text-white font-p5Heading text-sm font-black px-1.5 py-0.5 border border-black shadow-[2px_2px_0px_#000000] rotate-12 animate-pulse">
+                              ?
+                            </span>
+                          )}
+                        </div>
                       </div>
                     </div>
                   )
                 })}
               </div>
-            </div>
-          )}
 
-          {/* ── TAB 3 CONTENT: [ 03 // ARSENAL ] ── */}
-          {activeTab === 'arsenal' && (
-            <div className="space-y-2.5 animate-in fade-in slide-in-from-bottom-2 duration-150 relative z-10">
-              <div className="flex items-center justify-between font-p5Sub text-[9px] text-zinc-400 uppercase tracking-widest pb-1 border-b border-zinc-800">
-                <span className="flex items-center gap-1.5 text-cyan-400">
-                  <Terminal className="size-3" />
-                  <span>PHANTOM ARSENAL // SKILL CARDS</span>
-                </span>
-                <span className="text-p5-yellow font-bold">PRODUCTION VERIFIED</span>
+              {/* ── FOOTER TYPING PROMPT (Like Screenshot '...' indicator) ── */}
+              <div className="relative z-10 pt-2 border-t-2 border-black/40 flex items-center justify-between">
+                {/* Red Typing Bubble Indicator with '...' */}
+                <div 
+                  onClick={handleNextMessage}
+                  className="flex items-center gap-1.5 bg-black text-white px-3 py-1 border border-white -skew-x-12 shadow-[2px_2px_0px_#000] cursor-pointer hover:bg-zinc-800 transition-colors"
+                >
+                  <MessageSquare className="size-3 text-p5-yellow" />
+                  <span className="font-p5Heading text-xs tracking-wider text-p5-yellow animate-pulse">
+                    {visibleCount < CHAT_MESSAGES.length ? 'NEW MESSAGE INCOMING...' : 'TAP (X) TO REPLAY CHAT'}
+                  </span>
+                </div>
+
+                <div className="text-[10px] font-p5Mono text-white/90 drop-shadow-[1px_1px_0px_#000]">
+                  {visibleCount}/{CHAT_MESSAGES.length} SENT
+                </div>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                {ARSENAL_CARDS.map((card, idx) => (
-                  <div
-                    key={idx}
-                    onMouseEnter={playHover}
-                    className={`p-2.5 bg-black/90 border-2 ${card.color} shadow-[3px_3px_0px_#000] space-y-1.5 group hover:scale-[1.01] transition-transform`}
-                  >
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-1.5">
-                        <span className={`text-[9px] font-p5Heading font-bold px-1.5 py-0.5 ${card.bgBadge}`}>
-                          [{card.type}]
-                        </span>
-                        <span className="font-p5Heading text-xs tracking-wider text-white">
-                          {card.category}
-                        </span>
-                      </div>
-                    </div>
-
-                    <div className="flex flex-wrap gap-1 pt-0.5">
-                      {card.items.map((tech, tIdx) => (
-                        <span
-                          key={tIdx}
-                          className="bg-zinc-900 text-zinc-200 text-[10px] font-p5Mono px-1.5 py-0.5 border border-zinc-800 group-hover:border-zinc-600 transition-colors"
-                        >
-                          {tech}
-                        </span>
-                      ))}
-                    </div>
-
-                    <p className="text-[9px] font-p5Body text-zinc-400 pt-0.5 leading-tight">
-                      {card.note}
-                    </p>
-                  </div>
-                ))}
-              </div>
             </div>
-          )}
-
-          {/* Bottom Barcode Footer of the Dossier */}
-          <div className="mt-3 pt-2 border-t border-zinc-900 flex items-center justify-between text-[9px] font-p5Mono text-zinc-500">
-            <span className="tracking-widest">PHANTOM HEIST PROTOCOL // ARCHIVE ID: 004-ARAGAKI</span>
-            <span className="text-zinc-600 tracking-tighter">||| | ||||| || |||| ||| |||| |</span>
           </div>
-
         </div>
 
       </div>
