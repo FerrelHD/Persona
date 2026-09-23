@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { PageCutoutOverlay } from '@/components/common/PageCutoutOverlay'
 import { usePersonaSFX } from '@/hooks/usePersonaSFX'
-import { Sun, MessageSquare, ChevronDown } from 'lucide-react'
+import { Sun, MessageSquare } from 'lucide-react'
 
 interface AboutScreenProps {
   onBack: () => void
@@ -157,24 +157,24 @@ export const AboutScreen: React.FC<AboutScreenProps> = ({ onBack }) => {
             className="absolute inset-0 w-full h-full object-contain pointer-events-none select-none z-10 filter drop-shadow-[14px_14px_0px_rgba(0,0,0,0.85)]"
           />
 
-          {/* 2. Tilted Chat Content Area (Precisely Centered Inside Safe Screen Area) */}
+          {/* 2. Tilted Chat Content Area (Mathematically Aligned at +5.8deg Clockwise) */}
           <div
             className="absolute z-20 flex flex-col justify-between overflow-hidden"
             style={{
-              left: '49.0%',
-              top: '47.8%',
+              left: '48.2%',
+              top: '47.5%',
               width: '17.4%',
               height: '76%',
-              transform: 'translate(-50%, -50%) rotate(-6.4deg)',
+              transform: 'translate(-50%, -50%) rotate(5.8deg)',
             }}
           >
             {/* Subtle Manga Comic Halftone Specks in Screen Background */}
             <div 
-              className="absolute inset-0 pointer-events-none opacity-25 bg-[radial-gradient(#000000_1.5px,transparent_1.5px)] [background-size:10px_10px]"
+              className="absolute inset-0 pointer-events-none opacity-20 bg-[radial-gradient(#000000_1.5px,transparent_1.5px)] [background-size:10px_10px]"
               aria-hidden="true"
             />
 
-            {/* PHONE HEADER BAR: Cleared below the camera notch */}
+            {/* PHONE HEADER BAR: Cleared safely below the camera notch */}
             <div className="relative z-10 flex items-center justify-between pb-1.5 pt-4 sm:pt-5 border-b-2 border-black/40 px-1">
               <div className="flex items-center gap-1.5">
                 <div className="relative flex items-center bg-black text-white px-2 py-0.5 -skew-x-12 border-2 border-white shadow-[2px_2px_0px_#000000]">
@@ -197,7 +197,7 @@ export const AboutScreen: React.FC<AboutScreenProps> = ({ onBack }) => {
             {/* SCROLLABLE CHAT MESSAGES THREAD (Authentic P5 Royal IM Style) */}
             <div 
               ref={chatScrollRef}
-              className="relative z-10 flex-1 overflow-y-auto space-y-3 my-1.5 px-0.5 pr-1 custom-scrollbar"
+              className="relative z-10 flex-1 overflow-y-auto space-y-2.5 my-1.5 pl-0.5 pr-2 pb-2 custom-scrollbar"
             >
               {CHAT_MESSAGES.slice(0, visibleCount).map((msg) => {
                 const isSent = msg.isSent
@@ -209,8 +209,8 @@ export const AboutScreen: React.FC<AboutScreenProps> = ({ onBack }) => {
                     onMouseEnter={playHover}
                   >
                     {/* Character Avatar Box (Real Character Portrait Render) */}
-                    <div className="shrink-0 -rotate-3 group-hover:rotate-0 transition-transform">
-                      <div className={`size-8 sm:size-9 md:size-10 ${msg.avatarBg} border-2 border-black shadow-[2px_2px_0px_#000000] -skew-x-6 overflow-hidden flex items-center justify-center p-0.5`}>
+                    <div className="shrink-0 -rotate-2 group-hover:rotate-0 transition-transform">
+                      <div className={`size-8 sm:size-9 md:size-10 ${msg.avatarBg} border-2 border-black shadow-[2px_2px_0px_#000000] overflow-hidden flex items-center justify-center p-0.5`}>
                         <img 
                           src={msg.avatarImg} 
                           alt={msg.sender} 
@@ -220,7 +220,7 @@ export const AboutScreen: React.FC<AboutScreenProps> = ({ onBack }) => {
                     </div>
 
                     {/* Persona 5 Authentic Speech Bubble */}
-                    <div className="relative flex-1 group-hover:scale-[1.01] transition-transform">
+                    <div className="relative flex-1 min-w-0 group-hover:scale-[1.01] transition-transform">
                       {isSent ? (
                         /* Ferrel (Sent Message) Style: Bold White Card with Crimson Accent */
                         <>
@@ -232,7 +232,7 @@ export const AboutScreen: React.FC<AboutScreenProps> = ({ onBack }) => {
                             className="absolute -left-[9px] top-2.5 w-0 h-0 border-y-[5px] border-y-transparent border-r-[7px] border-r-p5-crimson z-10" 
                           />
 
-                          <div className="relative bg-white text-black p-2 sm:p-2.5 border-2 border-p5-crimson shadow-[3px_3px_0px_#E60012] -skew-x-3">
+                          <div className="relative bg-white text-black p-2 sm:p-2.5 border-2 border-p5-crimson shadow-[3px_3px_0px_#E60012] mr-0.5">
                             <div className="flex items-center justify-between text-[8px] sm:text-[9px] font-p5Mono mb-1">
                               <div className="flex items-center gap-1">
                                 <span className="bg-p5-crimson text-white px-1 py-0.2 text-[7px] sm:text-[8px] font-black -skew-x-6">
@@ -263,7 +263,7 @@ export const AboutScreen: React.FC<AboutScreenProps> = ({ onBack }) => {
                             className="absolute -left-[9px] top-2.5 w-0 h-0 border-y-[5px] border-y-transparent border-r-[7px] border-r-white z-10" 
                           />
 
-                          <div className="relative bg-black text-white p-2 sm:p-2.5 border-2 border-white shadow-[3px_3px_0px_#000000] -skew-x-3">
+                          <div className="relative bg-black text-white p-2 sm:p-2.5 border-2 border-white shadow-[3px_3px_0px_#000000] mr-0.5">
                             <div className="flex items-center justify-between text-[8px] sm:text-[9px] font-p5Mono mb-1">
                               <span className={`font-black uppercase tracking-wider ${msg.nameColor}`}>
                                 {msg.sender}
