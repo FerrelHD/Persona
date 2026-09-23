@@ -2,9 +2,10 @@
 
 interface PersonaVideoBgProps {
   videoSrc: string
+  onReady?: () => void
 }
 
-export const PersonaVideoBg: React.FC<PersonaVideoBgProps> = ({ videoSrc }) => {
+export const PersonaVideoBg: React.FC<PersonaVideoBgProps> = ({ videoSrc, onReady }) => {
   const videoRef = useRef<HTMLVideoElement>(null!)
   const [currentSrc, setCurrentSrc] = useState(videoSrc)
 
@@ -21,6 +22,10 @@ export const PersonaVideoBg: React.FC<PersonaVideoBgProps> = ({ videoSrc }) => {
       })
     }
   }, [currentSrc])
+
+  const handlePlaying = () => {
+    onReady?.()
+  }
 
   const handleError = () => {
     if (currentSrc !== '/assets/videos/joker.mp4') {
@@ -45,6 +50,8 @@ export const PersonaVideoBg: React.FC<PersonaVideoBgProps> = ({ videoSrc }) => {
         loop
         playsInline
         preload="auto"
+        onPlaying={handlePlaying}
+        onCanPlay={handlePlaying}
         onError={handleError}
         className="w-full h-full object-cover object-center select-none"
       />

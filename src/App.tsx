@@ -1,4 +1,4 @@
-﻿import React, { useState, useCallback } from 'react'
+﻿import React, { useState, useCallback, useRef } from 'react'
 import { PersonaVideoBg } from '@/components/PersonaVideoBg'
 import { MainMenu, ActiveScreen } from '@/components/MainMenu'
 import { SplashScreen } from '@/components/SplashScreen'
@@ -8,6 +8,8 @@ import { CallingCardScreen } from '@/components/screens/CallingCardScreen'
 import { AboutScreen } from '@/components/screens/AboutScreen'
 import { usePersonaSFX } from '@/hooks/usePersonaSFX'
 import { PersonaCursor } from '@/components/common/PersonaCursor'
+import { TakeYourTime } from '@/components/common/TakeYourTime'
+import { useAssetPreloader } from '@/hooks/useAssetPreloader'
 
 // Accent color per screen - used for the iris overlay tint
 const SCREEN_COLOR: Record<ActiveScreen, string> = {
@@ -29,12 +31,20 @@ const VIDEO_MAP: Record<ActiveScreen, string> = {
 type TransitionPhase = 'idle' | 'expand' | 'collapse'
 
 export function App() {
+  // Quietly prefetch all 5 compressed videos and key artwork in background
+  useAssetPreloader()
+
   const [hasStarted, setHasStarted] = useState(false)
   const [isStartingUp, setIsStartingUp] = useState(false)
   const [currentScreen, setCurrentScreen] = useState<ActiveScreen>('menu')
   const [lastVisitedScreen, setLastVisitedScreen] = useState<ActiveScreen | null>(null)
   const [pendingScreen, setPendingScreen] = useState<ActiveScreen | null>(null)
   const [transPhase, setTransPhase] = useState<TransitionPhase>('idle')
+  const [isVideoLoading, setIsVideoLoading] = useState(false)
+  
+  const videoReadyRef = useRef(false)
+  const fallbackTimerRef = useRef<NodeJS.Timeout | null>(null)
+
   const { playSlash, playBack } = usePersonaSFX()
 
   // Color of the iris overlay: Crimson #E60012 for startup, or destination screen color
@@ -50,6 +60,7 @@ export function App() {
   const navigateTo = useCallback((next: ActiveScreen, sfx?: () => void) => {
     if (transPhase !== 'idle') return
     sfx?.()
+    videoReadyRef.current = false
     setPendingScreen(next)
     setTransPhase('expand')
   }, [transPhase])
@@ -68,34 +79,70 @@ export function App() {
     setHasStarted(false)
   }, [playBack])
 
-  // Phase 1 ends: screen is 100% covered by the iris color -> swap content, start collapse instantly
+  const proceedToCollapse = useCallback(() => {
+    if (fallbackTimerRef.current) {
+      clearTimeout(fallbackTimerRef.current)
+      fallbackTimerRef.current = null
+    }
+    setIsVideoLoading(false)
+    requestAnimationFrame(() => {
+      setTransPhase('collapse')
+    })
+  }, [])
+
+  // Called when video starts playing or is ready
+  const handleVideoReady = useCallback(() => {
+    videoReadyRef.current = true
+    if (transPhase === 'expand') {
+      proceedToCollapse()
+    }
+  }, [transPhase, proceedToCollapse])
+
+  // Phase 1 ends: screen is 100% covered by the iris color -> swap content
   const handleExpandEnd = useCallback(() => {
     if (isStartingUp) {
       setHasStarted(true)
       setIsStartingUp(false)
-    } else if (pendingScreen) {
+      proceedToCollapse()
+      return
+    }
+
+    if (pendingScreen) {
       setCurrentScreen(pendingScreen)
       setPendingScreen(null)
     }
-    // Zero-delay handoff: proceed straight to collapse on the very next animation frame without freezing
-    requestAnimationFrame(() => {
-      setTransPhase('collapse')
-    })
-  }, [isStartingUp, pendingScreen])
+
+    // If video is already cached and ready to play, collapse immediately!
+    if (videoReadyRef.current) {
+      proceedToCollapse()
+    } else {
+      // If still buffering on first load, show authentic "TAKE YOUR TIME"
+      setIsVideoLoading(true)
+      // Safety timeout: never leave user waiting more than 600ms
+      fallbackTimerRef.current = setTimeout(() => {
+        proceedToCollapse()
+      }, 600)
+    }
+  }, [isStartingUp, pendingScreen, proceedToCollapse])
 
   // Phase 2 ends: iris has fully reopened -> back to idle
   const handleCollapseEnd = useCallback(() => {
     setTransPhase('idle')
+    setIsVideoLoading(false)
   }, [])
 
   return (
     <div className="relative w-screen h-screen overflow-hidden font-p5Body text-white select-none">
       {/* Persona 5 Authentic Dagger Cursor */}
       <PersonaCursor />
-      {/* Video Background */}
-      <PersonaVideoBg videoSrc={VIDEO_MAP[currentScreen]} />
 
-      {/* Main Screens: Pre-mounted in DOM behind SplashScreen (hidden while !hasStarted so it never leaks through backdrop) */}
+      {/* Video Background with onReady callback */}
+      <PersonaVideoBg
+        videoSrc={VIDEO_MAP[currentScreen]}
+        onReady={handleVideoReady}
+      />
+
+      {/* Main Screens: Pre-mounted in DOM behind SplashScreen */}
       <div className={`relative z-10 w-full h-full transition-opacity duration-150 ${!hasStarted ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
         {currentScreen === 'menu' && (
           <MainMenu onSelectScreen={handleSelectScreen} onBackToTitle={handleBackToTitle} initialSelectedScreen={lastVisitedScreen} />
@@ -119,7 +166,10 @@ export function App() {
         <SplashScreen onStart={handleStartGame} />
       )}
 
-      {/* ── Seamless Persona 5 Crimson Iris Circle Wipe Overlay ── */}
+      {/* Authentic Persona 5 "TAKE YOUR TIME" Loading Indicator */}
+      <TakeYourTime visible={isVideoLoading} />
+
+      {/* Seamless Persona 5 Iris Circle Wipe Overlay */}
       {transPhase !== 'idle' && (
         <div
           className="fixed inset-0 z-[9999] pointer-events-none will-change-[clip-path]"

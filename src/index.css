@@ -136,3 +136,13 @@
     opacity: 0.95;
   }
 }
+
+/* Persona 5 Authentic Take Your Time Pendulum Tilt */
+@keyframes p5-hat-tilt {
+  0%, 100% {
+    transform: rotate(-6deg) translateY(0);
+  }
+  50% {
+    transform: rotate(6deg) translateY(-3px);
+  }
+}
