@@ -51,7 +51,7 @@
   background: #ffffff;
 }
 
-/* ── Iris Circle Wipe Transition ── */
+/* ── Iris Circle Wipe Transition (GPU Optimized) ── */
 @keyframes iris-expand {
   from { clip-path: circle(0% at 50% 50%); }
   to   { clip-path: circle(150% at 50% 50%); }
@@ -61,27 +61,27 @@
   to   { clip-path: circle(0% at 50% 50%); }
 }
 
-/* ── Persona 5 Slash Wipe Transition ── */
+/* ── Persona 5 Slash Wipe Transition (Hardware Accelerated translate3d) ── */
 @keyframes slash-beam {
   0% {
-    transform: translate(-100%, -100%) rotate(-25deg);
+    transform: translate3d(-100%, -100%, 0) rotate(-25deg);
     opacity: 1;
   }
-  50% {
+  60% {
     opacity: 1;
   }
   100% {
-    transform: translate(200%, 200%) rotate(-25deg);
+    transform: translate3d(200%, 200%, 0) rotate(-25deg);
     opacity: 0;
   }
 }
 
 @keyframes slash-shutter-left {
-  0% { transform: translate(0, 0); opacity: 1; }
-  100% { transform: translate(-30%, -20%) rotate(-5deg); opacity: 0; }
+  0% { transform: translate3d(0, 0, 0); opacity: 1; }
+  100% { transform: translate3d(-30%, -20%, 0) rotate(-5deg); opacity: 0; }
 }
 
 @keyframes slash-shutter-right {
-  0% { transform: translate(0, 0); opacity: 1; }
-  100% { transform: translate(30%, 20%) rotate(5deg); opacity: 0; }
+  0% { transform: translate3d(0, 0, 0); opacity: 1; }
+  100% { transform: translate3d(30%, 20%, 0) rotate(5deg); opacity: 0; }
 }

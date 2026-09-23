@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { usePersonaSFX } from '@/hooks/usePersonaSFX'
 import { Flame } from 'lucide-react'
 
@@ -15,10 +15,10 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({ onStart }) => {
     setIsExiting(true)
     playSlash()
 
-    // Seamless handoff: trigger the crimson Iris wipe right as the blade slash hits the center
+    // Seamless handoff: trigger the crimson Iris wipe right as the blade cuts across center
     setTimeout(() => {
       onStart()
-    }, 180)
+    }, 140)
   }
 
   useEffect(() => {
@@ -38,9 +38,9 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({ onStart }) => {
         isExiting ? 'bg-black/80' : 'bg-black/60 backdrop-blur-[2px]'
       }`}
     >
-      {/* Dynamic Background Slash Polygon */}
+      {/* Dynamic Background Slash Polygon - Hardware accelerated */}
       <div
-        className={`absolute -inset-10 bg-p5-crimson -skew-y-12 transform origin-top-left shadow-[0_0_50px_rgba(230,0,18,0.8)] transition-all duration-300 ease-out ${
+        className={`absolute -inset-10 bg-p5-crimson -skew-y-12 transform origin-top-left transition-all duration-300 ease-out will-change-transform ${
           isExiting
             ? 'scale-150 translate-x-24 rotate-3 opacity-100'
             : '-translate-y-48 opacity-85'
@@ -57,11 +57,11 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({ onStart }) => {
         PERSONA 5 ROYAL // DEVELOPER HEIST ARCHIVE
       </div>
 
-      {/* Center Title Logo */}
+      {/* Center Title Logo - Hardware accelerated without filter blur to prevent GPU repaint drops */}
       <div
-        className={`relative z-10 flex flex-col items-center text-center my-auto transition-all duration-300 ease-out ${
+        className={`relative z-10 flex flex-col items-center text-center my-auto transition-all duration-200 ease-out will-change-[transform,opacity] ${
           isExiting
-            ? 'scale-110 -translate-y-4 rotate-2 opacity-0 filter blur-[1px]'
+            ? 'scale-110 -translate-y-4 rotate-2 opacity-0'
             : 'scale-100 translate-x-0 opacity-100'
         }`}
       >
@@ -85,7 +85,7 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({ onStart }) => {
 
       {/* Bottom Start Prompt */}
       <div
-        className={`relative z-10 flex flex-col items-center gap-2 transition-all duration-200 ${
+        className={`relative z-10 flex flex-col items-center gap-2 transition-all duration-200 will-change-[transform,opacity] ${
           isExiting ? 'translate-y-16 opacity-0' : 'translate-y-0 opacity-100'
         }`}
       >
@@ -97,23 +97,25 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({ onStart }) => {
         </div>
       </div>
 
-      {/* ── Cinematic Persona Slash Beam Overlay on Exit ── */}
+      {/* ── Cinematic Persona Slash Beam Overlay on Exit (GPU-promoted) ── */}
       {isExiting && (
         <>
           {/* High-speed white/yellow blade slash line */}
           <div
-            className="absolute z-30 w-[200vw] h-4 bg-white shadow-[0_0_30px_#FFFFFF,0_0_60px_#FFD700] pointer-events-none"
+            className="absolute z-30 w-[200vw] h-4 bg-white pointer-events-none will-change-transform"
             style={{
-              animation: 'slash-beam 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+              boxShadow: '0 0 20px #FFFFFF, 0 0 35px #FFD700',
+              animation: 'slash-beam 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards',
               top: '50%',
               left: '-50%',
             }}
           />
           {/* Secondary Crimson Slash Afterimage */}
           <div
-            className="absolute z-20 w-[200vw] h-12 bg-p5-crimson shadow-[0_0_40px_#E60012] opacity-80 pointer-events-none"
+            className="absolute z-20 w-[200vw] h-12 bg-p5-crimson opacity-80 pointer-events-none will-change-transform"
             style={{
-              animation: 'slash-beam 0.4s 0.04s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+              boxShadow: '0 0 25px #E60012',
+              animation: 'slash-beam 0.34s 0.03s cubic-bezier(0.16, 1, 0.3, 1) forwards',
               top: '48%',
               left: '-50%',
             }}

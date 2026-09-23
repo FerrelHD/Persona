@@ -1,4 +1,4 @@
-﻿import React, { useState, useCallback } from 'react'
+import React, { useState, useCallback } from 'react'
 import { PersonaVideoBg } from '@/components/PersonaVideoBg'
 import { MainMenu, ActiveScreen } from '@/components/MainMenu'
 import { SplashScreen } from '@/components/SplashScreen'
@@ -8,7 +8,7 @@ import { CallingCardScreen } from '@/components/screens/CallingCardScreen'
 import { AboutScreen } from '@/components/screens/AboutScreen'
 import { usePersonaSFX } from '@/hooks/usePersonaSFX'
 
-// Accent color per screen — used for the iris overlay tint
+// Accent color per screen - used for the iris overlay tint
 const SCREEN_COLOR: Record<ActiveScreen, string> = {
   menu:        '#E60012',
   missions:    '#00D4FF',
@@ -59,7 +59,7 @@ export function App() {
     navigateTo('menu', playBack)
   }, [navigateTo, playBack])
 
-  // Phase 1 ends: screen is 100% covered by the iris color -> swap content, start collapse
+  // Phase 1 ends: screen is 100% covered by the iris color -> swap content, start collapse instantly
   const handleExpandEnd = useCallback(() => {
     if (isStartingUp) {
       setHasStarted(true)
@@ -68,7 +68,10 @@ export function App() {
       setCurrentScreen(pendingScreen)
       setPendingScreen(null)
     }
-    setTimeout(() => setTransPhase('collapse'), 50)
+    // Zero-delay handoff: proceed straight to collapse on the very next animation frame without freezing
+    requestAnimationFrame(() => {
+      setTransPhase('collapse')
+    })
   }, [isStartingUp, pendingScreen])
 
   // Phase 2 ends: iris has fully reopened -> back to idle
@@ -81,38 +84,40 @@ export function App() {
       {/* Video Background */}
       <PersonaVideoBg videoSrc={VIDEO_MAP[currentScreen]} />
 
-      {/* Splash Screen or Main App Screens */}
-      {!hasStarted ? (
+      {/* Main Screens: Pre-mounted in the DOM behind SplashScreen so React does not drop frames mounting MainMenu during transition */}
+      <div className="relative z-10 w-full h-full">
+        {currentScreen === 'menu' && (
+          <MainMenu onSelectScreen={handleSelectScreen} />
+        )}
+        {currentScreen === 'missions' && (
+          <MissionsScreen onBack={handleBackToMenu} />
+        )}
+        {currentScreen === 'skills' && (
+          <SkillsScreen onBack={handleBackToMenu} />
+        )}
+        {currentScreen === 'about' && (
+          <AboutScreen onBack={handleBackToMenu} />
+        )}
+        {currentScreen === 'callingCard' && (
+          <CallingCardScreen onBack={handleBackToMenu} />
+        )}
+      </div>
+
+      {/* Splash Screen on top (z-50) */}
+      {!hasStarted && (
         <SplashScreen onStart={handleStartGame} />
-      ) : (
-        <div className="relative z-10 w-full h-full">
-          {currentScreen === 'menu' && (
-            <MainMenu onSelectScreen={handleSelectScreen} />
-          )}
-          {currentScreen === 'missions' && (
-            <MissionsScreen onBack={handleBackToMenu} />
-          )}
-          {currentScreen === 'skills' && (
-            <SkillsScreen onBack={handleBackToMenu} />
-          )}
-          {currentScreen === 'about' && (
-            <AboutScreen onBack={handleBackToMenu} />
-          )}
-          {currentScreen === 'callingCard' && (
-            <CallingCardScreen onBack={handleBackToMenu} />
-          )}
-        </div>
       )}
 
       {/* ── Seamless Persona 5 Crimson Iris Circle Wipe Overlay ── */}
       {transPhase !== 'idle' && (
         <div
-          className="fixed inset-0 z-[9999] pointer-events-none"
+          className="fixed inset-0 z-[9999] pointer-events-none will-change-[clip-path]"
           style={{
             backgroundColor: irisColor,
+            transform: 'translateZ(0)',
             animation: transPhase === 'expand'
-              ? 'iris-expand 0.32s cubic-bezier(0.65,0,0.35,1) forwards'
-              : 'iris-collapse 0.32s cubic-bezier(0.65,0,0.35,1) forwards',
+              ? 'iris-expand 0.24s cubic-bezier(0.2, 0, 0, 1) forwards'
+              : 'iris-collapse 0.24s cubic-bezier(0.2, 0, 0, 1) forwards',
           }}
           onAnimationEnd={transPhase === 'expand' ? handleExpandEnd : handleCollapseEnd}
         />
