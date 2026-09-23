@@ -15,7 +15,7 @@ export const RansomTitle: React.FC = () => {
       {/* Small top label */}
       <div className="flex items-center gap-2 mb-1">
         <span className="bg-p5-crimson text-white px-2 py-0.5 text-xs font-p5Sub tracking-widest uppercase -skew-x-12 shadow-[2px_2px_0px_#000000]">
-          ★ CODEX 2026 ★
+          ★ MIDWNTRR ★
         </span>
         <span className="bg-black text-p5-yellow px-2 py-0.5 text-xs font-p5Sub tracking-widest uppercase border border-p5-yellow -skew-x-6">
           LV.99 DEVELOPER
