@@ -2,7 +2,7 @@
 import { PageCutoutOverlay } from '@/components/common/PageCutoutOverlay'
 import { MISSIONS_DATA, Mission } from '@/data/personaData'
 import { usePersonaSFX } from '@/hooks/usePersonaSFX'
-import { ExternalLink, X, ChevronUp, ChevronDown, Sparkles } from 'lucide-react'
+import { ExternalLink, X } from 'lucide-react'
 
 const GithubIcon: React.FC = () => (
   <svg className="size-4" viewBox="0 0 24 24" fill="currentColor">
@@ -104,18 +104,17 @@ export const MissionsScreen: React.FC<MissionsScreenProps> = ({ onBack }) => {
   }, [playHover, playSlash, playBack, activeMission, showDossierModal])
 
   return (
-    <div className="fixed inset-0 z-30 flex flex-col justify-between select-none overflow-hidden bg-black/90 animate-in fade-in duration-300">
-      {/* Background Halftone & Shadow Accents */}
+    <div className="fixed inset-0 z-30 flex flex-col justify-between select-none overflow-hidden bg-gradient-to-r from-black/95 via-black/85 via-black/40 to-transparent animate-in fade-in duration-300">
+      {/* Background Halftone - Faded out on the right so character is crisp */}
       <div
         className="absolute inset-0 pointer-events-none opacity-20"
         style={{
           backgroundImage: 'radial-gradient(#E60012 1.5px, transparent 1.5px)',
           backgroundSize: '12px 12px',
+          maskImage: 'linear-gradient(to right, black 35%, transparent 75%)',
+          WebkitMaskImage: 'linear-gradient(to right, black 35%, transparent 75%)',
         }}
       />
-
-      {/* Red Ambient Glow on Bottom Right like Leblanc Coffee Cup silhouette in reference */}
-      <div className="absolute -bottom-24 -right-24 w-[500px] h-[350px] bg-p5-crimson/35 rounded-full blur-3xl pointer-events-none" />
 
       {/* Top Header Prompt & Menu Title */}
       <PageCutoutOverlay
@@ -143,30 +142,8 @@ export const MissionsScreen: React.FC<MissionsScreenProps> = ({ onBack }) => {
         </span>
       </div>
 
-      {/* Left Vertical Filmstrip Spine ("LoaD" / "SAVE DATA") */}
-      <div className="fixed left-2 sm:left-4 md:left-8 top-32 bottom-20 w-16 sm:w-20 z-20 flex flex-col items-center pointer-events-none hidden lg:flex">
-        {/* Slanted "LoaD" Ransom Header */}
-        <div className="bg-black border-[3px] border-white shadow-[4px_4px_0px_#000000] p-1.5 -rotate-6 mb-2">
-          <div className="flex flex-col items-center leading-none">
-            <span className="font-p5Heading text-3xl text-white">L</span>
-            <span className="size-6 rounded-full bg-p5-crimson flex items-center justify-center font-p5Heading text-base text-white my-0.5 border border-white">
-              o
-            </span>
-            <span className="font-p5Heading text-2xl text-white lowercase">a</span>
-            <span className="font-p5Heading text-3xl text-white">D</span>
-          </div>
-        </div>
-
-        {/* Vertical 35mm Filmstrip Sprocket Holes Line */}
-        <div className="flex-1 w-7 bg-zinc-950 border-x-2 border-zinc-800 flex flex-col justify-around items-center py-2 opacity-80">
-          {Array.from({ length: 14 }).map((_, i) => (
-            <div key={i} className="size-2 rounded-[1px] bg-black border border-zinc-700" />
-          ))}
-        </div>
-      </div>
-
-      {/* "?"? MAIN SLANTED SAVE SLOTS DECK (~ -14deg slant) "?"? */}
-      <div className="flex-1 flex flex-col justify-center items-center w-full max-w-7xl mx-auto px-4 sm:px-8 lg:pl-28 lg:pr-8 z-20 py-16 overflow-hidden">
+      {/* "?"? MAIN SLANTED SAVE SLOTS DECK - POSITIONED ON LEFT SIDE "?"? */}
+      <div className="flex-1 flex flex-col justify-center items-start w-full max-w-4xl lg:max-w-[58%] pl-4 sm:pl-8 md:pl-12 lg:pl-16 z-20 py-16 overflow-hidden">
         <div className="w-full flex flex-col gap-2.5 sm:gap-3.5 max-h-[75vh] justify-center">
           {MISSIONS_DATA.map((mission, idx) => {
             const isSelected = idx === selectedIndex
@@ -364,93 +341,63 @@ export const MissionsScreen: React.FC<MissionsScreenProps> = ({ onBack }) => {
         </div>
       </div>
 
-      {/* "?"? BOTTOM CONTROLLER LEGEND (PlayStation Style Buttons) "?"? */}
-      <div className="fixed bottom-3 sm:bottom-4 left-4 sm:left-8 right-4 sm:right-8 z-40 flex items-center justify-between text-xs sm:text-sm text-zinc-300 pointer-events-auto">
-        {/* Left: PlayStation Style Prompts */}
-        <div className="flex items-center gap-3 sm:gap-5 flex-wrap">
-          {/* Back button */}
-          <button
-            onClick={() => {
-              playBack()
-              onBack()
-            }}
-            className="flex items-center gap-1.5 hover:text-white group"
-          >
-            <span className="size-5 rounded-full border-2 border-red-500 text-red-500 font-bold flex items-center justify-center text-[11px] group-hover:bg-red-500 group-hover:text-white transition-colors">
-              O
-            </span>
-            <span className="font-p5Heading text-sm tracking-wider uppercase">BACK</span>
-          </button>
+      {/* "?"? BOTTOM CONTROLLER LEGEND (PlayStation Style Buttons - Left Aligned) "?"? */}
+      <div className="fixed bottom-3 sm:bottom-4 left-4 sm:left-8 md:left-12 z-40 flex items-center gap-3 sm:gap-5 flex-wrap text-xs sm:text-sm text-zinc-300 pointer-events-auto">
+        {/* Back button */}
+        <button
+          onClick={() => {
+            playBack()
+            onBack()
+          }}
+          className="flex items-center gap-1.5 hover:text-white group"
+        >
+          <span className="size-5 rounded-full border-2 border-red-500 text-red-500 font-bold flex items-center justify-center text-[11px] group-hover:bg-red-500 group-hover:text-white transition-colors">
+            O
+          </span>
+          <span className="font-p5Heading text-sm tracking-wider uppercase">BACK</span>
+        </button>
 
-          {/* Confirm / Launch Demo button */}
-          {activeMission.liveUrl && (
-            <a
-              href={activeMission.liveUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-1.5 hover:text-white group"
-            >
-              <span className="size-5 rounded-full border-2 border-cyan-400 text-cyan-400 font-bold flex items-center justify-center text-[11px] group-hover:bg-cyan-400 group-hover:text-black transition-colors">
-                X
-              </span>
-              <span className="font-p5Heading text-sm tracking-wider uppercase">LAUNCH DEMO</span>
-            </a>
-          )}
-
-          {/* GitHub Repo button */}
+        {/* Confirm / Launch Demo button */}
+        {activeMission.liveUrl && (
           <a
-            href={activeMission.githubUrl}
+            href={activeMission.liveUrl}
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center gap-1.5 hover:text-white group"
           >
-            <span className="size-5 rounded-full border-2 border-emerald-400 text-emerald-400 font-bold flex items-center justify-center text-[11px] group-hover:bg-emerald-400 group-hover:text-black transition-colors">
-              △
+            <span className="size-5 rounded-full border-2 border-cyan-400 text-cyan-400 font-bold flex items-center justify-center text-[11px] group-hover:bg-cyan-400 group-hover:text-black transition-colors">
+              X
             </span>
-            <span className="font-p5Heading text-sm tracking-wider uppercase">GITHUB</span>
+            <span className="font-p5Heading text-sm tracking-wider uppercase">LAUNCH DEMO</span>
           </a>
+        )}
 
-          {/* Full Dossier Toggle */}
-          <button
-            onClick={() => {
-              playSlash()
-              setShowDossierModal(true)
-            }}
-            className="flex items-center gap-1.5 hover:text-white group"
-          >
-            <span className="size-5 rounded-full border-2 border-pink-400 text-pink-400 font-bold flex items-center justify-center text-[11px] group-hover:bg-pink-400 group-hover:text-black transition-colors">
-              □
-            </span>
-            <span className="font-p5Heading text-sm tracking-wider uppercase">DOSSIER</span>
-          </button>
-        </div>
-
-        {/* Right Navigation Arrows & ATLUS Watermark */}
-        <div className="flex items-center gap-3">
-          <div className="flex items-center gap-1">
-            <button
-              onClick={() => {
-                playHover()
-                setSelectedIndex(prev => (prev - 1 + MISSIONS_DATA.length) % MISSIONS_DATA.length)
-              }}
-              className="size-7 bg-black border border-white hover:bg-p5-crimson flex items-center justify-center text-white"
-            >
-              <ChevronUp className="size-4" />
-            </button>
-            <button
-              onClick={() => {
-                playHover()
-                setSelectedIndex(prev => (prev + 1) % MISSIONS_DATA.length)
-              }}
-              className="size-7 bg-black border border-white hover:bg-p5-crimson flex items-center justify-center text-white"
-            >
-              <ChevronDown className="size-4" />
-            </button>
-          </div>
-          <span className="font-p5Heading text-sm tracking-widest text-zinc-500 uppercase hidden sm:inline">
-            ATLUS / P5R ARCHIVE
+        {/* GitHub Repo button */}
+        <a
+          href={activeMission.githubUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center gap-1.5 hover:text-white group"
+        >
+          <span className="size-5 rounded-full border-2 border-emerald-400 text-emerald-400 font-bold flex items-center justify-center text-[11px] group-hover:bg-emerald-400 group-hover:text-black transition-colors">
+            △
           </span>
-        </div>
+          <span className="font-p5Heading text-sm tracking-wider uppercase">GITHUB</span>
+        </a>
+
+        {/* Full Dossier Toggle */}
+        <button
+          onClick={() => {
+            playSlash()
+            setShowDossierModal(true)
+          }}
+          className="flex items-center gap-1.5 hover:text-white group"
+        >
+          <span className="size-5 rounded-full border-2 border-pink-400 text-pink-400 font-bold flex items-center justify-center text-[11px] group-hover:bg-pink-400 group-hover:text-black transition-colors">
+            □
+          </span>
+          <span className="font-p5Heading text-sm tracking-wider uppercase">DOSSIER</span>
+        </button>
       </div>
 
       {/* "?"? DOSSIER MODAL (Full Project Specifications) "?"? */}
