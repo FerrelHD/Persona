@@ -1,4 +1,4 @@
-﻿@import url('https://fonts.googleapis.com/css2?family=Bangers&family=Dela+Gothic+One&family=Outfit:wght@400;600;800;900&family=Space+Mono:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bangers&family=Dela+Gothic+One&family=Outfit:wght@400;600;800;900&family=Space+Mono:wght@400;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -51,7 +51,7 @@
   background: #ffffff;
 }
 
-/* ─── Iris Circle Wipe Transition ──────────────────────────────────── */
+/* ── Iris Circle Wipe Transition ── */
 @keyframes iris-expand {
   from { clip-path: circle(0% at 50% 50%); }
   to   { clip-path: circle(150% at 50% 50%); }
@@ -59,4 +59,29 @@
 @keyframes iris-collapse {
   from { clip-path: circle(150% at 50% 50%); }
   to   { clip-path: circle(0% at 50% 50%); }
+}
+
+/* ── Persona 5 Slash Wipe Transition ── */
+@keyframes slash-beam {
+  0% {
+    transform: translate(-100%, -100%) rotate(-25deg);
+    opacity: 1;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate(200%, 200%) rotate(-25deg);
+    opacity: 0;
+  }
+}
+
+@keyframes slash-shutter-left {
+  0% { transform: translate(0, 0); opacity: 1; }
+  100% { transform: translate(-30%, -20%) rotate(-5deg); opacity: 0; }
+}
+
+@keyframes slash-shutter-right {
+  0% { transform: translate(0, 0); opacity: 1; }
+  100% { transform: translate(30%, 20%) rotate(5deg); opacity: 0; }
 }
