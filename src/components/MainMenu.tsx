@@ -6,6 +6,7 @@ export type ActiveScreen = 'menu' | 'missions' | 'skills' | 'callingCard' | 'abo
 
 interface MainMenuProps {
   onSelectScreen: (screen: ActiveScreen) => void
+  onBackToTitle?: () => void
 }
 
 interface MenuItem {
@@ -75,8 +76,8 @@ const MENU_ITEMS: MenuItem[] = [
   }
 ]
 
-export const MainMenu: React.FC<MainMenuProps> = ({ onSelectScreen }) => {
-  const { playHover, playSlash } = usePersonaSFX()
+export const MainMenu: React.FC<MainMenuProps> = ({ onSelectScreen, onBackToTitle }) => {
+  const { playHover, playSlash, playBack } = usePersonaSFX()
   const [selectedIndex, setSelectedIndex] = useState(1) // Default to SKILLS
 
   // Keyboard navigation support: Arrow Up/Down & Enter
@@ -94,6 +95,12 @@ export const MainMenu: React.FC<MainMenuProps> = ({ onSelectScreen }) => {
         e.preventDefault()
         playSlash()
         onSelectScreen(MENU_ITEMS[selectedIndex].id)
+      } else if (e.key === 'Escape') {
+        if (onBackToTitle) {
+          e.preventDefault()
+          playBack()
+          onBackToTitle()
+        }
       }
     }
 
@@ -188,28 +195,64 @@ export const MainMenu: React.FC<MainMenuProps> = ({ onSelectScreen }) => {
         })}
       </div>
 
-      {/* Bottom Bar: Retro Console Key Hints with exact PlayStation button styling */}
-      <div className="z-20 flex items-center gap-4 sm:gap-6 font-p5Heading italic text-sm text-white select-none self-end bg-black/85 border border-zinc-800 px-4 py-1.5 -skew-x-6 shadow-[3px_3px_0px_#000000]">
-        <div className="flex items-center gap-1.5">
-          <span className="size-5 rounded-full border-2 border-yellow-400 text-yellow-400 font-bold flex items-center justify-center text-[10px] not-italic shadow-[0_0_6px_rgba(250,204,21,0.4)]">
-            ▲/▼
-          </span>
-          <span className="tracking-wider">NAVIGATE</span>
-        </div>
+      {/* Bottom Bar: Exact PlayStation Legend matching user screenshot */}
+      <div className="z-20 flex items-center gap-3 sm:gap-5 flex-wrap text-xs sm:text-sm text-zinc-300 pointer-events-auto">
+        {onBackToTitle && (
+          <button
+            onClick={() => {
+              playBack()
+              onBackToTitle()
+            }}
+            className="flex items-center gap-1.5 hover:text-white group cursor-pointer transition-colors"
+            title="Return to Title"
+          >
+            <span className="size-5 rounded-full border-2 border-red-500 text-red-500 font-bold flex items-center justify-center text-[11px] group-hover:bg-red-500 group-hover:text-white transition-colors shadow-[0_0_6px_rgba(239,68,68,0.4)]">
+              O
+            </span>
+            <span className="font-p5Heading text-sm tracking-wider uppercase">BACK</span>
+          </button>
+        )}
 
-        <div className="flex items-center gap-1.5">
-          <span className="size-5 rounded-full border-2 border-cyan-400 text-cyan-400 font-bold flex items-center justify-center text-[11px] not-italic shadow-[0_0_6px_rgba(34,211,238,0.4)]">
+        <button
+          onClick={() => {
+            playSlash()
+            onSelectScreen(MENU_ITEMS[selectedIndex].id)
+          }}
+          className="flex items-center gap-1.5 hover:text-white group cursor-pointer transition-colors"
+          title="Select Item"
+        >
+          <span className="size-5 rounded-full border-2 border-cyan-400 text-cyan-400 font-bold flex items-center justify-center text-[11px] group-hover:bg-cyan-400 group-hover:text-black transition-colors shadow-[0_0_6px_rgba(34,211,238,0.4)]">
             X
           </span>
-          <span className="tracking-wider">SELECT</span>
-        </div>
+          <span className="font-p5Heading text-sm tracking-wider uppercase">SELECT</span>
+        </button>
 
-        <div className="flex items-center gap-1.5">
-          <span className="size-5 rounded-full border-2 border-red-500 text-red-500 font-bold flex items-center justify-center text-[11px] not-italic shadow-[0_0_6px_rgba(239,68,68,0.4)]">
-            O
+        <a
+          href="https://github.com/FerrelHD"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center gap-1.5 hover:text-white group cursor-pointer transition-colors"
+          title="View GitHub"
+        >
+          <span className="size-5 rounded-full border-2 border-emerald-400 text-emerald-400 font-bold flex items-center justify-center text-[11px] group-hover:bg-emerald-400 group-hover:text-black transition-colors shadow-[0_0_6px_rgba(52,211,153,0.4)]">
+            △
           </span>
-          <span className="tracking-wider">RETURN</span>
-        </div>
+          <span className="font-p5Heading text-sm tracking-wider uppercase">GITHUB</span>
+        </a>
+
+        <button
+          onClick={() => {
+            playSlash()
+            onSelectScreen('about')
+          }}
+          className="flex items-center gap-1.5 hover:text-white group cursor-pointer transition-colors"
+          title="View Dossier / About"
+        >
+          <span className="size-5 rounded-full border-2 border-pink-400 text-pink-400 font-bold flex items-center justify-center text-[11px] group-hover:bg-pink-400 group-hover:text-black transition-colors shadow-[0_0_6px_rgba(244,114,182,0.4)]">
+            □
+          </span>
+          <span className="font-p5Heading text-sm tracking-wider uppercase">DOSSIER</span>
+        </button>
       </div>
     </div>
   )

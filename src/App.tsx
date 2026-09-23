@@ -59,6 +59,11 @@ export function App() {
     navigateTo('menu', playBack)
   }, [navigateTo, playBack])
 
+  const handleBackToTitle = useCallback(() => {
+    playBack()
+    setHasStarted(false)
+  }, [playBack])
+
   // Phase 1 ends: screen is 100% covered by the iris color -> swap content, start collapse instantly
   const handleExpandEnd = useCallback(() => {
     if (isStartingUp) {
@@ -87,7 +92,7 @@ export function App() {
       {/* Main Screens: Pre-mounted in DOM behind SplashScreen (hidden while !hasStarted so it never leaks through backdrop) */}
       <div className={`relative z-10 w-full h-full transition-opacity duration-150 ${!hasStarted ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
         {currentScreen === 'menu' && (
-          <MainMenu onSelectScreen={handleSelectScreen} />
+          <MainMenu onSelectScreen={handleSelectScreen} onBackToTitle={handleBackToTitle} />
         )}
         {currentScreen === 'missions' && (
           <MissionsScreen onBack={handleBackToMenu} />
