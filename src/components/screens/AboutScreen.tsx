@@ -197,7 +197,7 @@ export const AboutScreen: React.FC<AboutScreenProps> = ({ onBack }) => {
             {/* SCROLLABLE CHAT MESSAGES THREAD (Authentic P5 Royal IM Style) */}
             <div 
               ref={chatScrollRef}
-              className="relative z-10 flex-1 overflow-y-auto space-y-2.5 my-1.5 pl-0.5 pr-2 pb-2 custom-scrollbar"
+              className="relative z-10 flex-1 overflow-y-auto space-y-2.5 my-1.5 px-0.5 pb-2 no-scrollbar [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
             >
               {CHAT_MESSAGES.slice(0, visibleCount).map((msg) => {
                 const isSent = msg.isSent
