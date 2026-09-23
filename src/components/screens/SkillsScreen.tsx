@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+﻿import React, { useState } from 'react'
 import { PageCutoutOverlay } from '@/components/common/PageCutoutOverlay'
 import { usePersonaSFX } from '@/hooks/usePersonaSFX'
 import { Zap, Sparkles, Shield, Flame, Sword, Crosshair, HeartPulse, RefreshCw } from 'lucide-react'
@@ -166,7 +166,7 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
   }).join(' ')
 
   return (
-    <div className="fixed inset-0 z-30 flex flex-col p-6 sm:p-8 md:p-10 select-none overflow-hidden bg-gradient-to-r from-black/95 via-black/75 to-transparent animate-in fade-in duration-200 pt-32 sm:pt-36 md:pt-40">
+    <div className="fixed inset-0 z-30 flex flex-col p-6 sm:p-8 md:p-10 select-none overflow-hidden bg-gradient-to-r from-black/95 from-0% via-black/80 via-35% to-transparent to-55% animate-in fade-in duration-200 pt-32 sm:pt-36 md:pt-40">
       {/* Page Title Cutout Overlay */}
       <PageCutoutOverlay
         title="SKILLS"
@@ -374,7 +374,7 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
                 }
               `}
             >
-              {hasEndorsed ? '★ COMMENDED ALL-OUT!' : '+ ALL-OUT COMMENDATION'}
+              {hasEndorsed ? 'â˜… COMMENDED ALL-OUT!' : '+ ALL-OUT COMMENDATION'}
             </button>
           </div>
 

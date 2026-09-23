@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+﻿import React, { useEffect } from 'react'
 import { usePersonaSFX } from '@/hooks/usePersonaSFX'
 
 interface PageCutoutOverlayProps {
@@ -49,7 +49,7 @@ export const PageCutoutOverlay: React.FC<PageCutoutOverlayProps> = ({
   // Get clean label
   const displayTitle = TITLE_MAP[title.toUpperCase()] || title.toUpperCase()
   const chars = displayTitle.split('')
-  const isLong = chars.length > 8
+  const isLong = chars.length >= 10 // e.g. CALLING CARD (12 chars)
 
   return (
     <>
@@ -62,7 +62,7 @@ export const PageCutoutOverlay: React.FC<PageCutoutOverlayProps> = ({
           </span>
         </div>
 
-        {/* Interactive Title Button - Counter-rotated so the visible slope is very subtle (-rotate-[13deg] offsets the inherent ~16deg slope to a gentle ~3deg) */}
+        {/* Interactive Title Button */}
         <div
           onClick={() => {
             playBack()
@@ -72,11 +72,15 @@ export const PageCutoutOverlay: React.FC<PageCutoutOverlayProps> = ({
           className="relative inline-flex items-center cursor-pointer group transition-all duration-150 -rotate-[13deg] hover:-rotate-[11deg] hover:scale-105 active:scale-95 origin-center"
           title="Click or press ESC to return to Main Menu"
         >
-          {/* Button Frame Graphic from Persona 5 Assets - Enlarged */}
+          {/* Button Frame Graphic from Persona 5 Assets - dynamically sized for long labels */}
           <img
             src="/button_main_menu.png"
             alt={displayTitle}
-            className="w-[240px] sm:w-[280px] md:w-[320px] lg:w-[350px] h-auto object-contain filter drop-shadow-[8px_8px_0px_#000000] pointer-events-none"
+            className={`h-auto object-contain filter drop-shadow-[8px_8px_0px_#000000] pointer-events-none ${
+              isLong
+                ? 'w-[260px] sm:w-[310px] md:w-[360px] lg:w-[390px]'
+                : 'w-[240px] sm:w-[280px] md:w-[320px] lg:w-[350px]'
+            }`}
           />
 
           {/* Title Content nested precisely inside the white slanted body of the button */}
@@ -86,17 +90,17 @@ export const PageCutoutOverlay: React.FC<PageCutoutOverlayProps> = ({
               transform: 'rotate(15.5deg) translate(-1%, 1%)',
             }}
           >
-            <div className="flex items-center justify-center flex-nowrap whitespace-nowrap gap-0.5 sm:gap-1 max-w-[82%] overflow-hidden">
+            <div className="flex items-center justify-center flex-nowrap whitespace-nowrap gap-[1.5px] sm:gap-1 max-w-[88%] overflow-visible">
               {chars.map((char, idx) => {
-                if (char === ' ') return <span key={idx} className={isLong ? "w-1.5 sm:w-2" : "w-2 sm:w-2.5"} />
+                if (char === ' ') return <span key={idx} className={isLong ? "w-1 sm:w-1.5" : "w-2 sm:w-2.5"} />
                 const isAccent = idx === 0 || idx % 4 === 0
                 return (
                   <span
                     key={idx}
                     className={`
-                      inline-flex items-center justify-center
+                      inline-flex items-center justify-center shrink-0
                       ${isLong
-                        ? 'min-w-[17px] sm:min-w-[21px] md:min-w-[25px] h-[26px] sm:h-[32px] md:h-[38px] px-0.5 font-p5Heading text-base sm:text-xl md:text-2xl'
+                        ? 'min-w-[15px] sm:min-w-[19px] md:min-w-[23px] h-[24px] sm:h-[30px] md:h-[36px] px-0.5 font-p5Heading text-sm sm:text-lg md:text-xl'
                         : 'min-w-[22px] sm:min-w-[28px] md:min-w-[34px] h-[32px] sm:h-[40px] md:h-[48px] px-1 font-p5Heading text-xl sm:text-2xl md:text-4xl'
                       }
                       uppercase border-[1.5px] border-black shadow-[2px_2px_0px_#000000]
