@@ -99,26 +99,47 @@ export const MissionsScreen: React.FC<MissionsScreenProps> = ({ onBack }) => {
         <div className="grid grid-cols-1 md:grid-cols-12 gap-5 items-start">
           {/* Left Column: Photo / Preview Polaroid Box */}
           <div className="md:col-span-4 flex flex-col items-center">
-            {/* Angled Polaroid Box */}
-            <div className="relative w-44 sm:w-52 md:w-full aspect-square bg-zinc-950 border-[5px] border-black shadow-[7px_7px_0px_#000000] -rotate-3 p-3 flex flex-col items-center justify-center overflow-hidden group">
-              {/* Halftone / Grid Pattern Background */}
-              <div 
-                className="absolute inset-0 opacity-20 pointer-events-none"
-                style={{
-                  backgroundImage: 'radial-gradient(#FFFFFF 1.5px, transparent 1.5px)',
-                  backgroundSize: '10px 10px'
-                }}
-              />
-
-              {/* Large Icon / Graphic Preview */}
-              <div className="relative z-10 p-4 rounded-lg bg-black/40 border border-zinc-800 transition-transform duration-300 group-hover:scale-110">
-                {getProjectIcon(currentMission.category)}
-              </div>
-
-              {/* Category Ribbon */}
-              <div className="relative z-10 mt-3 font-p5Mono text-[11px] uppercase tracking-widest px-2.5 py-0.5 bg-black text-cyan-400 border border-cyan-500/50">
-                {currentMission.category.toUpperCase()} // HEIST
-              </div>
+            {/* Angled Polaroid Box with Real Image Support */}
+            <div className="relative w-44 sm:w-52 md:w-full aspect-square bg-zinc-950 border-[5px] border-black shadow-[7px_7px_0px_#000000] -rotate-3 flex flex-col items-center justify-center overflow-hidden group">
+              {currentMission.image ? (
+                /* Real Project Photo */
+                <div className="relative w-full h-full overflow-hidden">
+                  <img
+                    src={currentMission.image}
+                    alt={currentMission.title}
+                    className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110 filter contrast-105"
+                  />
+                  {/* Subtle Comic Halftone Scanlines Overlay */}
+                  <div
+                    className="absolute inset-0 opacity-15 pointer-events-none"
+                    style={{
+                      backgroundImage: 'radial-gradient(#000000 1.5px, transparent 1.5px)',
+                      backgroundSize: '6px 6px',
+                    }}
+                  />
+                  {/* Category Ribbon in Corner */}
+                  <div className="absolute bottom-2 left-2 z-10 font-p5Mono text-[10px] sm:text-[11px] uppercase tracking-widest px-2 py-0.5 bg-black/90 text-cyan-400 border border-cyan-400 shadow-[2px_2px_0px_#000]">
+                    {currentMission.category.toUpperCase()} // HEIST
+                  </div>
+                </div>
+              ) : (
+                /* Fallback Icon Graphic Preview */
+                <div className="w-full h-full p-3 flex flex-col items-center justify-center">
+                  <div 
+                    className="absolute inset-0 opacity-20 pointer-events-none"
+                    style={{
+                      backgroundImage: 'radial-gradient(#FFFFFF 1.5px, transparent 1.5px)',
+                      backgroundSize: '10px 10px'
+                    }}
+                  />
+                  <div className="relative z-10 p-4 rounded-lg bg-black/40 border border-zinc-800 transition-transform duration-300 group-hover:scale-110">
+                    {getProjectIcon(currentMission.category)}
+                  </div>
+                  <div className="relative z-10 mt-3 font-p5Mono text-[11px] uppercase tracking-widest px-2.5 py-0.5 bg-black text-cyan-400 border border-cyan-500/50">
+                    {currentMission.category.toUpperCase()} // HEIST
+                  </div>
+                </div>
+              )}
             </div>
 
             {/* Comic Speech Bubble below photo */}

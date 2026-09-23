@@ -13,6 +13,7 @@ export interface Mission {
   liveUrl?: string
   githubUrl: string
   stats: { label: string; value: string }[]
+  image?: string
 }
 
 export interface Testimonial {

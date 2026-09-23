@@ -95,7 +95,7 @@ export const AboutScreen: React.FC<AboutScreenProps> = ({ onBack }) => {
   const [selectedStat, setSelectedStat] = useState<SocialStat>(SOCIAL_STATS[0])
 
   return (
-    <div className="fixed inset-0 z-30 flex flex-col p-6 sm:p-8 md:p-10 select-none overflow-hidden bg-gradient-to-r from-black/95 via-black/80 to-transparent animate-in fade-in duration-200 pt-32 sm:pt-36 md:pt-40">
+    <div className="fixed inset-0 z-30 flex flex-col p-6 sm:p-8 md:p-10 select-none overflow-hidden bg-gradient-to-r from-black/95 via-black/80 to-transparent animate-in fade-in duration-200 pt-36 sm:pt-40 md:pt-44">
       {/* Page Cutout Overlay */}
       <PageCutoutOverlay
         title="ABOUT ME"
@@ -106,7 +106,7 @@ export const AboutScreen: React.FC<AboutScreenProps> = ({ onBack }) => {
       />
 
       {/* Main Content: Left side contains UI, Right side is clear for Shinjiro */}
-      <div className="flex-1 grid grid-cols-1 lg:grid-cols-12 gap-6 mt-2 overflow-hidden z-20 max-w-7xl">
+      <div className="flex-1 grid grid-cols-1 lg:grid-cols-12 gap-6 mt-12 sm:mt-16 md:mt-20 overflow-hidden z-20 max-w-7xl">
         {/* Left side (7 cols) contains the dossier cards - NO huge gap, starts cleanly */}
         <div className="lg:col-span-7 flex flex-col justify-start max-h-[calc(100vh-175px)] overflow-y-auto pr-2 custom-scrollbar space-y-3">
 

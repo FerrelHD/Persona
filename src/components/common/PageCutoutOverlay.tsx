@@ -76,7 +76,7 @@ export const PageCutoutOverlay: React.FC<PageCutoutOverlayProps> = ({
           <img
             src="/button_main_menu.png"
             alt={displayTitle}
-            className="w-[270px] sm:w-[320px] md:w-[380px] lg:w-[420px] h-auto object-contain filter drop-shadow-[8px_8px_0px_#000000] pointer-events-none"
+            className="w-[240px] sm:w-[280px] md:w-[320px] lg:w-[350px] h-auto object-contain filter drop-shadow-[8px_8px_0px_#000000] pointer-events-none"
           />
 
           {/* Title Content nested precisely inside the white slanted body of the button */}
