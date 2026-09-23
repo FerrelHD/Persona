@@ -37,7 +37,7 @@ export function App() {
   // Color of the iris overlay is the destination screen color
   const irisColor = pendingScreen ? SCREEN_COLOR[pendingScreen] : SCREEN_COLOR[currentScreen]
 
-  // Option 1: Direct Slash Reveal - SplashScreen slices cleanly open directly into MainMenu
+  // Option 1: Direct Slash Reveal - SplashScreen cleanly transitions into MainMenu
   const handleStartGame = useCallback(() => {
     setHasStarted(true)
   }, [])
@@ -78,28 +78,27 @@ export function App() {
       {/* Video Background */}
       <PersonaVideoBg videoSrc={VIDEO_MAP[currentScreen]} />
 
-      {/* Main Screens: Pre-mounted in DOM behind SplashScreen */}
-      <div className="relative z-10 w-full h-full">
-        {currentScreen === 'menu' && (
-          <MainMenu onSelectScreen={handleSelectScreen} />
-        )}
-        {currentScreen === 'missions' && (
-          <MissionsScreen onBack={handleBackToMenu} />
-        )}
-        {currentScreen === 'skills' && (
-          <SkillsScreen onBack={handleBackToMenu} />
-        )}
-        {currentScreen === 'about' && (
-          <AboutScreen onBack={handleBackToMenu} />
-        )}
-        {currentScreen === 'callingCard' && (
-          <CallingCardScreen onBack={handleBackToMenu} />
-        )}
-      </div>
-
-      {/* Splash Screen on top (z-50) */}
-      {!hasStarted && (
+      {/* Splash Screen or Main App Screens - Strictly Conditional to prevent any background leak */}
+      {!hasStarted ? (
         <SplashScreen onStart={handleStartGame} />
+      ) : (
+        <div className="relative z-10 w-full h-full">
+          {currentScreen === 'menu' && (
+            <MainMenu onSelectScreen={handleSelectScreen} />
+          )}
+          {currentScreen === 'missions' && (
+            <MissionsScreen onBack={handleBackToMenu} />
+          )}
+          {currentScreen === 'skills' && (
+            <SkillsScreen onBack={handleBackToMenu} />
+          )}
+          {currentScreen === 'about' && (
+            <AboutScreen onBack={handleBackToMenu} />
+          )}
+          {currentScreen === 'callingCard' && (
+            <CallingCardScreen onBack={handleBackToMenu} />
+          )}
+        </div>
       )}
 
       {/* ── Sub-screen Iris Circle Wipe Overlay ── */}
