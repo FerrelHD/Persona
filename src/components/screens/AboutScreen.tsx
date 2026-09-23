@@ -12,11 +12,9 @@ interface ChatMessage {
   sender: 'FUTABA' | 'MORGANA' | 'FERREL' | 'JOKER'
   role: string
   avatarBg: string
-  badgeColor: string
   avatarText: string
   avatarSub: string
   text: string
-  highlight?: string
   hasQuestionMark?: boolean
 }
 
@@ -26,51 +24,42 @@ const CHAT_MESSAGES: ChatMessage[] = [
     sender: 'FUTABA',
     role: 'NAVI // INTEL',
     avatarBg: 'bg-gradient-to-br from-amber-500 to-orange-600',
-    badgeColor: 'border-amber-400 text-amber-300',
     avatarText: 'FUTABA',
     avatarSub: 'NAVI',
     text: 'Target identified! Ferrel, a Creative Fullstack Architect from Jakarta!',
-    highlight: 'Creative Fullstack Architect'
   },
   {
     id: 2,
     sender: 'MORGANA',
     role: 'MONA // GUIDE',
     avatarBg: 'bg-gradient-to-br from-cyan-500 to-blue-600',
-    badgeColor: 'border-cyan-400 text-cyan-300',
     avatarText: 'MORGANA',
     avatarSub: 'MONA',
-    text: 'Heh! Look at his parameters. Enterprise reactivity, sub-second renders, and custom HLSL shaders?!',
-    highlight: 'Enterprise reactivity & custom HLSL'
+    text: 'Heh! Look at his track record. Enterprise reactivity, sub-second renders, and custom HLSL shaders?!',
   },
   {
     id: 3,
     sender: 'FUTABA',
     role: 'NAVI // INTEL',
     avatarBg: 'bg-gradient-to-br from-amber-500 to-orange-600',
-    badgeColor: 'border-amber-400 text-amber-300',
     avatarText: 'FUTABA',
     avatarSub: 'NAVI',
     text: 'And his AI stack is certified! Transformer fine-tuning (IndoBERT) & PyTorch neural architectures on lock!',
-    highlight: 'IndoBERT & PyTorch'
   },
   {
     id: 4,
     sender: 'FERREL',
-    role: 'ARCHITECT // METAVERSE',
+    role: 'ARCHITECT',
     avatarBg: 'bg-gradient-to-br from-red-600 to-black',
-    badgeColor: 'border-p5-crimson text-white',
     avatarText: 'FERREL',
-    avatarSub: 'ARCHITECT',
+    avatarSub: 'DEV',
     text: '"Never settle for ordinary interfaces. Every screen deserves character, fluid physics, and soul."',
-    highlight: 'Never settle for ordinary interfaces'
   },
   {
     id: 5,
     sender: 'JOKER',
     role: 'LEADER // PHANTOM',
     avatarBg: 'bg-gradient-to-br from-zinc-700 to-black',
-    badgeColor: 'border-white text-white',
     avatarText: 'JOKER',
     avatarSub: 'LEADER',
     text: 'Sounds like our kind of architect. Shall we steal some hearts together?',
@@ -81,11 +70,9 @@ const CHAT_MESSAGES: ChatMessage[] = [
     sender: 'FUTABA',
     role: 'NAVI // INTEL',
     avatarBg: 'bg-gradient-to-br from-amber-500 to-orange-600',
-    badgeColor: 'border-amber-400 text-amber-300',
     avatarText: 'FUTABA',
     avatarSub: 'NAVI',
     text: 'Ready when you are! Check out his MISSIONS or send a direct dispatch in COMMS!',
-    highlight: 'MISSIONS or COMMS'
   }
 ]
 
@@ -135,7 +122,7 @@ export const AboutScreen: React.FC<AboutScreenProps> = ({ onBack }) => {
         }
       />
 
-      {/* ── Main Viewport: Persona 5 Smartphone Held by Hands (Using user's phone hold.png) ── */}
+      {/* ── Main Viewport: Persona 5 Smartphone Held by Hands ── */}
       <div className="relative w-full h-full flex items-center justify-start overflow-hidden">
         
         {/* Top-Left Calendar Widget outside phone frame */}
@@ -154,135 +141,142 @@ export const AboutScreen: React.FC<AboutScreenProps> = ({ onBack }) => {
           </div>
         </div>
 
-        {/* ── The 16:9 Frame Holding the Phone with Authentic Manga Hands ── */}
+        {/* ── The 16:9 Frame Holding the Phone (Shifted Down & Left as requested) ── */}
         <div 
-          className="relative h-[86vh] sm:h-[90vh] md:h-[94vh] aspect-[1673/940] max-w-none -translate-x-[18%] sm:-translate-x-[14%] md:-translate-x-[10%] mt-8 sm:mt-10 pointer-events-auto"
+          className="relative h-[82vh] sm:h-[86vh] md:h-[88vh] aspect-[1673/940] max-w-none -translate-x-[18%] sm:-translate-x-[14%] md:-translate-x-[10%] translate-y-8 sm:translate-y-12 md:translate-y-14 pointer-events-auto"
         >
-          {/* ── Inner Red Screen Layer (Nested perfectly into the phone screen cutout) ── */}
+          {/* ── 1. MATHEMATICAL SCREEN CUTOUT: 100% Zero-Leak Polygon Mask ── */}
           <div
-            className="absolute z-10 bg-[#D90011] overflow-hidden flex flex-col justify-between p-3 sm:p-4 md:p-5 pt-7 sm:pt-9 md:pt-11 shadow-inner"
+            className="absolute inset-0 z-10 overflow-hidden"
             style={{
-              left: '47.5%',
-              top: '49.8%',
-              width: '21.5%',
-              height: '82%',
-              transform: 'translate(-50%, -50%) rotate(-5.68deg)',
-              borderRadius: '20px',
+              clipPath: 'polygon(41.4% 7.2%, 58.0% 10.8%, 55.2% 89.2%, 35.8% 91.8%)',
             }}
           >
-            {/* Subtle Manga Comic Particle Specks in Screen Background */}
-            <div 
-              className="absolute inset-0 pointer-events-none opacity-25 bg-[radial-gradient(#FFFFFF_1.5px,transparent_1.5px)] [background-size:14px_14px]"
-              aria-hidden="true"
-            />
+            {/* Solid Crimson Red Screen (#D90011) */}
+            <div className="w-full h-full bg-[#D90011] relative overflow-hidden">
+              {/* Subtle Manga Comic Particle Specks in Screen Background */}
+              <div 
+                className="absolute inset-0 pointer-events-none opacity-20 bg-[radial-gradient(#FFFFFF_1.5px,transparent_1.5px)] [background-size:12px_12px]"
+                aria-hidden="true"
+              />
 
-            {/* ── PHONE HEADER BAR: Authentic 'IM' Logo & Group Status ── */}
-            <div className="relative z-10 flex items-center justify-between pb-2 border-b-2 border-black/40">
-              <div className="flex items-center gap-2">
-                <div className="relative flex items-center bg-black text-white px-2 py-0.5 -skew-x-12 border-2 border-white shadow-[2px_2px_0px_#000000]">
-                  <span className="font-p5Heading text-base sm:text-lg font-black tracking-tight text-white">
-                    I<span className="text-p5-crimson">M</span>
-                  </span>
-                </div>
-
-                {/* Red Notification Pill (6) */}
-                <div className="bg-white text-p5-crimson font-p5Heading text-[10px] font-black px-1.5 py-0.2 rounded-full border border-black shadow-[1px_1px_0px_#000000] -rotate-6 animate-bounce">
-                  6
-                </div>
-
-                <span className="font-p5Heading text-[11px] sm:text-xs text-white tracking-widest uppercase ml-0.5 drop-shadow-[1px_1px_0px_#000]">
-                  PHANTOM_CHAT
-                </span>
-              </div>
-            </div>
-
-            {/* ── SCROLLABLE CHAT MESSAGES THREAD (Option A: Phantom Thieves Group Chat) ── */}
-            <div 
-              ref={chatScrollRef}
-              className="relative z-10 flex-1 overflow-y-auto space-y-3 my-2 pr-1.5 custom-scrollbar"
-            >
-              {CHAT_MESSAGES.slice(0, visibleCount).map((msg) => {
-                const isFerrel = msg.sender === 'FERREL'
-                return (
-                  <div 
-                    key={msg.id} 
-                    className="flex items-start gap-1.5 sm:gap-2 animate-in fade-in slide-in-from-bottom-2 duration-200 group"
-                    onMouseEnter={playHover}
-                  >
-                    {/* Character Avatar Box: Slanted with Portrait Icon */}
-                    <div className="shrink-0 -rotate-3 group-hover:rotate-0 transition-transform">
-                      <div className={`size-8 sm:size-10 md:size-11 ${msg.avatarBg} border-2 border-black shadow-[2.5px_2.5px_0px_#000000] flex flex-col items-center justify-center -skew-x-6 p-0.5`}>
-                        <span className="font-p5Heading text-[8px] sm:text-[9px] text-white font-black tracking-wider leading-none text-center">
-                          {msg.avatarText}
-                        </span>
-                        <span className="font-p5Mono text-[6px] sm:text-[7px] text-yellow-300 font-bold tracking-tighter uppercase mt-0.5 leading-none">
-                          {msg.avatarSub}
-                        </span>
-                      </div>
+              {/* ── Tilted Chat Content Area (Precisely Aligned to Phone's -6.7° Tilt) ── */}
+              <div
+                className="absolute flex flex-col justify-between overflow-hidden"
+                style={{
+                  left: '47.5%',
+                  top: '50%',
+                  width: '17.2%',
+                  height: '80%',
+                  transform: 'translate(-50%, -50%) rotate(-6.7deg)',
+                }}
+              >
+                {/* ── PHONE HEADER BAR: Authentic 'IM' Logo & Group Status ── */}
+                <div className="relative z-10 flex items-center justify-between pb-1.5 pt-3 sm:pt-4 border-b-2 border-black/40 px-1">
+                  <div className="flex items-center gap-1.5">
+                    <div className="relative flex items-center bg-black text-white px-2 py-0.5 -skew-x-12 border-2 border-white shadow-[2px_2px_0px_#000000]">
+                      <span className="font-p5Heading text-sm sm:text-base font-black tracking-tight text-white">
+                        I<span className="text-p5-crimson">M</span>
+                      </span>
                     </div>
 
-                    {/* Persona 5 Asymmetrical Speech Bubble */}
-                    <div className="relative flex-1">
-                      {/* Speech Bubble Comic Beak/Tail */}
-                      <div 
-                        className="absolute -left-1.5 top-2.5 w-0 h-0 border-y-6 border-y-transparent border-r-[8px] border-r-white z-10 filter drop-shadow-[-1px_0px_0px_#000]" 
-                      />
+                    {/* Red Notification Pill (6) */}
+                    <div className="bg-white text-p5-crimson font-p5Heading text-[9px] font-black px-1.5 py-0.2 rounded-full border border-black shadow-[1px_1px_0px_#000000] -rotate-6 animate-bounce">
+                      6
+                    </div>
 
-                      {/* Speech Balloon Body */}
+                    <span className="font-p5Heading text-[10px] sm:text-[11px] text-white tracking-widest uppercase ml-0.5 drop-shadow-[1px_1px_0px_#000]">
+                      PHANTOM_CHAT
+                    </span>
+                  </div>
+                </div>
+
+                {/* ── SCROLLABLE CHAT MESSAGES THREAD ── */}
+                <div 
+                  ref={chatScrollRef}
+                  className="relative z-10 flex-1 overflow-y-auto space-y-2.5 my-1.5 px-1 pr-1.5 custom-scrollbar"
+                >
+                  {CHAT_MESSAGES.slice(0, visibleCount).map((msg) => {
+                    const isFerrel = msg.sender === 'FERREL'
+                    return (
                       <div 
-                        className={`
-                          relative bg-white text-black p-2 sm:p-2.5 border-2 border-black shadow-[3px_3px_0px_#000000] -skew-x-3 transition-transform duration-100 group-hover:scale-[1.01]
-                          ${isFerrel ? 'bg-amber-50 border-p5-crimson shadow-[3px_3px_0px_#E60012]' : ''}
-                        `}
+                        key={msg.id} 
+                        className="flex items-start gap-1 sm:gap-1.5 animate-in fade-in slide-in-from-bottom-2 duration-200 group"
+                        onMouseEnter={playHover}
                       >
-                        {/* Sender Micro Badge */}
-                        <div className="flex items-center justify-between text-[8px] sm:text-[9px] font-p5Mono text-zinc-500 mb-0.5">
-                          <span className="font-bold text-black uppercase tracking-wider">
-                            {msg.sender}
-                          </span>
-                          <span className="text-[7px] sm:text-[8px] text-zinc-600">
-                            {msg.role}
-                          </span>
+                        {/* Character Avatar Box */}
+                        <div className="shrink-0 -rotate-3 group-hover:rotate-0 transition-transform">
+                          <div className={`size-7 sm:size-8 md:size-9 ${msg.avatarBg} border-1.5 border-black shadow-[2px_2px_0px_#000000] flex flex-col items-center justify-center -skew-x-6 p-0.5`}>
+                            <span className="font-p5Heading text-[7px] sm:text-[8px] text-white font-black tracking-wider leading-none text-center">
+                              {msg.avatarText}
+                            </span>
+                            <span className="font-p5Mono text-[5px] sm:text-[6px] text-yellow-300 font-bold tracking-tighter uppercase mt-0.5 leading-none">
+                              {msg.avatarSub}
+                            </span>
+                          </div>
                         </div>
 
-                        {/* Message Text */}
-                        <p className="font-p5Body text-[11px] sm:text-xs font-semibold text-black leading-snug tracking-tight">
-                          {msg.text}
-                        </p>
+                        {/* Persona 5 Asymmetrical Speech Bubble */}
+                        <div className="relative flex-1">
+                          {/* Speech Bubble Beak */}
+                          <div 
+                            className="absolute -left-1 top-2 w-0 h-0 border-y-4 border-y-transparent border-r-[6px] border-r-white z-10 filter drop-shadow-[-1px_0px_0px_#000]" 
+                          />
 
-                        {/* Optional Question Mark Badge */}
-                        {msg.hasQuestionMark && (
-                          <span className="absolute -top-2.5 -right-1.5 bg-p5-crimson text-white font-p5Heading text-xs font-black px-1.5 py-0.2 border border-black shadow-[2px_2px_0px_#000000] rotate-12 animate-pulse">
-                            ?
-                          </span>
-                        )}
+                          {/* Speech Balloon Body */}
+                          <div 
+                            className={`
+                              relative bg-white text-black p-1.5 sm:p-2 border-1.5 border-black shadow-[2.5px_2.5px_0px_#000000] -skew-x-3 transition-transform duration-100 group-hover:scale-[1.01]
+                              ${isFerrel ? 'bg-amber-50 border-p5-crimson shadow-[2.5px_2.5px_0px_#E60012]' : ''}
+                            `}
+                          >
+                            <div className="flex items-center justify-between text-[7px] sm:text-[8px] font-p5Mono text-zinc-500 mb-0.5">
+                              <span className="font-bold text-black uppercase tracking-wider">
+                                {msg.sender}
+                              </span>
+                              <span className="text-[6px] text-zinc-600">
+                                {msg.role}
+                              </span>
+                            </div>
+
+                            <p className="font-p5Body text-[10px] sm:text-[11px] font-semibold text-black leading-tight tracking-tight">
+                              {msg.text}
+                            </p>
+
+                            {msg.hasQuestionMark && (
+                              <span className="absolute -top-2 -right-1 bg-p5-crimson text-white font-p5Heading text-[10px] font-black px-1 py-0.2 border border-black shadow-[1.5px_1.5px_0px_#000000] rotate-12 animate-pulse">
+                                ?
+                              </span>
+                            )}
+                          </div>
+                        </div>
                       </div>
-                    </div>
+                    )
+                  })}
+                </div>
+
+                {/* ── FOOTER TYPING PROMPT ── */}
+                <div className="relative z-10 pb-2 sm:pb-3 pt-1 border-t-2 border-black/40 flex items-center justify-between px-1">
+                  <div 
+                    onClick={handleNextMessage}
+                    className="flex items-center gap-1 bg-black text-white px-2 py-0.5 border border-white -skew-x-12 shadow-[1.5px_1.5px_0px_#000] cursor-pointer hover:bg-zinc-800 transition-colors"
+                  >
+                    <MessageSquare className="size-2.5 text-p5-yellow" />
+                    <span className="font-p5Heading text-[9px] sm:text-[10px] tracking-wider text-p5-yellow animate-pulse">
+                      {visibleCount < CHAT_MESSAGES.length ? 'NEW MESSAGE...' : 'TAP (X) REPLAY'}
+                    </span>
                   </div>
-                )
-              })}
-            </div>
 
-            {/* ── FOOTER TYPING PROMPT ── */}
-            <div className="relative z-10 pt-1.5 border-t-2 border-black/40 flex items-center justify-between">
-              <div 
-                onClick={handleNextMessage}
-                className="flex items-center gap-1.5 bg-black text-white px-2.5 py-1 border border-white -skew-x-12 shadow-[2px_2px_0px_#000] cursor-pointer hover:bg-zinc-800 transition-colors"
-              >
-                <MessageSquare className="size-2.5 sm:size-3 text-p5-yellow" />
-                <span className="font-p5Heading text-[10px] sm:text-xs tracking-wider text-p5-yellow animate-pulse">
-                  {visibleCount < CHAT_MESSAGES.length ? 'NEW MESSAGE...' : 'TAP (X) TO REPLAY'}
-                </span>
-              </div>
+                  <div className="text-[8px] sm:text-[9px] font-p5Mono text-white/90 drop-shadow-[1px_1px_0px_#000]">
+                    {visibleCount}/{CHAT_MESSAGES.length}
+                  </div>
+                </div>
 
-              <div className="text-[9px] sm:text-[10px] font-p5Mono text-white/90 drop-shadow-[1px_1px_0px_#000]">
-                {visibleCount}/{CHAT_MESSAGES.length} SENT
               </div>
             </div>
-
           </div>
 
-          {/* ── Overlay: The Authentic Phone & Hands PNG Image (phone hold.png) ── */}
+          {/* ── 2. OVERLAY: Authentic Phone & Hands PNG (phone hold.png) ── */}
           <img
             src="/assets/phone_hold.png"
             alt="Persona 5 Smartphone in Hand"
