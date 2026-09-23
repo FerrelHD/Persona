@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react'
+﻿import React, { useState, useCallback } from 'react'
 import { PersonaVideoBg } from '@/components/PersonaVideoBg'
 import { MainMenu, ActiveScreen } from '@/components/MainMenu'
 import { SplashScreen } from '@/components/SplashScreen'
@@ -8,7 +8,7 @@ import { CallingCardScreen } from '@/components/screens/CallingCardScreen'
 import { AboutScreen } from '@/components/screens/AboutScreen'
 import { usePersonaSFX } from '@/hooks/usePersonaSFX'
 
-// Accent color per screen � used for the iris overlay tint
+// Accent color per screen — used for the iris overlay tint
 const SCREEN_COLOR: Record<ActiveScreen, string> = {
   menu:        '#E60012',
   missions:    '#00D4FF',
@@ -29,13 +29,20 @@ type TransitionPhase = 'idle' | 'expand' | 'collapse'
 
 export function App() {
   const [hasStarted, setHasStarted] = useState(false)
+  const [isStartingUp, setIsStartingUp] = useState(false)
   const [currentScreen, setCurrentScreen] = useState<ActiveScreen>('menu')
   const [pendingScreen, setPendingScreen] = useState<ActiveScreen | null>(null)
   const [transPhase, setTransPhase] = useState<TransitionPhase>('idle')
   const { playSlash, playBack } = usePersonaSFX()
 
-  // Color of the iris overlay is the *destination* screen color
-  const irisColor = pendingScreen ? SCREEN_COLOR[pendingScreen] : SCREEN_COLOR[currentScreen]
+  // Color of the iris overlay: Crimson #E60012 for startup, or destination screen color
+  const irisColor = isStartingUp ? '#E60012' : (pendingScreen ? SCREEN_COLOR[pendingScreen] : SCREEN_COLOR[currentScreen])
+
+  // Triggered when clicking start on the splash screen
+  const handleStartGame = useCallback(() => {
+    setIsStartingUp(true)
+    setTransPhase('expand')
+  }, [])
 
   const navigateTo = useCallback((next: ActiveScreen, sfx?: () => void) => {
     if (transPhase !== 'idle') return
@@ -52,16 +59,19 @@ export function App() {
     navigateTo('menu', playBack)
   }, [navigateTo, playBack])
 
-  // Phase 1 ends ? swap content, start collapse
+  // Phase 1 ends: screen is 100% covered by the iris color -> swap content, start collapse
   const handleExpandEnd = useCallback(() => {
-    if (pendingScreen) {
+    if (isStartingUp) {
+      setHasStarted(true)
+      setIsStartingUp(false)
+    } else if (pendingScreen) {
       setCurrentScreen(pendingScreen)
       setPendingScreen(null)
     }
-    setTimeout(() => setTransPhase('collapse'), 60)
-  }, [pendingScreen])
+    setTimeout(() => setTransPhase('collapse'), 50)
+  }, [isStartingUp, pendingScreen])
 
-  // Phase 2 ends ? done
+  // Phase 2 ends: iris has fully reopened -> back to idle
   const handleCollapseEnd = useCallback(() => {
     setTransPhase('idle')
   }, [])
@@ -71,9 +81,9 @@ export function App() {
       {/* Video Background */}
       <PersonaVideoBg videoSrc={VIDEO_MAP[currentScreen]} />
 
-      {/* Splash Screen */}
+      {/* Splash Screen or Main App Screens */}
       {!hasStarted ? (
-        <SplashScreen onStart={() => setHasStarted(true)} />
+        <SplashScreen onStart={handleStartGame} />
       ) : (
         <div className="relative z-10 w-full h-full">
           {currentScreen === 'menu' && (
@@ -94,7 +104,7 @@ export function App() {
         </div>
       )}
 
-      {/* --- Iris Circle Wipe Overlay ----------------------------------- */}
+      {/* ── Seamless Persona 5 Crimson Iris Circle Wipe Overlay ── */}
       {transPhase !== 'idle' && (
         <div
           className="fixed inset-0 z-[9999] pointer-events-none"

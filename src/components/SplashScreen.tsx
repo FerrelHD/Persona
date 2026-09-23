@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+﻿import React, { useState, useEffect } from 'react'
 import { usePersonaSFX } from '@/hooks/usePersonaSFX'
 import { Flame } from 'lucide-react'
 
@@ -15,10 +15,10 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({ onStart }) => {
     setIsExiting(true)
     playSlash()
 
-    // Smooth timing: allow blade slash and shutter wipe to complete before mounting menu
+    // Seamless handoff: trigger the crimson Iris wipe right as the blade slash hits the center
     setTimeout(() => {
       onStart()
-    }, 450)
+    }, 180)
   }
 
   useEffect(() => {
@@ -34,23 +34,23 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({ onStart }) => {
   return (
     <div
       onClick={handleStart}
-      className={`fixed inset-0 z-50 flex flex-col items-center justify-between p-6 sm:p-8 md:p-10 cursor-pointer select-none overflow-hidden transition-colors duration-300 ${
-        isExiting ? 'bg-black' : 'bg-black/60 backdrop-blur-[2px]'
+      className={`fixed inset-0 z-50 flex flex-col items-center justify-between p-6 sm:p-8 md:p-10 cursor-pointer select-none overflow-hidden transition-colors duration-200 ${
+        isExiting ? 'bg-black/80' : 'bg-black/60 backdrop-blur-[2px]'
       }`}
     >
       {/* Dynamic Background Slash Polygon */}
       <div
-        className={`absolute -inset-10 bg-p5-crimson -skew-y-12 transform origin-top-left shadow-[0_0_50px_rgba(230,0,18,0.8)] transition-all duration-400 ease-out ${
+        className={`absolute -inset-10 bg-p5-crimson -skew-y-12 transform origin-top-left shadow-[0_0_50px_rgba(230,0,18,0.8)] transition-all duration-300 ease-out ${
           isExiting
-            ? 'scale-150 translate-x-32 rotate-6 opacity-100'
+            ? 'scale-150 translate-x-24 rotate-3 opacity-100'
             : '-translate-y-48 opacity-85'
         }`}
       />
 
       {/* Top Banner */}
       <div
-        className={`relative z-10 flex items-center gap-2 self-start bg-black text-white px-4 py-1.5 font-p5Sub text-xs -skew-x-12 border-2 border-white shadow-[4px_4px_0px_#000000] transition-all duration-300 ${
-          isExiting ? '-translate-x-48 opacity-0' : 'translate-x-0 opacity-100'
+        className={`relative z-10 flex items-center gap-2 self-start bg-black text-white px-4 py-1.5 font-p5Sub text-xs -skew-x-12 border-2 border-white shadow-[4px_4px_0px_#000000] transition-all duration-200 ${
+          isExiting ? '-translate-x-32 opacity-0' : 'translate-x-0 opacity-100'
         }`}
       >
         <Flame className="size-4 text-p5-crimson animate-bounce" />
@@ -59,9 +59,9 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({ onStart }) => {
 
       {/* Center Title Logo */}
       <div
-        className={`relative z-10 flex flex-col items-center text-center my-auto transition-all duration-400 ease-out ${
+        className={`relative z-10 flex flex-col items-center text-center my-auto transition-all duration-300 ease-out ${
           isExiting
-            ? 'scale-125 translate-x-24 -rotate-6 opacity-0 filter blur-[2px]'
+            ? 'scale-110 -translate-y-4 rotate-2 opacity-0 filter blur-[1px]'
             : 'scale-100 translate-x-0 opacity-100'
         }`}
       >
@@ -85,8 +85,8 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({ onStart }) => {
 
       {/* Bottom Start Prompt */}
       <div
-        className={`relative z-10 flex flex-col items-center gap-2 transition-all duration-300 ${
-          isExiting ? 'translate-y-24 opacity-0' : 'translate-y-0 opacity-100'
+        className={`relative z-10 flex flex-col items-center gap-2 transition-all duration-200 ${
+          isExiting ? 'translate-y-16 opacity-0' : 'translate-y-0 opacity-100'
         }`}
       >
         <div className="animate-bounce bg-white text-black font-p5Heading text-xl md:text-2xl px-8 py-3 border-4 border-black -skew-x-12 shadow-[6px_6px_0px_#000000]">
@@ -104,7 +104,7 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({ onStart }) => {
           <div
             className="absolute z-30 w-[200vw] h-4 bg-white shadow-[0_0_30px_#FFFFFF,0_0_60px_#FFD700] pointer-events-none"
             style={{
-              animation: 'slash-beam 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+              animation: 'slash-beam 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards',
               top: '50%',
               left: '-50%',
             }}
@@ -113,7 +113,7 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({ onStart }) => {
           <div
             className="absolute z-20 w-[200vw] h-12 bg-p5-crimson shadow-[0_0_40px_#E60012] opacity-80 pointer-events-none"
             style={{
-              animation: 'slash-beam 0.45s 0.05s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+              animation: 'slash-beam 0.4s 0.04s cubic-bezier(0.16, 1, 0.3, 1) forwards',
               top: '48%',
               left: '-50%',
             }}
