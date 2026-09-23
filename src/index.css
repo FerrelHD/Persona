@@ -147,6 +147,71 @@
   }
 }
 
+/* ── Persona 5 Main Menu Kinetic Entrance Animations (Hardware-Accelerated) ── */
+@keyframes p5-menu-enter {
+  0% {
+    opacity: 0;
+    transform: translate3d(-90px, 0, 0) skewX(-14deg) scale(0.92);
+  }
+  70% {
+    opacity: 1;
+    transform: translate3d(10px, 0, 0) skewX(-2deg) scale(1.03);
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) skewX(0deg) scale(1);
+  }
+}
+
+@keyframes p5-title-enter {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, -32px, 0) scale(1.12);
+  }
+  70% {
+    opacity: 1;
+    transform: translate3d(0, 4px, 0) scale(0.98);
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+@keyframes p5-footer-enter {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 24px, 0);
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.p5-menu-entrance {
+  animation: p5-menu-enter 0.38s cubic-bezier(0.16, 1, 0.3, 1) backwards;
+  will-change: transform, opacity;
+}
+
+.p5-title-entrance {
+  animation: p5-title-enter 0.42s cubic-bezier(0.16, 1, 0.3, 1) backwards;
+  will-change: transform, opacity;
+}
+
+.p5-footer-entrance {
+  animation: p5-footer-enter 0.36s cubic-bezier(0.16, 1, 0.3, 1) 0.28s backwards;
+  will-change: transform, opacity;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .p5-menu-entrance,
+  .p5-title-entrance,
+  .p5-footer-entrance {
+    animation: none !important;
+  }
+}
+
 /* ── HYBRID ADAPTIVE LAPTOP VIEWPORT UTILITIES ── */
 /* Laptop Standard (<= 820px viewport height: 1080p @ 125% Windows scaling, 768p displays) */
 @media (max-height: 820px) {

@@ -127,7 +127,7 @@ export const MainMenu: React.FC<MainMenuProps> = ({ onSelectScreen, onBackToTitl
       />
 
       {/* Top Left Title */}
-      <div className="z-20">
+      <div className="z-20 p5-title-entrance">
         <RansomTitle />
       </div>
 
@@ -139,72 +139,75 @@ export const MainMenu: React.FC<MainMenuProps> = ({ onSelectScreen, onBackToTitl
           return (
             <div
               key={item.id}
-              className={`transition-all duration-200 ${item.rotation} ${item.offsetClass}`}
+              className="p5-menu-entrance"
+              style={{ animationDelay: `${index * 60 + 70}ms` }}
             >
-              <button
-                type="button"
-                onClick={() => {
-                  playSlash()
-                  onSelectScreen(item.id)
-                }}
-                onMouseEnter={() => {
-                  playHover()
-                  setSelectedIndex(index)
-                }}
-                className="group relative inline-flex items-center text-left cursor-pointer outline-none transition-transform duration-150"
-              >
-                {isFocused ? (
-                  /* ACTIVE STATE: Jagged Ribbon + Ransom Cutout */
-                  <div className="relative flex items-center translate-x-2 sm:translate-x-4 md:translate-x-5 scale-100 sm:scale-105 transition-all duration-150">
-                    <svg
-                      viewBox="0 0 540 100"
-                      preserveAspectRatio="none"
-                      className="absolute -inset-x-5 -inset-y-2.5 w-[calc(100%+40px)] h-[calc(100%+20px)] pointer-events-none filter drop-shadow-[7px_7px_0px_#000000]"
-                    >
-                      <polygon
-                        points="20,52 6,40 38,10 135,6 148,0 162,10 475,20 535,42 485,60 528,78 455,86 115,96 55,84 15,88 6,74"
-                        fill="#000000"
-                        stroke="#FFFFFF"
-                        strokeWidth="5"
-                        strokeLinejoin="miter"
-                        strokeMiterlimit="4"
-                      />
-                      <polygon points="42,12 120,8 140,0 55,8" fill="#FFFFFF" />
-                      <polygon points="475,22 530,42 490,48" fill="#FFFFFF" />
-                      <polygon points="480,62 525,78 475,76" fill="#FFFFFF" />
-                    </svg>
+              <div className={`transition-all duration-200 ${item.rotation} ${item.offsetClass}`}>
+                <button
+                  type="button"
+                  onClick={() => {
+                    playSlash()
+                    onSelectScreen(item.id)
+                  }}
+                  onMouseEnter={() => {
+                    playHover()
+                    setSelectedIndex(index)
+                  }}
+                  className="group relative inline-flex items-center text-left cursor-pointer outline-none transition-transform duration-150"
+                >
+                  {isFocused ? (
+                    /* ACTIVE STATE: Jagged Ribbon + Ransom Cutout */
+                    <div className="relative flex items-center translate-x-2 sm:translate-x-4 md:translate-x-5 scale-100 sm:scale-105 transition-all duration-150">
+                      <svg
+                        viewBox="0 0 540 100"
+                        preserveAspectRatio="none"
+                        className="absolute -inset-x-5 -inset-y-2.5 w-[calc(100%+40px)] h-[calc(100%+20px)] pointer-events-none filter drop-shadow-[7px_7px_0px_#000000]"
+                      >
+                        <polygon
+                          points="20,52 6,40 38,10 135,6 148,0 162,10 475,20 535,42 485,60 528,78 455,86 115,96 55,84 15,88 6,74"
+                          fill="#000000"
+                          stroke="#FFFFFF"
+                          strokeWidth="5"
+                          strokeLinejoin="miter"
+                          strokeMiterlimit="4"
+                        />
+                        <polygon points="42,12 120,8 140,0 55,8" fill="#FFFFFF" />
+                        <polygon points="475,22 530,42 490,48" fill="#FFFFFF" />
+                        <polygon points="480,62 525,78 475,76" fill="#FFFFFF" />
+                      </svg>
 
-                    <div className="relative z-10 flex items-center gap-1 md:gap-1.5 px-3 md:px-4 py-1.5 md:py-2">
-                      {item.letters.map((ltr, ltrIdx) => (
-                        <span
-                          key={ltrIdx}
-                          className={`inline-flex items-center justify-center min-w-[28px] md:min-w-[34px] h-[40px] md:h-[48px] laptop-main-letter px-1.5 md:px-2 font-p5Heading text-xl sm:text-2xl md:text-3xl laptop-main-letter-text uppercase shadow-[3px_3px_0px_#000000] border-2 border-black ${ltr.bg} ${ltr.rotate} transition-transform duration-100 hover:scale-120`}
-                        >
-                          {ltr.char}
+                      <div className="relative z-10 flex items-center gap-1 md:gap-1.5 px-3 md:px-4 py-1.5 md:py-2">
+                        {item.letters.map((ltr, ltrIdx) => (
+                          <span
+                            key={ltrIdx}
+                            className={`inline-flex items-center justify-center min-w-[28px] md:min-w-[34px] h-[40px] md:h-[48px] laptop-main-letter px-1.5 md:px-2 font-p5Heading text-xl sm:text-2xl md:text-3xl laptop-main-letter-text uppercase shadow-[3px_3px_0px_#000000] border-2 border-black ${ltr.bg} ${ltr.rotate} transition-transform duration-100 hover:scale-120`}
+                          >
+                            {ltr.char}
+                          </span>
+                        ))}
+
+                        <span className="text-white text-lg md:text-xl ml-2 md:ml-3 -skew-x-12 animate-pulse filter drop-shadow-[2px_2px_0px_#000000]">
+                          ▶
                         </span>
-                      ))}
-
-                      <span className="text-white text-lg md:text-xl ml-2 md:ml-3 -skew-x-12 animate-pulse filter drop-shadow-[2px_2px_0px_#000000]">
-                        ▶
+                      </div>
+                    </div>
+                  ) : (
+                    /* DEFAULT RESTING STATE */
+                    <div className="px-3 py-1 hover:translate-x-2 transition-transform duration-150">
+                      <span className="font-p5Heading text-3xl sm:text-4xl md:text-5xl laptop-main-text text-white tracking-widest uppercase filter drop-shadow-[4px_4px_0px_#000000] hover:text-p5-yellow transition-colors">
+                        {item.label}
                       </span>
                     </div>
-                  </div>
-                ) : (
-                  /* DEFAULT RESTING STATE */
-                  <div className="px-3 py-1 hover:translate-x-2 transition-transform duration-150">
-                    <span className="font-p5Heading text-3xl sm:text-4xl md:text-5xl laptop-main-text text-white tracking-widest uppercase filter drop-shadow-[4px_4px_0px_#000000] hover:text-p5-yellow transition-colors">
-                      {item.label}
-                    </span>
-                  </div>
-                )}
-              </button>
+                  )}
+                </button>
+              </div>
             </div>
           )
         })}
       </div>
 
       {/* Bottom Bar: Action Legend */}
-      <div className="z-20 flex items-center gap-3 sm:gap-5 flex-wrap text-xs sm:text-sm text-zinc-300 laptop-legend-bottom pointer-events-auto">
+      <div className="z-20 flex items-center gap-3 sm:gap-5 flex-wrap text-xs sm:text-sm text-zinc-300 laptop-legend-bottom pointer-events-auto p5-footer-entrance">
         {onBackToTitle && (
           <button
             onClick={() => {
