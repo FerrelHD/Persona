@@ -59,7 +59,7 @@ export const MissionsScreen: React.FC<MissionsScreenProps> = ({ onBack }) => {
   const titleLetters = titleDisplay.split('').slice(0, 16) // Max 16 characters for neat fit
 
   return (
-    <div className="fixed inset-0 z-30 flex flex-col justify-between p-6 sm:p-8 md:p-10 select-none overflow-hidden bg-gradient-to-r from-black/85 via-black/45 to-transparent animate-in fade-in duration-200 pt-20 md:pt-24">
+    <div className="fixed inset-0 z-30 flex flex-col justify-between p-6 sm:p-8 md:p-10 select-none overflow-hidden bg-gradient-to-r from-black/85 via-black/45 to-transparent animate-in fade-in duration-200 pt-32 sm:pt-36 md:pt-40">
       {/* Page Cutout Overlay: title top-left, character bottom-right, ESC to go back */}
       <PageCutoutOverlay
         title="DEPLOYED MISSIONS"

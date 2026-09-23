@@ -34,7 +34,7 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
   }
 
   return (
-    <div className="fixed inset-0 z-30 flex flex-col p-6 sm:p-8 md:p-10 select-none overflow-hidden bg-gradient-to-r from-black/90 via-black/60 to-transparent animate-in fade-in duration-200 pt-20 md:pt-24">
+    <div className="fixed inset-0 z-30 flex flex-col p-6 sm:p-8 md:p-10 select-none overflow-hidden bg-gradient-to-r from-black/90 via-black/60 to-transparent animate-in fade-in duration-200 pt-32 sm:pt-36 md:pt-40">
       {/* Page Cutout Overlay */}
       <PageCutoutOverlay
         title="SKILL PARAMETERS"

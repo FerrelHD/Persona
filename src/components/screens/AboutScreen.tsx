@@ -19,7 +19,7 @@ export const AboutScreen: React.FC<AboutScreenProps> = ({ onBack }) => {
   const { playHover } = usePersonaSFX()
 
   return (
-    <div className="fixed inset-0 z-30 flex flex-col p-6 sm:p-8 md:p-10 select-none overflow-hidden bg-gradient-to-l from-black/90 via-black/60 to-transparent animate-in fade-in duration-200 pt-20 md:pt-24">
+    <div className="fixed inset-0 z-30 flex flex-col p-6 sm:p-8 md:p-10 select-none overflow-hidden bg-gradient-to-l from-black/90 via-black/60 to-transparent animate-in fade-in duration-200 pt-32 sm:pt-36 md:pt-40">
       {/* Page Cutout Overlay */}
       <PageCutoutOverlay
         title="ABOUT THE DEV"
@@ -30,7 +30,7 @@ export const AboutScreen: React.FC<AboutScreenProps> = ({ onBack }) => {
       />
 
             {/* Main Content: Left side is clear for Yukari, Right side contains the UI */}
-      <div className="flex-1 grid grid-cols-1 lg:grid-cols-12 gap-6 mt-4 overflow-hidden z-20">
+      <div className="flex-1 grid grid-cols-1 lg:grid-cols-12 gap-6 mt-10 sm:mt-12 md:mt-14 overflow-hidden z-20">
         {/* Left side (5 cols) intentionally transparent to display Yukari */}
         <div className="hidden lg:block lg:col-span-5 pointer-events-none" />
 
