@@ -7,6 +7,7 @@ import { SkillsScreen } from '@/components/screens/SkillsScreen'
 import { CallingCardScreen } from '@/components/screens/CallingCardScreen'
 import { AboutScreen } from '@/components/screens/AboutScreen'
 import { usePersonaSFX } from '@/hooks/usePersonaSFX'
+import { PersonaCursor } from '@/components/common/PersonaCursor'
 
 // Accent color per screen - used for the iris overlay tint
 const SCREEN_COLOR: Record<ActiveScreen, string> = {
@@ -86,6 +87,8 @@ export function App() {
 
   return (
     <div className="relative w-screen h-screen overflow-hidden font-p5Body text-white select-none">
+      {/* Persona 5 Authentic Dagger Cursor */}
+      <PersonaCursor />
       {/* Video Background */}
       <PersonaVideoBg videoSrc={VIDEO_MAP[currentScreen]} />
 

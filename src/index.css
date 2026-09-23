@@ -96,3 +96,26 @@
   0% { transform: translate3d(0, 0, 0); opacity: 1; }
   100% { transform: translate3d(30%, 20%, 0) rotate(5deg); opacity: 0; }
 }
+
+
+/* Persona 5 Custom Cursor Sparks */
+@keyframes p5-spark {
+  0% {
+    opacity: 1;
+    transform: translate(-50%, -50%) rotate(0deg) scale(1.2);
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) rotate(45deg) scale(0.2);
+  }
+}
+
+/* Hide default system cursor on mouse-enabled screens */
+@media (hover: hover) and (pointer: fine) {
+  html, body, button, a, input, select, textarea, [role="button"], .cursor-pointer {
+    cursor: none !important;
+  }
+}
