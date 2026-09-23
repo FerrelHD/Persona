@@ -1,4 +1,3 @@
-import { P5FooterActionStrip } from '@/components/common/P5FooterActionStrip'
 ﻿import React, { useState, useEffect } from 'react'
 import { PageCutoutOverlay } from '@/components/common/PageCutoutOverlay'
 import { MISSIONS_DATA, Mission } from '@/data/personaData'
