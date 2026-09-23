@@ -326,7 +326,7 @@ export const MissionsScreen: React.FC<MissionsScreenProps> = ({ onBack }) => {
       </div>
 
       {/* ── BOTTOM CONTROLLER LEGEND ── */}
-      <div className="fixed bottom-3 sm:bottom-4 left-4 sm:left-8 md:left-12 z-40 flex items-center gap-3 sm:gap-5 flex-wrap text-xs sm:text-sm text-zinc-300 pointer-events-auto">
+      <div className="fixed bottom-5 sm:bottom-7 md:bottom-8 left-6 sm:left-10 md:left-14 z-40 flex items-center gap-3 sm:gap-5 flex-wrap text-xs sm:text-sm text-zinc-300 pointer-events-auto select-none">
         <button
           onClick={() => {
             playBack()

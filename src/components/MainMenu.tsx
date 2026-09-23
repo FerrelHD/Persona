@@ -80,7 +80,6 @@ export const MainMenu: React.FC<MainMenuProps> = ({ onSelectScreen, onBackToTitl
   const { playHover, playSlash, playBack } = usePersonaSFX()
   const [selectedIndex, setSelectedIndex] = useState(1) // Default to SKILLS
 
-  // Keyboard navigation support: Arrow Up/Down & Enter
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'ArrowDown') {
@@ -110,21 +109,19 @@ export const MainMenu: React.FC<MainMenuProps> = ({ onSelectScreen, onBackToTitl
 
   return (
     <div className="relative w-screen h-screen overflow-hidden select-none pointer-events-auto flex flex-col justify-between p-6 sm:p-10 md:p-14">
-      {/* Cinematic Left Edge Vignette Shadow */}
-      <div 
-        className="pointer-events-none fixed inset-y-0 left-0 w-[48vw] sm:w-[42vw] md:w-[38vw] lg:w-[36vw] z-10 bg-gradient-to-r from-black/95 via-black/50 to-transparent" 
+      {/* Left Vignette Shadow */}
+      <div
+        className="pointer-events-none fixed inset-y-0 left-0 w-[48vw] sm:w-[42vw] md:w-[38vw] lg:w-[36vw] z-10 bg-gradient-to-r from-black/95 via-black/50 to-transparent"
         aria-hidden="true"
       />
 
-      {/* Top Left: FERREL Title */}
+      {/* Top Left Title */}
       <div className="z-20">
         <RansomTitle />
       </div>
 
-      {/* 
-        Container geser lebih ke kiri, dengan efek tangga (stagger / maju per-button)
-      */}
-      <div className="z-20 my-auto flex flex-col items-start gap-3 sm:gap-4 md:gap-5 w-fit ml-0">
+      {/* Menu Container */}
+      <div className="z-20 my-auto flex flex-col items-start gap-2.5 sm:gap-3.5 md:gap-4 w-fit ml-0">
         {MENU_ITEMS.map((item, index) => {
           const isFocused = selectedIndex === index
 
@@ -146,12 +143,12 @@ export const MainMenu: React.FC<MainMenuProps> = ({ onSelectScreen, onBackToTitl
                 className="group relative inline-flex items-center text-left cursor-pointer outline-none transition-transform duration-150"
               >
                 {isFocused ? (
-                  /* ACTIVE STATE: Persona 5 Jagged Ribbon + Ransom Cutout */
-                  <div className="relative flex items-center translate-x-3 sm:translate-x-5 md:translate-x-6 scale-105 transition-all duration-150">
+                  /* ACTIVE STATE: Jagged Ribbon + Ransom Cutout */
+                  <div className="relative flex items-center translate-x-2 sm:translate-x-4 md:translate-x-5 scale-100 sm:scale-105 transition-all duration-150">
                     <svg
                       viewBox="0 0 540 100"
                       preserveAspectRatio="none"
-                      className="absolute -inset-x-6 -inset-y-3 w-[calc(100%+48px)] h-[calc(100%+24px)] pointer-events-none filter drop-shadow-[8px_8px_0px_#000000]"
+                      className="absolute -inset-x-5 -inset-y-2.5 w-[calc(100%+40px)] h-[calc(100%+20px)] pointer-events-none filter drop-shadow-[7px_7px_0px_#000000]"
                     >
                       <polygon
                         points="20,52 6,40 38,10 135,6 148,0 162,10 475,20 535,42 485,60 528,78 455,86 115,96 55,84 15,88 6,74"
@@ -166,25 +163,25 @@ export const MainMenu: React.FC<MainMenuProps> = ({ onSelectScreen, onBackToTitl
                       <polygon points="480,62 525,78 475,76" fill="#FFFFFF" />
                     </svg>
 
-                    <div className="relative z-10 flex items-center gap-1 md:gap-1.5 px-4 md:px-6 py-2">
+                    <div className="relative z-10 flex items-center gap-1 md:gap-1.5 px-3.5 md:px-5.5 py-1.5 md:py-2">
                       {item.letters.map((ltr, ltrIdx) => (
                         <span
                           key={ltrIdx}
-                          className={`inline-flex items-center justify-center min-w-[34px] md:min-w-[44px] h-[52px] md:h-[64px] px-2 font-p5Heading text-3xl md:text-5xl uppercase shadow-[3px_3px_0px_#000000] border-2 border-black ${ltr.bg} ${ltr.rotate} transition-transform duration-100 hover:scale-125`}
+                          className={`inline-flex items-center justify-center min-w-[32px] md:min-w-[40px] h-[46px] md:h-[56px] px-1.5 md:px-2.5 font-p5Heading text-2xl sm:text-3xl md:text-4xl uppercase shadow-[3px_3px_0px_#000000] border-2 border-black ${ltr.bg} ${ltr.rotate} transition-transform duration-100 hover:scale-120`}
                         >
                           {ltr.char}
                         </span>
                       ))}
 
-                      <span className="text-white text-2xl md:text-3xl ml-3 md:ml-5 -skew-x-12 animate-pulse filter drop-shadow-[2px_2px_0px_#000000]">
+                      <span className="text-white text-xl md:text-2xl ml-2.5 md:ml-4 -skew-x-12 animate-pulse filter drop-shadow-[2px_2px_0px_#000000]">
                         ▶
                       </span>
                     </div>
                   </div>
                 ) : (
                   /* DEFAULT RESTING STATE */
-                  <div className="px-4 py-2 hover:translate-x-2 transition-transform duration-150">
-                    <span className="font-p5Heading text-5xl md:text-6xl lg:text-7xl text-white tracking-widest uppercase filter drop-shadow-[5px_5px_0px_#000000] hover:text-p5-yellow transition-colors">
+                  <div className="px-3 py-1 hover:translate-x-2 transition-transform duration-150">
+                    <span className="font-p5Heading text-4xl sm:text-5xl md:text-6xl text-white tracking-widest uppercase filter drop-shadow-[4px_4px_0px_#000000] hover:text-p5-yellow transition-colors">
                       {item.label}
                     </span>
                   </div>
@@ -195,8 +192,8 @@ export const MainMenu: React.FC<MainMenuProps> = ({ onSelectScreen, onBackToTitl
         })}
       </div>
 
-      {/* Bottom Bar: Exact PlayStation Legend matching user screenshot */}
-      <div className="z-20 flex items-center gap-3 sm:gap-5 flex-wrap text-xs sm:text-sm text-zinc-300 pointer-events-auto">
+      {/* Bottom Bar: Action Legend */}
+      <div className="fixed bottom-5 sm:bottom-7 md:bottom-8 left-6 sm:left-10 md:left-14 z-40 flex items-center gap-3 sm:gap-5 flex-wrap text-xs sm:text-sm text-zinc-300 pointer-events-auto select-none">
         {onBackToTitle && (
           <button
             onClick={() => {

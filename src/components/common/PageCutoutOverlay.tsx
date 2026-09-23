@@ -115,9 +115,9 @@ export const PageCutoutOverlay: React.FC<PageCutoutOverlayProps> = ({
         </div>
       </div>
 
-      {/* ── BOTTOM-LEFT CONTROLLER SHORTCUTS (The Clean Authentic PlayStation Game Bar) ── */}
+      {/* Fixed Persona 5 Controller Legend - Locked to exact universal coordinates */}
       {!hideBottomLegend && (
-        <div className="fixed bottom-3 sm:bottom-4 left-4 sm:left-8 md:left-12 z-40 flex items-center gap-4 sm:gap-6 text-xs sm:text-sm text-white pointer-events-auto select-none">
+        <div className="fixed bottom-5 sm:bottom-7 md:bottom-8 left-6 sm:left-10 md:left-14 z-40 flex items-center gap-3 sm:gap-5 flex-wrap text-xs sm:text-sm text-zinc-300 pointer-events-auto select-none">
           {/* (O) BACK button */}
           <button
             type="button"
@@ -125,16 +125,30 @@ export const PageCutoutOverlay: React.FC<PageCutoutOverlayProps> = ({
               playBack()
               onBack()
             }}
-            className="flex items-center gap-2 hover:scale-105 active:scale-95 transition-transform group cursor-pointer"
+            className="flex items-center gap-1.5 hover:text-white group cursor-pointer transition-colors"
             title="Back to Main Menu"
           >
-            <span className="size-5 sm:size-6 rounded-full border-2 border-red-500 text-red-500 font-bold flex items-center justify-center text-[10px] sm:text-xs group-hover:bg-red-500 group-hover:text-white transition-colors shadow-[0_0_8px_rgba(239,68,68,0.5)]">
+            <span className="size-5 rounded-full border-2 border-red-500 text-red-500 font-bold flex items-center justify-center text-[11px] group-hover:bg-red-500 group-hover:text-white transition-colors shadow-[0_0_6px_rgba(239,68,68,0.4)]">
               O
             </span>
-            <span className="font-p5Heading italic text-sm sm:text-base tracking-wider text-white group-hover:text-red-400 transition-colors drop-shadow-[2px_2px_0px_#000]">
+            <span className="font-p5Heading text-sm tracking-wider uppercase text-white group-hover:text-red-400 transition-colors">
               BACK
             </span>
           </button>
+
+          {/* (△) GITHUB */}
+          <a
+            href="https://github.com/FerrelHD"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-1.5 hover:text-white group cursor-pointer transition-colors"
+            title="View GitHub"
+          >
+            <span className="size-5 rounded-full border-2 border-emerald-400 text-emerald-400 font-bold flex items-center justify-center text-[11px] group-hover:bg-emerald-400 group-hover:text-black transition-colors shadow-[0_0_6px_rgba(52,211,153,0.4)]">
+              △
+            </span>
+            <span className="font-p5Heading text-sm tracking-wider uppercase">GITHUB</span>
+          </a>
 
           {/* Contextual Extra Action Shortcuts */}
           {extraShortcuts}
