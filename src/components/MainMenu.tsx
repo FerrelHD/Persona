@@ -139,11 +139,8 @@ export const MainMenu: React.FC<MainMenuProps> = ({ onSelectScreen }) => {
                 className="group relative inline-flex items-center text-left cursor-pointer outline-none transition-transform duration-150"
               >
                 {isFocused ? (
-                  /* =======================================================
-                     ACTIVE / HOVER STATE: Persona 5 Jagged Ribbon + Ransom Cutout
-                     ======================================================= */
+                  /* ACTIVE STATE: Persona 5 Jagged Ribbon + Ransom Cutout */
                   <div className="relative flex items-center translate-x-3 sm:translate-x-5 md:translate-x-6 scale-105 transition-all duration-150">
-                    {/* SVG Jagged Persona 5 Ribbon Frame */}
                     <svg
                       viewBox="0 0 540 100"
                       preserveAspectRatio="none"
@@ -157,21 +154,11 @@ export const MainMenu: React.FC<MainMenuProps> = ({ onSelectScreen }) => {
                         strokeLinejoin="miter"
                         strokeMiterlimit="4"
                       />
-                      <polygon
-                        points="42,12 120,8 140,0 55,8"
-                        fill="#FFFFFF"
-                      />
-                      <polygon
-                        points="475,22 530,42 490,48"
-                        fill="#FFFFFF"
-                      />
-                      <polygon
-                        points="480,62 525,78 475,76"
-                        fill="#FFFFFF"
-                      />
+                      <polygon points="42,12 120,8 140,0 55,8" fill="#FFFFFF" />
+                      <polygon points="475,22 530,42 490,48" fill="#FFFFFF" />
+                      <polygon points="480,62 525,78 475,76" fill="#FFFFFF" />
                     </svg>
 
-                    {/* Ransom Cutout Letters Stack */}
                     <div className="relative z-10 flex items-center gap-1 md:gap-1.5 px-4 md:px-6 py-2">
                       {item.letters.map((ltr, ltrIdx) => (
                         <span
@@ -182,16 +169,13 @@ export const MainMenu: React.FC<MainMenuProps> = ({ onSelectScreen }) => {
                         </span>
                       ))}
 
-                      {/* Right Play Arrow Triangle */}
                       <span className="text-white text-2xl md:text-3xl ml-3 md:ml-5 -skew-x-12 animate-pulse filter drop-shadow-[2px_2px_0px_#000000]">
                         ▶
                       </span>
                     </div>
                   </div>
                 ) : (
-                  /* =======================================================
-                     DEFAULT / RESTING STATE: Clean, Bold White Text
-                     ======================================================= */
+                  /* DEFAULT RESTING STATE */
                   <div className="px-4 py-2 hover:translate-x-2 transition-transform duration-150">
                     <span className="font-p5Heading text-5xl md:text-6xl lg:text-7xl text-white tracking-widest uppercase filter drop-shadow-[5px_5px_0px_#000000] hover:text-p5-yellow transition-colors">
                       {item.label}
@@ -204,13 +188,28 @@ export const MainMenu: React.FC<MainMenuProps> = ({ onSelectScreen }) => {
         })}
       </div>
 
-      {/* Bottom Bar: Retro Console Key Hints only (NO footer text, NO music player) */}
-      <div className="z-20 flex items-center gap-3 font-p5Mono text-xs text-zinc-300 bg-black/85 border border-zinc-800 px-4 py-2 self-end -skew-x-6 shadow-[3px_3px_0px_#000000]">
-        <span className="text-p5-yellow">[▲/▼]</span> NAVIGATE
-        <span className="text-zinc-600">|</span>
-        <span className="text-p5-crimson">[ENTER]</span> SELECT
-        <span className="text-zinc-600">|</span>
-        <span className="text-white">[ESC]</span> RETURN
+      {/* Bottom Bar: Retro Console Key Hints with exact PlayStation button styling */}
+      <div className="z-20 flex items-center gap-4 sm:gap-6 font-p5Heading italic text-sm text-white select-none self-end bg-black/85 border border-zinc-800 px-4 py-1.5 -skew-x-6 shadow-[3px_3px_0px_#000000]">
+        <div className="flex items-center gap-1.5">
+          <span className="size-5 rounded-full border-2 border-yellow-400 text-yellow-400 font-bold flex items-center justify-center text-[10px] not-italic shadow-[0_0_6px_rgba(250,204,21,0.4)]">
+            ▲/▼
+          </span>
+          <span className="tracking-wider">NAVIGATE</span>
+        </div>
+
+        <div className="flex items-center gap-1.5">
+          <span className="size-5 rounded-full border-2 border-cyan-400 text-cyan-400 font-bold flex items-center justify-center text-[11px] not-italic shadow-[0_0_6px_rgba(34,211,238,0.4)]">
+            X
+          </span>
+          <span className="tracking-wider">SELECT</span>
+        </div>
+
+        <div className="flex items-center gap-1.5">
+          <span className="size-5 rounded-full border-2 border-red-500 text-red-500 font-bold flex items-center justify-center text-[11px] not-italic shadow-[0_0_6px_rgba(239,68,68,0.4)]">
+            O
+          </span>
+          <span className="tracking-wider">RETURN</span>
+        </div>
       </div>
     </div>
   )
