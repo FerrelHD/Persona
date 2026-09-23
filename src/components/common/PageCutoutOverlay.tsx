@@ -77,7 +77,7 @@ export const PageCutoutOverlay: React.FC<PageCutoutOverlayProps> = ({
             className={`h-auto object-contain filter drop-shadow-[8px_8px_0px_#000000] pointer-events-none ${
               isLong
                 ? 'w-[320px] sm:w-[380px] md:w-[440px] lg:w-[480px]'
-                : 'w-[300px] sm:w-[360px] md:w-[420px] lg:w-[450px]'
+                : 'w-[270px] sm:w-[320px] md:w-[370px] lg:w-[400px]'
             }`}
           />
 
@@ -99,7 +99,7 @@ export const PageCutoutOverlay: React.FC<PageCutoutOverlayProps> = ({
                       inline-flex items-center justify-center shrink-0
                       ${isLong
                         ? 'min-w-[15px] sm:min-w-[19px] md:min-w-[23px] h-[24px] sm:h-[30px] md:h-[36px] px-0.5 font-p5Heading text-sm sm:text-lg md:text-xl'
-                        : 'min-w-[18px] sm:min-w-[22px] md:min-w-[27px] h-[26px] sm:h-[32px] md:h-[37px] px-1 font-p5Heading text-base sm:text-xl md:text-2xl'
+                        : 'min-w-[20px] sm:min-w-[25px] md:min-w-[30px] h-[30px] sm:h-[36px] md:h-[42px] px-1 font-p5Heading text-lg sm:text-2xl md:text-3xl'
                       }
                       uppercase border-[1.5px] border-black shadow-[2px_2px_0px_#000000]
                       ${isAccent ? ac.badge : 'bg-black text-white'}
