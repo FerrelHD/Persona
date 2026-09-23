@@ -237,6 +237,21 @@
     height: 3.5rem !important;
     font-size: 2rem !important;
   }
+  .laptop-ransom-sub {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    max-width: 250px !important;
+    padding: 0.35rem 0.6rem !important;
+    font-size: 0.72rem !important;
+    letter-spacing: 0.05em !important;
+    gap: 0.15rem !important;
+  }
+  .laptop-sub-divider {
+    display: none !important;
+  }
+  .laptop-sub-part {
+    white-space: nowrap !important;
+  }
 }
 
 /* Compact Laptop / Low-Res (<= 720px viewport height: 1080p @ 150% scaling, 720p HD) */
@@ -298,5 +313,11 @@
     width: 2.5rem !important;
     height: 3.15rem !important;
     font-size: 1.75rem !important;
+  }
+  .laptop-ransom-sub {
+    max-width: 220px !important;
+    padding: 0.25rem 0.5rem !important;
+    font-size: 0.65rem !important;
+    gap: 0.1rem !important;
   }
 }
