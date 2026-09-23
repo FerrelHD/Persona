@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+﻿import React, { useState, useEffect } from 'react'
 import { RansomTitle } from '@/components/RansomTitle'
 import { usePersonaSFX } from '@/hooks/usePersonaSFX'
 
@@ -8,44 +8,38 @@ interface MainMenuProps {
   onSelectScreen: (screen: ActiveScreen) => void
 }
 
-interface LetterTile {
-  char: string
-  bg: string
-  rotate: string
-}
-
-interface MenuItemConfig {
+interface MenuItem {
   id: ActiveScreen
   label: string
   rotation: string
   offsetClass: string
-  letters: LetterTile[]
+  letters: { char: string; bg: string; rotate: string }[]
 }
 
-const MENU_ITEMS: MenuItemConfig[] = [
+const MENU_ITEMS: MenuItem[] = [
   {
     id: 'missions',
-    label: 'PROJECTS',
+    label: 'MISSIONS',
     rotation: '-rotate-3',
     offsetClass: 'ml-0',
     letters: [
-      { char: 'P', bg: 'bg-white text-black', rotate: '-rotate-3' },
-      { char: 'R', bg: 'bg-black text-white border border-white', rotate: 'rotate-2' },
-      { char: 'O', bg: 'bg-white text-black', rotate: '-rotate-4' },
-      { char: 'J', bg: 'bg-black text-white border border-white', rotate: 'rotate-3' },
-      { char: 'E', bg: 'bg-white text-black', rotate: '-rotate-2' },
-      { char: 'C', bg: 'bg-black text-white border border-white', rotate: 'rotate-2' },
-      { char: 'T', bg: 'bg-p5-crimson text-white font-extrabold scale-110 shadow-lg', rotate: '-rotate-2' },
+      { char: 'M', bg: 'bg-white text-black', rotate: '-rotate-3' },
+      { char: 'I', bg: 'bg-black text-white border border-white', rotate: 'rotate-2' },
+      { char: 'S', bg: 'bg-white text-black', rotate: '-rotate-2' },
       { char: 'S', bg: 'bg-white text-black', rotate: 'rotate-3' },
+      { char: 'I', bg: 'bg-black text-white border border-white', rotate: '-rotate-1' },
+      { char: 'O', bg: 'bg-white text-black', rotate: 'rotate-2' },
+      { char: 'N', bg: 'bg-white text-black', rotate: '-rotate-2' },
+      { char: 'S', bg: 'bg-p5-crimson text-white font-extrabold scale-110 shadow-lg', rotate: 'rotate-3' },
     ]
   },
   {
     id: 'skills',
     label: 'SKILLS',
-    rotation: '-rotate-2',
+    rotation: '-rotate-1',
     offsetClass: 'ml-2 sm:ml-3 md:ml-4',
     letters: [
-      { char: 'S', bg: 'bg-white text-black', rotate: '-rotate-4' },
+      { char: 'S', bg: 'bg-white text-black', rotate: '-rotate-2' },
       { char: 'K', bg: 'bg-white text-black', rotate: 'rotate-3' },
       { char: 'I', bg: 'bg-black text-white border border-white', rotate: '-rotate-1' },
       { char: 'L', bg: 'bg-white text-black', rotate: 'rotate-4' },
@@ -68,17 +62,15 @@ const MENU_ITEMS: MenuItemConfig[] = [
   },
   {
     id: 'callingCard',
-    label: 'CONTACT',
+    label: 'COMMS',
     rotation: 'rotate-3',
     offsetClass: 'ml-6 sm:ml-9 md:ml-12',
     letters: [
       { char: 'C', bg: 'bg-white text-black', rotate: '-rotate-3' },
       { char: 'O', bg: 'bg-black text-white border border-white', rotate: 'rotate-2' },
-      { char: 'N', bg: 'bg-white text-black', rotate: '-rotate-2' },
-      { char: 'T', bg: 'bg-black text-white border border-white', rotate: 'rotate-3' },
-      { char: 'A', bg: 'bg-white text-black', rotate: '-rotate-4' },
-      { char: 'C', bg: 'bg-white text-black', rotate: 'rotate-2' },
-      { char: 'T', bg: 'bg-p5-crimson text-white font-extrabold scale-110 shadow-lg', rotate: 'rotate-3' },
+      { char: 'M', bg: 'bg-white text-black', rotate: '-rotate-2' },
+      { char: 'M', bg: 'bg-black text-white border border-white', rotate: 'rotate-3' },
+      { char: 'S', bg: 'bg-p5-crimson text-white font-extrabold scale-110 shadow-lg', rotate: '-rotate-2' },
     ]
   }
 ]

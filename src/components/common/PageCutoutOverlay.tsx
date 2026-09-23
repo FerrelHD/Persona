@@ -21,7 +21,9 @@ const TITLE_MAP: Record<string, string> = {
   'DEPLOYED MISSIONS': 'MISSIONS',
   'SKILL PARAMETERS':  'SKILLS',
   'ABOUT THE DEV':     'ABOUT ME',
-  'CALLING CARD':      'CALLING CARD',
+  'CALLING CARD':      'COMMS',
+  'COMMS':             'COMMS',
+  'CONTACT':           'COMMS',
 }
 
 export const PageCutoutOverlay: React.FC<PageCutoutOverlayProps> = ({
@@ -49,7 +51,7 @@ export const PageCutoutOverlay: React.FC<PageCutoutOverlayProps> = ({
   // Get clean label
   const displayTitle = TITLE_MAP[title.toUpperCase()] || title.toUpperCase()
   const chars = displayTitle.split('')
-  const isLong = chars.length >= 10 // e.g. CALLING CARD (12 chars)
+  const isLong = chars.length >= 10
 
   return (
     <>
@@ -72,7 +74,7 @@ export const PageCutoutOverlay: React.FC<PageCutoutOverlayProps> = ({
           className="relative inline-flex items-center cursor-pointer group transition-all duration-150 -rotate-[13deg] hover:-rotate-[11deg] hover:scale-105 active:scale-95 origin-center"
           title="Click or press ESC to return to Main Menu"
         >
-          {/* Button Frame Graphic from Persona 5 Assets - dynamically sized for long labels */}
+          {/* Button Frame Graphic from Persona 5 Assets */}
           <img
             src="/button_main_menu.png"
             alt={displayTitle}
@@ -90,7 +92,7 @@ export const PageCutoutOverlay: React.FC<PageCutoutOverlayProps> = ({
               transform: 'rotate(15.5deg) translate(-1%, 1%)',
             }}
           >
-            <div className="flex items-center justify-center flex-nowrap whitespace-nowrap gap-[1.5px] sm:gap-1 max-w-[88%] overflow-visible">
+            <div className="flex items-center justify-center flex-nowrap whitespace-nowrap gap-0.5 sm:gap-1 max-w-[85%] overflow-visible">
               {chars.map((char, idx) => {
                 if (char === ' ') return <span key={idx} className={isLong ? "w-1 sm:w-1.5" : "w-2 sm:w-2.5"} />
                 const isAccent = idx === 0 || idx % 4 === 0

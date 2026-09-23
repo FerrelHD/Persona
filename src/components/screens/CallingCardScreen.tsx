@@ -45,6 +45,8 @@ export const CallingCardScreen: React.FC<CallingCardScreenProps> = ({ onBack }) 
   const [isSent, setIsSent] = useState(false)
   const [hasCopiedEmail, setHasCopiedEmail] = useState(false)
 
+  const USER_EMAIL = 'ferrelrashadakeyla2014@gmail.com'
+
   const handleSelectPreset = (preset: typeof CONTRACT_PRESETS[0]) => {
     playSlash()
     setSelectedContract(preset.id)
@@ -70,16 +72,16 @@ export const CallingCardScreen: React.FC<CallingCardScreenProps> = ({ onBack }) 
 
   const handleCopyEmail = () => {
     playSlash()
-    navigator.clipboard?.writeText('ferrelhd.dev@gmail.com')
+    navigator.clipboard?.writeText(USER_EMAIL)
     setHasCopiedEmail(true)
     setTimeout(() => setHasCopiedEmail(false), 2500)
   }
 
   return (
     <div className="fixed inset-0 z-30 flex flex-col justify-between p-4 sm:p-6 md:p-8 select-none overflow-hidden bg-gradient-to-r from-black/95 from-0% via-black/80 via-35% to-transparent to-55% animate-in fade-in duration-200 pt-20 sm:pt-24 md:pt-26 pb-6">
-      {/* Page Title Cutout Overlay */}
+      {/* Page Title Cutout Overlay with short COMMS label */}
       <PageCutoutOverlay
-        title="CALLING CARD"
+        title="COMMS"
         characterRole="NAVIGATOR"
         characterName="FUUKA YAMAGISHI"
         accentColor="emerald"
@@ -203,7 +205,7 @@ export const CallingCardScreen: React.FC<CallingCardScreenProps> = ({ onBack }) 
               className="inline-flex items-center gap-1.5 bg-black text-white px-2 py-0.5 hover:bg-p5-crimson transition-colors border border-black shadow-[2px_2px_0px_#000]"
             >
               <Mail className="size-3 text-yellow-300" />
-              <span>ferrelhd.dev@gmail.com</span>
+              <span>{USER_EMAIL}</span>
               <Copy className="size-2.5 text-zinc-400 ml-1" />
               {hasCopiedEmail && <span className="text-emerald-400 text-[9px] font-bold">COPIED!</span>}
             </button>
