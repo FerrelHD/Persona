@@ -17,17 +17,15 @@ const StarIcon: React.FC<{ className?: string; fill?: string }> = ({ className =
   </svg>
 )
 
-// Big Starburst Lens Flare cutting through the active card
+// Starburst Lens Flare radiating across the active card with zero clipping
 const StarLensBurst: React.FC = () => (
-  <div className="absolute -left-12 top-1/2 -translate-y-1/2 w-48 h-48 pointer-events-none z-20 flex items-center justify-center">
-    {/* Horizontal beam */}
-    <div className="absolute w-72 h-1.5 bg-gradient-to-r from-transparent via-white to-transparent opacity-95 rotate-12" />
-    {/* Vertical beam */}
-    <div className="absolute h-72 w-1.5 bg-gradient-to-b from-transparent via-white to-transparent opacity-95 -rotate-12" />
-    {/* Secondary 45deg beams */}
-    <div className="absolute w-44 h-1 bg-gradient-to-r from-transparent via-white to-transparent opacity-70 -rotate-45" />
+  <div className="absolute -left-6 sm:-left-8 top-1/2 -translate-y-1/2 w-36 h-36 pointer-events-none z-20 flex items-center justify-center">
+    {/* Horizontal ray beam */}
+    <div className="absolute w-56 h-1 bg-gradient-to-r from-transparent via-white to-transparent opacity-90 rotate-12" />
+    {/* Vertical ray beam */}
+    <div className="absolute h-56 w-1 bg-gradient-to-b from-transparent via-white to-transparent opacity-90 -rotate-12" />
     {/* Core star diamond */}
-    <div className="size-8 bg-white rotate-45 shadow-[0_0_20px_#ffffff] animate-pulse" />
+    <div className="size-6 bg-white rotate-45 shadow-[0_0_16px_#ffffff]" />
   </div>
 )
 
@@ -104,15 +102,15 @@ export const MissionsScreen: React.FC<MissionsScreenProps> = ({ onBack }) => {
   }, [playHover, playSlash, playBack, activeMission, showDossierModal])
 
   return (
-    <div className="fixed inset-0 z-30 flex flex-col justify-between select-none overflow-hidden bg-gradient-to-r from-black/95 via-black/85 via-black/40 to-transparent animate-in fade-in duration-300">
-      {/* Background Halftone - Faded out on the right so character is crisp */}
+    <div className="fixed inset-0 z-30 flex flex-col justify-between select-none overflow-hidden bg-gradient-to-r from-black/95 from-0% via-black/80 via-35% to-transparent to-55% animate-in fade-in duration-300">
+      {/* Background Halftone - Left half only */}
       <div
         className="absolute inset-0 pointer-events-none opacity-20"
         style={{
           backgroundImage: 'radial-gradient(#E60012 1.5px, transparent 1.5px)',
           backgroundSize: '12px 12px',
-          maskImage: 'linear-gradient(to right, black 35%, transparent 75%)',
-          WebkitMaskImage: 'linear-gradient(to right, black 35%, transparent 75%)',
+          maskImage: 'linear-gradient(to right, black 35%, transparent 70%)',
+          WebkitMaskImage: 'linear-gradient(to right, black 35%, transparent 70%)',
         }}
       />
 
@@ -125,7 +123,7 @@ export const MissionsScreen: React.FC<MissionsScreenProps> = ({ onBack }) => {
         onBack={onBack}
       />
 
-      {/* Top Center Question Prompt (Exact Persona 5 Save/Load text) */}
+      {/* Top Center Question Prompt */}
       <div className="fixed top-5 left-1/2 -translate-x-1/2 z-40 text-center pointer-events-none hidden md:block">
         <p className="font-serif italic text-white/95 text-base lg:text-lg tracking-wider drop-shadow-[2px_2px_0px_#000000]">
           Reread your entries up to this point?
@@ -142,43 +140,39 @@ export const MissionsScreen: React.FC<MissionsScreenProps> = ({ onBack }) => {
         </span>
       </div>
 
-      {/* "?"? MAIN SLANTED SAVE SLOTS DECK - POSITIONED ON LEFT SIDE "?"? */}
-      <div className="flex-1 flex flex-col justify-center items-start w-full max-w-4xl lg:max-w-[58%] pl-4 sm:pl-8 md:pl-12 lg:pl-16 z-20 py-16 overflow-hidden">
-        <div className="w-full flex flex-col gap-2.5 sm:gap-3.5 max-h-[75vh] justify-center">
+      {/* ── MAIN SLANTED SAVE SLOTS DECK (No clipping, natural Persona slant) ── */}
+      <div className="flex-1 flex flex-col justify-center items-start w-full max-w-4xl lg:max-w-[58%] pl-6 sm:pl-10 md:pl-14 lg:pl-16 z-20 py-12 sm:py-16 overflow-visible">
+        <div className="w-full flex flex-col gap-3.5 sm:gap-4.5 justify-center overflow-visible">
           {MISSIONS_DATA.map((mission, idx) => {
             const isSelected = idx === selectedIndex
-            // Distance from selected index for smooth stacked perspective
             const diff = idx - selectedIndex
-            // Only show a window of slots for clean visibility on all screens
+            // Only show slots near selected index
             if (Math.abs(diff) > 2) return null
 
             return isSelected ? (
-              /* "?"? ACTIVE SELECTED SLOT (Expanded Red Persona 5 Save Banner) "?"? */
+              /* ── ACTIVE SELECTED SLOT (Expanded Red Banner - Zero Clipping) ── */
               <div
                 key={mission.id}
                 onClick={() => playSlash()}
-                className="relative w-full bg-p5-crimson border-4 sm:border-[5px] border-black shadow-[10px_10px_0px_#000000] -rotate-3 sm:-rotate-[4.5deg] transition-all duration-300 overflow-hidden cursor-pointer group"
-                style={{
-                  clipPath: 'polygon(0% 0%, 98% 0%, 100% 100%, 2% 100%)',
-                }}
+                className="relative w-full bg-p5-crimson border-4 sm:border-[5px] border-black shadow-[10px_10px_0px_#000000] -rotate-2 sm:-rotate-[3deg] -skew-x-6 sm:-skew-x-12 transition-all duration-300 cursor-pointer group"
               >
-                {/* OPTION B: High Contrast Project Image Blend into Background */}
+                {/* OPTION B: High Contrast Project Image Blend into Background (Isolated inside inner overflow-hidden) */}
                 <div className="absolute inset-0 pointer-events-none overflow-hidden">
                   <img
                     src={mission.image}
-                    alt={mission.title}
-                    className="w-full h-full object-cover filter grayscale contrast-150 brightness-90 mix-blend-multiply opacity-55 scale-105 transition-transform duration-700 group-hover:scale-110"
+                    alt=""
+                    className="w-full h-full object-cover filter grayscale contrast-150 brightness-75 mix-blend-multiply opacity-40 scale-105 transition-transform duration-700 group-hover:scale-110"
                   />
                   {/* Persona Halftone Texture Overlay */}
                   <div
-                    className="absolute inset-0 opacity-25"
+                    className="absolute inset-0 opacity-20"
                     style={{
                       backgroundImage: 'radial-gradient(#000000 2px, transparent 2px)',
                       backgroundSize: '8px 8px',
                     }}
                   />
-                  {/* Subtle Red Vignette Gradients */}
-                  <div className="absolute inset-0 bg-gradient-to-r from-p5-crimson via-transparent to-p5-crimson/90" />
+                  {/* Red Gradient Mask */}
+                  <div className="absolute inset-0 bg-gradient-to-r from-p5-crimson via-p5-crimson/80 to-p5-crimson/95" />
                 </div>
 
                 {/* Left Starburst Flare Lens */}
@@ -188,23 +182,23 @@ export const MissionsScreen: React.FC<MissionsScreenProps> = ({ onBack }) => {
                 <div className="relative z-10 flex items-center justify-between px-6 pt-3 sm:pt-4 text-white">
                   <div className="flex items-center gap-3">
                     {/* Number Badge (e.g. No. 1) */}
-                    <div className="bg-black text-white font-p5Heading text-lg sm:text-2xl px-2.5 py-0.5 border border-white shadow-[2px_2px_0px_#000] -rotate-2">
+                    <div className="bg-black text-white font-p5Heading text-base sm:text-xl px-2.5 py-0.5 border border-white shadow-[2px_2px_0px_#000] -rotate-1">
                       {mission.slotNumber}
                     </div>
 
                     {/* Date / Day Badge (e.g. 2/3 Fr Evening) */}
-                    <div className="bg-white text-p5-crimson font-p5Heading text-base sm:text-xl px-3 py-0.5 border-2 border-black shadow-[2px_2px_0px_#000] flex items-center gap-1.5">
+                    <div className="bg-white text-p5-crimson font-p5Heading text-sm sm:text-lg px-2.5 py-0.5 border-2 border-black shadow-[2px_2px_0px_#000] flex items-center gap-1.5">
                       <span className="font-extrabold text-p5-crimson">{mission.calendarDate.split(' ')[0]}</span>
-                      <span className="bg-p5-crimson text-white text-xs px-1.5 py-0.2 rounded font-sans font-bold uppercase">
+                      <span className="bg-p5-crimson text-white text-[10px] px-1.5 py-0.2 rounded font-sans font-bold uppercase">
                         {mission.calendarDate.split(' ')[1] || 'Fr'}
                       </span>
-                      <span className="text-black text-xs font-p5Sub ml-1 uppercase">
+                      <span className="text-black text-[10px] font-p5Sub ml-0.5 uppercase">
                         {mission.calendarDate.split(' ').slice(2).join(' ') || 'Evening'}
                       </span>
                     </div>
 
-                    {/* Mission Category Pill */}
-                    <span className="hidden md:inline-block font-p5Sub text-[10px] tracking-wider text-black bg-yellow-300 px-2 py-0.5 border border-black uppercase font-bold">
+                    {/* Category Pill */}
+                    <span className="hidden md:inline-block font-p5Sub text-[9px] tracking-wider text-black bg-yellow-300 px-2 py-0.5 border border-black uppercase font-bold">
                       {mission.category.toUpperCase()}
                     </span>
                   </div>
@@ -221,26 +215,26 @@ export const MissionsScreen: React.FC<MissionsScreenProps> = ({ onBack }) => {
                 </div>
 
                 {/* Center Content: Giant "COMPLETED" + Play Time */}
-                <div className="relative z-10 px-6 sm:px-10 py-2 sm:py-3 flex flex-col md:flex-row md:items-end justify-between gap-3">
+                <div className="relative z-10 px-6 sm:px-8 py-2 sm:py-3 flex flex-col md:flex-row md:items-end justify-between gap-3">
                   <div>
                     {/* The Giant Cutout COMPLETED Title */}
                     <CompletedTitle />
 
-                    {/* Real Project Title Subtext */}
+                    {/* Project Title Subtext */}
                     <div className="mt-1 flex items-center gap-2">
-                      <span className="bg-black text-white font-p5Heading text-lg sm:text-2xl px-3 py-0.5 border-2 border-white shadow-[3px_3px_0px_#000] tracking-wider">
+                      <span className="bg-black text-white font-p5Heading text-base sm:text-xl px-2.5 py-0.5 border-2 border-white shadow-[2px_2px_0px_#000] tracking-wider">
                         {mission.title}
                       </span>
-                      <span className="hidden sm:inline-block font-p5Mono text-xs text-zinc-200 bg-black/60 px-2 py-0.5 border border-zinc-600">
+                      <span className="hidden sm:inline-block font-p5Mono text-[11px] text-zinc-200 bg-black/60 px-2 py-0.5 border border-zinc-600">
                         {mission.role}
                       </span>
                     </div>
                   </div>
 
-                  {/* Subtext info: "STaRt a NEW GaME." & "PLaY TiME 97:58" */}
+                  {/* Play Time & Action Buttons */}
                   <div className="flex flex-col items-start md:items-end gap-1.5 text-white">
                     <div className="flex items-center gap-2">
-                      <span className="font-p5Heading text-sm sm:text-base tracking-widest text-zinc-200">
+                      <span className="font-p5Heading text-xs sm:text-sm tracking-widest text-zinc-200">
                         PLaY TiME
                       </span>
                       <span className="font-p5Heading text-2xl sm:text-3xl text-yellow-300 drop-shadow-[2px_2px_0px_#000]">
@@ -248,7 +242,7 @@ export const MissionsScreen: React.FC<MissionsScreenProps> = ({ onBack }) => {
                       </span>
                     </div>
 
-                    {/* Action buttons inside the active card */}
+                    {/* Action buttons inside active card */}
                     <div className="flex items-center gap-2 mt-1">
                       {mission.liveUrl && (
                         <a
@@ -256,7 +250,7 @@ export const MissionsScreen: React.FC<MissionsScreenProps> = ({ onBack }) => {
                           target="_blank"
                           rel="noopener noreferrer"
                           onClick={e => e.stopPropagation()}
-                          className="inline-flex items-center gap-1.5 px-3 py-1 bg-white hover:bg-yellow-300 text-black font-p5Heading text-sm tracking-wider uppercase border-2 border-black shadow-[3px_3px_0px_#000000] transition-transform hover:scale-105 active:scale-95"
+                          className="inline-flex items-center gap-1.5 px-3 py-1 bg-white hover:bg-yellow-300 text-black font-p5Heading text-xs sm:text-sm tracking-wider uppercase border-2 border-black shadow-[2px_2px_0px_#000000] transition-transform hover:scale-105 active:scale-95"
                         >
                           <ExternalLink className="size-3.5" />
                           LAUNCH DEMO
@@ -268,7 +262,7 @@ export const MissionsScreen: React.FC<MissionsScreenProps> = ({ onBack }) => {
                         target="_blank"
                         rel="noopener noreferrer"
                         onClick={e => e.stopPropagation()}
-                        className="inline-flex items-center gap-1.5 px-3 py-1 bg-black hover:bg-zinc-900 text-white font-p5Heading text-sm tracking-wider uppercase border-2 border-white shadow-[3px_3px_0px_#000000] transition-transform hover:scale-105 active:scale-95"
+                        className="inline-flex items-center gap-1.5 px-3 py-1 bg-black hover:bg-zinc-900 text-white font-p5Heading text-xs sm:text-sm tracking-wider uppercase border-2 border-white shadow-[2px_2px_0px_#000000] transition-transform hover:scale-105 active:scale-95"
                       >
                         <GithubIcon />
                         GITHUB REPO
@@ -280,7 +274,7 @@ export const MissionsScreen: React.FC<MissionsScreenProps> = ({ onBack }) => {
                           playSlash()
                           setShowDossierModal(true)
                         }}
-                        className="px-3 py-1 bg-black text-yellow-300 font-p5Heading text-sm tracking-wider uppercase border-2 border-yellow-300 shadow-[3px_3px_0px_#000000] hover:bg-yellow-300 hover:text-black transition-all"
+                        className="px-2.5 py-1 bg-black text-yellow-300 font-p5Heading text-xs sm:text-sm tracking-wider uppercase border-2 border-yellow-300 shadow-[2px_2px_0px_#000000] hover:bg-yellow-300 hover:text-black transition-all"
                       >
                         DOSSIER [D]
                       </button>
@@ -289,47 +283,44 @@ export const MissionsScreen: React.FC<MissionsScreenProps> = ({ onBack }) => {
                 </div>
 
                 {/* Bottom Border Film Perforation Teeth */}
-                <div className="w-full h-3 bg-black flex items-center justify-around px-4">
-                  {Array.from({ length: 32 }).map((_, i) => (
-                    <div key={i} className="w-2.5 h-1.5 bg-p5-crimson rounded-[0.5px]" />
+                <div className="w-full h-2.5 bg-black flex items-center justify-around px-4">
+                  {Array.from({ length: 30 }).map((_, i) => (
+                    <div key={i} className="w-2.5 h-1 bg-p5-crimson rounded-[0.5px]" />
                   ))}
                 </div>
               </div>
             ) : (
-              /* "?"? INACTIVE SLOT (White/Grey Slanted Filmstrip Ribbons) "?"? */
+              /* ── INACTIVE SLOT (White/Grey Ribbons - Zero Clipping) ── */
               <div
                 key={mission.id}
                 onClick={() => {
                   playHover()
                   setSelectedIndex(idx)
                 }}
-                className="relative w-full bg-zinc-100 hover:bg-white text-black border-[3px] border-black shadow-[6px_6px_0px_#000000] -rotate-3 sm:-rotate-[4.5deg] py-2 sm:py-2.5 px-5 sm:px-8 transition-all duration-200 cursor-pointer hover:translate-x-2 group flex items-center justify-between overflow-hidden"
-                style={{
-                  clipPath: 'polygon(0% 0%, 98% 0%, 100% 100%, 2% 100%)',
-                }}
+                className="relative w-full bg-zinc-100 hover:bg-white text-black border-2 sm:border-[3px] border-black shadow-[6px_6px_0px_#000000] -rotate-2 sm:-rotate-[3deg] -skew-x-6 sm:-skew-x-12 py-2 sm:py-2.5 px-5 sm:px-8 transition-all duration-200 cursor-pointer hover:translate-x-2 group flex items-center justify-between"
               >
                 {/* Left Filmstrip Sprockets & Number */}
                 <div className="flex items-center gap-3 z-10">
-                  <div className="bg-black text-white font-p5Heading text-base sm:text-xl px-2 py-0.5 border border-black shadow-[2px_2px_0px_#000] -rotate-1 group-hover:bg-p5-crimson transition-colors">
+                  <div className="bg-black text-white font-p5Heading text-sm sm:text-lg px-2 py-0.5 border border-black shadow-[2px_2px_0px_#000] -rotate-1 group-hover:bg-p5-crimson transition-colors">
                     {mission.slotNumber}
                   </div>
 
                   {/* Phantom Thieves Star Icon */}
-                  <StarIcon className="size-4 text-p5-crimson fill-p5-crimson" />
+                  <StarIcon className="size-3.5 text-p5-crimson fill-p5-crimson" />
 
                   {/* Date Stamp */}
-                  <div className="font-p5Heading text-sm sm:text-base text-p5-crimson tracking-wider">
+                  <div className="font-p5Heading text-xs sm:text-sm text-p5-crimson tracking-wider">
                     {mission.calendarDate}
                   </div>
                 </div>
 
-                {/* Watermark Project Name (Styled like "NoNE" in reference screenshot) */}
-                <div className="font-p5Heading text-xl sm:text-3xl md:text-4xl text-zinc-400 group-hover:text-black tracking-widest uppercase transition-colors truncate max-w-[50%]">
+                {/* Watermark Project Name */}
+                <div className="font-p5Heading text-lg sm:text-2xl md:text-3xl text-zinc-400 group-hover:text-black tracking-widest uppercase transition-colors truncate max-w-[50%]">
                   {mission.title.split('//')[0]}
                 </div>
 
                 {/* Level Tag Right */}
-                <div className="z-10 font-p5Heading text-lg sm:text-2xl text-zinc-700 group-hover:text-p5-crimson transition-colors">
+                <div className="z-10 font-p5Heading text-base sm:text-xl text-zinc-700 group-hover:text-p5-crimson transition-colors">
                   Lv {mission.level}
                 </div>
 
@@ -341,9 +332,8 @@ export const MissionsScreen: React.FC<MissionsScreenProps> = ({ onBack }) => {
         </div>
       </div>
 
-      {/* "?"? BOTTOM CONTROLLER LEGEND (PlayStation Style Buttons - Left Aligned) "?"? */}
+      {/* ── BOTTOM CONTROLLER LEGEND ── */}
       <div className="fixed bottom-3 sm:bottom-4 left-4 sm:left-8 md:left-12 z-40 flex items-center gap-3 sm:gap-5 flex-wrap text-xs sm:text-sm text-zinc-300 pointer-events-auto">
-        {/* Back button */}
         <button
           onClick={() => {
             playBack()
@@ -357,7 +347,6 @@ export const MissionsScreen: React.FC<MissionsScreenProps> = ({ onBack }) => {
           <span className="font-p5Heading text-sm tracking-wider uppercase">BACK</span>
         </button>
 
-        {/* Confirm / Launch Demo button */}
         {activeMission.liveUrl && (
           <a
             href={activeMission.liveUrl}
@@ -372,7 +361,6 @@ export const MissionsScreen: React.FC<MissionsScreenProps> = ({ onBack }) => {
           </a>
         )}
 
-        {/* GitHub Repo button */}
         <a
           href={activeMission.githubUrl}
           target="_blank"
@@ -385,7 +373,6 @@ export const MissionsScreen: React.FC<MissionsScreenProps> = ({ onBack }) => {
           <span className="font-p5Heading text-sm tracking-wider uppercase">GITHUB</span>
         </a>
 
-        {/* Full Dossier Toggle */}
         <button
           onClick={() => {
             playSlash()
@@ -400,11 +387,10 @@ export const MissionsScreen: React.FC<MissionsScreenProps> = ({ onBack }) => {
         </button>
       </div>
 
-      {/* "?"? DOSSIER MODAL (Full Project Specifications) "?"? */}
+      {/* ── DOSSIER MODAL ── */}
       {showDossierModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-sm animate-in fade-in zoom-in-95 duration-200">
           <div className="relative w-full max-w-2xl bg-zinc-950 border-[5px] border-black shadow-[14px_14px_0px_#E60012] p-6 -rotate-1">
-            {/* Modal Header */}
             <div className="flex items-center justify-between pb-3 border-b-2 border-zinc-800 mb-4">
               <div className="flex items-center gap-2">
                 <span className="bg-p5-crimson text-white font-p5Heading text-lg px-2.5 py-0.5">
@@ -425,13 +411,11 @@ export const MissionsScreen: React.FC<MissionsScreenProps> = ({ onBack }) => {
               </button>
             </div>
 
-            {/* Modal Body */}
             <div className="space-y-4">
               <p className="font-p5Body text-zinc-300 text-sm sm:text-base leading-relaxed">
                 {activeMission.fullDossier}
               </p>
 
-              {/* Tech Stack Pills */}
               <div>
                 <span className="font-p5Sub text-xs text-zinc-400 uppercase tracking-wider block mb-1.5">
                   OPERATIONAL STACK:
@@ -448,7 +432,6 @@ export const MissionsScreen: React.FC<MissionsScreenProps> = ({ onBack }) => {
                 </div>
               </div>
 
-              {/* Stats Grid */}
               <div className="grid grid-cols-3 gap-2 pt-2 border-t border-zinc-800">
                 {activeMission.stats.map((s, i) => (
                   <div key={i} className="bg-black/70 p-2 border border-zinc-800">
@@ -458,7 +441,6 @@ export const MissionsScreen: React.FC<MissionsScreenProps> = ({ onBack }) => {
                 ))}
               </div>
 
-              {/* Action buttons */}
               <div className="flex items-center gap-3 pt-3">
                 {activeMission.liveUrl && (
                   <a
