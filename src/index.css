@@ -163,14 +163,36 @@
   }
 }
 
-@keyframes p5-badge-enter {
+@keyframes p5-badge-slash {
   0% {
     opacity: 0;
-    transform: translate3d(-30px, 0, 0) skewX(-12deg);
+    transform: translate3d(-60px, 0, 0) skewX(-20deg) scale(0.92);
+  }
+  70% {
+    opacity: 1;
+    transform: translate3d(6px, 0, 0) skewX(-6deg) scale(1.04);
   }
   100% {
     opacity: 1;
-    transform: translate3d(0, 0, 0) skewX(0deg);
+    transform: translate3d(0, 0, 0) skewX(0deg) scale(1);
+  }
+}
+
+@keyframes p5-badge-stamp {
+  0% {
+    opacity: 0;
+    transform: scale(1.85) rotate(7deg);
+    filter: brightness(1.7);
+  }
+  65% {
+    opacity: 1;
+    transform: scale(0.92) rotate(-2deg);
+    filter: brightness(1.15);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+    filter: brightness(1);
   }
 }
 
@@ -220,8 +242,13 @@
   will-change: transform, opacity;
 }
 
-.p5-badge-entrance {
-  animation: p5-badge-enter 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
+.p5-badge-slash {
+  animation: p5-badge-slash 0.28s cubic-bezier(0.16, 1, 0.3, 1) both;
+  will-change: transform, opacity;
+}
+
+.p5-badge-stamp {
+  animation: p5-badge-stamp 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
   will-change: transform, opacity;
 }
 
@@ -242,7 +269,8 @@
 
 @media (prefers-reduced-motion: reduce) {
   .p5-menu-entrance,
-  .p5-badge-entrance,
+  .p5-badge-slash,
+  .p5-badge-stamp,
   .p5-tile-entrance,
   .p5-sub-entrance,
   .p5-footer-entrance {

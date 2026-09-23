@@ -13,13 +13,17 @@ export const RansomTitle: React.FC = () => {
   return (
     <div className="flex flex-col items-start select-none">
       {/* Small top label */}
-      <div className="flex items-center gap-2 mb-1.5 laptop-ransom-badge-wrap p5-badge-entrance">
-        <span className="bg-p5-crimson text-white px-2.5 sm:px-3 py-1 text-xs md:text-sm font-p5Sub tracking-widest uppercase -skew-x-12 shadow-[2px_2px_0px_#000000] laptop-ransom-badge">
-          ★ MIDWNTRR ★
-        </span>
-        <span className="bg-black text-p5-yellow px-2.5 sm:px-3 py-1 text-xs md:text-sm font-p5Sub tracking-widest uppercase border border-p5-yellow -skew-x-6 laptop-ransom-badge">
-          LV.99 DEVELOPER
-        </span>
+      <div className="flex items-center gap-2 mb-1.5 laptop-ransom-badge-wrap">
+        <div className="p5-badge-slash">
+          <span className="bg-p5-crimson text-white px-2.5 sm:px-3 py-1 text-xs md:text-sm font-p5Sub tracking-widest uppercase -skew-x-12 shadow-[2px_2px_0px_#000000] laptop-ransom-badge block">
+            ★ MIDWNTRR ★
+          </span>
+        </div>
+        <div className="p5-badge-stamp" style={{ animationDelay: '90ms' }}>
+          <span className="bg-black text-p5-yellow px-2.5 sm:px-3 py-1 text-xs md:text-sm font-p5Sub tracking-widest uppercase border border-p5-yellow -skew-x-6 laptop-ransom-badge block">
+            LV.99 DEVELOPER
+          </span>
+        </div>
       </div>
 
       {/* Ransom Letter Tiles */}
