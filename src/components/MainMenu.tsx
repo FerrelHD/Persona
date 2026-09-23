@@ -119,7 +119,7 @@ export const MainMenu: React.FC<MainMenuProps> = ({ onSelectScreen, onBackToTitl
   }, [selectedIndex, onSelectScreen, playHover, playSlash])
 
   return (
-    <div className="relative w-screen h-screen overflow-hidden select-none pointer-events-auto flex flex-col justify-between p-6 sm:p-10 md:p-14">
+    <div className="relative w-screen h-screen overflow-hidden select-none pointer-events-auto flex flex-col justify-between p-6 sm:p-10 md:p-14 laptop-main-pad">
       {/* Left Vignette Shadow */}
       <div
         className="pointer-events-none fixed inset-y-0 left-0 w-[48vw] sm:w-[42vw] md:w-[38vw] lg:w-[36vw] z-10 bg-gradient-to-r from-black/95 via-black/50 to-transparent"

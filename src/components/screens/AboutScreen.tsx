@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { PageCutoutOverlay } from '@/components/common/PageCutoutOverlay'
 import { usePersonaSFX } from '@/hooks/usePersonaSFX'
-import { Sun, MessageSquare } from 'lucide-react'
+import { MessageSquare } from 'lucide-react'
 
 interface AboutScreenProps {
   onBack: () => void
@@ -131,18 +131,13 @@ export const AboutScreen: React.FC<AboutScreenProps> = ({ onBack }) => {
       <div className="relative w-full h-full flex items-center justify-start overflow-hidden">
         
         {/* Top Calendar Widget outside phone frame (Side-by-side with ABOUT ME banner) */}
-        <div className="absolute top-4 sm:top-5 md:top-6 left-[270px] sm:left-[330px] md:left-[395px] laptop-calendar-top z-30 flex items-center gap-3 -rotate-3 select-none pointer-events-none filter drop-shadow-[4px_4px_0px_#000]">
+        <div className="absolute top-4 sm:top-5 md:top-6 left-[270px] sm:left-[330px] md:left-[395px] laptop-calendar-top z-30 flex items-center -rotate-3 select-none pointer-events-none filter drop-shadow-[4px_4px_0px_#000]">
           <div className="flex items-center gap-1.5 bg-white text-black px-3 py-1 border-2 border-black -skew-x-12">
             <span className="font-p5Heading text-2xl sm:text-3xl font-black tracking-tighter">9/23</span>
             <div className="flex flex-col leading-none ml-1">
               <span className="font-p5Heading text-xs sm:text-sm text-p5-crimson font-black tracking-wider uppercase">WEDNESDAY</span>
               <span className="font-p5Sub text-[9px] text-zinc-800 uppercase tracking-widest font-bold">AFTER SCHOOL</span>
             </div>
-          </div>
-
-          <div className="flex items-center gap-1 bg-black text-white px-2.5 py-1 border-2 border-white -skew-x-6 shadow-[2px_2px_0px_#000]">
-            <Sun className="size-4 text-p5-yellow animate-spin" style={{ animationDuration: '12s' }} />
-            <span className="font-p5Heading text-xs text-p5-yellow tracking-wider">DAYTIME</span>
           </div>
         </div>
 
