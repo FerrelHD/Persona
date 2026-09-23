@@ -127,7 +127,7 @@ export const MainMenu: React.FC<MainMenuProps> = ({ onSelectScreen, onBackToTitl
       />
 
       {/* Top Left Title */}
-      <div className="z-20 p5-title-entrance">
+      <div className="z-20">
         <RansomTitle />
       </div>
 

@@ -163,18 +163,44 @@
   }
 }
 
-@keyframes p5-title-enter {
+@keyframes p5-badge-enter {
   0% {
     opacity: 0;
-    transform: translate3d(0, -32px, 0) scale(1.12);
+    transform: translate3d(-30px, 0, 0) skewX(-12deg);
   }
-  70% {
+  100% {
     opacity: 1;
-    transform: translate3d(0, 4px, 0) scale(0.98);
+    transform: translate3d(0, 0, 0) skewX(0deg);
+  }
+}
+
+@keyframes p5-tile-stamp {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, -38px, 0) scale(1.5);
+  }
+  65% {
+    opacity: 1;
+    transform: translate3d(0, 3px, 0) scale(0.94);
   }
   100% {
     opacity: 1;
     transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+@keyframes p5-sub-enter {
+  0% {
+    opacity: 0;
+    transform: translate3d(-45px, 0, 0) skewX(-16deg);
+  }
+  75% {
+    opacity: 1;
+    transform: translate3d(5px, 0, 0) skewX(-2deg);
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) skewX(0deg);
   }
 }
 
@@ -194,8 +220,18 @@
   will-change: transform, opacity;
 }
 
-.p5-title-entrance {
-  animation: p5-title-enter 0.42s cubic-bezier(0.16, 1, 0.3, 1) both;
+.p5-badge-entrance {
+  animation: p5-badge-enter 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
+  will-change: transform, opacity;
+}
+
+.p5-tile-entrance {
+  animation: p5-tile-stamp 0.32s cubic-bezier(0.16, 1, 0.3, 1) both;
+  will-change: transform, opacity;
+}
+
+.p5-sub-entrance {
+  animation: p5-sub-enter 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
   will-change: transform, opacity;
 }
 
@@ -206,7 +242,9 @@
 
 @media (prefers-reduced-motion: reduce) {
   .p5-menu-entrance,
-  .p5-title-entrance,
+  .p5-badge-entrance,
+  .p5-tile-entrance,
+  .p5-sub-entrance,
   .p5-footer-entrance {
     animation: none !important;
   }
