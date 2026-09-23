@@ -215,6 +215,9 @@
   .laptop-postcard-pad {
     padding: 0.55rem 0.75rem !important;
   }
+  .laptop-main-deck {
+    transform: translateY(-1.5rem) !important;
+  }
   .laptop-main-btn {
     height: 52px !important;
   }
@@ -267,6 +270,9 @@
   }
   .laptop-comms-deck {
     transform: translateY(1rem) !important;
+  }
+  .laptop-main-deck {
+    transform: translateY(-1.75rem) !important;
   }
   .laptop-main-btn {
     height: 44px !important;

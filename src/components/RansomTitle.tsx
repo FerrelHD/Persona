@@ -35,8 +35,10 @@ export const RansomTitle: React.FC = () => {
       </div>
 
       {/* Sub-label banner */}
-      <div className="mt-1 flex items-center bg-black border-l-4 border-p5-crimson px-3 py-1 text-xs md:text-sm font-p5Sub tracking-widest text-white -skew-x-6 shadow-[3px_3px_0px_#E60012]">
-        PHANTOM HEISTS // FULLSTACK & CREATIVE DEV
+      <div className="mt-1 flex items-center bg-black border-l-4 border-p5-crimson px-2.5 sm:px-3 py-1 text-[10px] sm:text-xs font-p5Sub tracking-wider text-white -skew-x-6 shadow-[3px_3px_0px_#E60012] w-fit max-w-full">
+        <span className="text-p5-crimson font-bold mr-1">PHANTOM HEISTS</span>
+        <span className="text-zinc-500 mx-1">//</span>
+        <span className="text-zinc-200">FULLSTACK & CREATIVE DEV</span>
       </div>
     </div>
   )

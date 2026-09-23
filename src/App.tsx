@@ -1,4 +1,4 @@
-﻿import React, { useState, useCallback, useRef } from 'react'
+import React, { useState, useCallback, useRef } from 'react'
 import { PersonaVideoBg } from '@/components/PersonaVideoBg'
 import { MainMenu, ActiveScreen } from '@/components/MainMenu'
 import { SplashScreen } from '@/components/SplashScreen'
@@ -93,10 +93,11 @@ export function App() {
   // Called when video starts playing or is ready
   const handleVideoReady = useCallback(() => {
     videoReadyRef.current = true
-    if (transPhase === 'expand') {
+    // Only proceed to collapse if we were actively waiting for this video
+    if (isVideoLoading) {
       proceedToCollapse()
     }
-  }, [transPhase, proceedToCollapse])
+  }, [isVideoLoading, proceedToCollapse])
 
   // Phase 1 ends: screen is 100% covered by the iris color -> swap content
   const handleExpandEnd = useCallback(() => {
@@ -118,10 +119,10 @@ export function App() {
     } else {
       // If still buffering on first load, show authentic "TAKE YOUR TIME"
       setIsVideoLoading(true)
-      // Safety timeout: never leave user waiting more than 600ms
+      // Safety timeout: never leave user waiting more than 500ms
       fallbackTimerRef.current = setTimeout(() => {
         proceedToCollapse()
-      }, 600)
+      }, 500)
     }
   }, [isStartingUp, pendingScreen, proceedToCollapse])
 
@@ -130,6 +131,21 @@ export function App() {
     setTransPhase('idle')
     setIsVideoLoading(false)
   }, [])
+
+  // Robust safety watchdog: guarantees transitions never get stuck on dropped animationend events
+  React.useEffect(() => {
+    if (transPhase === 'expand') {
+      const timer = setTimeout(() => {
+        handleExpandEnd()
+      }, 350)
+      return () => clearTimeout(timer)
+    } else if (transPhase === 'collapse') {
+      const timer = setTimeout(() => {
+        handleCollapseEnd()
+      }, 350)
+      return () => clearTimeout(timer)
+    }
+  }, [transPhase, handleExpandEnd, handleCollapseEnd])
 
   return (
     <div className="relative w-screen h-screen overflow-hidden font-p5Body text-white select-none">
@@ -172,6 +188,7 @@ export function App() {
       {/* Seamless Persona 5 Iris Circle Wipe Overlay */}
       {transPhase !== 'idle' && (
         <div
+          key={transPhase}
           className="fixed inset-0 z-[9999] pointer-events-none will-change-[clip-path]"
           style={{
             backgroundColor: irisColor,

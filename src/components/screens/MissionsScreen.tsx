@@ -1,14 +1,8 @@
-﻿import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { PageCutoutOverlay } from '@/components/common/PageCutoutOverlay'
 import { MISSIONS_DATA, Mission } from '@/data/personaData'
 import { usePersonaSFX } from '@/hooks/usePersonaSFX'
-import { ExternalLink, X } from 'lucide-react'
-
-const GithubIcon: React.FC = () => (
-  <svg className="size-4" viewBox="0 0 24 24" fill="currentColor">
-    <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
-  </svg>
-)
+import { X } from 'lucide-react'
 
 // Decorative 5-point star SVG
 const StarIcon: React.FC<{ className?: string; fill?: string }> = ({ className = 'size-4', fill = '#ffffff' }) => (
@@ -17,38 +11,15 @@ const StarIcon: React.FC<{ className?: string; fill?: string }> = ({ className =
   </svg>
 )
 
-// Starburst Lens Flare radiating across the active card with zero clipping
+// Starburst Lens Flare radiating neatly on the active slot badge
 const StarLensBurst: React.FC = () => (
-  <div className="absolute -left-6 sm:-left-8 top-1/2 -translate-y-1/2 w-36 h-36 pointer-events-none z-20 flex items-center justify-center">
+  <div className="absolute -top-2.5 -left-2.5 pointer-events-none z-30 flex items-center justify-center">
     {/* Horizontal ray beam */}
-    <div className="absolute w-56 h-1 bg-gradient-to-r from-transparent via-white to-transparent opacity-90 rotate-12" />
+    <div className="absolute w-20 h-0.5 bg-gradient-to-r from-transparent via-white to-transparent opacity-95 rotate-12" />
     {/* Vertical ray beam */}
-    <div className="absolute h-56 w-1 bg-gradient-to-b from-transparent via-white to-transparent opacity-90 -rotate-12" />
+    <div className="absolute h-20 w-0.5 bg-gradient-to-b from-transparent via-white to-transparent opacity-95 -rotate-12" />
     {/* Core star diamond */}
-    <div className="size-6 bg-white rotate-45 shadow-[0_0_16px_#ffffff]" />
-  </div>
-)
-
-// COMPLETED Typography with stars inside O and D
-const CompletedTitle: React.FC = () => (
-  <div className="relative inline-flex items-center text-white font-p5Heading text-5xl sm:text-6xl md:text-7xl lg:text-8xl laptop-completed-text tracking-wider select-none drop-shadow-[5px_5px_0px_#000000]">
-    <span>C</span>
-    {/* O with Star cutout */}
-    <span className="relative inline-flex items-center justify-center">
-      <span>O</span>
-      <span className="absolute inset-0 flex items-center justify-center pointer-events-none">
-        <StarIcon className="size-4 sm:size-6 text-black fill-black" />
-      </span>
-    </span>
-    <span>MPLETE</span>
-    {/* D with Star cutout */}
-    <span className="relative inline-flex items-center justify-center">
-      <span>D</span>
-      <span className="absolute inset-0 flex items-center justify-center pointer-events-none">
-        <StarIcon className="size-3.5 sm:size-5 text-black fill-black" />
-      </span>
-    </span>
-    <span className="text-3xl sm:text-4xl md:text-5xl ml-1 self-start">.</span>
+    <div className="size-3 bg-white rotate-45 shadow-[0_0_10px_#ffffff]" />
   </div>
 )
 
@@ -155,109 +126,57 @@ export const MissionsScreen: React.FC<MissionsScreenProps> = ({ onBack }) => {
                       backgroundSize: '8px 8px',
                     }}
                   />
-                  {/* Red Gradient Mask */}
+                  {/* Cyan Gradient Mask */}
                   <div className="absolute inset-0 bg-gradient-to-r from-[#00D2FF] via-[#00A3FF]/80 to-[#0077D4]/95" />
                 </div>
-                {/* Left Starburst Flare Lens */}
-                <StarLensBurst />
 
-                {/* Top Info Bar inside Red Slot */}
-                <div className="relative z-10 flex items-center justify-between px-6 pt-3 sm:pt-4 text-white">
-                  <div className="flex items-center gap-3">
-                    {/* Number Badge (e.g. No. 1) */}
-                    <div className="bg-black text-white font-p5Heading text-base sm:text-xl px-2.5 py-0.5 border border-white shadow-[2px_2px_0px_#000] -rotate-1">
+                {/* Top Info Bar inside Slot */}
+                <div className="relative z-10 flex items-center justify-between px-6 pt-3 sm:pt-3.5 text-white">
+                  <div className="flex items-center gap-2.5">
+                    {/* Number Badge with Persona Corner Sparkle */}
+                    <div className="relative bg-black text-white font-p5Heading text-base sm:text-lg px-2.5 py-0.5 border border-white shadow-[2px_2px_0px_#000] -rotate-1">
+                      <StarLensBurst />
                       {mission.slotNumber}
                     </div>
 
-                    {/* Date / Day Badge (e.g. 2/3 Fr Evening) */}
-                    <div className="bg-white text-cyan-600 font-p5Heading text-sm sm:text-lg px-2.5 py-0.5 border-2 border-black shadow-[2px_2px_0px_#000] flex items-center gap-1.5">
-                      <span className="font-extrabold text-cyan-600">{mission.calendarDate.split(' ')[0]}</span>
-                      <span className="bg-[#00D2FF] text-black text-[10px] px-1.5 py-0.2 rounded font-sans font-bold uppercase">
-                        {mission.calendarDate.split(' ').slice(2).join(' ') || 'Evening'}
-                      </span>
-                    </div>
                     {/* Category Pill */}
-                    <span className="hidden md:inline-block font-p5Sub text-[9px] tracking-wider text-black bg-yellow-300 px-2 py-0.5 border border-black uppercase font-bold">
+                    <span className="font-p5Sub text-[10px] sm:text-xs tracking-wider text-black bg-yellow-300 px-2.5 py-0.5 border border-black uppercase font-bold shadow-[2px_2px_0px_#000] -skew-x-6">
                       {mission.category.toUpperCase()}
+                    </span>
+
+                    {/* Date Tag */}
+                    <span className="hidden sm:inline-block font-p5Heading text-xs text-black bg-white px-2 py-0.5 border border-black shadow-[2px_2px_0px_#000]">
+                      {mission.calendarDate.split(' ')[0]}
                     </span>
                   </div>
 
-                  {/* Level & Location Stamp */}
-                  <div className="flex items-center gap-4 text-right">
-                    <div className="hidden sm:block text-xs font-p5Sub text-zinc-100 uppercase tracking-widest">
-                      {mission.location}
-                    </div>
-                    <div className="font-p5Heading text-2xl sm:text-3xl text-white tracking-widest drop-shadow-[2px_2px_0px_#000]">
+                  {/* Right Header: Lv + Persona Clear/Completed Stamp */}
+                  <div className="flex items-center gap-3">
+                    <div className="font-p5Heading text-xl sm:text-2xl text-white tracking-widest drop-shadow-[2px_2px_0px_#000]">
                       Lv {mission.level}
+                    </div>
+                    <div className="inline-flex items-center gap-1 bg-white text-black font-p5Heading text-[11px] sm:text-xs px-2 py-0.5 border-2 border-black shadow-[2px_2px_0px_#000] -rotate-2 select-none">
+                      <StarIcon className="size-3 text-p5-crimson fill-p5-crimson" />
+                      <span className="tracking-wider">COMPLETED</span>
                     </div>
                   </div>
                 </div>
 
-                {/* Center Content: Giant "COMPLETED" + Play Time */}
-                <div className="relative z-10 px-6 sm:px-8 py-2 sm:py-3 laptop-inspector-pad flex flex-col md:flex-row md:items-end justify-between gap-3">
-                  <div>
-                    {/* The Giant Cutout COMPLETED Title */}
-                    <CompletedTitle />
+                {/* Center Content: Clean, Impactful Project Display */}
+                <div className="relative z-10 px-6 sm:px-8 py-3 sm:py-4 flex flex-col justify-center">
+                  {/* Project Title */}
+                  <h2 className="font-p5Heading text-2xl sm:text-3xl md:text-4xl text-white tracking-wider uppercase filter drop-shadow-[3px_3px_0px_#000000]">
+                    {mission.title}
+                  </h2>
 
-                    {/* Project Title Subtext */}
-                    <div className="mt-1 flex items-center gap-2">
-                      <span className="bg-black text-white font-p5Heading text-base sm:text-xl px-2.5 py-0.5 border-2 border-white shadow-[2px_2px_0px_#000] tracking-wider">
-                        {mission.title}
-                      </span>
-                      <span className="hidden sm:inline-block font-p5Mono text-[11px] text-zinc-200 bg-black/60 px-2 py-0.5 border border-zinc-600">
-                        {mission.role}
-                      </span>
-                    </div>
-                  </div>
-
-                  {/* Play Time & Action Buttons */}
-                  <div className="flex flex-col items-start md:items-end gap-1.5 text-white">
-                    <div className="flex items-center gap-2">
-                      <span className="font-p5Heading text-xs sm:text-sm tracking-widest text-zinc-200">
-                        PLaY TiME
-                      </span>
-                      <span className="font-p5Heading text-2xl sm:text-3xl text-yellow-300 drop-shadow-[2px_2px_0px_#000]">
-                        {mission.playTime}
-                      </span>
-                    </div>
-
-                    {/* Action buttons inside active card */}
-                    <div className="flex items-center gap-2 mt-1">
-                      {mission.liveUrl && (
-                        <a
-                          href={mission.liveUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          onClick={e => e.stopPropagation()}
-                          className="inline-flex items-center gap-1.5 px-3 py-1 bg-white hover:bg-yellow-300 text-black font-p5Heading text-xs sm:text-sm tracking-wider uppercase border-2 border-black shadow-[2px_2px_0px_#000000] transition-transform hover:scale-105 active:scale-95"
-                        >
-                          <ExternalLink className="size-3.5" />
-                          LAUNCH DEMO
-                        </a>
-                      )}
-
-                      <a
-                        href={mission.githubUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        onClick={e => e.stopPropagation()}
-                        className="inline-flex items-center gap-1.5 px-3 py-1 bg-black hover:bg-zinc-900 text-white font-p5Heading text-xs sm:text-sm tracking-wider uppercase border-2 border-white shadow-[2px_2px_0px_#000000] transition-transform hover:scale-105 active:scale-95"
-                      >
-                        <GithubIcon />
-                        GITHUB REPO
-                      </a>
-
-                      <button
-                        onClick={e => {
-                          e.stopPropagation()
-                          playSlash()
-                          setShowDossierModal(true)
-                        }}
-                        className="px-2.5 py-1 bg-black text-yellow-300 font-p5Heading text-xs sm:text-sm tracking-wider uppercase border-2 border-yellow-300 shadow-[2px_2px_0px_#000000] hover:bg-yellow-300 hover:text-black transition-all"
-                      >
-                        DOSSIER [D]
-                      </button>
-                    </div>
+                  {/* Project Details Subtitle Bar */}
+                  <div className="mt-2 flex items-center flex-wrap gap-2.5">
+                    <span className="bg-black text-white font-p5Heading text-xs sm:text-sm px-2.5 py-1 border-2 border-white shadow-[2px_2px_0px_#000] tracking-wider uppercase -skew-x-6">
+                      {mission.role}
+                    </span>
+                    <span className="text-xs font-p5Mono text-cyan-200 ml-auto hidden sm:inline-block drop-shadow-[1px_1px_0px_#000]">
+                      PLAY TIME // {mission.playTime}
+                    </span>
                   </div>
                 </div>
 
@@ -280,15 +199,15 @@ export const MissionsScreen: React.FC<MissionsScreenProps> = ({ onBack }) => {
               >
                 {/* Left Filmstrip Sprockets & Number */}
                 <div className="flex items-center gap-3 z-10">
-                  <div className="bg-black text-white font-p5Heading text-sm sm:text-lg px-2 py-0.5 border border-black shadow-[2px_2px_0px_#000] -rotate-1 group-hover:bg-p5-crimson transition-colors">
+                  <div className="bg-black text-white font-p5Heading text-sm sm:text-lg px-2 py-0.5 border border-black shadow-[2px_2px_0px_#000] -rotate-1 group-hover:bg-[#003876] transition-colors">
                     {mission.slotNumber}
                   </div>
 
                   {/* Phantom Thieves Star Icon */}
-                  <StarIcon className="size-3.5 text-p5-crimson fill-p5-crimson" />
+                  <StarIcon className="size-3.5 text-[#004B87] fill-[#004B87]" />
 
                   {/* Date Stamp */}
-                  <div className="font-p5Heading text-xs sm:text-sm text-p5-crimson tracking-wider">
+                  <div className="font-p5Heading text-xs sm:text-sm text-[#004B87] tracking-wider">
                     {mission.calendarDate}
                   </div>
                 </div>
@@ -299,12 +218,12 @@ export const MissionsScreen: React.FC<MissionsScreenProps> = ({ onBack }) => {
                 </div>
 
                 {/* Level Tag Right */}
-                <div className="z-10 font-p5Heading text-base sm:text-xl text-zinc-700 group-hover:text-p5-crimson transition-colors">
+                <div className="z-10 font-p5Heading text-base sm:text-xl text-zinc-700 group-hover:text-[#003876] transition-colors">
                   Lv {mission.level}
                 </div>
 
                 {/* Left Perforation Strip on Hover */}
-                <div className="absolute left-0 top-0 bottom-0 w-2 bg-black group-hover:bg-p5-crimson transition-colors" />
+                <div className="absolute left-0 top-0 bottom-0 w-2 bg-black group-hover:bg-[#003876] transition-colors" />
               </div>
             )
           })}
@@ -369,10 +288,10 @@ export const MissionsScreen: React.FC<MissionsScreenProps> = ({ onBack }) => {
       {/* ── DOSSIER MODAL ── */}
       {showDossierModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-sm animate-in fade-in zoom-in-95 duration-200">
-          <div className="relative w-full max-w-2xl bg-zinc-950 border-[5px] border-black shadow-[14px_14px_0px_#E60012] p-6 -rotate-1">
+          <div className="relative w-full max-w-2xl bg-zinc-950 border-[5px] border-black shadow-[14px_14px_0px_#003876] p-6 -rotate-1">
             <div className="flex items-center justify-between pb-3 border-b-2 border-zinc-800 mb-4">
               <div className="flex items-center gap-2">
-                <span className="bg-p5-crimson text-white font-p5Heading text-lg px-2.5 py-0.5">
+                <span className="bg-[#003876] text-white font-p5Heading text-lg px-2.5 py-0.5">
                   {activeMission.slotNumber}
                 </span>
                 <h3 className="font-p5Heading text-2xl sm:text-3xl text-white tracking-wide">
@@ -384,7 +303,7 @@ export const MissionsScreen: React.FC<MissionsScreenProps> = ({ onBack }) => {
                   playBack()
                   setShowDossierModal(false)
                 }}
-                className="size-8 bg-black hover:bg-p5-crimson border-2 border-white flex items-center justify-center text-white transition-colors"
+                className="size-8 bg-black hover:bg-[#003876] border-2 border-white flex items-center justify-center text-white transition-colors"
               >
                 <X className="size-5" />
               </button>
