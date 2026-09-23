@@ -8,7 +8,7 @@ import { CallingCardScreen } from '@/components/screens/CallingCardScreen'
 import { AboutScreen } from '@/components/screens/AboutScreen'
 import { usePersonaSFX } from '@/hooks/usePersonaSFX'
 
-// Accent color per screen - used for the iris overlay tint between sub-screens
+// Accent color per screen - used for the iris overlay tint
 const SCREEN_COLOR: Record<ActiveScreen, string> = {
   menu:        '#E60012',
   missions:    '#00D4FF',
@@ -29,17 +29,19 @@ type TransitionPhase = 'idle' | 'expand' | 'collapse'
 
 export function App() {
   const [hasStarted, setHasStarted] = useState(false)
+  const [isStartingUp, setIsStartingUp] = useState(false)
   const [currentScreen, setCurrentScreen] = useState<ActiveScreen>('menu')
   const [pendingScreen, setPendingScreen] = useState<ActiveScreen | null>(null)
   const [transPhase, setTransPhase] = useState<TransitionPhase>('idle')
   const { playSlash, playBack } = usePersonaSFX()
 
-  // Color of the iris overlay is the destination screen color
-  const irisColor = pendingScreen ? SCREEN_COLOR[pendingScreen] : SCREEN_COLOR[currentScreen]
+  // Color of the iris overlay: Crimson #E60012 for startup, or destination screen color
+  const irisColor = isStartingUp ? '#E60012' : (pendingScreen ? SCREEN_COLOR[pendingScreen] : SCREEN_COLOR[currentScreen])
 
-  // Option 1: Direct Slash Reveal - SplashScreen cleanly transitions into MainMenu
+  // Triggered when clicking start on the splash screen
   const handleStartGame = useCallback(() => {
-    setHasStarted(true)
+    setIsStartingUp(true)
+    setTransPhase('expand')
   }, [])
 
   const navigateTo = useCallback((next: ActiveScreen, sfx?: () => void) => {
@@ -59,14 +61,18 @@ export function App() {
 
   // Phase 1 ends: screen is 100% covered by the iris color -> swap content, start collapse instantly
   const handleExpandEnd = useCallback(() => {
-    if (pendingScreen) {
+    if (isStartingUp) {
+      setHasStarted(true)
+      setIsStartingUp(false)
+    } else if (pendingScreen) {
       setCurrentScreen(pendingScreen)
       setPendingScreen(null)
     }
+    // Zero-delay handoff: proceed straight to collapse on the very next animation frame without freezing
     requestAnimationFrame(() => {
       setTransPhase('collapse')
     })
-  }, [pendingScreen])
+  }, [isStartingUp, pendingScreen])
 
   // Phase 2 ends: iris has fully reopened -> back to idle
   const handleCollapseEnd = useCallback(() => {
@@ -78,30 +84,31 @@ export function App() {
       {/* Video Background */}
       <PersonaVideoBg videoSrc={VIDEO_MAP[currentScreen]} />
 
-      {/* Splash Screen or Main App Screens - Strictly Conditional to prevent any background leak */}
-      {!hasStarted ? (
+      {/* Main Screens: Pre-mounted in DOM behind SplashScreen (hidden while !hasStarted so it never leaks through backdrop) */}
+      <div className={`relative z-10 w-full h-full transition-opacity duration-150 ${!hasStarted ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
+        {currentScreen === 'menu' && (
+          <MainMenu onSelectScreen={handleSelectScreen} />
+        )}
+        {currentScreen === 'missions' && (
+          <MissionsScreen onBack={handleBackToMenu} />
+        )}
+        {currentScreen === 'skills' && (
+          <SkillsScreen onBack={handleBackToMenu} />
+        )}
+        {currentScreen === 'about' && (
+          <AboutScreen onBack={handleBackToMenu} />
+        )}
+        {currentScreen === 'callingCard' && (
+          <CallingCardScreen onBack={handleBackToMenu} />
+        )}
+      </div>
+
+      {/* Splash Screen on top (z-50) */}
+      {!hasStarted && (
         <SplashScreen onStart={handleStartGame} />
-      ) : (
-        <div className="relative z-10 w-full h-full">
-          {currentScreen === 'menu' && (
-            <MainMenu onSelectScreen={handleSelectScreen} />
-          )}
-          {currentScreen === 'missions' && (
-            <MissionsScreen onBack={handleBackToMenu} />
-          )}
-          {currentScreen === 'skills' && (
-            <SkillsScreen onBack={handleBackToMenu} />
-          )}
-          {currentScreen === 'about' && (
-            <AboutScreen onBack={handleBackToMenu} />
-          )}
-          {currentScreen === 'callingCard' && (
-            <CallingCardScreen onBack={handleBackToMenu} />
-          )}
-        </div>
       )}
 
-      {/* ── Sub-screen Iris Circle Wipe Overlay ── */}
+      {/* ── Seamless Persona 5 Crimson Iris Circle Wipe Overlay ── */}
       {transPhase !== 'idle' && (
         <div
           className="fixed inset-0 z-[9999] pointer-events-none will-change-[clip-path]"

@@ -9,22 +9,16 @@ interface SplashScreenProps {
 export const SplashScreen: React.FC<SplashScreenProps> = ({ onStart }) => {
   const { playSlash } = usePersonaSFX()
   const [isExiting, setIsExiting] = useState(false)
-  const [showFlash, setShowFlash] = useState(false)
 
   const handleStart = () => {
     if (isExiting) return
     setIsExiting(true)
-    setShowFlash(true)
     playSlash()
 
-    setTimeout(() => {
-      setShowFlash(false)
-    }, 60)
-
-    // Clean handoff: trigger MainMenu reveal right as the blade cuts across
+    // Seamless handoff: trigger the crimson Iris wipe right as the blade cuts across center
     setTimeout(() => {
       onStart()
-    }, 300)
+    }, 140)
   }
 
   useEffect(() => {
@@ -40,19 +34,16 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({ onStart }) => {
   return (
     <div
       onClick={handleStart}
-      className={`fixed inset-0 z-50 flex flex-col items-center justify-between p-6 sm:p-8 md:p-10 cursor-pointer select-none overflow-hidden transition-all duration-300 ${
-        isExiting ? 'opacity-0 scale-105 pointer-events-none' : 'opacity-100 bg-[#050505]'
+      className={`fixed inset-0 z-50 flex flex-col items-center justify-between p-6 sm:p-8 md:p-10 cursor-pointer select-none overflow-hidden transition-colors duration-200 ${
+        isExiting ? 'bg-black/80' : 'bg-black/60 backdrop-blur-[2px]'
       }`}
     >
-      {/* 100% Solid Black Base to prevent ANY background element from leaking through */}
-      <div className="absolute inset-0 bg-black -z-10" />
-
-      {/* Dynamic Background Slash Polygon */}
+      {/* Dynamic Background Slash Polygon - Hardware accelerated */}
       <div
-        className={`absolute -inset-10 bg-p5-crimson -skew-y-12 transform origin-top-left transition-all duration-300 ease-out ${
+        className={`absolute -inset-10 bg-p5-crimson -skew-y-12 transform origin-top-left transition-all duration-300 ease-out will-change-transform ${
           isExiting
-            ? 'scale-150 translate-x-32 rotate-6 opacity-0'
-            : '-translate-y-48 opacity-95 shadow-[0_0_50px_rgba(230,0,18,0.5)]'
+            ? 'scale-150 translate-x-24 rotate-3 opacity-100'
+            : '-translate-y-48 opacity-85'
         }`}
       />
 
@@ -66,11 +57,11 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({ onStart }) => {
         PERSONA 5 ROYAL // DEVELOPER HEIST ARCHIVE
       </div>
 
-      {/* Center Title Logo */}
+      {/* Center Title Logo - Hardware accelerated without filter blur to prevent GPU repaint drops */}
       <div
         className={`relative z-10 flex flex-col items-center text-center my-auto transition-all duration-200 ease-out will-change-[transform,opacity] ${
           isExiting
-            ? 'scale-110 -translate-y-6 rotate-2 opacity-0'
+            ? 'scale-110 -translate-y-4 rotate-2 opacity-0'
             : 'scale-100 translate-x-0 opacity-100'
         }`}
       >
@@ -94,7 +85,7 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({ onStart }) => {
 
       {/* Bottom Start Prompt */}
       <div
-        className={`relative z-10 flex flex-col items-center gap-2 transition-all duration-200 ${
+        className={`relative z-10 flex flex-col items-center gap-2 transition-all duration-200 will-change-[transform,opacity] ${
           isExiting ? 'translate-y-16 opacity-0' : 'translate-y-0 opacity-100'
         }`}
       >
@@ -106,36 +97,30 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({ onStart }) => {
         </div>
       </div>
 
-      {/* ── DRAMATIC THICK PERSONA 5 BLADE SLASH OVERLAY ── */}
+      {/* ── Cinematic Persona Slash Beam Overlay on Exit (GPU-promoted) ── */}
       {isExiting && (
-        <div className="fixed inset-0 z-50 pointer-events-none overflow-hidden">
-          {/* White Impact Flash */}
-          {showFlash && (
-            <div className="fixed inset-0 bg-white pointer-events-none" />
-          )}
-
-          {/* Broad Crimson Slash Wake (Wide Comic Polygon) */}
+        <>
+          {/* High-speed white/yellow blade slash line */}
           <div
-            className="absolute z-40 w-[280vw] h-28 bg-p5-crimson opacity-95 will-change-transform"
+            className="absolute z-30 w-[200vw] h-4 bg-white pointer-events-none will-change-transform"
             style={{
-              boxShadow: '0 0 50px #E60012, 0 0 90px #E60012',
-              animation: 'dramatic-slash 0.32s cubic-bezier(0.12, 0.8, 0.3, 1) forwards',
-              top: '46%',
-              left: '-90%',
+              boxShadow: '0 0 20px #FFFFFF, 0 0 35px #FFD700',
+              animation: 'slash-beam 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+              top: '50%',
+              left: '-50%',
             }}
           />
-
-          {/* Intense Bright White Blade Core with Gold Rim */}
+          {/* Secondary Crimson Slash Afterimage */}
           <div
-            className="absolute z-50 w-[280vw] h-10 bg-white will-change-transform"
+            className="absolute z-20 w-[200vw] h-12 bg-p5-crimson opacity-80 pointer-events-none will-change-transform"
             style={{
-              boxShadow: '0 0 30px #FFFFFF, 0 0 60px #FFE600',
-              animation: 'dramatic-slash 0.3s cubic-bezier(0.12, 0.8, 0.3, 1) forwards',
-              top: '49%',
-              left: '-90%',
+              boxShadow: '0 0 25px #E60012',
+              animation: 'slash-beam 0.34s 0.03s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+              top: '48%',
+              left: '-50%',
             }}
           />
-        </div>
+        </>
       )}
     </div>
   )
