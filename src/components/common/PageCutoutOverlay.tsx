@@ -59,32 +59,8 @@ export const PageCutoutOverlay: React.FC<PageCutoutOverlayProps> = ({
 
   return (
     <>
-      {/* ── TOP-LEFT: Back Arrow Button & Title Frame ── */}
+      {/* ── TOP-LEFT: Clean Persona 5 Main Menu Title Frame (No clutter, pure game aesthetic) ── */}
       <div className="fixed top-2 sm:top-3 md:top-4 left-3 sm:left-5 md:left-7 z-40 select-none flex flex-col items-start pointer-events-auto">
-        
-        {/* Interactive Arrow Back Button */}
-        <button
-          type="button"
-          onClick={() => {
-            playBack()
-            onBack()
-          }}
-          onMouseEnter={playHover}
-          className="mb-1.5 flex items-center gap-1.5 px-3 py-1 bg-black/90 hover:bg-p5-crimson text-white border-2 border-white/80 hover:border-white shadow-[3px_3px_0px_#000000] -rotate-1 hover:scale-105 active:scale-95 transition-all cursor-pointer group"
-          title="Return to Main Menu [ESC]"
-        >
-          <span className="font-p5Heading text-base text-yellow-300 group-hover:text-white group-hover:-translate-x-1 transition-transform">
-            ←
-          </span>
-          <span className="font-p5Heading text-xs sm:text-sm tracking-wider uppercase">
-            BACK TO MENU
-          </span>
-          <span className="font-p5Mono text-[9px] text-zinc-400 group-hover:text-zinc-200">
-            [ESC]
-          </span>
-        </button>
-
-        {/* Interactive Title Button */}
         <div
           onClick={() => {
             playBack()
@@ -92,7 +68,7 @@ export const PageCutoutOverlay: React.FC<PageCutoutOverlayProps> = ({
           }}
           onMouseEnter={playHover}
           className="relative inline-flex items-center cursor-pointer group transition-all duration-150 -rotate-[13deg] hover:-rotate-[11deg] hover:scale-105 active:scale-95 origin-center"
-          title="Click to return to Main Menu"
+          title="Return to Main Menu"
         >
           {/* Button Frame Graphic from Persona 5 Assets */}
           <img
@@ -139,7 +115,7 @@ export const PageCutoutOverlay: React.FC<PageCutoutOverlayProps> = ({
         </div>
       </div>
 
-      {/* ── BOTTOM-LEFT CONTROLLER SHORTCUTS (Exact Persona 5 PlayStation Styling) ── */}
+      {/* ── BOTTOM-LEFT CONTROLLER SHORTCUTS (The Clean Authentic PlayStation Game Bar) ── */}
       {!hideBottomLegend && (
         <div className="fixed bottom-3 sm:bottom-4 left-4 sm:left-8 md:left-12 z-40 flex items-center gap-4 sm:gap-6 text-xs sm:text-sm text-white pointer-events-auto select-none">
           {/* (O) BACK button */}
@@ -150,7 +126,7 @@ export const PageCutoutOverlay: React.FC<PageCutoutOverlayProps> = ({
               onBack()
             }}
             className="flex items-center gap-2 hover:scale-105 active:scale-95 transition-transform group cursor-pointer"
-            title="Return to Main Menu [ESC]"
+            title="Back to Main Menu"
           >
             <span className="size-5 sm:size-6 rounded-full border-2 border-red-500 text-red-500 font-bold flex items-center justify-center text-[10px] sm:text-xs group-hover:bg-red-500 group-hover:text-white transition-colors shadow-[0_0_8px_rgba(239,68,68,0.5)]">
               O
