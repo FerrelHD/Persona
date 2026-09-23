@@ -1,3 +1,4 @@
+import { P5FooterActionStrip } from '@/components/common/P5FooterActionStrip'
 ﻿import React, { useEffect } from 'react'
 import { usePersonaSFX } from '@/hooks/usePersonaSFX'
 
@@ -115,30 +116,9 @@ export const PageCutoutOverlay: React.FC<PageCutoutOverlayProps> = ({
         </div>
       </div>
 
-      {/* ── BOTTOM-LEFT CONTROLLER SHORTCUTS (The Clean Authentic PlayStation Game Bar) ── */}
+      {/* ── AUTHENTIC PERSONA 5 BOTTOM ACTION STRIP ── */}
       {!hideBottomLegend && (
-        <div className="fixed bottom-3 sm:bottom-4 left-4 sm:left-8 md:left-12 z-40 flex items-center gap-4 sm:gap-6 text-xs sm:text-sm text-white pointer-events-auto select-none">
-          {/* (O) BACK button */}
-          <button
-            type="button"
-            onClick={() => {
-              playBack()
-              onBack()
-            }}
-            className="flex items-center gap-2 hover:scale-105 active:scale-95 transition-transform group cursor-pointer"
-            title="Back to Main Menu"
-          >
-            <span className="size-5 sm:size-6 rounded-full border-2 border-red-500 text-red-500 font-bold flex items-center justify-center text-[10px] sm:text-xs group-hover:bg-red-500 group-hover:text-white transition-colors shadow-[0_0_8px_rgba(239,68,68,0.5)]">
-              O
-            </span>
-            <span className="font-p5Heading italic text-sm sm:text-base tracking-wider text-white group-hover:text-red-400 transition-colors drop-shadow-[2px_2px_0px_#000]">
-              BACK
-            </span>
-          </button>
-
-          {/* Contextual Extra Action Shortcuts */}
-          {extraShortcuts}
-        </div>
+        <P5FooterActionStrip onReturn={onBack} />
       )}
 
       {/* ── BOTTOM-RIGHT: Ribbon character badge ── */}

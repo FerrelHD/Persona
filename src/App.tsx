@@ -8,7 +8,7 @@ import { CallingCardScreen } from '@/components/screens/CallingCardScreen'
 import { AboutScreen } from '@/components/screens/AboutScreen'
 import { usePersonaSFX } from '@/hooks/usePersonaSFX'
 
-// Accent color per screen - used for the iris overlay tint
+// Accent color per screen - used for the iris overlay tint between sub-screens
 const SCREEN_COLOR: Record<ActiveScreen, string> = {
   menu:        '#E60012',
   missions:    '#00D4FF',
@@ -29,19 +29,17 @@ type TransitionPhase = 'idle' | 'expand' | 'collapse'
 
 export function App() {
   const [hasStarted, setHasStarted] = useState(false)
-  const [isStartingUp, setIsStartingUp] = useState(false)
   const [currentScreen, setCurrentScreen] = useState<ActiveScreen>('menu')
   const [pendingScreen, setPendingScreen] = useState<ActiveScreen | null>(null)
   const [transPhase, setTransPhase] = useState<TransitionPhase>('idle')
   const { playSlash, playBack } = usePersonaSFX()
 
-  // Color of the iris overlay: Crimson #E60012 for startup, or destination screen color
-  const irisColor = isStartingUp ? '#E60012' : (pendingScreen ? SCREEN_COLOR[pendingScreen] : SCREEN_COLOR[currentScreen])
+  // Color of the iris overlay is the destination screen color
+  const irisColor = pendingScreen ? SCREEN_COLOR[pendingScreen] : SCREEN_COLOR[currentScreen]
 
-  // Triggered when clicking start on the splash screen
+  // Option 1: Direct Slash Reveal - SplashScreen slices cleanly open directly into MainMenu
   const handleStartGame = useCallback(() => {
-    setIsStartingUp(true)
-    setTransPhase('expand')
+    setHasStarted(true)
   }, [])
 
   const navigateTo = useCallback((next: ActiveScreen, sfx?: () => void) => {
@@ -61,18 +59,14 @@ export function App() {
 
   // Phase 1 ends: screen is 100% covered by the iris color -> swap content, start collapse instantly
   const handleExpandEnd = useCallback(() => {
-    if (isStartingUp) {
-      setHasStarted(true)
-      setIsStartingUp(false)
-    } else if (pendingScreen) {
+    if (pendingScreen) {
       setCurrentScreen(pendingScreen)
       setPendingScreen(null)
     }
-    // Zero-delay handoff: proceed straight to collapse on the very next animation frame without freezing
     requestAnimationFrame(() => {
       setTransPhase('collapse')
     })
-  }, [isStartingUp, pendingScreen])
+  }, [pendingScreen])
 
   // Phase 2 ends: iris has fully reopened -> back to idle
   const handleCollapseEnd = useCallback(() => {
@@ -84,7 +78,7 @@ export function App() {
       {/* Video Background */}
       <PersonaVideoBg videoSrc={VIDEO_MAP[currentScreen]} />
 
-      {/* Main Screens: Pre-mounted in the DOM behind SplashScreen so React does not drop frames mounting MainMenu during transition */}
+      {/* Main Screens: Pre-mounted in DOM behind SplashScreen */}
       <div className="relative z-10 w-full h-full">
         {currentScreen === 'menu' && (
           <MainMenu onSelectScreen={handleSelectScreen} />
@@ -108,7 +102,7 @@ export function App() {
         <SplashScreen onStart={handleStartGame} />
       )}
 
-      {/* ── Seamless Persona 5 Crimson Iris Circle Wipe Overlay ── */}
+      {/* ── Sub-screen Iris Circle Wipe Overlay ── */}
       {transPhase !== 'idle' && (
         <div
           className="fixed inset-0 z-[9999] pointer-events-none will-change-[clip-path]"

@@ -85,3 +85,18 @@
   0% { transform: translate3d(0, 0, 0); opacity: 1; }
   100% { transform: translate3d(30%, 20%, 0) rotate(5deg); opacity: 0; }
 }
+
+/* ── Option 1: Dramatic Persona 5 Direct Blade Slash ── */
+@keyframes dramatic-slash {
+  0% {
+    transform: translate3d(-60%, -120%, 0) rotate(-26deg);
+    opacity: 1;
+  }
+  70% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate3d(120%, 180%, 0) rotate(-26deg);
+    opacity: 0;
+  }
+}
