@@ -7,6 +7,7 @@ export type ActiveScreen = 'menu' | 'missions' | 'skills' | 'callingCard' | 'abo
 interface MainMenuProps {
   onSelectScreen: (screen: ActiveScreen) => void
   onBackToTitle?: () => void
+  initialSelectedScreen?: ActiveScreen | null
 }
 
 interface MenuItem {
@@ -76,24 +77,34 @@ const MENU_ITEMS: MenuItem[] = [
   }
 ]
 
-export const MainMenu: React.FC<MainMenuProps> = ({ onSelectScreen, onBackToTitle }) => {
+export const MainMenu: React.FC<MainMenuProps> = ({ onSelectScreen, onBackToTitle, initialSelectedScreen = null }) => {
   const { playHover, playSlash, playBack } = usePersonaSFX()
-  const [selectedIndex, setSelectedIndex] = useState(1) // Default to SKILLS
+  
+  // Calculate initial selected index from last visited screen, or null if fresh start
+  const getInitialIndex = (): number | null => {
+    if (!initialSelectedScreen) return null
+    const idx = MENU_ITEMS.findIndex(item => item.id === initialSelectedScreen)
+    return idx !== -1 ? idx : null
+  }
+
+  const [selectedIndex, setSelectedIndex] = useState<number | null>(getInitialIndex)
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'ArrowDown') {
         e.preventDefault()
         playHover()
-        setSelectedIndex(prev => (prev + 1) % MENU_ITEMS.length)
+        setSelectedIndex(prev => (prev === null ? 0 : (prev + 1) % MENU_ITEMS.length))
       } else if (e.key === 'ArrowUp') {
         e.preventDefault()
         playHover()
-        setSelectedIndex(prev => (prev - 1 + MENU_ITEMS.length) % MENU_ITEMS.length)
+        setSelectedIndex(prev => (prev === null ? MENU_ITEMS.length - 1 : (prev - 1 + MENU_ITEMS.length) % MENU_ITEMS.length))
       } else if (e.key === 'Enter') {
-        e.preventDefault()
-        playSlash()
-        onSelectScreen(MENU_ITEMS[selectedIndex].id)
+        if (selectedIndex !== null) {
+          e.preventDefault()
+          playSlash()
+          onSelectScreen(MENU_ITEMS[selectedIndex].id)
+        }
       } else if (e.key === 'Escape') {
         if (onBackToTitle) {
           e.preventDefault()

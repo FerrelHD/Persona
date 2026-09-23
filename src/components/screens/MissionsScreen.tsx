@@ -103,16 +103,7 @@ export const MissionsScreen: React.FC<MissionsScreenProps> = ({ onBack }) => {
 
   return (
     <div className="fixed inset-0 z-30 flex flex-col justify-between select-none overflow-hidden bg-gradient-to-r from-black/95 from-0% via-black/80 via-35% to-transparent to-55% animate-in fade-in duration-300">
-      {/* Background Halftone - Left half only */}
-      <div
-        className="absolute inset-0 pointer-events-none opacity-20"
-        style={{
-          backgroundImage: 'radial-gradient(#E60012 1.5px, transparent 1.5px)',
-          backgroundSize: '12px 12px',
-          maskImage: 'linear-gradient(to right, black 35%, transparent 70%)',
-          WebkitMaskImage: 'linear-gradient(to right, black 35%, transparent 70%)',
-        }}
-      />
+
 
       {/* Top Header Prompt & Menu Title */}
       <PageCutoutOverlay

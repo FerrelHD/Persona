@@ -32,6 +32,7 @@ export function App() {
   const [hasStarted, setHasStarted] = useState(false)
   const [isStartingUp, setIsStartingUp] = useState(false)
   const [currentScreen, setCurrentScreen] = useState<ActiveScreen>('menu')
+  const [lastVisitedScreen, setLastVisitedScreen] = useState<ActiveScreen | null>(null)
   const [pendingScreen, setPendingScreen] = useState<ActiveScreen | null>(null)
   const [transPhase, setTransPhase] = useState<TransitionPhase>('idle')
   const { playSlash, playBack } = usePersonaSFX()
@@ -41,6 +42,7 @@ export function App() {
 
   // Triggered when clicking start on the splash screen
   const handleStartGame = useCallback(() => {
+    setLastVisitedScreen(null)
     setIsStartingUp(true)
     setTransPhase('expand')
   }, [])
@@ -53,6 +55,7 @@ export function App() {
   }, [transPhase])
 
   const handleSelectScreen = useCallback((screen: ActiveScreen) => {
+    setLastVisitedScreen(screen)
     navigateTo(screen, playSlash)
   }, [navigateTo, playSlash])
 
@@ -95,7 +98,7 @@ export function App() {
       {/* Main Screens: Pre-mounted in DOM behind SplashScreen (hidden while !hasStarted so it never leaks through backdrop) */}
       <div className={`relative z-10 w-full h-full transition-opacity duration-150 ${!hasStarted ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
         {currentScreen === 'menu' && (
-          <MainMenu onSelectScreen={handleSelectScreen} onBackToTitle={handleBackToTitle} />
+          <MainMenu onSelectScreen={handleSelectScreen} onBackToTitle={handleBackToTitle} initialSelectedScreen={lastVisitedScreen} />
         )}
         {currentScreen === 'missions' && (
           <MissionsScreen onBack={handleBackToMenu} />
