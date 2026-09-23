@@ -138,7 +138,7 @@ export const MissionsScreen: React.FC<MissionsScreenProps> = ({ onBack }) => {
               <div
                 key={mission.id}
                 onClick={() => playSlash()}
-                className="relative w-full bg-p5-crimson border-4 sm:border-[5px] border-black shadow-[10px_10px_0px_#000000] -rotate-2 sm:-rotate-[3deg] -skew-x-6 sm:-skew-x-12 transition-all duration-300 cursor-pointer group"
+                className="relative w-full bg-[#00D2FF] border-4 sm:border-[5px] border-black shadow-[10px_10px_0px_#000000] -rotate-2 sm:-rotate-[3deg] -skew-x-6 sm:-skew-x-12 transition-all duration-300 cursor-pointer group"
               >
                 {/* OPTION B: High Contrast Project Image Blend into Background (Isolated inside inner overflow-hidden) */}
                 <div className="absolute inset-0 pointer-events-none overflow-hidden">
@@ -156,9 +156,8 @@ export const MissionsScreen: React.FC<MissionsScreenProps> = ({ onBack }) => {
                     }}
                   />
                   {/* Red Gradient Mask */}
-                  <div className="absolute inset-0 bg-gradient-to-r from-p5-crimson via-p5-crimson/80 to-p5-crimson/95" />
+                  <div className="absolute inset-0 bg-gradient-to-r from-[#00D2FF] via-[#00A3FF]/80 to-[#0077D4]/95" />
                 </div>
-
                 {/* Left Starburst Flare Lens */}
                 <StarLensBurst />
 
@@ -171,16 +170,12 @@ export const MissionsScreen: React.FC<MissionsScreenProps> = ({ onBack }) => {
                     </div>
 
                     {/* Date / Day Badge (e.g. 2/3 Fr Evening) */}
-                    <div className="bg-white text-p5-crimson font-p5Heading text-sm sm:text-lg px-2.5 py-0.5 border-2 border-black shadow-[2px_2px_0px_#000] flex items-center gap-1.5">
-                      <span className="font-extrabold text-p5-crimson">{mission.calendarDate.split(' ')[0]}</span>
-                      <span className="bg-p5-crimson text-white text-[10px] px-1.5 py-0.2 rounded font-sans font-bold uppercase">
-                        {mission.calendarDate.split(' ')[1] || 'Fr'}
-                      </span>
-                      <span className="text-black text-[10px] font-p5Sub ml-0.5 uppercase">
+                    <div className="bg-white text-cyan-600 font-p5Heading text-sm sm:text-lg px-2.5 py-0.5 border-2 border-black shadow-[2px_2px_0px_#000] flex items-center gap-1.5">
+                      <span className="font-extrabold text-cyan-600">{mission.calendarDate.split(' ')[0]}</span>
+                      <span className="bg-[#00D2FF] text-black text-[10px] px-1.5 py-0.2 rounded font-sans font-bold uppercase">
                         {mission.calendarDate.split(' ').slice(2).join(' ') || 'Evening'}
                       </span>
                     </div>
-
                     {/* Category Pill */}
                     <span className="hidden md:inline-block font-p5Sub text-[9px] tracking-wider text-black bg-yellow-300 px-2 py-0.5 border border-black uppercase font-bold">
                       {mission.category.toUpperCase()}
@@ -269,7 +264,7 @@ export const MissionsScreen: React.FC<MissionsScreenProps> = ({ onBack }) => {
                 {/* Bottom Border Film Perforation Teeth */}
                 <div className="w-full h-2.5 bg-black flex items-center justify-around px-4">
                   {Array.from({ length: 30 }).map((_, i) => (
-                    <div key={i} className="w-2.5 h-1 bg-p5-crimson rounded-[0.5px]" />
+                    <div key={i} className="w-2.5 h-1 bg-[#00D2FF] rounded-[0.5px]" />
                   ))}
                 </div>
               </div>

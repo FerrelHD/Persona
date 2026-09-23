@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+﻿import React, { useState } from 'react'
 import { PageCutoutOverlay } from '@/components/common/PageCutoutOverlay'
 import { usePersonaSFX } from '@/hooks/usePersonaSFX'
 import { Zap, Sparkles, Shield, Flame, Sword, Crosshair, HeartPulse, RefreshCw } from 'lucide-react'
@@ -168,7 +168,7 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
             {/* SVG Pentagon Radar */}
             <div className="md:col-span-5 flex flex-col items-center justify-center relative">
               <span className="font-p5Sub text-[10px] text-white font-bold tracking-widest uppercase self-start mb-0.5 flex items-center gap-1.5">
-                <span className="size-2 bg-p5-crimson animate-pulse" />
+                <span className="size-2 bg-zinc-400 animate-pulse" />
                 PARAMETER RADAR // LV. 99
               </span>
               <svg viewBox="0 0 150 150" className="w-[125px] h-[125px]">
@@ -194,10 +194,10 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
 
                 <polygon
                   points={statPolygon}
-                  fill="rgba(230, 0, 18, 0.5)"
-                  stroke="#E60012"
+                  fill="rgba(161, 161, 170, 0.45)"
+                  stroke="#A1A1AA"
                   strokeWidth="2.5"
-                  className="filter drop-shadow-[0_0_8px_rgba(230,0,18,0.9)]"
+                  className="filter drop-shadow-[0_0_8px_rgba(161,161,170,0.8)]"
                 />
 
                 {RADAR_STATS.map((s, idx) => {
@@ -209,7 +209,7 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
                   const ly = cy + (maxR + 12) * Math.sin(rad)
                   return (
                     <g key={idx}>
-                      <circle cx={px} cy={py} r="2.5" fill="#FFFFFF" stroke="#E60012" strokeWidth="1" />
+                      <circle cx={px} cy={py} r="2.5" fill="#FFFFFF" stroke="#A1A1AA" strokeWidth="1" />
                       <text
                         x={lx}
                         y={ly + 2.5}
@@ -232,10 +232,10 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
               {RADAR_STATS.map(stat => (
                 <div key={stat.key} className="flex items-center justify-between bg-zinc-950 px-2.5 py-1 border border-zinc-700 text-xs">
                   <div className="flex items-center gap-2">
-                    <span className="font-black text-p5-crimson text-xs">{stat.key}</span>
+                    <span className="font-black text-zinc-300 text-xs">{stat.key}</span>
                     <span className="text-white font-bold text-[11px]">{stat.label}</span>
                   </div>
-                  <span className="font-black text-white bg-p5-crimson px-1.5 py-0.2 border border-black shadow-[1px_1px_0px_#000] text-xs">
+                  <span className="font-black text-white bg-zinc-700 px-1.5 py-0.2 border border-zinc-500 shadow-[1px_1px_0px_#000] text-xs">
                     {stat.value}
                   </span>
                 </div>
@@ -247,7 +247,7 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
           <div>
             <div className="flex items-center justify-between mb-1.5">
               <span className="font-p5Sub text-xs text-white font-bold tracking-widest uppercase flex items-center gap-1.5">
-                <span className="px-1.5 py-0.2 bg-p5-crimson text-white font-black text-[10px] -skew-x-12">
+                <span className="px-1.5 py-0.2 bg-zinc-600 text-white font-black text-[10px] -skew-x-12">
                   DECK
                 </span>
                 EQUIPPED PERSONA SKILLS (8/8 SLOTS)
@@ -274,7 +274,7 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
                     className={`
                       relative p-2.5 text-left border-2 transition-all duration-150 -skew-x-2 cursor-pointer
                       ${isSelected
-                        ? 'bg-p5-crimson border-white text-white shadow-[4px_4px_0px_#FFFFFF] scale-[1.02] z-10'
+                        ? 'bg-zinc-600 border-white text-white shadow-[4px_4px_0px_#FFFFFF] scale-[1.02] z-10'
                         : 'bg-black/95 border-zinc-600 text-white hover:border-white hover:bg-zinc-900 shadow-[3px_3px_0px_#000000]'
                       }
                     `}
@@ -303,7 +303,7 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
           </div>
 
           {/* 3. Bottom Section: Active Skill Inspector Readout Panel (High Contrast & Clear) */}
-          <div className="bg-black/95 border-3 border-p5-crimson p-3 sm:p-4 -skew-x-2 shadow-[6px_6px_0px_#000000]">
+          <div className="bg-black/95 border-3 border-zinc-500 p-3 sm:p-4 -skew-x-2 shadow-[6px_6px_0px_#000000]">
             <div className="flex items-center justify-between border-b-2 border-zinc-700 pb-2 mb-2 flex-wrap gap-2">
               <div className="flex items-center gap-2">
                 <span className={`px-2 py-0.5 font-p5Mono text-[11px] font-black border border-black shadow-[1px_1px_0px_#000] ${ELEMENT_BADGES[activeSkill.element].bg}`}>
@@ -318,7 +318,7 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
               </span>
             </div>
 
-            <p className="font-p5Body text-xs sm:text-[13px] font-semibold text-white leading-relaxed mb-2.5 p-2.5 bg-zinc-950 border-l-4 border-p5-crimson">
+            <p className="font-p5Body text-xs sm:text-[13px] font-semibold text-white leading-relaxed mb-2.5 p-2.5 bg-zinc-950 border-l-4 border-zinc-400">
               {activeSkill.description}
             </p>
 
@@ -329,7 +329,7 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
               {activeSkill.techs.map((tech, i) => (
                 <span
                   key={i}
-                  className="font-p5Heading text-xs font-black text-black bg-white border-1.5 border-black px-2.5 py-0.5 shadow-[2px_2px_0px_#E60012] -skew-x-6 hover:scale-105 transition-transform"
+                  className="font-p5Heading text-xs font-black text-black bg-white border-1.5 border-black px-2.5 py-0.5 shadow-[2px_2px_0px_#71717A] -skew-x-6 hover:scale-105 transition-transform"
                 >
                   {tech}
                 </span>

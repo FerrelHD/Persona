@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+﻿import React, { useState } from 'react'
 import { PageCutoutOverlay } from '@/components/common/PageCutoutOverlay'
 import { usePersonaSFX } from '@/hooks/usePersonaSFX'
 import { Mail, CheckCircle2, Copy, Send, Radio, ExternalLink, Flame, ShieldAlert } from 'lucide-react'
@@ -77,7 +77,7 @@ export const CallingCardScreen: React.FC<CallingCardScreenProps> = ({ onBack }) 
         particleCount: 120,
         spread: 90,
         origin: { x: 0.35, y: 0.55 },
-        colors: ['#E60012', '#FFFFFF', '#000000', '#FFD700'],
+        colors: ['#10B981', '#34D399', '#FFFFFF', '#000000', '#FFD700'],
       })
     } catch {
       // Fallback
@@ -138,7 +138,7 @@ export const CallingCardScreen: React.FC<CallingCardScreenProps> = ({ onBack }) 
           {/* 3D Bulletin Thumbtack Pin */}
           <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 z-30 flex items-center justify-center pointer-events-none">
             <div className="relative size-6 sm:size-7 rounded-full bg-gradient-to-br from-zinc-700 via-black to-zinc-900 border-2 border-white shadow-[0_4px_6px_rgba(0,0,0,0.7),2px_2px_0px_#000]">
-              <div className="absolute inset-1 rounded-full bg-p5-crimson opacity-80" />
+              <div className="absolute inset-1 rounded-full bg-emerald-500 opacity-90" />
               <div className="absolute top-1 left-1.5 size-1.5 rounded-full bg-white opacity-80" />
             </div>
           </div>
@@ -146,8 +146,8 @@ export const CallingCardScreen: React.FC<CallingCardScreenProps> = ({ onBack }) 
           {/* Top Postcard Header: Notice of Intent & Phantom Emblem */}
           <div className="flex items-center justify-between pb-2 border-b-2 sm:border-b-4 border-black mb-3 gap-2">
             <div className="flex items-center gap-2">
-              <span className="bg-p5-crimson text-white font-p5Heading text-sm sm:text-lg px-2.5 py-0.5 border-2 border-black shadow-[2px_2px_0px_#000] -rotate-1 tracking-tight">
-                NOTICE OF INTENT // 予告状
+              <span className="bg-emerald-600 text-white font-p5Heading text-sm sm:text-lg px-2.5 py-0.5 border-2 border-black shadow-[2px_2px_0px_#000] -rotate-1 tracking-tight">
+                NOTICE OF INTENT // äºˆå‘ŠçŠ¶
               </span>
               <span className="hidden sm:inline-block font-p5Mono text-[9px] text-zinc-500 uppercase tracking-widest font-bold">
                 [DOC.P5-CALLING-CARD]
@@ -155,8 +155,8 @@ export const CallingCardScreen: React.FC<CallingCardScreenProps> = ({ onBack }) 
             </div>
 
             {/* Phantom Thieves Wax Seal Badge */}
-            <div className="border-2 border-dashed border-p5-crimson bg-red-50 text-p5-crimson px-2 py-0.5 rotate-2 font-p5Heading text-[10px] sm:text-xs tracking-wider uppercase flex items-center gap-1 shadow-[2px_2px_0px_#E60012]">
-              <Flame className="size-3 text-p5-crimson fill-p5-crimson animate-pulse" />
+            <div className="border-2 border-dashed border-emerald-600 bg-emerald-50 text-emerald-700 px-2 py-0.5 rotate-2 font-p5Heading text-[10px] sm:text-xs tracking-wider uppercase flex items-center gap-1 shadow-[2px_2px_0px_#059669]">
+              <Flame className="size-3 text-emerald-600 fill-emerald-600 animate-pulse" />
               <span>TAKE YOUR HEART</span>
             </div>
           </div>
@@ -169,7 +169,7 @@ export const CallingCardScreen: React.FC<CallingCardScreenProps> = ({ onBack }) 
                 <span className="bg-black text-white px-1.5 py-0.5 text-xs sm:text-sm font-black -skew-x-12">
                   TO
                 </span>
-                <span className="bg-p5-crimson text-white px-1.5 py-0.5 text-xs sm:text-sm font-black -skew-x-6">
+                <span className="bg-emerald-600 text-white px-1.5 py-0.5 text-xs sm:text-sm font-black -skew-x-6">
                   TARGET:
                 </span>
               </div>
@@ -178,7 +178,7 @@ export const CallingCardScreen: React.FC<CallingCardScreenProps> = ({ onBack }) 
                 value={recipient}
                 onChange={e => setRecipient(e.target.value)}
                 placeholder="Enter Recipient Company / Team..."
-                className="flex-1 bg-transparent font-p5Heading text-p5-crimson text-sm sm:text-lg focus:outline-none uppercase placeholder:text-zinc-400 font-black tracking-tight"
+                className="flex-1 bg-transparent font-p5Heading text-emerald-700 text-sm sm:text-lg focus:outline-none uppercase placeholder:text-zinc-400 font-black tracking-tight"
               />
             </div>
 
@@ -204,7 +204,7 @@ export const CallingCardScreen: React.FC<CallingCardScreenProps> = ({ onBack }) 
                       className={`
                         px-2 py-1 font-p5Heading text-[11px] sm:text-xs tracking-wider uppercase border-2 border-black transition-all flex flex-col items-center justify-center
                         ${isActive
-                          ? 'bg-p5-crimson text-white shadow-[2.5px_2.5px_0px_#000000] -rotate-1 font-bold scale-[1.02]'
+                          ? 'bg-emerald-600 text-white shadow-[2.5px_2.5px_0px_#000000] -rotate-1 font-bold scale-[1.02]'
                           : 'bg-white text-black hover:bg-zinc-100'
                         }
                       `}
@@ -225,12 +225,12 @@ export const CallingCardScreen: React.FC<CallingCardScreenProps> = ({ onBack }) 
                 DECLARATION BODY:
               </span>
               <div className="relative">
-                <div className="absolute left-0 top-0 bottom-0 w-1 bg-p5-crimson" />
+                <div className="absolute left-0 top-0 bottom-0 w-1 bg-emerald-600" />
                 <textarea
                   rows={2}
                   value={message}
                   onChange={e => setMessage(e.target.value)}
-                  className="w-full bg-white border-2 border-black pl-3 pr-2.5 py-2 font-p5Body text-xs sm:text-[13px] text-zinc-900 focus:outline-none focus:border-p5-crimson resize-none leading-relaxed font-semibold"
+                  className="w-full bg-white border-2 border-black pl-3 pr-2.5 py-2 font-p5Body text-xs sm:text-[13px] text-zinc-900 focus:outline-none focus:border-emerald-600 resize-none leading-relaxed font-semibold"
                 />
               </div>
             </div>
@@ -238,7 +238,7 @@ export const CallingCardScreen: React.FC<CallingCardScreenProps> = ({ onBack }) 
             {/* Card Footer: Signature & Dispatch Button */}
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pt-1.5 border-t-2 border-zinc-300">
               <div className="font-p5Heading text-[11px] sm:text-xs text-zinc-700">
-                SIGNATURE: <span className="text-p5-crimson text-xs sm:text-sm font-black">FERREL // THE ARCHITECT</span>
+                SIGNATURE: <span className="text-emerald-700 text-xs sm:text-sm font-black">FERREL // THE ARCHITECT</span>
               </div>
 
               <button
@@ -248,7 +248,7 @@ export const CallingCardScreen: React.FC<CallingCardScreenProps> = ({ onBack }) 
                   inline-flex items-center justify-center gap-1.5 px-4 py-1.5 font-p5Heading text-sm sm:text-base tracking-wider uppercase border-2 border-black shadow-[3px_3px_0px_#000000] transition-all cursor-pointer
                   ${isSent
                     ? 'bg-emerald-600 text-white hover:bg-emerald-700'
-                    : 'bg-p5-crimson hover:bg-red-600 text-white -rotate-1 hover:rotate-0 hover:scale-105 active:scale-95'
+                    : 'bg-emerald-600 hover:bg-emerald-500 text-white -rotate-1 hover:rotate-0 hover:scale-105 active:scale-95'
                   }
                 `}
               >
@@ -273,7 +273,7 @@ export const CallingCardScreen: React.FC<CallingCardScreenProps> = ({ onBack }) 
               className="absolute inset-0 pointer-events-none flex items-center justify-center z-40 overflow-hidden"
               style={{ animation: 'stamp-slam 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards' }}
             >
-              <div className="bg-p5-crimson/95 text-white border-4 border-white px-6 py-3 -rotate-12 shadow-[6px_6px_0px_#000000] flex flex-col items-center justify-center">
+              <div className="bg-emerald-600/95 text-white border-4 border-white px-6 py-3 -rotate-12 shadow-[6px_6px_0px_#000000] flex flex-col items-center justify-center">
                 <span className="font-p5Heading text-2xl sm:text-3xl font-black tracking-tighter uppercase drop-shadow-[2px_2px_0px_#000]">
                   ★ TAKE YOUR HEART ★
                 </span>
@@ -290,7 +290,7 @@ export const CallingCardScreen: React.FC<CallingCardScreenProps> = ({ onBack }) 
             <button
               type="button"
               onClick={handleCopyEmail}
-              className="inline-flex items-center gap-1.5 bg-black text-white px-2.5 py-1 hover:bg-p5-crimson transition-colors border border-black shadow-[2px_2px_0px_#000] cursor-pointer"
+              className="inline-flex items-center gap-1.5 bg-black text-white px-2.5 py-1 hover:bg-emerald-600 transition-colors border border-black shadow-[2px_2px_0px_#000] cursor-pointer"
               title="Click to Copy Email"
             >
               <Mail className="size-3 text-yellow-300" />
@@ -304,7 +304,7 @@ export const CallingCardScreen: React.FC<CallingCardScreenProps> = ({ onBack }) 
               href="https://github.com/FerrelHD"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 bg-zinc-900 text-white px-2.5 py-1 hover:bg-p5-crimson transition-colors border border-black shadow-[2px_2px_0px_#000] cursor-pointer"
+              className="inline-flex items-center gap-1.5 bg-zinc-900 text-white px-2.5 py-1 hover:bg-emerald-600 transition-colors border border-black shadow-[2px_2px_0px_#000] cursor-pointer"
             >
               <GithubIcon />
               <span>@FerrelHD</span>
@@ -321,8 +321,8 @@ export const CallingCardScreen: React.FC<CallingCardScreenProps> = ({ onBack }) 
 
         {/* Floating Toast Notification */}
         {toastMessage && (
-          <div className="mt-3 bg-black text-yellow-300 font-p5Heading text-xs px-4 py-2 border-2 border-yellow-300 shadow-[3px_3px_0px_#E60012] -rotate-1 animate-in fade-in slide-in-from-bottom-2 duration-150 flex items-center gap-2">
-            <ShieldAlert className="size-3.5 text-p5-crimson" />
+          <div className="mt-3 bg-black text-yellow-300 font-p5Heading text-xs px-4 py-2 border-2 border-yellow-300 shadow-[3px_3px_0px_#059669] -rotate-1 animate-in fade-in slide-in-from-bottom-2 duration-150 flex items-center gap-2">
+            <ShieldAlert className="size-3.5 text-emerald-500" />
             <span>{toastMessage}</span>
           </div>
         )}
