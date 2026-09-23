@@ -120,8 +120,8 @@ export const MainMenu: React.FC<MainMenuProps> = ({ onSelectScreen, onBackToTitl
         <RansomTitle />
       </div>
 
-      {/* Menu Container */}
-      <div className="z-20 my-auto flex flex-col items-start gap-2.5 sm:gap-3.5 md:gap-4 w-fit ml-0">
+      {/* Menu Container: Diposisikan di tengah tapi digeser dikit ke bawah dengan my-auto + mt-6 */}
+      <div className="z-20 my-auto mt-12 sm:mt-16 flex flex-col items-start gap-2.5 sm:gap-3.5 md:gap-4 w-fit ml-0">
         {MENU_ITEMS.map((item, index) => {
           const isFocused = selectedIndex === index
 
@@ -193,7 +193,7 @@ export const MainMenu: React.FC<MainMenuProps> = ({ onSelectScreen, onBackToTitl
       </div>
 
       {/* Bottom Bar: Action Legend */}
-      <div className="fixed bottom-5 sm:bottom-7 md:bottom-8 left-6 sm:left-10 md:left-14 z-40 flex items-center gap-3 sm:gap-5 flex-wrap text-xs sm:text-sm text-zinc-300 pointer-events-auto select-none">
+      <div className="z-20 flex items-center gap-3 sm:gap-5 flex-wrap text-xs sm:text-sm text-zinc-300 pointer-events-auto">
         {onBackToTitle && (
           <button
             onClick={() => {
