@@ -8,12 +8,12 @@ import { CallingCardScreen } from '@/components/screens/CallingCardScreen'
 import { AboutScreen } from '@/components/screens/AboutScreen'
 import { usePersonaSFX } from '@/hooks/usePersonaSFX'
 
-// Accent color per screen — used for the iris overlay tint
+// Accent color per screen ï¿½ used for the iris overlay tint
 const SCREEN_COLOR: Record<ActiveScreen, string> = {
   menu:        '#E60012',
   missions:    '#00D4FF',
   skills:      '#E60012',
-  about:       '#DB2777',
+  about:       '#B91C1C',
   callingCard: '#10B981',
 }
 
@@ -21,7 +21,7 @@ const VIDEO_MAP: Record<ActiveScreen, string> = {
   menu:        '/assets/p5r_videos/joker.mp4',
   missions:    '/assets/p3r_videos/Makoto animated wallpaper.mp4',
   skills:      '/assets/p3r_videos/Akihiko animated wallpaper.mp4',
-  about:       '/assets/p3r_videos/Yukari animated wallpaper.mp4',
+  about:       '/assets/p3r_videos/Shinji animated wallpaper.mp4',
   callingCard: '/assets/p3r_videos/Fuuka animated wallpaper.mp4',
 }
 

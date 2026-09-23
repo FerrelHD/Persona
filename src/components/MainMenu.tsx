@@ -125,7 +125,7 @@ export const MainMenu: React.FC<MainMenuProps> = ({ onSelectScreen }) => {
       {/* 
         Container geser lebih ke kiri, dengan efek tangga (stagger / maju per-button)
       */}
-      <div className="z-20 my-auto flex flex-col items-start gap-3 sm:gap-4 md:gap-5 w-fit ml-0">
+      <div className="z-20 my-auto flex flex-col items-start gap-2 sm:gap-2.5 md:gap-3 w-fit ml-0">
         {MENU_ITEMS.map((item, index) => {
           const isFocused = selectedIndex === index
 
@@ -184,14 +184,14 @@ export const MainMenu: React.FC<MainMenuProps> = ({ onSelectScreen }) => {
                       {item.letters.map((ltr, ltrIdx) => (
                         <span
                           key={ltrIdx}
-                          className={`inline-flex items-center justify-center min-w-[34px] md:min-w-[44px] h-[52px] md:h-[64px] px-2 font-p5Heading text-3xl md:text-5xl uppercase shadow-[3px_3px_0px_#000000] border-2 border-black ${ltr.bg} ${ltr.rotate} transition-transform duration-100 hover:scale-125`}
+                          className={`inline-flex items-center justify-center min-w-[26px] md:min-w-[34px] h-[38px] md:h-[48px] px-1.5 font-p5Heading text-2xl md:text-3xl uppercase shadow-[3px_3px_0px_#000000] border-2 border-black ${ltr.bg} ${ltr.rotate} transition-transform duration-100 hover:scale-125`}
                         >
                           {ltr.char}
                         </span>
                       ))}
 
                       {/* Right Play Arrow Triangle */}
-                      <span className="text-white text-2xl md:text-3xl ml-3 md:ml-5 -skew-x-12 animate-pulse filter drop-shadow-[2px_2px_0px_#000000]">
+                      <span className="text-white text-xl md:text-2xl ml-2 md:ml-3 -skew-x-12 animate-pulse filter drop-shadow-[2px_2px_0px_#000000]">
                         ▶
                       </span>
                     </div>
@@ -201,7 +201,7 @@ export const MainMenu: React.FC<MainMenuProps> = ({ onSelectScreen }) => {
                      DEFAULT / RESTING STATE: Clean, Bold White Text
                      ======================================================= */
                   <div className="px-4 py-2 hover:translate-x-2 transition-transform duration-150">
-                    <span className="font-p5Heading text-5xl md:text-6xl lg:text-7xl text-white tracking-widest uppercase filter drop-shadow-[5px_5px_0px_#000000] hover:text-p5-yellow transition-colors">
+                    <span className="font-p5Heading text-3xl sm:text-4xl md:text-5xl text-white tracking-widest uppercase filter drop-shadow-[4px_4px_0px_#000000] hover:text-p5-yellow transition-colors">
                       {item.label}
                     </span>
                   </div>

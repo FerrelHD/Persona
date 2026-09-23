@@ -25,7 +25,7 @@ const SOCIAL_STATS: SocialStat[] = [
     level: 5,
     description: 'Deep mastery of full-stack engineering, TypeScript architecture, and scalable system design.',
     icon: <BookOpen className="size-4" />,
-    color: '#38bdf8', // Sky
+    color: '#38bdf8',
   },
   {
     key: 'GUTS',
@@ -34,7 +34,7 @@ const SOCIAL_STATS: SocialStat[] = [
     level: 5,
     description: 'Fearlessly tackling complex HLSL surface shaders, machine learning models, and cutting-edge paradigms.',
     icon: <ShieldAlert className="size-4" />,
-    color: '#f97316', // Orange
+    color: '#f97316',
   },
   {
     key: 'PROFICIENCY',
@@ -43,7 +43,7 @@ const SOCIAL_STATS: SocialStat[] = [
     level: 5,
     description: 'Executing pixel-perfect UI, snappy audio feedback, 60fps micro-animations, and zero-latency rendering.',
     icon: <Wrench className="size-4" />,
-    color: '#eab308', // Yellow
+    color: '#eab308',
   },
   {
     key: 'KINDNESS',
@@ -52,7 +52,7 @@ const SOCIAL_STATS: SocialStat[] = [
     level: 5,
     description: 'Deep empathy for user experience, accessible design, collaborative team synergy, and open source.',
     icon: <Heart className="size-4" />,
-    color: '#ec4899', // Pink
+    color: '#ec4899',
   },
   {
     key: 'CHARM',
@@ -61,7 +61,7 @@ const SOCIAL_STATS: SocialStat[] = [
     level: 5,
     description: 'Infusing audacious Persona-grade visual identity and high-energy personality into every software product.',
     icon: <Sparkles className="size-4" />,
-    color: '#a855f7', // Purple
+    color: '#a855f7',
   },
 ]
 
@@ -95,28 +95,25 @@ export const AboutScreen: React.FC<AboutScreenProps> = ({ onBack }) => {
   const [selectedStat, setSelectedStat] = useState<SocialStat>(SOCIAL_STATS[0])
 
   return (
-    <div className="fixed inset-0 z-30 flex flex-col p-6 sm:p-8 md:p-10 select-none overflow-hidden bg-gradient-to-l from-black/95 via-black/80 to-transparent animate-in fade-in duration-200 pt-32 sm:pt-36 md:pt-40">
+    <div className="fixed inset-0 z-30 flex flex-col p-6 sm:p-8 md:p-10 select-none overflow-hidden bg-gradient-to-r from-black/95 via-black/80 to-transparent animate-in fade-in duration-200 pt-32 sm:pt-36 md:pt-40">
       {/* Page Cutout Overlay */}
       <PageCutoutOverlay
         title="ABOUT ME"
-        characterRole="ARCHER"
-        characterName="YUKARI TAKEBA"
-        accentColor="pink"
+        characterRole="ENFORCER"
+        characterName="SHINJIRO ARAGAKI"
+        accentColor="red"
         onBack={onBack}
       />
 
-      {/* Main Content: Left side is clear for Yukari, Right side contains the Detective Dossier */}
+      {/* Main Content: Left side contains UI, Right side is clear for Shinjiro */}
       <div className="flex-1 grid grid-cols-1 lg:grid-cols-12 gap-6 mt-2 overflow-hidden z-20 max-w-7xl">
-        {/* Left side (5 cols) intentionally transparent to display Yukari */}
-        <div className="hidden lg:block lg:col-span-5 pointer-events-none" />
-
-        {/* Right side (7 cols) contains the dossier cards */}
-        <div className="lg:col-span-7 flex flex-col justify-between max-h-[calc(100vh-175px)] overflow-y-auto pl-2 pr-1 custom-scrollbar space-y-4">
+        {/* Left side (7 cols) contains the dossier cards - NO huge gap, starts cleanly */}
+        <div className="lg:col-span-7 flex flex-col justify-start max-h-[calc(100vh-175px)] overflow-y-auto pr-2 custom-scrollbar space-y-3">
 
           {/* Dossier Header & Navigation Tabs */}
-          <div className="flex items-center justify-between border-b-2 border-pink-500/50 pb-2">
+          <div className="flex items-center justify-between border-b-2 border-red-600/50 pb-2">
             <div className="flex items-center gap-2">
-              <span className="bg-pink-600 text-white font-p5Heading text-xs sm:text-sm px-2.5 py-0.5 -skew-x-6 shadow-[2px_2px_0px_#000]">
+              <span className="bg-p5-crimson text-white font-p5Heading text-xs sm:text-sm px-2.5 py-0.5 -skew-x-6 shadow-[2px_2px_0px_#000]">
                 CONFIDENTIAL
               </span>
               <span className="font-p5Mono text-xs text-zinc-300 tracking-wider">
@@ -142,8 +139,8 @@ export const AboutScreen: React.FC<AboutScreenProps> = ({ onBack }) => {
                   className={`
                     flex items-center gap-1 font-p5Heading text-xs sm:text-sm px-2.5 sm:px-3 py-1 -skew-x-6 border transition-all
                     ${activeTab === tab.id
-                      ? 'bg-pink-500 text-white border-white shadow-[3px_3px_0px_#000000] scale-105'
-                      : 'bg-black/80 text-zinc-400 border-zinc-800 hover:text-white hover:border-pink-500/50'
+                      ? 'bg-p5-crimson text-white border-white shadow-[3px_3px_0px_#000000] scale-105'
+                      : 'bg-black/80 text-zinc-400 border-zinc-800 hover:text-white hover:border-red-500/50'
                     }
                   `}
                 >
@@ -156,9 +153,9 @@ export const AboutScreen: React.FC<AboutScreenProps> = ({ onBack }) => {
 
           {/* TAB 1: CLASSIFIED DOSSIER FILE */}
           {activeTab === 'DOSSIER' && (
-            <div className="relative bg-black/90 border-2 border-pink-500/40 p-5 -skew-x-1 shadow-[8px_8px_0px_#000000] space-y-4">
+            <div className="relative bg-black/90 border-2 border-red-600/40 p-4 sm:p-5 -skew-x-1 shadow-[8px_8px_0px_#000000] space-y-3.5">
               {/* Red Rubber Stamp Effect */}
-              <div className="absolute top-4 right-4 pointer-events-none border-4 border-p5-crimson text-p5-crimson font-p5Heading text-sm sm:text-base px-3 py-1 rotate-12 opacity-80 shadow-[0_0_10px_rgba(230,0,18,0.5)]">
+              <div className="absolute top-3 right-3 pointer-events-none border-4 border-p5-crimson text-p5-crimson font-p5Heading text-sm sm:text-base px-3 py-1 rotate-12 opacity-85 shadow-[0_0_10px_rgba(230,0,18,0.5)]">
                 TOP SECRET // VERIFIED
               </div>
 
@@ -170,7 +167,7 @@ export const AboutScreen: React.FC<AboutScreenProps> = ({ onBack }) => {
                 </div>
                 <div className="bg-zinc-950 p-2 border border-zinc-800">
                   <div className="text-[10px] text-zinc-500 uppercase">ARCANA</div>
-                  <div className="text-pink-400 text-xs sm:text-sm font-bold">THE FOOL (MAX)</div>
+                  <div className="text-p5-crimson text-xs sm:text-sm font-bold">THE FOOL (MAX)</div>
                 </div>
                 <div className="bg-zinc-950 p-2 border border-zinc-800">
                   <div className="text-[10px] text-zinc-500 uppercase">LOCATION</div>
@@ -183,27 +180,27 @@ export const AboutScreen: React.FC<AboutScreenProps> = ({ onBack }) => {
               </div>
 
               {/* Detective Narrative Report */}
-              <div className="border-l-4 border-pink-500 pl-4 py-1 space-y-2">
-                <div className="font-p5Sub text-xs text-pink-300 tracking-wider">
+              <div className="border-l-4 border-p5-crimson pl-3.5 py-1 space-y-1.5">
+                <div className="font-p5Sub text-xs text-red-400 tracking-wider">
                   // INVESTIGATION SUMMARY & TRAITS
                 </div>
-                <p className="font-p5Body text-sm text-zinc-200 leading-relaxed">
+                <p className="font-p5Body text-xs sm:text-sm text-zinc-200 leading-relaxed">
                   Subject is a Software Engineer and Creative Web Developer specialized in forging high-voltage,
                   cinematic digital interfaces. Bridges the boundary between enterprise-grade web engineering (TypeScript, React, Next.js, Vue),
                   applied machine learning (NLP, PyTorch, IndoBERT), and real-time interactive game development (Unity 3D, HLSL shaders).
                 </p>
-                <p className="font-p5Body text-sm text-zinc-300 leading-relaxed">
+                <p className="font-p5Body text-xs sm:text-sm text-zinc-300 leading-relaxed">
                   Known for refusing ordinary web templates and insisting on tactile responsiveness, custom audio feedback,
                   and authentic game aesthetic immersion.
                 </p>
               </div>
 
               {/* Core Philosophy Quote Banner */}
-              <div className="bg-zinc-950/90 border border-zinc-800 p-3 -skew-x-2 flex items-center justify-between">
+              <div className="bg-zinc-950/90 border border-zinc-800 p-2.5 -skew-x-2 flex items-center justify-between">
                 <span className="font-p5Heading text-xs sm:text-sm text-zinc-300">
                   "NEVER SETTLE FOR ORDINARY INTERFACES. EVERY SCREEN DESERVES CHARACTER."
                 </span>
-                <span className="font-p5Mono text-[10px] text-pink-400 font-bold ml-2 whitespace-nowrap">
+                <span className="font-p5Mono text-[10px] text-red-400 font-bold ml-2 whitespace-nowrap">
                   — FERREL
                 </span>
               </div>
@@ -212,16 +209,16 @@ export const AboutScreen: React.FC<AboutScreenProps> = ({ onBack }) => {
 
           {/* TAB 2: PERSONA 5 SOCIAL STATS WHEEL */}
           {activeTab === 'STATS' && (
-            <div className="bg-black/90 border-2 border-pink-500/40 p-5 -skew-x-1 shadow-[8px_8px_0px_#000000] space-y-4">
+            <div className="bg-black/90 border-2 border-red-600/40 p-4 sm:p-5 -skew-x-1 shadow-[8px_8px_0px_#000000] space-y-3">
               <div className="flex items-center justify-between">
                 <span className="font-p5Sub text-xs text-zinc-300 tracking-wider">
                   // SOCIAL STATS ATTRIBUTES (ALL MAXED)
                 </span>
-                <span className="font-p5Mono text-[10px] text-pink-400">CLICK STAT TO INSPECT</span>
+                <span className="font-p5Mono text-[10px] text-red-400">CLICK STAT TO INSPECT</span>
               </div>
 
               {/* Interactive Stat Tiles */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                 {SOCIAL_STATS.map(stat => {
                   const isSelected = selectedStat.key === stat.key
                   return (
@@ -234,22 +231,22 @@ export const AboutScreen: React.FC<AboutScreenProps> = ({ onBack }) => {
                       }}
                       onMouseEnter={playHover}
                       className={`
-                        p-3 text-left border-2 transition-all -skew-x-2 flex items-center justify-between
+                        p-2.5 text-left border-2 transition-all -skew-x-2 flex items-center justify-between
                         ${isSelected
-                          ? 'bg-pink-600/30 border-pink-400 shadow-[4px_4px_0px_#ec4899] scale-102'
+                          ? 'bg-red-950/50 border-p5-crimson shadow-[4px_4px_0px_#E60012] scale-102'
                           : 'bg-zinc-950/90 border-zinc-800 hover:border-zinc-600'
                         }
                       `}
                     >
-                      <div className="flex items-center gap-2.5">
-                        <div className="p-1.5 bg-black border border-zinc-700 text-pink-400">
+                      <div className="flex items-center gap-2">
+                        <div className="p-1 bg-black border border-zinc-700 text-p5-crimson">
                           {stat.icon}
                         </div>
                         <div>
-                          <div className="font-p5Heading text-sm text-white tracking-wider">
+                          <div className="font-p5Heading text-xs sm:text-sm text-white tracking-wider">
                             {stat.name}
                           </div>
-                          <div className="font-p5Mono text-[10px] text-zinc-400">
+                          <div className="font-p5Mono text-[9px] text-zinc-400">
                             {stat.rank}
                           </div>
                         </div>
@@ -265,13 +262,13 @@ export const AboutScreen: React.FC<AboutScreenProps> = ({ onBack }) => {
               </div>
 
               {/* Inspector for Selected Social Stat */}
-              <div className="bg-zinc-950 border border-pink-500/50 p-3.5 -skew-x-1">
-                <div className="flex items-center gap-2 mb-1.5">
-                  <span className="font-p5Heading text-sm text-pink-400">
+              <div className="bg-zinc-950 border border-red-600/50 p-3 -skew-x-1">
+                <div className="flex items-center gap-2 mb-1">
+                  <span className="font-p5Heading text-xs sm:text-sm text-red-400">
                     {selectedStat.name} // {selectedStat.rank}
                   </span>
                 </div>
-                <p className="font-p5Body text-xs sm:text-sm text-zinc-200 leading-relaxed">
+                <p className="font-p5Body text-xs text-zinc-200 leading-relaxed">
                   {selectedStat.description}
                 </p>
               </div>
@@ -280,23 +277,23 @@ export const AboutScreen: React.FC<AboutScreenProps> = ({ onBack }) => {
 
           {/* TAB 3: PALACE HEIST LOGBOOK */}
           {activeTab === 'HEISTS' && (
-            <div className="bg-black/90 border-2 border-pink-500/40 p-5 -skew-x-1 shadow-[8px_8px_0px_#000000] space-y-3">
+            <div className="bg-black/90 border-2 border-red-600/40 p-4 sm:p-5 -skew-x-1 shadow-[8px_8px_0px_#000000] space-y-2.5">
               <div className="font-p5Sub text-xs text-zinc-300 tracking-wider">
                 // PHANTOM THIEF PALACE INFILTRATION LOG
               </div>
 
-              <div className="space-y-2.5 font-p5Mono">
+              <div className="space-y-2 font-p5Mono">
                 {PALACE_MILESTONES.map((m, idx) => (
-                  <div key={idx} className="bg-zinc-950 border border-zinc-800 p-3 -skew-x-2 space-y-1">
+                  <div key={idx} className="bg-zinc-950 border border-zinc-800 p-2.5 -skew-x-2 space-y-1">
                     <div className="flex items-center justify-between">
-                      <span className="font-extrabold text-xs text-p5-crimson bg-p5-crimson/20 px-2 py-0.5 border border-p5-crimson/40">
+                      <span className="font-extrabold text-[11px] text-p5-crimson bg-p5-crimson/20 px-1.5 py-0.5 border border-p5-crimson/40">
                         {m.code}
                       </span>
                       <span className="text-[10px] text-emerald-400 font-bold">
                         {m.result}
                       </span>
                     </div>
-                    <div className="font-p5Heading text-sm sm:text-base text-white">
+                    <div className="font-p5Heading text-xs sm:text-sm text-white">
                       TARGET: {m.target}
                     </div>
                     <p className="font-p5Body text-xs text-zinc-300 leading-relaxed">
@@ -309,6 +306,9 @@ export const AboutScreen: React.FC<AboutScreenProps> = ({ onBack }) => {
           )}
 
         </div>
+
+        {/* Right side (5 cols) intentionally transparent to display Shinjiro Aragaki */}
+        <div className="hidden lg:block lg:col-span-5 pointer-events-none" />
       </div>
     </div>
   )
