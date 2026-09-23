@@ -13,7 +13,7 @@ import { PersonaCursor } from '@/components/common/PersonaCursor'
 const SCREEN_COLOR: Record<ActiveScreen, string> = {
   menu:        '#E60012',
   missions:    '#00D4FF',
-  skills:      '#E60012',
+  skills:      '#9CA3AF', // Akihiko Sanada (P3R) Cool Steel Grey / Silver
   about:       '#B91C1C',
   callingCard: '#10B981',
 }

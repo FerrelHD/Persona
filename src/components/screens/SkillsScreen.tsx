@@ -153,9 +153,9 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
       {/* Page Title Cutout Overlay */}
       <PageCutoutOverlay
         title="SKILL PARAMETERS"
-        characterRole="SUPPORT"
-        characterName="FUTABA SAKURA"
-        accentColor="emerald"
+        characterRole="STRIKER"
+        characterName="AKIHIKO SANADA"
+        accentColor="gray"
         onBack={onBack}
       />
 

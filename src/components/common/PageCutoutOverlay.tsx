@@ -6,12 +6,13 @@ interface PageCutoutOverlayProps {
   characterRole: string
   characterName: string
   onBack: () => void
-  accentColor?: 'cyan' | 'red' | 'pink' | 'emerald'
+  accentColor?: 'cyan' | 'red' | 'pink' | 'emerald' | 'gray'
   extraShortcuts?: React.ReactNode
   hideBottomLegend?: boolean
 }
 
 const ACCENT = {
+  gray:    { border: 'border-zinc-400',    shadow: 'shadow-[3px_3px_0px_#a1a1aa]',  badge: 'bg-zinc-300 text-black', crimson: '#9ca3af' },
   cyan:    { border: 'border-cyan-400',    shadow: 'shadow-[3px_3px_0px_#22d3ee]',  badge: 'bg-cyan-400 text-black', crimson: '#22d3ee' },
   red:     { border: 'border-p5-crimson',  shadow: 'shadow-[3px_3px_0px_#E60012]',  badge: 'bg-p5-crimson text-white', crimson: '#E60012' },
   pink:    { border: 'border-pink-500',    shadow: 'shadow-[3px_3px_0px_#ec4899]',  badge: 'bg-pink-500 text-white', crimson: '#ec4899' },
@@ -76,8 +77,8 @@ export const PageCutoutOverlay: React.FC<PageCutoutOverlayProps> = ({
             alt={displayTitle}
             className={`h-auto object-contain filter drop-shadow-[8px_8px_0px_#000000] pointer-events-none ${
               isLong
-                ? 'w-[240px] sm:w-[280px] md:w-[310px] lg:w-[340px]'
-                : 'w-[220px] sm:w-[255px] md:w-[285px] lg:w-[310px]'
+                ? 'w-[275px] sm:w-[325px] md:w-[375px] lg:w-[410px]'
+                : 'w-[250px] sm:w-[295px] md:w-[340px] lg:w-[370px]'
             }`}
           />
 
@@ -99,7 +100,7 @@ export const PageCutoutOverlay: React.FC<PageCutoutOverlayProps> = ({
                       inline-flex items-center justify-center shrink-0
                       ${isLong
                         ? 'min-w-[15px] sm:min-w-[19px] md:min-w-[23px] h-[24px] sm:h-[30px] md:h-[36px] px-0.5 font-p5Heading text-sm sm:text-lg md:text-xl'
-                        : 'min-w-[22px] sm:min-w-[27px] md:min-w-[32px] h-[34px] sm:h-[42px] md:h-[48px] px-1 font-p5Heading text-xl sm:text-2xl md:text-3xl shadow-[3px_3px_0px_#000000]'
+                        : 'min-w-[21px] sm:min-w-[26px] md:min-w-[30px] h-[32px] sm:h-[39px] md:h-[45px] px-1 font-p5Heading text-xl sm:text-2xl md:text-3xl shadow-[3px_3px_0px_#000000]'
                       }
                       uppercase border-[1.5px] border-black shadow-[2px_2px_0px_#000000]
                       ${isAccent ? ac.badge : 'bg-black text-white'}
