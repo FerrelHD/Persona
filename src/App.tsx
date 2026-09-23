@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react'
+﻿import React, { useState, useCallback } from 'react'
 import { PersonaVideoBg } from '@/components/PersonaVideoBg'
 import { MainMenu, ActiveScreen } from '@/components/MainMenu'
 import { SplashScreen } from '@/components/SplashScreen'
@@ -19,11 +19,11 @@ const SCREEN_COLOR: Record<ActiveScreen, string> = {
 }
 
 const VIDEO_MAP: Record<ActiveScreen, string> = {
-  menu:        '/assets/p5r_videos/joker.mp4',
-  missions:    '/assets/p3r_videos/Makoto animated wallpaper.mp4',
-  skills:      '/assets/p3r_videos/Akihiko animated wallpaper.mp4',
-  about:       '/assets/p3r_videos/Shinji animated wallpaper.mp4',
-  callingCard: '/assets/p3r_videos/Fuuka animated wallpaper.mp4',
+  menu:        '/assets/videos/joker.mp4',
+  missions:    '/assets/videos/makoto.mp4',
+  skills:      '/assets/videos/akihiko.mp4',
+  about:       '/assets/videos/shinji.mp4',
+  callingCard: '/assets/videos/fuuka.mp4',
 }
 
 type TransitionPhase = 'idle' | 'expand' | 'collapse'

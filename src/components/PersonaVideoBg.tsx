@@ -4,14 +4,6 @@ interface PersonaVideoBgProps {
   videoSrc: string
 }
 
-// Fallback map to guaranteed tracked P5R videos if specific P3R video is unavailable
-const FALLBACK_MAP: Record<string, string> = {
-  'Makoto animated wallpaper.mp4': '/assets/p5r_videos/makoto.mp4',
-  'Akihiko animated wallpaper.mp4': '/assets/p5r_videos/ryuji.mp4',
-  'Shinji animated wallpaper.mp4': '/assets/p5r_videos/futaba.mp4',
-  'Fuuka animated wallpaper.mp4': '/assets/p5r_videos/yusuke.mp4',
-}
-
 export const PersonaVideoBg: React.FC<PersonaVideoBgProps> = ({ videoSrc }) => {
   const videoRef = useRef<HTMLVideoElement>(null!)
   const [currentSrc, setCurrentSrc] = useState(videoSrc)
@@ -31,14 +23,9 @@ export const PersonaVideoBg: React.FC<PersonaVideoBgProps> = ({ videoSrc }) => {
   }, [currentSrc])
 
   const handleError = () => {
-    // Determine fallback
-    const matchedKey = Object.keys(FALLBACK_MAP).find(k => currentSrc.includes(k))
-    if (matchedKey && currentSrc !== FALLBACK_MAP[matchedKey]) {
-      console.warn(`[PersonaVideoBg] Video failed to load (${currentSrc}). Falling back to ${FALLBACK_MAP[matchedKey]}`)
-      setCurrentSrc(FALLBACK_MAP[matchedKey])
-    } else if (currentSrc !== '/assets/p5r_videos/joker.mp4') {
-      console.warn(`[PersonaVideoBg] Falling back to default Joker video`)
-      setCurrentSrc('/assets/p5r_videos/joker.mp4')
+    if (currentSrc !== '/assets/videos/joker.mp4') {
+      console.warn(`[PersonaVideoBg] Video failed to load (${currentSrc}). Falling back to default Joker video`)
+      setCurrentSrc('/assets/videos/joker.mp4')
     }
   }
 
