@@ -216,41 +216,45 @@
     padding: 0.55rem 0.75rem !important;
   }
   .laptop-main-deck {
-    transform: translateY(-1.5rem) !important;
+    transform: translateY(-1.25rem) !important;
   }
   .laptop-main-btn {
-    height: 52px !important;
+    height: 44px !important;
   }
   .laptop-main-text {
-    font-size: 2.5rem !important;
+    font-size: 1.95rem !important;
     line-height: 1.1 !important;
   }
   .laptop-main-letter {
-    min-width: 30px !important;
-    height: 42px !important;
+    min-width: 26px !important;
+    height: 38px !important;
   }
   .laptop-main-letter-text {
-    font-size: 1.5rem !important;
+    font-size: 1.35rem !important;
   }
   .laptop-ransom-tile {
-    width: 2.75rem !important;
-    height: 3.5rem !important;
-    font-size: 2rem !important;
+    width: 3.65rem !important;
+    height: 4.65rem !important;
+    font-size: 2.75rem !important;
   }
   .laptop-ransom-sub {
-    flex-direction: column !important;
-    align-items: flex-start !important;
-    max-width: 250px !important;
-    padding: 0.35rem 0.6rem !important;
-    font-size: 0.72rem !important;
-    letter-spacing: 0.05em !important;
-    gap: 0.15rem !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    max-width: 400px !important;
+    padding: 0.35rem 0.75rem !important;
+    font-size: 0.82rem !important;
+    letter-spacing: 0.06em !important;
+    gap: 0 !important;
   }
   .laptop-sub-divider {
-    display: none !important;
+    display: inline !important;
   }
   .laptop-sub-part {
     white-space: nowrap !important;
+  }
+  .laptop-ransom-badge {
+    font-size: 0.8rem !important;
+    padding: 0.2rem 0.55rem !important;
   }
 }
 
@@ -287,20 +291,20 @@
     transform: translateY(1rem) !important;
   }
   .laptop-main-deck {
-    transform: translateY(-1.75rem) !important;
+    transform: translateY(-1.5rem) !important;
   }
   .laptop-main-btn {
-    height: 44px !important;
+    height: 38px !important;
   }
   .laptop-main-text {
-    font-size: 2.15rem !important;
+    font-size: 1.75rem !important;
   }
   .laptop-main-letter {
-    min-width: 26px !important;
-    height: 36px !important;
+    min-width: 22px !important;
+    height: 34px !important;
   }
   .laptop-main-letter-text {
-    font-size: 1.25rem !important;
+    font-size: 1.15rem !important;
   }
   .laptop-radar-svg {
     width: 80px !important;
@@ -310,14 +314,18 @@
     padding-top: 4.25rem !important;
   }
   .laptop-ransom-tile {
-    width: 2.5rem !important;
-    height: 3.15rem !important;
-    font-size: 1.75rem !important;
+    width: 3.25rem !important;
+    height: 4.15rem !important;
+    font-size: 2.35rem !important;
   }
   .laptop-ransom-sub {
-    max-width: 220px !important;
-    padding: 0.25rem 0.5rem !important;
-    font-size: 0.65rem !important;
-    gap: 0.1rem !important;
+    max-width: 350px !important;
+    padding: 0.25rem 0.6rem !important;
+    font-size: 0.72rem !important;
+    gap: 0 !important;
+  }
+  .laptop-ransom-badge {
+    font-size: 0.75rem !important;
+    padding: 0.15rem 0.45rem !important;
   }
 }

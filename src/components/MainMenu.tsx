@@ -174,17 +174,17 @@ export const MainMenu: React.FC<MainMenuProps> = ({ onSelectScreen, onBackToTitl
                       <polygon points="480,62 525,78 475,76" fill="#FFFFFF" />
                     </svg>
 
-                    <div className="relative z-10 flex items-center gap-1 md:gap-1.5 px-3.5 md:px-5.5 py-1.5 md:py-2">
+                    <div className="relative z-10 flex items-center gap-1 md:gap-1.5 px-3 md:px-4 py-1.5 md:py-2">
                       {item.letters.map((ltr, ltrIdx) => (
                         <span
                           key={ltrIdx}
-                          className={`inline-flex items-center justify-center min-w-[32px] md:min-w-[40px] h-[46px] md:h-[56px] laptop-main-letter px-1.5 md:px-2.5 font-p5Heading text-2xl sm:text-3xl md:text-4xl laptop-main-letter-text uppercase shadow-[3px_3px_0px_#000000] border-2 border-black ${ltr.bg} ${ltr.rotate} transition-transform duration-100 hover:scale-120`}
+                          className={`inline-flex items-center justify-center min-w-[28px] md:min-w-[34px] h-[40px] md:h-[48px] laptop-main-letter px-1.5 md:px-2 font-p5Heading text-xl sm:text-2xl md:text-3xl laptop-main-letter-text uppercase shadow-[3px_3px_0px_#000000] border-2 border-black ${ltr.bg} ${ltr.rotate} transition-transform duration-100 hover:scale-120`}
                         >
                           {ltr.char}
                         </span>
                       ))}
 
-                      <span className="text-white text-xl md:text-2xl ml-2.5 md:ml-4 -skew-x-12 animate-pulse filter drop-shadow-[2px_2px_0px_#000000]">
+                      <span className="text-white text-lg md:text-xl ml-2 md:ml-3 -skew-x-12 animate-pulse filter drop-shadow-[2px_2px_0px_#000000]">
                         ▶
                       </span>
                     </div>
@@ -192,7 +192,7 @@ export const MainMenu: React.FC<MainMenuProps> = ({ onSelectScreen, onBackToTitl
                 ) : (
                   /* DEFAULT RESTING STATE */
                   <div className="px-3 py-1 hover:translate-x-2 transition-transform duration-150">
-                    <span className="font-p5Heading text-4xl sm:text-5xl md:text-6xl laptop-main-text text-white tracking-widest uppercase filter drop-shadow-[4px_4px_0px_#000000] hover:text-p5-yellow transition-colors">
+                    <span className="font-p5Heading text-3xl sm:text-4xl md:text-5xl laptop-main-text text-white tracking-widest uppercase filter drop-shadow-[4px_4px_0px_#000000] hover:text-p5-yellow transition-colors">
                       {item.label}
                     </span>
                   </div>
