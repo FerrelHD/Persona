@@ -8,7 +8,6 @@ import { CallingCardScreen } from '@/components/screens/CallingCardScreen'
 import { AboutScreen } from '@/components/screens/AboutScreen'
 import { usePersonaSFX } from '@/hooks/usePersonaSFX'
 import { PersonaCursor } from '@/components/common/PersonaCursor'
-import { TakeYourTime } from '@/components/common/TakeYourTime'
 import { useAssetPreloader } from '@/hooks/useAssetPreloader'
 
 // Accent color per screen - used for the iris overlay tint
@@ -50,11 +49,14 @@ export function App() {
   // Color of the iris overlay: Crimson #E60012 for startup, or destination screen color
   const irisColor = isStartingUp ? '#E60012' : (pendingScreen ? SCREEN_COLOR[pendingScreen] : SCREEN_COLOR[currentScreen])
 
-  // Triggered when clicking start on the splash screen
+  // Triggered when clicking start on the splash screen - direct instant entrance without loading screen
   const handleStartGame = useCallback(() => {
     setLastVisitedScreen(null)
-    setIsStartingUp(true)
-    setTransPhase('expand')
+    setHasStarted(true)
+    setCurrentScreen('menu')
+    setIsStartingUp(false)
+    setIsVideoLoading(false)
+    setTransPhase('idle')
   }, [])
 
   const navigateTo = useCallback((next: ActiveScreen, sfx?: () => void) => {
@@ -93,13 +95,12 @@ export function App() {
   // Called when video starts playing or is ready
   const handleVideoReady = useCallback(() => {
     videoReadyRef.current = true
-    // Only proceed to collapse if we were actively waiting for this video
     if (isVideoLoading) {
       proceedToCollapse()
     }
   }, [isVideoLoading, proceedToCollapse])
 
-  // Phase 1 ends: screen is 100% covered by the iris color -> swap content
+  // Phase 1 ends: screen is 100% covered by the iris color -> swap content immediately without loading stall
   const handleExpandEnd = useCallback(() => {
     if (isStartingUp) {
       setHasStarted(true)
@@ -113,17 +114,7 @@ export function App() {
       setPendingScreen(null)
     }
 
-    // If video is already cached and ready to play, collapse immediately!
-    if (videoReadyRef.current) {
-      proceedToCollapse()
-    } else {
-      // If still buffering on first load, show authentic "TAKE YOUR TIME"
-      setIsVideoLoading(true)
-      // Safety timeout: never leave user waiting more than 500ms
-      fallbackTimerRef.current = setTimeout(() => {
-        proceedToCollapse()
-      }, 500)
-    }
+    proceedToCollapse()
   }, [isStartingUp, pendingScreen, proceedToCollapse])
 
   // Phase 2 ends: iris has fully reopened -> back to idle
@@ -165,7 +156,6 @@ export function App() {
             onSelectScreen={handleSelectScreen}
             onBackToTitle={handleBackToTitle}
             initialSelectedScreen={lastVisitedScreen}
-            isRevealed={transPhase === 'idle'}
           />
         )}
         {currentScreen === 'missions' && (
@@ -186,9 +176,6 @@ export function App() {
       {!hasStarted && (
         <SplashScreen onStart={handleStartGame} />
       )}
-
-      {/* Authentic Persona 5 "TAKE YOUR TIME" Loading Indicator */}
-      <TakeYourTime visible={isVideoLoading} />
 
       {/* Seamless Persona 5 Iris Circle Wipe Overlay */}
       {transPhase !== 'idle' && (
