@@ -442,6 +442,60 @@ const DEFAULT_BUBBLES: Record<string, BubbleConfig> = {
   },
 }
 
+// ── PERSONA 5 GIANT KANJI BACKDROP WATERMARK CONFIGS ──
+interface KanjiConfig {
+  x: number // percentage offset relative to camera.originX
+  y: number // percentage offset relative to camera.originY
+  rotate: number // degrees
+  scale: number // relative scale multiplier
+  opacity: number // 0.05 to 1.0 (default 0.22)
+}
+
+const DEFAULT_KANJI_CONFIGS: Record<string, KanjiConfig> = {
+  joker: {
+    x: -8, // spans in the open space behind Joker's right shoulder/cape
+    y: 0,
+    rotate: -10,
+    scale: 1.05,
+    opacity: 0.22,
+  },
+  futaba: {
+    x: -12, // sits to the left behind Futaba's hair, clear of dialog box on the right
+    y: 0,
+    rotate: -8,
+    scale: 1,
+    opacity: 0.22,
+  },
+  morgana: {
+    x: 0,
+    y: -5,
+    rotate: -6,
+    scale: 1,
+    opacity: 0.22,
+  },
+  ryuji: {
+    x: 4,
+    y: -3,
+    rotate: -8,
+    scale: 1,
+    opacity: 0.22,
+  },
+  ann: {
+    x: 4,
+    y: -2,
+    rotate: -8,
+    scale: 1,
+    opacity: 0.22,
+  },
+  yusuke: {
+    x: 6,
+    y: -6,
+    rotate: -8,
+    scale: 1,
+    opacity: 0.22,
+  },
+}
+
 export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
   const { playHover, playSlash, playBack } = usePersonaSFX()
 
@@ -530,7 +584,7 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
   // Calibrator Panel state
   const [isCalibratorOpen, setIsCalibratorOpen] = useState(false)
   const [calibratingCharId, setCalibratingCharId] = useState<string>('joker')
-  const [calibratorTab, setCalibratorTab] = useState<'char' | 'camera' | 'bubble'>('char')
+  const [calibratorTab, setCalibratorTab] = useState<'char' | 'camera' | 'bubble' | 'kanji'>('char')
   const [copiedSuccess, setCopiedSuccess] = useState(false)
   const stageRef = useRef<HTMLDivElement>(null)
 
@@ -551,6 +605,27 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
       const current = prev[calibratingCharId] || DEFAULT_BUBBLES[calibratingCharId] || DEFAULT_BUBBLES.joker
       const next = { ...prev, [calibratingCharId]: { ...current, ...updates } }
       localStorage.setItem('p5_bubbles_v2', JSON.stringify(next))
+      return next
+    })
+  }
+
+  // Floating giant Japanese kanji configuration state (persisted in localStorage)
+  const [kanjiList, setKanjiList] = useState<Record<string, KanjiConfig>>(() => {
+    const saved = localStorage.getItem('p5_kanji_v1')
+    if (saved) {
+      try {
+        const parsed = JSON.parse(saved)
+        if (typeof parsed === 'object') return parsed
+      } catch { /* ignore */ }
+    }
+    return DEFAULT_KANJI_CONFIGS
+  })
+
+  const updateCalibratingKanji = (updates: Partial<KanjiConfig>) => {
+    setKanjiList(prev => {
+      const current = prev[calibratingCharId] || DEFAULT_KANJI_CONFIGS[calibratingCharId] || DEFAULT_KANJI_CONFIGS.joker
+      const next = { ...prev, [calibratingCharId]: { ...current, ...updates } }
+      localStorage.setItem('p5_kanji_v1', JSON.stringify(next))
       return next
     })
   }
@@ -581,7 +656,8 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
   const copyConfigToClipboard = () => {
     const charsFormatted = JSON.stringify(characterList, null, 2)
     const bubblesFormatted = JSON.stringify(bubbleList, null, 2)
-    const payload = `const PHANTOM_CHARACTERS: PhantomCharacter[] = ${charsFormatted}\n\nconst DEFAULT_BUBBLES: Record<string, BubbleConfig> = ${bubblesFormatted}`
+    const kanjiFormatted = JSON.stringify(kanjiList, null, 2)
+    const payload = `const PHANTOM_CHARACTERS: PhantomCharacter[] = ${charsFormatted}\n\nconst DEFAULT_BUBBLES: Record<string, BubbleConfig> = ${bubblesFormatted}\n\nconst DEFAULT_KANJI_CONFIGS: Record<string, KanjiConfig> = ${kanjiFormatted}`
     navigator.clipboard.writeText(payload)
     setCopiedSuccess(true)
     setTimeout(() => setCopiedSuccess(false), 2000)
@@ -590,8 +666,10 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
   const resetToDefaultPositions = () => {
     localStorage.removeItem('p5_characters_bocchi_v3')
     localStorage.removeItem('p5_bubbles_v2')
+    localStorage.removeItem('p5_kanji_v1')
     setCharacterList(PHANTOM_CHARACTERS)
     setBubbleList(DEFAULT_BUBBLES)
+    setKanjiList(DEFAULT_KANJI_CONFIGS)
   }
 
   const handleStartDrag = (e: React.MouseEvent, charId: string) => {
@@ -877,15 +955,37 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
               }`}
             />
 
-            {/* Giant Japanese Kanji Backdrop (visible when zoomed in, zero-cost watermark without blur) */}
-            {/* [OPACITY CONFIG]: Nilai opacity Giant Kanji diatur di class 'text-white/18' di bawah ini (misal: text-white/20, text-white/30) */}
-            {activeChar && (
-              <div className="absolute inset-0 flex items-center justify-center pointer-events-none overflow-hidden select-none z-15 p5-splash-text-anim">
-                <span className="font-p5Heading text-[16vw] font-black text-white/18 uppercase tracking-widest -rotate-12 select-none">
-                  {activeChar.kanji}
-                </span>
-              </div>
-            )}
+            {/* ── GIANT JAPANESE KANJI WATERMARK (AUTENTIK MANGA MINCHO, Z-INDEX 30 - DI ATAS MASKINGAN) ── */}
+            {activeChar && (() => {
+              const kConfig = kanjiList[activeChar.id] || DEFAULT_KANJI_CONFIGS[activeChar.id] || DEFAULT_KANJI_CONFIGS.joker
+              const posX = activeChar.camera.originX + (kConfig.x || 0)
+              const posY = activeChar.camera.originY + (kConfig.y || 0)
+              // Counter-scale font so it stays sharp, elegant, and consistent across different camera zoom levels
+              const fontVw = 11 / (activeChar.camera.scale * 0.72)
+
+              return (
+                <div
+                  style={{
+                    zIndex: 30, // Above all furniture masks (21, 25, 27) so it's NEVER covered by masks!
+                    left: `${posX}%`,
+                    top: `${posY}%`,
+                    transform: `translate(-50%, -50%) rotate(${kConfig.rotate ?? -8}deg) scale(${kConfig.scale ?? 1})`,
+                    opacity: kConfig.opacity ?? 0.22,
+                  }}
+                  className="absolute pointer-events-none select-none p5-splash-text-anim whitespace-nowrap"
+                >
+                  <span
+                    style={{
+                      fontSize: `${fontVw}vw`,
+                      letterSpacing: '0.12em',
+                    }}
+                    className="font-p5Kanji font-black text-white select-none tracking-widest drop-shadow-[0_0_24px_rgba(0,0,0,0.8)]"
+                  >
+                    {activeChar.kanji}
+                  </span>
+                </div>
+              )
+            })()}
 
             {/* 6 Character Cutout Sprites with Contact Shadows & Warm Lighting */}
             {characterList.map((char) => {
@@ -1236,30 +1336,38 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
             </button>
 
             {/* Calibrator Mode Sub-Tabs */}
-            <div className="flex items-center gap-1 mb-3 bg-zinc-900 p-1 border border-zinc-800">
+            <div className="grid grid-cols-4 gap-1 mb-3 bg-zinc-900 p-1 border border-zinc-800">
               <button
                 onClick={() => setCalibratorTab('char')}
-                className={`flex-1 py-1 text-center font-p5Heading text-[11px] uppercase transition-colors ${
+                className={`py-1 text-center font-p5Heading text-[10px] sm:text-[11px] uppercase transition-colors ${
                   calibratorTab === 'char' ? 'bg-[#E60012] text-white font-bold' : 'text-zinc-400 hover:text-white'
                 }`}
               >
-                1. CHARACTER
+                1. CHAR
               </button>
               <button
                 onClick={() => setCalibratorTab('camera')}
-                className={`flex-1 py-1 text-center font-p5Heading text-[11px] uppercase transition-colors ${
+                className={`py-1 text-center font-p5Heading text-[10px] sm:text-[11px] uppercase transition-colors ${
                   calibratorTab === 'camera' ? 'bg-[#E60012] text-white font-bold' : 'text-zinc-400 hover:text-white'
                 }`}
               >
-                2. CAMERA
+                2. CAM
               </button>
               <button
                 onClick={() => setCalibratorTab('bubble')}
-                className={`flex-1 py-1 text-center font-p5Heading text-[11px] uppercase transition-colors ${
+                className={`py-1 text-center font-p5Heading text-[10px] sm:text-[11px] uppercase transition-colors ${
                   calibratorTab === 'bubble' ? 'bg-[#E60012] text-white font-bold' : 'text-zinc-400 hover:text-white'
                 }`}
               >
                 3. BUBBLE
+              </button>
+              <button
+                onClick={() => setCalibratorTab('kanji')}
+                className={`py-1 text-center font-p5Heading text-[10px] sm:text-[11px] uppercase transition-colors ${
+                  calibratorTab === 'kanji' ? 'bg-[#E60012] text-white font-bold' : 'text-zinc-400 hover:text-white'
+                }`}
+              >
+                4. KANJI
               </button>
             </div>
 
@@ -1476,6 +1584,105 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
                       step="1"
                       value={currentBubble.tailTop}
                       onChange={(e) => updateCalibratingBubble({ tailTop: parseInt(e.target.value, 10) })}
+                      className="w-full accent-yellow-400 cursor-pointer"
+                    />
+                  </div>
+                </div>
+              )
+            })()}
+
+            {/* Tab 4: Giant Kanji Watermark Position & Opacity */}
+            {calibratorTab === 'kanji' && (() => {
+              const currentKanji = kanjiList[calibratingChar.id] || DEFAULT_KANJI_CONFIGS[calibratingChar.id] || DEFAULT_KANJI_CONFIGS.joker
+              return (
+                <div className="space-y-2.5 font-mono text-[11px]">
+                  {/* Info Header */}
+                  <div className="bg-zinc-900/80 p-2 border border-zinc-800 text-[10px] text-zinc-400">
+                    <span className="text-yellow-400 font-bold block mb-0.5">KANJI: {calibratingChar.kanji}</span>
+                    <span>Tersinkronisasi otomatis dengan fokus zoom kamera.</span>
+                  </div>
+
+                  {/* Offset X Slider */}
+                  <div>
+                    <div className="flex justify-between text-zinc-300 mb-0.5">
+                      <span>OFFSET X (%):</span>
+                      <span className="text-yellow-400 font-bold">{currentKanji.x}%</span>
+                    </div>
+                    <input
+                      type="range"
+                      min="-40"
+                      max="40"
+                      step="1"
+                      value={currentKanji.x}
+                      onChange={(e) => updateCalibratingKanji({ x: parseInt(e.target.value, 10) })}
+                      className="w-full accent-yellow-400 cursor-pointer"
+                    />
+                  </div>
+
+                  {/* Offset Y Slider */}
+                  <div>
+                    <div className="flex justify-between text-zinc-300 mb-0.5">
+                      <span>OFFSET Y (%):</span>
+                      <span className="text-yellow-400 font-bold">{currentKanji.y}%</span>
+                    </div>
+                    <input
+                      type="range"
+                      min="-40"
+                      max="40"
+                      step="1"
+                      value={currentKanji.y}
+                      onChange={(e) => updateCalibratingKanji({ y: parseInt(e.target.value, 10) })}
+                      className="w-full accent-yellow-400 cursor-pointer"
+                    />
+                  </div>
+
+                  {/* Rotation Slider */}
+                  <div>
+                    <div className="flex justify-between text-zinc-300 mb-0.5">
+                      <span>ROTATION:</span>
+                      <span className="text-yellow-400 font-bold">{currentKanji.rotate}°</span>
+                    </div>
+                    <input
+                      type="range"
+                      min="-30"
+                      max="30"
+                      step="1"
+                      value={currentKanji.rotate}
+                      onChange={(e) => updateCalibratingKanji({ rotate: parseInt(e.target.value, 10) })}
+                      className="w-full accent-yellow-400 cursor-pointer"
+                    />
+                  </div>
+
+                  {/* Opacity Slider */}
+                  <div>
+                    <div className="flex justify-between text-zinc-300 mb-0.5">
+                      <span>OPACITY:</span>
+                      <span className="text-yellow-400 font-bold">{Math.round(currentKanji.opacity * 100)}%</span>
+                    </div>
+                    <input
+                      type="range"
+                      min="0.05"
+                      max="0.80"
+                      step="0.01"
+                      value={currentKanji.opacity}
+                      onChange={(e) => updateCalibratingKanji({ opacity: parseFloat(e.target.value) })}
+                      className="w-full accent-yellow-400 cursor-pointer"
+                    />
+                  </div>
+
+                  {/* Scale Multiplier */}
+                  <div>
+                    <div className="flex justify-between text-zinc-300 mb-0.5">
+                      <span>SCALE:</span>
+                      <span className="text-yellow-400 font-bold">{currentKanji.scale}x</span>
+                    </div>
+                    <input
+                      type="range"
+                      min="0.5"
+                      max="2.0"
+                      step="0.05"
+                      value={currentKanji.scale}
+                      onChange={(e) => updateCalibratingKanji({ scale: parseFloat(e.target.value) })}
                       className="w-full accent-yellow-400 cursor-pointer"
                     />
                   </div>

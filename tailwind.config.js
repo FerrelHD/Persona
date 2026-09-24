@@ -49,6 +49,7 @@ export default {
         p5Sub: ["'Dela Gothic One'", "'Montserrat'", "sans-serif"],
         p5Body: ["'Outfit'", "'Inter'", "sans-serif"],
         p5Mono: ["'Space Mono'", "monospace"],
+        p5Kanji: ["'Shippori Mincho'", "'Noto Serif JP'", "serif"],
       },
       boxShadow: {
         'p5-solid': '6px 6px 0px #000000',
