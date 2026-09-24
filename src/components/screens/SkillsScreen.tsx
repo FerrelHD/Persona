@@ -686,8 +686,8 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
       {/* ── CINEMATIC LETTERBOX BLACK BARS (FOREGROUND LAYER - ZERO OUTLINE, ZERO TEXT) ── */}
       {/* Top Black Bar */}
       <div
-        className={`fixed top-0 inset-x-0 z-[60] bg-black pointer-events-none transition-transform duration-500 h-16 sm:h-20 md:h-24 lg:h-28 shadow-[0_15px_40px_rgba(0,0,0,1)] ${
-          activeChar ? 'translate-y-0' : '-translate-y-full'
+        className={`fixed top-0 inset-x-0 z-[60] bg-black pointer-events-none transition-all duration-500 h-16 sm:h-20 md:h-24 lg:h-28 ${
+          activeChar ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0'
         }`}
         style={{
           transitionTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)',
@@ -696,8 +696,8 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
 
       {/* Bottom Black Bar */}
       <div
-        className={`fixed bottom-0 inset-x-0 z-[60] bg-black pointer-events-none transition-transform duration-500 h-16 sm:h-20 md:h-24 lg:h-28 shadow-[0_-15px_40px_rgba(0,0,0,1)] ${
-          activeChar ? 'translate-y-0' : 'translate-y-full'
+        className={`fixed bottom-0 inset-x-0 z-[60] bg-black pointer-events-none transition-all duration-500 h-16 sm:h-20 md:h-24 lg:h-28 ${
+          activeChar ? 'translate-y-0 opacity-100' : 'translate-y-full opacity-0'
         }`}
         style={{
           transitionTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)',
@@ -781,6 +781,7 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
               backfaceVisibility: 'hidden',
               WebkitBackfaceVisibility: 'hidden',
               willChange: 'transform',
+              filter: 'contrast(1.12) brightness(0.93) saturate(1.18) sepia(0.12) hue-rotate(-5deg)',
             }}
           >
             {/* Base 3D Room Render Background */}
@@ -887,8 +888,8 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
                       willChange: 'transform',
                       transform: 'translateZ(0)',
                       filter: isHovered
-                        ? `sepia(${char.warmth * 1.35}) hue-rotate(-8deg) brightness(${char.brightness * 1.06}) contrast(1.1)`
-                        : `sepia(${char.warmth}) hue-rotate(-6deg) brightness(${char.brightness}) contrast(1.05)`,
+                        ? `brightness(1.1) contrast(1.08)`
+                        : `brightness(${char.brightness}) contrast(1.02)`,
                       transition: 'filter 180ms ease-out',
                     }}
                     className="w-full h-auto object-contain select-none"
@@ -935,6 +936,16 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
                 transform: 'translateZ(0)',
               }}
               className="absolute inset-0 w-full h-full object-cover pointer-events-none select-none"
+            />
+
+            {/* 4. Cinematic Warm Atmospheric Light Wash Overlay (Recreates the video editing LUT) */}
+            <div
+              className="absolute inset-0 pointer-events-none select-none"
+              style={{
+                zIndex: 28,
+                mixBlendMode: 'soft-light',
+                background: 'radial-gradient(circle at 58% 32%, rgba(255, 175, 55, 0.35) 0%, rgba(210, 120, 25, 0.22) 50%, rgba(50, 25, 12, 0.32) 100%)',
+              }}
             />
           </div>
 
