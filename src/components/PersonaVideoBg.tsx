@@ -51,16 +51,14 @@ export const PersonaVideoBg: React.FC<PersonaVideoBgProps> = ({ videoSrc, onRead
           ref={videoRef}
           key={currentSrc}
           src={currentSrc}
-          poster={
-            currentSrc === '/assets/videos/joker.mp4'
-              ? '/assets/joker_full.jpg'
-              : undefined
-          }
           autoPlay
           muted
           loop
           playsInline
+          disablePictureInPicture
+          disableRemotePlayback
           preload="auto"
+          controlsList="nodownload nofullscreen noremoteplayback"
           onPlaying={handlePlaying}
           onCanPlay={handlePlaying}
           onLoadedData={handlePlaying}

@@ -713,15 +713,15 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
                     }}
                   />
 
-                  {/* Character Cutout Image - High-Definition Crisp Rendering & Streamlined Glow */}
+                  {/* Character Cutout Image - High-Definition Crisp Rendering & Solid Comic Outline (Zero Blur) */}
                   <img
                     src={char.src}
                     alt={char.name}
                     style={{
                       filter: isHovered
-                        ? `sepia(${char.warmth}) brightness(${char.brightness * 1.08}) contrast(1.12) drop-shadow(0 0 10px rgba(230,0,18,0.85))`
+                        ? `sepia(${char.warmth}) brightness(${char.brightness * 1.08}) contrast(1.12) drop-shadow(3px 0 0 #E60012) drop-shadow(-3px 0 0 #E60012) drop-shadow(0 3px 0 #E60012) drop-shadow(0 -3px 0 #E60012)`
                         : `sepia(${char.warmth}) brightness(${char.brightness}) contrast(1.05)`,
-                      transition: 'filter 180ms ease-out',
+                      transition: 'filter 150ms ease-out',
                     }}
                     className="w-full h-auto object-contain select-none"
                   />
