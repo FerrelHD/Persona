@@ -713,21 +713,6 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
                     }}
                   />
 
-                  {/* Paper Cutout Silhouette Backing (Visible on Hover - Ripped Magazine / Paper Collage Aesthetic) */}
-                  {isHovered && (
-                    <img
-                      src={char.src}
-                      alt=""
-                      aria-hidden="true"
-                      className="absolute inset-0 w-full h-auto object-contain select-none pointer-events-none"
-                      style={{
-                        transform: 'scale(1.035) translate(-1px, -2px)',
-                        filter: 'brightness(0) invert(0.96) sepia(0.2) drop-shadow(2px 0 0 #E60012) drop-shadow(-2px 0 0 #E60012) drop-shadow(0 2px 0 #E60012) drop-shadow(0 -2px 0 #E60012) drop-shadow(4px 4px 0px rgba(0,0,0,0.85))',
-                        zIndex: 0,
-                      }}
-                    />
-                  )}
-
                   {/* Character Cutout Image - High-Definition Crisp Rendering */}
                   <img
                     src={char.src}
@@ -737,8 +722,6 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
                         ? `sepia(${char.warmth}) brightness(${char.brightness * 1.08}) contrast(1.12)`
                         : `sepia(${char.warmth}) brightness(${char.brightness}) contrast(1.05)`,
                       transition: 'filter 150ms ease-out',
-                      position: 'relative',
-                      zIndex: 1,
                     }}
                     className="w-full h-auto object-contain select-none"
                   />
@@ -761,32 +744,7 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
                 "
                 style={bubbleConfig.desktopStyle}
               >
-                <div
-                  className="relative bg-black/95 border-[3px] border-white p-3.5 sm:p-4 shadow-[6px_6px_0px_#E60012,10px_10px_0px_#000000] -skew-x-2"
-                  style={{
-                    clipPath: 'polygon(0 3.5%, 3% 0, 97% 0, 100% 3.5%, 100% 96%, 97% 100%, 3% 100%, 0 96.5%)',
-                  }}
-                >
-                  {/* Crumpled Paper Creases & Fold Facets Overlay */}
-                  <div className="absolute inset-0 pointer-events-none overflow-hidden opacity-30 mix-blend-overlay">
-                    <svg className="w-full h-full" preserveAspectRatio="none" viewBox="0 0 400 200">
-                      {/* Paper Crease Facets (Highlights & Shadows) */}
-                      <polygon points="0,0 160,40 110,200 0,200" fill="rgba(255,255,255,0.14)" />
-                      <polygon points="160,40 400,0 400,150 250,200 110,200" fill="rgba(0,0,0,0.25)" />
-                      <polygon points="250,200 400,150 400,200" fill="rgba(255,255,255,0.1)" />
-                      {/* Sharp Crease Fold Ridges */}
-                      <line x1="0" y1="0" x2="160" y2="40" stroke="rgba(255,255,255,0.35)" strokeWidth="1.2" />
-                      <line x1="160" y1="40" x2="110" y2="200" stroke="rgba(0,0,0,0.6)" strokeWidth="1.5" />
-                      <line x1="160" y1="40" x2="400" y2="0" stroke="rgba(255,255,255,0.3)" strokeWidth="1" />
-                      <line x1="160" y1="40" x2="250" y2="200" stroke="rgba(255,255,255,0.2)" strokeWidth="1.2" />
-                      <line x1="110" y1="200" x2="250" y2="200" stroke="rgba(0,0,0,0.4)" strokeWidth="1" />
-                    </svg>
-                  </div>
-
-                  {/* Corner Paper Tape (Calling Card Stamped Tape) */}
-                  <div className="absolute -top-2.5 right-6 w-14 h-4.5 bg-[#E60012]/90 -skew-x-12 shadow-[2px_2px_0px_#000] border-t border-l border-white/60 pointer-events-none flex items-center justify-center">
-                    <span className="text-[8px] font-p5Mono font-bold text-white tracking-widest uppercase">P5//EVD</span>
-                  </div>
+                <div className="relative bg-black/95 border-[3px] border-white p-3.5 sm:p-4 shadow-[6px_6px_0px_#E60012,10px_10px_0px_#000000] -skew-x-2">
                   
                   {/* Comic Speech Pointer Tail (SVG Beak) */}
                   {bubbleConfig.tailSide === 'left' && (
