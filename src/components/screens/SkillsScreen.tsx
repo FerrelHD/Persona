@@ -253,18 +253,18 @@ const PHANTOM_CHARACTERS: PhantomCharacter[] = [
     techId: 'laravel',
     thiefColor: '#00A3FF',
     thiefTextColor: '#000000',
-    tx: -798,
-    ty: -128,
-    width: 274,
+    tx: -723,
+    ty: -64,
+    width: 296,
     zIndex: 24,
     shadowWidth: 72,
     shadowHeight: 12,
     brightness: 0.98,
     warmth: 0.14,
     camera: {
-      scale: 2.05,
-      originX: 16.0,
-      originY: 50,
+      scale: 2,
+      originX: 16,
+      originY: 69.5,
     },
   },
   {
@@ -278,9 +278,9 @@ const PHANTOM_CHARACTERS: PhantomCharacter[] = [
     techId: 'python-ai',
     thiefColor: '#00FF66',
     thiefTextColor: '#000000',
-    tx: -196,
-    ty: -140,
-    width: 152,
+    tx: -174,
+    ty: -135,
+    width: 132,
     zIndex: 22,
     shadowWidth: 76,
     shadowHeight: 10,
@@ -303,17 +303,17 @@ const PHANTOM_CHARACTERS: PhantomCharacter[] = [
     techId: 'tailwind',
     thiefColor: '#FFD700',
     thiefTextColor: '#000000',
-    tx: -41,
-    ty: -54,
-    width: 77,
-    zIndex: 25,
+    tx: -45,
+    ty: -56,
+    width: 72,
+    zIndex: 20,
     shadowWidth: 68,
     shadowHeight: 6,
     brightness: 0.99,
     warmth: 0.15,
     camera: {
       scale: 2.5,
-      originX: 50.0,
+      originX: 50,
       originY: 49,
     },
   },
@@ -328,8 +328,8 @@ const PHANTOM_CHARACTERS: PhantomCharacter[] = [
     techId: 'unity',
     thiefColor: '#FFE500',
     thiefTextColor: '#000000',
-    tx: 115,
-    ty: -190,
+    tx: 90,
+    ty: -180,
     width: 102,
     zIndex: 20,
     shadowWidth: 75,
@@ -339,7 +339,7 @@ const PHANTOM_CHARACTERS: PhantomCharacter[] = [
     camera: {
       scale: 2.3,
       originX: 58.5,
-      originY: 45,
+      originY: 40.5,
     },
   },
   {
@@ -353,17 +353,17 @@ const PHANTOM_CHARACTERS: PhantomCharacter[] = [
     techId: 'nextjs',
     thiefColor: '#E60012',
     thiefTextColor: '#FFFFFF',
-    tx: 269,
-    ty: -82,
-    width: 234,
+    tx: 258,
+    ty: -98,
+    width: 198,
     zIndex: 18,
     shadowWidth: 70,
     shadowHeight: 8,
     brightness: 0.98,
     warmth: 0.12,
     camera: {
-      scale: 2.05,
-      originX: 70.0,
+      scale: 1.9,
+      originX: 70,
       originY: 54,
     },
   },
@@ -378,18 +378,18 @@ const PHANTOM_CHARACTERS: PhantomCharacter[] = [
     techId: 'react',
     thiefColor: '#E60012',
     thiefTextColor: '#FFFFFF',
-    tx: 798,
-    ty: -178,
-    width: 288,
+    tx: 622,
+    ty: -148,
+    width: 228,
     zIndex: 26,
     shadowWidth: 75,
     shadowHeight: 14,
     brightness: 0.98,
     warmth: 0.12,
     camera: {
-      scale: 1.8,
-      originX: 90.0,
-      originY: 50,
+      scale: 3.05,
+      originX: 100,
+      originY: 42,
     },
   },
 ]
@@ -403,12 +403,42 @@ interface BubbleConfig {
 }
 
 const DEFAULT_BUBBLES: Record<string, BubbleConfig> = {
-  yusuke: { side: 'right', posX: 44, top: 16, tailTop: 35 },
-  futaba: { side: 'right', posX: 52, top: 16, tailTop: 35 },
-  morgana: { side: 'left', posX: 56, top: 14, tailTop: 40 },
-  ryuji: { side: 'left', posX: 54, top: 14, tailTop: 35 },
-  ann: { side: 'left', posX: 48, top: 16, tailTop: 35 },
-  joker: { side: 'left', posX: 36, top: 16, tailTop: 35 },
+  yusuke: {
+    side: 'right',
+    posX: 33,
+    top: 15,
+    tailTop: 32,
+  },
+  futaba: {
+    side: 'right',
+    posX: 52,
+    top: 15,
+    tailTop: 35,
+  },
+  morgana: {
+    side: 'left',
+    posX: 58,
+    top: 30,
+    tailTop: 40,
+  },
+  ryuji: {
+    side: 'left',
+    posX: 50,
+    top: 14,
+    tailTop: 15,
+  },
+  ann: {
+    side: 'left',
+    posX: 42,
+    top: 27,
+    tailTop: 10,
+  },
+  joker: {
+    side: 'left',
+    posX: 56,
+    top: 15,
+    tailTop: 19,
+  },
 }
 
 export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
@@ -427,7 +457,7 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
 
   // Character list with dynamic positioning state
   const [characterList, setCharacterList] = useState<PhantomCharacter[]>(() => {
-    const saved = localStorage.getItem('p5_characters_bocchi_v2')
+    const saved = localStorage.getItem('p5_characters_bocchi_v3')
     if (saved) {
       try {
         const parsed = JSON.parse(saved)
@@ -461,7 +491,7 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
 
   // Floating comic speech bubble configuration state (persisted in localStorage)
   const [bubbleList, setBubbleList] = useState<Record<string, BubbleConfig>>(() => {
-    const saved = localStorage.getItem('p5_bubbles_v1')
+    const saved = localStorage.getItem('p5_bubbles_v2')
     if (saved) {
       try {
         const parsed = JSON.parse(saved)
@@ -475,7 +505,7 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
     setBubbleList(prev => {
       const current = prev[calibratingCharId] || DEFAULT_BUBBLES[calibratingCharId] || DEFAULT_BUBBLES.joker
       const next = { ...prev, [calibratingCharId]: { ...current, ...updates } }
-      localStorage.setItem('p5_bubbles_v1', JSON.stringify(next))
+      localStorage.setItem('p5_bubbles_v2', JSON.stringify(next))
       return next
     })
   }
@@ -492,7 +522,7 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
   const updateCalibratingChar = (updates: Partial<PhantomCharacter>) => {
     setCharacterList(prev => {
       const next = prev.map(c => c.id === calibratingCharId ? { ...c, ...updates } : c)
-      localStorage.setItem('p5_characters_bocchi_v2', JSON.stringify(next))
+      localStorage.setItem('p5_characters_bocchi_v3', JSON.stringify(next))
       return next
     })
     if (updates.camera) {
@@ -513,8 +543,8 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
   }
 
   const resetToDefaultPositions = () => {
-    localStorage.removeItem('p5_characters_bocchi_v2')
-    localStorage.removeItem('p5_bubbles_v1')
+    localStorage.removeItem('p5_characters_bocchi_v3')
+    localStorage.removeItem('p5_bubbles_v2')
     setCharacterList(PHANTOM_CHARACTERS)
     setBubbleList(DEFAULT_BUBBLES)
   }
