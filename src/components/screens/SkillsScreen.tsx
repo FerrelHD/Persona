@@ -265,7 +265,7 @@ const PHANTOM_CHARACTERS: PhantomCharacter[] = [
     techId: 'laravel',
     thiefColor: '#00A3FF',
     thiefTextColor: '#000000',
-    left: 17.5,
+    left: 15.8,
     bottom: 14.5,
     widthPercent: 12,
     zIndex: 24,
@@ -273,7 +273,7 @@ const PHANTOM_CHARACTERS: PhantomCharacter[] = [
     shadowHeight: 12,
     brightness: 0.96,
     warmth: 0.08,
-    camera: { scale: 1.95, originX: 23.5, originY: 42 },
+    camera: { scale: 1.95, originX: 21.8, originY: 42 },
   },
   {
     id: 'futaba',
@@ -393,7 +393,7 @@ interface BubblePosition {
 const BUBBLE_POSITIONS: Record<string, BubblePosition> = {
   yusuke: {
     side: 'right',
-    desktopStyle: { left: '36%', top: '16%' },
+    desktopStyle: { left: '34%', top: '16%' },
     tailSide: 'left',
     tailTop: '35%',
   },
