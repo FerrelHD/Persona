@@ -213,6 +213,68 @@
 }
 .p5-beacon-light {
   animation: p5-beacon-pulse 1.6s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+/* Persona 5 Tokyo Cinematic Low-Altitude Fog / Mist (High Contrast & Visible) */
+@keyframes p5-fog-drift-1 {
+  0% {
+    transform: translate3d(-10%, 0, 0) scale(1, 1);
+    opacity: 0.5;
+  }
+  50% {
+    transform: translate3d(6%, -15px, 0) scale(1.05, 1.1);
+    opacity: 0.72;
+  }
+  100% {
+    transform: translate3d(-10%, 0, 0) scale(1, 1);
+    opacity: 0.5;
+  }
+}
+
+@keyframes p5-fog-drift-2 {
+  0% {
+    transform: translate3d(8%, 0, 0) scale(1.05, 0.95);
+    opacity: 0.45;
+  }
+  50% {
+    transform: translate3d(-7%, -20px, 0) scale(0.98, 1.08);
+    opacity: 0.68;
+  }
+  100% {
+    transform: translate3d(8%, 0, 0) scale(1.05, 0.95);
+    opacity: 0.45;
+  }
+}
+
+@keyframes p5-fog-drift-3 {
+  0% {
+    transform: translate3d(-5%, 0, 0) rotate(0deg);
+    opacity: 0.4;
+  }
+  50% {
+    transform: translate3d(8%, -8px, 0) rotate(1deg);
+    opacity: 0.62;
+  }
+  100% {
+    transform: translate3d(-5%, 0, 0) rotate(0deg);
+    opacity: 0.4;
+  }
+}
+
+.p5-fog-layer-1 {
+  animation: p5-fog-drift-1 28s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+.p5-fog-layer-2 {
+  animation: p5-fog-drift-2 20s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+.p5-fog-layer-3 {
+  animation: p5-fog-drift-3 24s ease-in-out infinite;
+  will-change: transform, opacity;
 }
 
 /* Persona 5 Authentic Take Your Time Pendulum Tilt */
@@ -355,6 +417,71 @@
   will-change: transform, opacity;
 }
 
+/* ── Screen-Specific Staggered Kinetic Entrances ── */
+@keyframes p5-skills-enter {
+  0% {
+    transform: translate3d(0, 48px, 0) scale(0.96);
+    opacity: 0;
+  }
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes p5-phone-enter {
+  0% {
+    transform: translate3d(-35px, 60px, 0) rotate(4deg);
+    opacity: 0;
+  }
+  100% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+    opacity: 1;
+  }
+}
+
+@keyframes p5-missions-enter {
+  0% {
+    transform: translate3d(50px, 0, 0) skewX(-4deg);
+    opacity: 0;
+  }
+  100% {
+    transform: translate3d(0, 0, 0) skewX(0deg);
+    opacity: 1;
+  }
+}
+
+@keyframes p5-comms-enter {
+  0% {
+    transform: translate3d(0, 40px, 0) scale(0.94) rotate(-2deg);
+    opacity: 0;
+  }
+  100% {
+    transform: translate3d(0, 0, 0) scale(1) rotate(0deg);
+    opacity: 1;
+  }
+}
+
+.p5-skills-entrance {
+  animation: p5-skills-enter 0.38s cubic-bezier(0.16, 1, 0.3, 1) 0.14s both;
+  will-change: transform, opacity;
+}
+
+.p5-phone-entrance {
+  animation: p5-phone-enter 0.38s cubic-bezier(0.16, 1, 0.3, 1) 0.14s both;
+  will-change: transform, opacity;
+}
+
+.p5-missions-entrance {
+  animation: p5-missions-enter 0.36s cubic-bezier(0.16, 1, 0.3, 1) 0.14s both;
+  will-change: transform, opacity;
+}
+
+.p5-comms-entrance {
+  animation: p5-comms-enter 0.38s cubic-bezier(0.16, 1, 0.3, 1) 0.14s both;
+  will-change: transform, opacity;
+}
+
 /* ── Persona 5 Subway Train Rush Exit Animation ── */
 @keyframes p5-train-rush {
   0% {
@@ -399,6 +526,10 @@
   .p5-tile-entrance,
   .p5-sub-entrance,
   .p5-footer-entrance,
+  .p5-skills-entrance,
+  .p5-phone-entrance,
+  .p5-missions-entrance,
+  .p5-comms-entrance,
   .p5-train-rush-active,
   .p5-speedline {
     animation: none !important;
@@ -458,8 +589,8 @@
     line-height: 1 !important;
   }
   .laptop-phone-wrapper {
-    height: 84vh !important;
-    transform: translateY(1.75rem) translateX(-12%) !important;
+    height: 86vh !important;
+    transform: translateY(4.5rem) translateX(-4%) !important;
   }
   .laptop-phone-calendar {
     transform: rotate(5.5deg) scale(0.85) !important;
@@ -579,8 +710,8 @@
     font-size: 2.65rem !important;
   }
   .laptop-phone-wrapper {
-    height: 82vh !important;
-    transform: translateY(1rem) translateX(-12%) !important;
+    height: 84vh !important;
+    transform: translateY(3.5rem) translateX(-4%) !important;
   }
   .laptop-phone-calendar {
     transform: rotate(5.5deg) scale(0.75) !important;

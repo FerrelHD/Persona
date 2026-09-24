@@ -73,8 +73,8 @@ const UnityIcon: React.FC<{ className?: string; isSelected?: boolean }> = ({ cla
   <img
     src="/assets/unity_icon_svg-removebg-preview.png"
     alt="Unity"
-    className={`${className} object-contain select-none transition-all ${
-      isSelected ? 'filter drop-shadow-[0_0_8px_rgba(230,0,18,0.8)] brightness-110' : 'filter brightness-100'
+    className={`${className} object-contain select-none transition-all brightness-0 invert ${
+      isSelected ? 'opacity-100 scale-105' : 'opacity-85 hover:opacity-100'
     }`}
   />
 )
@@ -311,8 +311,39 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
   return (
     <div className="fixed inset-0 z-30 select-none overflow-hidden flex flex-col justify-between p-4 sm:p-6 md:p-8 pt-5 sm:pt-7 md:pt-9 pb-3 sm:pb-4 animate-in fade-in duration-300">
       
-      {/* ── CINEMATIC VFX: FLOATING RED EMBERS & TOKYO TOWER BEACON ── */}
+      {/* ── CINEMATIC VFX: DUAL-LAYER TOKYO FOG, RED EMBERS & TOKYO TOWER BEACON ── */}
       <div className="pointer-events-none fixed inset-0 overflow-hidden z-10">
+        {/* ── CINEMATIC TOKYO FOG / MIST DRIFT (HIGH-CONTRAST PARALLAX) ── */}
+        {/* Layer 1: Dark Manga Street Fog across Tokyo buildings */}
+        <div
+          className="absolute -inset-x-[20%] bottom-0 h-[58%] p5-fog-layer-1 pointer-events-none mix-blend-multiply"
+          style={{
+            background: 'radial-gradient(ellipse 85% 55% at 50% 80%, rgba(10, 10, 15, 0.70) 0%, rgba(30, 30, 42, 0.50) 45%, transparent 75%)',
+            filter: 'blur(20px)',
+          }}
+          aria-hidden="true"
+        />
+
+        {/* Layer 2: Mementos Crimson Distortion Haze drifting between towers */}
+        <div
+          className="absolute -inset-x-[25%] bottom-[8%] h-[50%] p5-fog-layer-2 pointer-events-none"
+          style={{
+            background: 'radial-gradient(ellipse 70% 45% at 55% 65%, rgba(230, 0, 18, 0.42) 0%, rgba(180, 0, 20, 0.22) 40%, transparent 70%)',
+            filter: 'blur(26px)',
+          }}
+          aria-hidden="true"
+        />
+
+        {/* Layer 3: Rolling Tokyo Alleyway Smog Bank */}
+        <div
+          className="absolute -inset-x-[15%] bottom-[2%] h-[42%] p5-fog-layer-3 pointer-events-none"
+          style={{
+            background: 'radial-gradient(ellipse 95% 40% at 42% 85%, rgba(20, 20, 30, 0.52) 0%, rgba(230, 0, 18, 0.22) 50%, transparent 72%)',
+            filter: 'blur(22px)',
+          }}
+          aria-hidden="true"
+        />
+
         {/* Tokyo Tower Aviation Warning Lights */}
         <div
           className="absolute top-[17%] right-[19.2%] size-2.5 rounded-full bg-red-600 p5-beacon-light shadow-[0_0_10px_#E60012]"
@@ -381,7 +412,7 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
       </div>
 
       {/* ── UPPER-CENTER: INTERACTIVE TECH STACK ARC WITH PHANTOM DAGGER ── */}
-      <div className="z-20 my-auto flex flex-col items-center justify-center w-full">
+      <div className="z-20 my-auto flex flex-col items-center justify-center w-full p5-skills-entrance">
         {/* Arc of Tech Cards */}
         <div className="relative flex items-center justify-center gap-3 sm:gap-6 md:gap-10 w-full max-w-5xl px-2">
           {visibleCards.map((item) => {

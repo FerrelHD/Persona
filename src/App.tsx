@@ -160,12 +160,12 @@ export function App() {
     if (transPhase === 'expand') {
       const timer = setTimeout(() => {
         handleExpandEnd()
-      }, 350)
+      }, 220)
       return () => clearTimeout(timer)
     } else if (transPhase === 'collapse') {
       const timer = setTimeout(() => {
         handleCollapseEnd()
-      }, 350)
+      }, 220)
       return () => clearTimeout(timer)
     }
   }, [transPhase, handleExpandEnd, handleCollapseEnd])
@@ -225,8 +225,8 @@ export function App() {
             backgroundColor: irisColor,
             transform: 'translateZ(0)',
             animation: transPhase === 'expand'
-              ? 'iris-expand 0.24s cubic-bezier(0.2, 0, 0, 1) forwards'
-              : 'iris-collapse 0.24s cubic-bezier(0.2, 0, 0, 1) forwards',
+              ? 'iris-expand 0.16s cubic-bezier(0.2, 0, 0, 1) forwards'
+              : 'iris-collapse 0.16s cubic-bezier(0.2, 0, 0, 1) forwards',
           }}
           onAnimationEnd={transPhase === 'expand' ? handleExpandEnd : handleCollapseEnd}
         />

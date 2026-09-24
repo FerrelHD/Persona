@@ -83,6 +83,35 @@ export const AboutScreen: React.FC<AboutScreenProps> = ({ onBack }) => {
   const chatScrollRef = useRef<HTMLDivElement>(null)
   const [visibleCount, setVisibleCount] = useState<number>(CHAT_MESSAGES.length)
 
+  // Real-time Persona 5 Calendar Date & Time Slot
+  const [currentDate, setCurrentDate] = useState(() => new Date())
+
+  useEffect(() => {
+    const timer = setInterval(() => setCurrentDate(new Date()), 60000)
+    return () => clearInterval(timer)
+  }, [])
+
+  const month = currentDate.getMonth() + 1
+  const dateNum = currentDate.getDate()
+  const days = ['SUNDAY', 'MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY']
+  const dayName = days[currentDate.getDay()]
+  const hours = currentDate.getHours()
+
+  let timeSlot = 'AFTER SCHOOL'
+  if (hours >= 0 && hours < 6) {
+    timeSlot = 'DARK HOUR'
+  } else if (hours >= 6 && hours < 12) {
+    timeSlot = 'MORNING'
+  } else if (hours >= 12 && hours < 16) {
+    timeSlot = 'AFTER SCHOOL'
+  } else if (hours >= 16 && hours < 19) {
+    timeSlot = 'AFTERNOON'
+  } else if (hours >= 19 && hours < 23) {
+    timeSlot = 'EVENING'
+  } else {
+    timeSlot = 'NIGHT'
+  }
+
   // Scroll to bottom smoothly when visible messages change
   useEffect(() => {
     if (chatScrollRef.current) {
@@ -128,7 +157,7 @@ export const AboutScreen: React.FC<AboutScreenProps> = ({ onBack }) => {
       />
 
       {/* Main Viewport: Persona 5 Smartphone Held by Hands */}
-      <div className="relative w-full h-full flex items-center justify-start overflow-hidden">
+      <div className="relative w-full h-full flex items-center justify-start overflow-hidden p5-phone-entrance">
         
         {/* The 16:9 Frame Holding the Phone (Shifted Down & Left as requested) */}
         <div 
@@ -151,10 +180,16 @@ export const AboutScreen: React.FC<AboutScreenProps> = ({ onBack }) => {
             }}
           >
             <div className="flex items-center gap-1.5 bg-white text-black px-2.5 sm:px-3.5 py-0.5 sm:py-1 border-2 border-black -skew-x-12 shadow-[3px_3px_0px_#E60012]">
-              <span className="font-p5Heading text-xl sm:text-2xl md:text-3xl font-black tracking-tighter">9/23</span>
+              <span className="font-p5Heading text-xl sm:text-2xl md:text-3xl font-black tracking-tighter">
+                {month}/{dateNum}
+              </span>
               <div className="flex flex-col leading-none ml-1">
-                <span className="font-p5Heading text-[11px] sm:text-xs md:text-sm text-p5-crimson font-black tracking-wider uppercase">WEDNESDAY</span>
-                <span className="font-p5Sub text-[8px] sm:text-[9px] text-zinc-800 uppercase tracking-widest font-bold">AFTER SCHOOL</span>
+                <span className="font-p5Heading text-[11px] sm:text-xs md:text-sm text-p5-crimson font-black tracking-wider uppercase">
+                  {dayName}
+                </span>
+                <span className="font-p5Sub text-[8px] sm:text-[9px] text-zinc-800 uppercase tracking-widest font-bold">
+                  {timeSlot}
+                </span>
               </div>
             </div>
           </div>

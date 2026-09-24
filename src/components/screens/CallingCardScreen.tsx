@@ -128,12 +128,12 @@ export const CallingCardScreen: React.FC<CallingCardScreenProps> = ({ onBack }) 
 
       {/* Main Content Area: Centered vertically */}
       <div className="flex-1 flex flex-col justify-center items-start my-auto z-20 w-full max-w-2xl lg:max-w-[53%] pl-2 sm:pl-6 md:pl-8 laptop-comms-deck">
-
-        {/* Authentic Physical Calling Card Postcard with Push Pin & Dog-Ear Corner */}
-        <div
-          className={`relative w-full bg-[#FAF8F5] text-black border-4 sm:border-[5px] border-black shadow-[10px_10px_0px_#000000] -rotate-1 transition-transform duration-300 p-4 sm:p-5 laptop-postcard-pad ${isShaking ? 'animate-bounce' : ''
-            }`}
-        >
+        <div className="w-full p5-comms-entrance">
+          {/* Authentic Physical Calling Card Postcard with Push Pin & Dog-Ear Corner */}
+          <div
+            className={`relative w-full bg-[#FAF8F5] text-black border-4 sm:border-[5px] border-black shadow-[10px_10px_0px_#000000] -rotate-1 transition-transform duration-300 p-4 sm:p-5 laptop-postcard-pad ${isShaking ? 'animate-bounce' : ''
+              }`}
+          >
           {/* 3D Bulletin Thumbtack Pin */}
           <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 z-30 flex items-center justify-center pointer-events-none">
             <div className="relative size-6 sm:size-7 rounded-full bg-gradient-to-br from-zinc-700 via-black to-zinc-900 border-2 border-white shadow-[0_4px_6px_rgba(0,0,0,0.7),2px_2px_0px_#000]">
@@ -317,6 +317,7 @@ export const CallingCardScreen: React.FC<CallingCardScreenProps> = ({ onBack }) 
             </div>
           </div>
         </div>
+      </div>
 
         {/* Floating Toast Notification */}
         {toastMessage && (

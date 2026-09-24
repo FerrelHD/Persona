@@ -96,7 +96,7 @@ export const MissionsScreen: React.FC<MissionsScreenProps> = ({ onBack }) => {
       </div>
 
       {/* ── MAIN SLANTED SAVE SLOTS DECK (No clipping, natural Persona slant) ── */}
-      <div className="flex-1 flex flex-col justify-center items-start w-full max-w-4xl lg:max-w-[58%] pl-6 sm:pl-10 md:pl-14 lg:pl-16 z-20 py-12 sm:py-16 laptop-compact-deck overflow-visible">
+      <div className="flex-1 flex flex-col justify-center items-start w-full max-w-4xl lg:max-w-[58%] pl-6 sm:pl-10 md:pl-14 lg:pl-16 z-20 py-12 sm:py-16 laptop-compact-deck overflow-visible p5-missions-entrance">
         <div className="w-full flex flex-col gap-3.5 sm:gap-4.5 laptop-compact-deck justify-center overflow-visible">
           {MISSIONS_DATA.map((mission, idx) => {
             const isSelected = idx === selectedIndex
