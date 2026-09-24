@@ -184,16 +184,27 @@ export const MainMenu: React.FC<MainMenuProps> = ({ onSelectScreen, onBackToTitl
 
                       <div className="relative z-10 flex items-center gap-1 md:gap-1.5 px-3 md:px-4 py-1.5 md:py-2">
                         {item.letters.map((ltr, ltrIdx) => {
-                          const RANDOM_DELAYS = [45, 10, 85, 20, 95, 30, 110, 50]
-                          const BOUNCE_CLASSES = ['p5-letter-pop-1', 'p5-letter-pop-2', 'p5-letter-pop-3']
-                          const delay = RANDOM_DELAYS[ltrIdx % RANDOM_DELAYS.length]
-                          const bounceClass = BOUNCE_CLASSES[(ltrIdx * 2 + 1) % BOUNCE_CLASSES.length]
+                          const ROT_ANGLES = [-4, 3, -2.5, 4, -3, 2.5, -2, 3.5]
+                          const SCALES = [1.02, 0.98, 1.04, 0.97, 1.03, 0.99, 0.96, 1.03]
+                          const rotDeg = ROT_ANGLES[ltrIdx % ROT_ANGLES.length]
+                          const scale = SCALES[ltrIdx % SCALES.length]
+                          const baseTransform = `rotate(${rotDeg}deg) scale(${scale})`
+
+                          // Omicron69 staggered micro-delay: odd letters 30ms, 3n letters 60ms, even 0ms
+                          const isOdd = ltrIdx % 2 === 1
+                          const is3n = ltrIdx % 3 === 0
+                          const delay = is3n ? 60 : isOdd ? 30 : 0
+                          const jitterClass = isOdd ? 'p5-letter-jitter-1' : 'p5-letter-jitter-2'
 
                           return (
                             <span
                               key={ltrIdx}
-                              style={{ animationDelay: `${delay}ms` }}
-                              className={`inline-flex items-center justify-center min-w-[28px] md:min-w-[34px] h-[40px] md:h-[48px] laptop-main-letter px-1.5 md:px-2 font-p5Heading text-xl sm:text-2xl md:text-3xl laptop-main-letter-text uppercase shadow-[3px_3px_0px_#000000] border-2 border-black ${ltr.bg} ${ltr.rotate} ${bounceClass} transition-transform duration-150 hover:scale-125 hover:-translate-y-1 hover:rotate-3`}
+                              style={{
+                                '--t': baseTransform,
+                                transform: baseTransform,
+                                animationDelay: `${delay}ms`
+                              } as React.CSSProperties}
+                              className={`inline-flex items-center justify-center min-w-[28px] md:min-w-[34px] h-[40px] md:h-[48px] laptop-main-letter px-1.5 md:px-2 font-p5Display text-xl sm:text-2xl md:text-3xl laptop-main-letter-text uppercase shadow-[3px_3px_0px_#000000] border-2 border-black ${ltr.bg} ${jitterClass} cursor-default`}
                             >
                               {ltr.char}
                             </span>
@@ -208,7 +219,7 @@ export const MainMenu: React.FC<MainMenuProps> = ({ onSelectScreen, onBackToTitl
                   ) : (
                     /* DEFAULT RESTING STATE */
                     <div className="px-3 py-1 hover:translate-x-2 transition-transform duration-150">
-                      <span className="font-p5Heading text-3xl sm:text-4xl md:text-5xl laptop-main-text text-white tracking-widest uppercase filter drop-shadow-[4px_4px_0px_#000000] hover:text-p5-yellow transition-colors">
+                      <span className="font-p5Display text-3xl sm:text-4xl md:text-5xl laptop-main-text text-white tracking-widest uppercase filter drop-shadow-[4px_4px_0px_#000000] hover:text-p5-yellow transition-colors">
                         {item.label}
                       </span>
                     </div>
