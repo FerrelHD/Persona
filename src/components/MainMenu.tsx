@@ -15,6 +15,7 @@ interface MenuItem {
   label: string
   rotation: string
   offsetClass: string
+  arrowColor: string
   letters: { char: string; bg: string; rotate: string }[]
 }
 
@@ -24,6 +25,7 @@ const MENU_ITEMS: MenuItem[] = [
     label: 'MISSIONS',
     rotation: '-rotate-3',
     offsetClass: 'ml-0',
+    arrowColor: 'text-[#00D2FF]',
     letters: [
       { char: 'M', bg: 'bg-white text-black', rotate: '-rotate-3' },
       { char: 'I', bg: 'bg-black text-white border border-white', rotate: 'rotate-2' },
@@ -32,7 +34,7 @@ const MENU_ITEMS: MenuItem[] = [
       { char: 'I', bg: 'bg-black text-white border border-white', rotate: '-rotate-1' },
       { char: 'O', bg: 'bg-white text-black', rotate: 'rotate-2' },
       { char: 'N', bg: 'bg-white text-black', rotate: '-rotate-2' },
-      { char: 'S', bg: 'bg-p5-crimson text-white font-extrabold scale-110 shadow-lg', rotate: 'rotate-3' },
+      { char: 'S', bg: 'bg-[#00D2FF] text-black font-black scale-110 shadow-lg', rotate: 'rotate-3' },
     ]
   },
   {
@@ -40,6 +42,7 @@ const MENU_ITEMS: MenuItem[] = [
     label: 'SKILLS',
     rotation: '-rotate-1',
     offsetClass: 'ml-2 sm:ml-3 md:ml-4',
+    arrowColor: 'text-p5-crimson',
     letters: [
       { char: 'S', bg: 'bg-white text-black', rotate: '-rotate-2' },
       { char: 'K', bg: 'bg-white text-black', rotate: 'rotate-3' },
@@ -54,12 +57,13 @@ const MENU_ITEMS: MenuItem[] = [
     label: 'ABOUT',
     rotation: 'rotate-1',
     offsetClass: 'ml-4 sm:ml-6 md:ml-8',
+    arrowColor: 'text-[#EF4444]',
     letters: [
       { char: 'A', bg: 'bg-white text-black', rotate: '-rotate-3' },
       { char: 'B', bg: 'bg-black text-white border border-white', rotate: 'rotate-3' },
       { char: 'O', bg: 'bg-white text-black', rotate: '-rotate-2' },
       { char: 'U', bg: 'bg-black text-white border border-white', rotate: 'rotate-4' },
-      { char: 'T', bg: 'bg-p5-crimson text-white font-extrabold scale-110 shadow-lg', rotate: '-rotate-2' },
+      { char: 'T', bg: 'bg-[#B91C1C] text-white font-extrabold scale-110 shadow-lg', rotate: '-rotate-2' },
     ]
   },
   {
@@ -67,12 +71,13 @@ const MENU_ITEMS: MenuItem[] = [
     label: 'COMMS',
     rotation: 'rotate-3',
     offsetClass: 'ml-6 sm:ml-9 md:ml-12',
+    arrowColor: 'text-[#10B981]',
     letters: [
       { char: 'C', bg: 'bg-white text-black', rotate: '-rotate-3' },
       { char: 'O', bg: 'bg-black text-white border border-white', rotate: 'rotate-2' },
       { char: 'M', bg: 'bg-white text-black', rotate: '-rotate-2' },
       { char: 'M', bg: 'bg-black text-white border border-white', rotate: 'rotate-3' },
-      { char: 'S', bg: 'bg-p5-crimson text-white font-extrabold scale-110 shadow-lg', rotate: '-rotate-2' },
+      { char: 'S', bg: 'bg-[#10B981] text-black font-black scale-110 shadow-lg', rotate: '-rotate-2' },
     ]
   }
 ]
@@ -186,7 +191,7 @@ export const MainMenu: React.FC<MainMenuProps> = ({ onSelectScreen, onBackToTitl
                           </span>
                         ))}
 
-                        <span className="text-white text-lg md:text-xl ml-2 md:ml-3 -skew-x-12 animate-pulse filter drop-shadow-[2px_2px_0px_#000000]">
+                        <span className={`${item.arrowColor} text-lg md:text-xl ml-2 md:ml-3 -skew-x-12 animate-pulse filter drop-shadow-[2px_2px_0px_#000000]`}>
                           ▶
                         </span>
                       </div>
