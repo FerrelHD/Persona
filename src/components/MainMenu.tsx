@@ -162,16 +162,8 @@ export const MainMenu: React.FC<MainMenuProps> = ({ onSelectScreen, onBackToTitl
                   className="group relative inline-flex items-center text-left cursor-pointer outline-none transition-transform duration-150"
                 >
                   {isFocused ? (
-                    /* ACTIVE STATE: Jagged Ribbon Slam + Katana Slash Flash + Staggered Letter Pop (Opsi 1 + Opsi 2) */
+                    /* ACTIVE STATE: Jagged Ribbon Slam + Staggered Bouncy Letter Pop */
                     <div className="relative flex items-center translate-x-2 sm:translate-x-4 md:translate-x-5 scale-100 sm:scale-105 transition-transform duration-150 p5-ribbon-slam-anim">
-                      {/* Katana Red Slash Flash Streak (Opsi 2) */}
-                      <div
-                        key={`slash-${item.id}`}
-                        className="absolute -inset-y-3 -inset-x-8 z-0 overflow-hidden pointer-events-none"
-                      >
-                        <div className="h-full w-[45%] bg-gradient-to-r from-transparent via-[#E60012] to-white/90 p5-slash-flash-anim filter drop-shadow-[0_0_12px_#E60012]" />
-                      </div>
-
                       <svg
                         viewBox="0 0 540 100"
                         preserveAspectRatio="none"

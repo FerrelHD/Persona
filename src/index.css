@@ -629,31 +629,7 @@
   will-change: transform, opacity;
 }
 
-/* 3. Phantom Red Katana Slash Flash Streak (Opsi 2) */
-@keyframes p5-slash-flash {
-  0% {
-    transform: translate3d(-120%, 0, 0) skewX(-35deg);
-    opacity: 0;
-  }
-  20% {
-    opacity: 1;
-  }
-  80% {
-    opacity: 0.9;
-  }
-  100% {
-    transform: translate3d(180%, 0, 0) skewX(-35deg);
-    opacity: 0;
-  }
-}
-
-.p5-slash-flash-anim {
-  animation: p5-slash-flash 0.24s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-  pointer-events: none;
-  will-change: transform, opacity;
-}
-
-/* 4. Bouncy Rubber-Band Arrow Pulse */
+/* 3. Bouncy Rubber-Band Arrow Pulse */
 @keyframes p5-arrow-thrust {
   0%, 100% {
     transform: translate3d(0, 0, 0) scale(1, 1) skewX(-12deg);
