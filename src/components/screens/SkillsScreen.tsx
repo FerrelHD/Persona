@@ -212,19 +212,7 @@ const TECH_DECK: TechItem[] = [
   },
 ]
 
-const RADAR_STATS = [
-  { key: 'ST', label: 'STRENGTH (FRONTEND)', value: 98, angle: -90 },
-  { key: 'MA', label: 'MAGIC (AI & NLP)', value: 94, angle: -18 },
-  { key: 'EN', label: 'ENDURANCE (BACKEND)', value: 89, angle: 54 },
-  { key: 'AG', label: 'AGILITY (PERF & VITE)', value: 96, angle: 126 },
-  { key: 'LU', label: 'LUCK (GAME & SHADERS)', value: 90, angle: 198 },
-]
 
-// ── BRAND CONTRAST HELPER FOR P5 RIBBON LABELS ──
-const getRibbonTextColor = (hexColor: string) => {
-  const lightColors = ['#00D4FF', '#FFD43B', '#FACC15', '#FFFFFF', '#38BDF8', '#00FF66', '#FFE500', '#FFD700', '#00E5A3', '#00A3FF']
-  return lightColors.includes(hexColor.toUpperCase()) ? '#000000' : '#FFFFFF'
-}
 
 // ── PHANTOM THIEVES CHARACTERS & LEBLANC ATTIC STAGE DATA ──
 interface PhantomCharacter {
@@ -265,18 +253,18 @@ const PHANTOM_CHARACTERS: PhantomCharacter[] = [
     techId: 'laravel',
     thiefColor: '#00A3FF',
     thiefTextColor: '#000000',
-    tx: -682,
-    ty: -77,
-    width: 250,
+    tx: -798,
+    ty: -128,
+    width: 274,
     zIndex: 24,
     shadowWidth: 72,
     shadowHeight: 12,
     brightness: 0.98,
     warmth: 0.14,
     camera: {
-      scale: 2.1,
-      originX: 21.0,
-      originY: 48,
+      scale: 2.05,
+      originX: 16.0,
+      originY: 50,
     },
   },
   {
@@ -290,18 +278,18 @@ const PHANTOM_CHARACTERS: PhantomCharacter[] = [
     techId: 'python-ai',
     thiefColor: '#00FF66',
     thiefTextColor: '#000000',
-    tx: -200,
-    ty: -95,
-    width: 134,
+    tx: -196,
+    ty: -140,
+    width: 152,
     zIndex: 22,
     shadowWidth: 76,
     shadowHeight: 10,
     brightness: 0.97,
     warmth: 0.12,
     camera: {
-      scale: 2.25,
-      originX: 43.1,
-      originY: 52,
+      scale: 2.2,
+      originX: 43.5,
+      originY: 50,
     },
   },
   {
@@ -315,8 +303,8 @@ const PHANTOM_CHARACTERS: PhantomCharacter[] = [
     techId: 'tailwind',
     thiefColor: '#FFD700',
     thiefTextColor: '#000000',
-    tx: -56,
-    ty: -48,
+    tx: -41,
+    ty: -54,
     width: 77,
     zIndex: 25,
     shadowWidth: 68,
@@ -324,9 +312,9 @@ const PHANTOM_CHARACTERS: PhantomCharacter[] = [
     brightness: 0.99,
     warmth: 0.15,
     camera: {
-      scale: 2.6,
-      originX: 49.1,
-      originY: 48,
+      scale: 2.5,
+      originX: 50.0,
+      originY: 49,
     },
   },
   {
@@ -340,18 +328,18 @@ const PHANTOM_CHARACTERS: PhantomCharacter[] = [
     techId: 'unity',
     thiefColor: '#FFE500',
     thiefTextColor: '#000000',
-    tx: 96,
-    ty: -145,
-    width: 86,
+    tx: 115,
+    ty: -190,
+    width: 102,
     zIndex: 20,
     shadowWidth: 75,
     shadowHeight: 10,
     brightness: 0.96,
     warmth: 0.14,
     camera: {
-      scale: 2.4,
-      originX: 57.25,
-      originY: 46,
+      scale: 2.3,
+      originX: 58.5,
+      originY: 45,
     },
   },
   {
@@ -366,8 +354,8 @@ const PHANTOM_CHARACTERS: PhantomCharacter[] = [
     thiefColor: '#E60012',
     thiefTextColor: '#FFFFFF',
     tx: 269,
-    ty: -52,
-    width: 192,
+    ty: -82,
+    width: 234,
     zIndex: 18,
     shadowWidth: 70,
     shadowHeight: 8,
@@ -375,8 +363,8 @@ const PHANTOM_CHARACTERS: PhantomCharacter[] = [
     warmth: 0.12,
     camera: {
       scale: 2.05,
-      originX: 69.0,
-      originY: 56,
+      originX: 70.0,
+      originY: 54,
     },
   },
   {
@@ -390,23 +378,23 @@ const PHANTOM_CHARACTERS: PhantomCharacter[] = [
     techId: 'react',
     thiefColor: '#E60012',
     thiefTextColor: '#FFFFFF',
-    tx: 643,
-    ty: -74,
-    width: 384,
+    tx: 798,
+    ty: -178,
+    width: 288,
     zIndex: 26,
     shadowWidth: 75,
     shadowHeight: 14,
     brightness: 0.98,
     warmth: 0.12,
     camera: {
-      scale: 1.85,
-      originX: 91.0,
-      originY: 52,
+      scale: 1.8,
+      originX: 90.0,
+      originY: 50,
     },
   },
 ]
 
-// ── PERSONA 5 FLOATING COMIC SPEECH BUBBLE POSITIONS (OPSI A) ──
+// ── PERSONA 5 FLOATING COMIC SPEECH BUBBLE POSITIONS ──
 interface BubblePosition {
   side: 'left' | 'right'
   desktopStyle: React.CSSProperties
@@ -417,25 +405,25 @@ interface BubblePosition {
 const BUBBLE_POSITIONS: Record<string, BubblePosition> = {
   yusuke: {
     side: 'right',
-    desktopStyle: { left: '30%', top: '15%' },
+    desktopStyle: { left: '26%', top: '16%' },
     tailSide: 'left',
     tailTop: '35%',
   },
   futaba: {
     side: 'right',
-    desktopStyle: { left: '49%', top: '16%' },
+    desktopStyle: { left: '48%', top: '16%' },
     tailSide: 'left',
     tailTop: '35%',
   },
   morgana: {
     side: 'left',
-    desktopStyle: { right: '55%', top: '15%' },
+    desktopStyle: { right: '53%', top: '15%' },
     tailSide: 'right',
     tailTop: '40%',
   },
   ryuji: {
     side: 'left',
-    desktopStyle: { right: '48%', top: '14%' },
+    desktopStyle: { right: '47%', top: '14%' },
     tailSide: 'right',
     tailTop: '35%',
   },
@@ -447,7 +435,7 @@ const BUBBLE_POSITIONS: Record<string, BubblePosition> = {
   },
   joker: {
     side: 'left',
-    desktopStyle: { right: '24%', top: '16%' },
+    desktopStyle: { right: '26%', top: '16%' },
     tailSide: 'right',
     tailTop: '35%',
   },
@@ -467,13 +455,9 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
     originY: 50,
   })
 
-  // Tactical Modal Inspector
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
-  const [modalTechIndex, setModalTechIndex] = useState<number>(0)
-
   // Character list with dynamic positioning state
   const [characterList, setCharacterList] = useState<PhantomCharacter[]>(() => {
-    const saved = localStorage.getItem('p5_characters_bocchi_v1')
+    const saved = localStorage.getItem('p5_characters_bocchi_v2')
     if (saved) {
       try {
         const parsed = JSON.parse(saved)
@@ -516,7 +500,7 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
   const updateCalibratingChar = (updates: Partial<PhantomCharacter>) => {
     setCharacterList(prev => {
       const next = prev.map(c => c.id === calibratingCharId ? { ...c, ...updates } : c)
-      localStorage.setItem('p5_characters_bocchi_v1', JSON.stringify(next))
+      localStorage.setItem('p5_characters_bocchi_v2', JSON.stringify(next))
       return next
     })
   }
@@ -529,7 +513,7 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
   }
 
   const resetToDefaultPositions = () => {
-    localStorage.removeItem('p5_characters_bocchi_v1')
+    localStorage.removeItem('p5_characters_bocchi_v2')
     setCharacterList(PHANTOM_CHARACTERS)
   }
 
@@ -554,7 +538,7 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
 
       setCharacterList(prev => {
         const next = prev.map(c => c.id === charId ? { ...c, tx: newTx, ty: newTy } : c)
-        localStorage.setItem('p5_characters_bocchi_v1', JSON.stringify(next))
+        localStorage.setItem('p5_characters_bocchi_v2', JSON.stringify(next))
         return next
       })
     }
@@ -570,20 +554,12 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
 
   // Active tech item
   const activeTech = useMemo(() => {
-    if (isModalOpen) {
-      return TECH_DECK[modalTechIndex] || TECH_DECK[0]
-    }
     if (activeChar) {
       const found = TECH_DECK.find(t => t.id === activeChar.techId)
       if (found) return found
     }
     return TECH_DECK[0]
-  }, [activeChar, isModalOpen, modalTechIndex])
-
-  const activeIndex = useMemo(() => {
-    const idx = TECH_DECK.findIndex(t => t.id === activeTech.id)
-    return idx >= 0 ? idx : 0
-  }, [activeTech])
+  }, [activeChar])
 
   const speedlinesTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
@@ -608,8 +584,6 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
     setHoveredCharId(null)
     setLastFocusOrigin({ originX: char.camera.originX, originY: char.camera.originY })
     setActiveCharId(char.id)
-    const techIdx = TECH_DECK.findIndex(t => t.id === char.techId)
-    if (techIdx >= 0) setModalTechIndex(techIdx)
   }, [playSlash])
 
   const handleResetCamera = useCallback(() => {
@@ -620,74 +594,23 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
     // stays pinned to the character's focus point while the camera smoothly scales back down to 1!
   }, [playBack])
 
-  const openInspector = useCallback(() => {
-    playSlash()
-    setIsModalOpen(true)
-  }, [playSlash])
-
-  const closeInspector = useCallback(() => {
-    playBack()
-    setIsModalOpen(false)
-  }, [playBack])
-
-  const handleSelectIndex = useCallback((index: number) => {
-    playSlash()
-    setModalTechIndex(index)
-    const targetTech = TECH_DECK[index]
-    const matchingChar = characterList.find(c => c.techId === targetTech.id)
-    if (matchingChar) {
-      setActiveCharId(matchingChar.id)
-    }
-  }, [playSlash])
-
-
-  // Keyboard navigation: click-only for selecting characters, Escape for back/close, X/Enter for inspect
+  // Keyboard navigation: Escape for back/close
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
         e.preventDefault()
-        if (isModalOpen) {
-          closeInspector()
-        } else if (activeCharId) {
+        if (activeCharId) {
           handleResetCamera()
         } else {
           playBack()
           onBack()
-        }
-      } else if (e.key === 'x' || e.key === 'X' || e.key === 'Enter') {
-        if (!isModalOpen && activeCharId) {
-          e.preventDefault()
-          openInspector()
         }
       }
     }
 
     window.addEventListener('keydown', handleKeyDown)
     return () => window.removeEventListener('keydown', handleKeyDown)
-  }, [isModalOpen, activeCharId, onBack, playBack, openInspector, closeInspector, handleResetCamera])
-
-  // Pentagon radar points calculation
-  const cx = 75
-  const cy = 75
-  const maxR = 52
-
-  const getPoints = (scale: number) => {
-    return RADAR_STATS.map(s => {
-      const rad = (s.angle * Math.PI) / 180
-      const r = maxR * scale
-      const x = cx + r * Math.cos(rad)
-      const y = cy + r * Math.sin(rad)
-      return `${x},${y}`
-    }).join(' ')
-  }
-
-  const statPolygon = RADAR_STATS.map(s => {
-    const rad = (s.angle * Math.PI) / 180
-    const r = (s.value / 100) * maxR
-    const x = cx + r * Math.cos(rad)
-    const y = cy + r * Math.sin(rad)
-    return `${x},${y}`
-  }).join(' ')
+  }, [activeCharId, onBack, playBack, handleResetCamera])
 
   return (
     <div className="fixed inset-0 z-30 select-none overflow-hidden bg-black flex flex-col justify-between animate-in fade-in duration-300">
@@ -953,7 +876,7 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
             />
           </div>
 
-          {/* ── OPSI A: PERSONA 5 FLOATING COMIC SPEECH BUBBLE ── */}
+          {/* ── PERSONA 5 MANGA DIALOGUE SPEECH BUBBLE ── */}
           {activeChar && activeTech && (() => {
             const bubbleConfig = BUBBLE_POSITIONS[activeChar.id] || BUBBLE_POSITIONS.joker
             return (
@@ -961,13 +884,13 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
                 onClick={(e) => e.stopPropagation()}
                 className="
                   absolute z-40 p5-bubble-pop-anim pointer-events-auto select-none
-                  w-[92%] sm:w-[360px] md:w-[390px] lg:w-[420px] max-w-[430px]
-                  bottom-3 left-1/2 -translate-x-1/2
+                  w-[92%] sm:w-[380px] md:w-[420px] lg:w-[460px] max-w-[480px]
+                  bottom-4 left-1/2 -translate-x-1/2
                   sm:bottom-auto sm:left-auto sm:translate-x-0
                 "
                 style={bubbleConfig.desktopStyle}
               >
-                <div className="relative bg-black/95 border-[3px] border-white p-3.5 sm:p-4 shadow-[6px_6px_0px_#E60012,10px_10px_0px_#000000] -skew-x-2">
+                <div className="relative bg-black/95 border-[3px] border-white p-3.5 sm:p-4 shadow-[6px_6px_0px_#E60012,12px_12px_0px_#000000] -skew-x-2">
                   
                   {/* Comic Speech Pointer Tail (SVG Beak) */}
                   {bubbleConfig.tailSide === 'left' && (
@@ -1004,11 +927,11 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
                     </div>
                   )}
 
-                  {/* Header Ribbon: Character Codename Tag + Kanji + Level */}
-                  <div className="flex items-center justify-between border-b border-zinc-700 pb-2 mb-2 sm:mb-2.5">
+                  {/* Header: Persona Ransom Tag + Kanji + Tech Element Badge */}
+                  <div className="flex items-center justify-between border-b-2 border-zinc-800 pb-2 mb-2.5">
                     <div className="flex items-center gap-2">
                       <span
-                        className="px-2.5 py-0.5 font-p5Heading text-xs sm:text-sm font-black uppercase -skew-x-6 border border-black shadow-[2px_2px_0px_#000]"
+                        className="px-2.5 py-0.5 font-p5Heading text-xs sm:text-sm font-black uppercase -skew-x-6 border-2 border-black shadow-[2px_2px_0px_#000]"
                         style={{
                           backgroundColor: activeChar.thiefColor || '#E60012',
                           color: activeChar.thiefTextColor || '#FFFFFF',
@@ -1016,51 +939,45 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
                       >
                         ★ {activeChar.codename}
                       </span>
-                      <span className="font-p5Mono text-xs text-yellow-400 font-black">
+                      <span className="font-p5Mono text-xs text-yellow-400 font-black tracking-wider">
                         {activeChar.kanji}
                       </span>
                     </div>
 
                     <div className="flex items-center gap-1.5">
-                      <span className="font-p5Mono text-[10px] sm:text-xs font-black text-yellow-300 bg-zinc-900 px-2 py-0.5 border border-zinc-700">
-                        LV.{activeTech.level}
-                      </span>
-                      <span className="font-p5Mono text-[10px] sm:text-xs font-bold text-white bg-zinc-800 px-1.5 py-0.5 border border-zinc-600">
-                        [{activeTech.element}]
+                      <span className="font-p5Sub text-[10px] sm:text-xs font-black text-white bg-zinc-900 px-2 py-0.5 border border-zinc-700 tracking-wider">
+                        {activeTech.name}
                       </span>
                     </div>
                   </div>
 
                   {/* Persona Comic Dialogue Quote */}
-                  <div className="mb-2.5 flex items-start gap-2 bg-zinc-900/90 p-2 sm:p-2.5 border-l-4 border-[#E60012] -skew-x-1">
-                    <span className="text-[#E60012] font-p5Heading font-black text-xl leading-none select-none">
+                  <div className="relative mb-3 bg-zinc-900/90 p-2.5 sm:p-3 border-l-4 border-[#E60012] -skew-x-1">
+                    <span className="text-[#E60012] font-p5Heading font-black text-2xl leading-none select-none mr-1 inline-block align-top">
                       “
                     </span>
-                    <p className="font-p5Body text-xs sm:text-[13px] text-zinc-100 font-bold leading-snug flex-1">
+                    <span className="font-p5Body text-xs sm:text-[13px] text-zinc-100 font-bold leading-relaxed">
                       {activeChar.quote}
-                    </p>
+                    </span>
+                    <span className="text-[#E60012] font-p5Heading font-black text-2xl leading-none select-none ml-1 inline-block align-bottom">
+                      ”
+                    </span>
                   </div>
 
-                  {/* Character Role & Tech Arsenal Preview */}
-                  <div className="flex items-center justify-between bg-zinc-950 px-2.5 py-2 border border-zinc-800 mb-2.5 sm:mb-3">
-                    <div className="flex items-center gap-2 min-w-0">
-                      <div className="size-6 sm:size-7 shrink-0">
-                        {activeTech.renderIcon({ className: 'size-full', isSelected: true })}
-                      </div>
-                      <div className="min-w-0">
-                        <div className="font-p5Heading text-xs sm:text-sm text-white uppercase truncate font-bold">
-                          {activeTech.name}
-                        </div>
-                        <div className="font-p5Mono text-[10px] text-zinc-400 truncate">
-                          {activeChar.role}
-                        </div>
-                      </div>
+                  {/* Clean Tech Arsenal & Libraries */}
+                  <div className="space-y-1.5 mb-2.5 bg-zinc-950 p-2.5 border border-zinc-800">
+                    <div className="text-[10px] font-p5Sub uppercase tracking-widest text-zinc-400 flex items-center justify-between">
+                      <span className="text-yellow-400 font-bold flex items-center gap-1">
+                        <Sparkles className="size-3 text-yellow-400" />
+                        TECH ARSENAL
+                      </span>
+                      <span className="text-zinc-500 font-mono text-[9px]">{activeChar.role}</span>
                     </div>
-                    <div className="flex items-center gap-1 shrink-0">
-                      {activeTech.libraries.slice(0, 2).map((lib) => (
+                    <div className="flex flex-wrap gap-1.5 pt-0.5">
+                      {activeTech.libraries.map((lib) => (
                         <span
                           key={lib}
-                          className="bg-zinc-800 text-zinc-300 px-1.5 py-0.5 text-[9px] font-p5Mono border border-zinc-700"
+                          className="bg-zinc-900 text-zinc-200 px-2 py-0.5 text-[10px] sm:text-[11px] font-p5Mono border border-zinc-700 shadow-[1px_1px_0px_#000]"
                         >
                           {lib}
                         </span>
@@ -1068,30 +985,22 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
                     </div>
                   </div>
 
-                  {/* Action Buttons: Inspect Radar vs Close / Back */}
-                  <div className="flex items-center justify-between pt-1.5 border-t border-zinc-800">
+                  {/* Footer Hint: Press ESC or Click anywhere to return */}
+                  <div className="flex items-center justify-between pt-2 border-t border-zinc-800 text-zinc-400 font-p5Sub text-[10px] uppercase">
                     <button
                       onClick={handleResetCamera}
-                      className="flex items-center gap-1.5 text-zinc-400 hover:text-white font-p5Heading text-xs uppercase cursor-pointer transition-colors group"
-                      title="Return to room overview"
+                      className="flex items-center gap-1.5 text-zinc-400 hover:text-white transition-colors cursor-pointer group"
                     >
-                      <span className="size-4 rounded-full border border-red-500 text-red-500 flex items-center justify-center text-[10px] font-bold group-hover:bg-red-500 group-hover:text-white transition-colors">
+                      <span className="size-4 rounded-full border border-[#E60012] text-[#E60012] flex items-center justify-center text-[10px] font-bold group-hover:bg-[#E60012] group-hover:text-white transition-colors">
                         O
                       </span>
                       <span>BACK [ESC]</span>
                     </button>
-
-                    <button
-                      onClick={openInspector}
-                      className="flex items-center gap-1.5 bg-yellow-400 hover:bg-white text-black font-p5Heading text-xs font-black px-3 py-1 -skew-x-6 border border-black shadow-[2px_2px_0px_#000] cursor-pointer transition-transform hover:scale-105"
-                      title="Open full tactical radar & dossier"
-                    >
-                      <span className="size-3.5 rounded-full bg-black text-yellow-400 flex items-center justify-center text-[9px] font-bold">
-                        X
-                      </span>
-                      <span>TACTICAL DOSSIER</span>
-                    </button>
+                    <span className="text-zinc-500 text-[9px] font-mono">
+                      CLICK ANYWHERE TO RETURN
+                    </span>
                   </div>
+
                 </div>
               </div>
             )
@@ -1119,217 +1028,6 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
         </div>
       )}
 
-      {/* ── TACTICAL TECH ARSENAL INSPECTOR MODAL (ALTERNATIF B) ── */}
-      {isModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-black/85 backdrop-blur-[3px] animate-in fade-in duration-200">
-          <div className="absolute inset-0" onClick={closeInspector} />
-
-          <div className="relative z-10 w-full max-w-5xl max-h-[92vh] overflow-y-auto no-scrollbar bg-black/95 border-3 border-white p-4 sm:p-6 shadow-[10px_10px_0px_#000000] -skew-x-1 p5-modal-slam-anim">
-            
-            {/* Modal Header */}
-            <div className="flex items-center justify-between border-b-2 border-zinc-700 pb-3 mb-4">
-              <div className="flex items-center gap-2.5">
-                <span className="bg-[#7C4A1E] text-white px-2.5 py-0.5 font-p5Sub text-xs md:text-sm tracking-widest uppercase -skew-x-6 shadow-[2px_2px_0px_#000]">
-                  TECH ARSENAL
-                </span>
-                <span className="font-p5Heading text-lg sm:text-2xl text-white tracking-wide uppercase">
-                  {activeTech.name} // DOSSIER & STATS
-                </span>
-              </div>
-              <button
-                onClick={closeInspector}
-                className="flex items-center gap-1.5 bg-zinc-900 hover:bg-white text-white hover:text-black px-3 py-1 border border-zinc-500 shadow-[2px_2px_0px_#000] -skew-x-6 cursor-pointer transition-colors"
-              >
-                <X className="size-4" />
-                <span className="font-p5Heading text-xs uppercase">CLOSE [O]</span>
-              </button>
-            </div>
-
-            {/* Quick 8-Tech Switcher Bar */}
-            <div className="grid grid-cols-4 sm:grid-cols-8 gap-1.5 mb-4">
-              {TECH_DECK.map((tech, i) => {
-                const isSelected = i === activeIndex
-                return (
-                  <button
-                    key={tech.id}
-                    onClick={() => handleSelectIndex(i)}
-                    className={`
-                      relative p-1.5 flex flex-col items-center justify-center border transition-all cursor-pointer -skew-x-2
-                      ${isSelected
-                        ? 'bg-black border-2 border-white text-white shadow-[3px_3px_0px_#000000] scale-105 z-10'
-                        : 'bg-zinc-900/90 border border-zinc-700 text-zinc-400 hover:border-zinc-400 hover:text-white'
-                      }
-                    `}
-                    style={isSelected ? { borderBottomColor: tech.accentColor, borderBottomWidth: '3px' } : undefined}
-                  >
-                    {isSelected && (
-                      <span
-                        className="absolute -top-1.5 -right-1 text-[9px] font-black px-1 leading-tight -skew-x-6 border border-black shadow-[1px_1px_0px_#000]"
-                        style={{
-                          backgroundColor: tech.accentColor === '#FFFFFF' ? '#E60012' : tech.accentColor,
-                          color: getRibbonTextColor(tech.accentColor === '#FFFFFF' ? '#E60012' : tech.accentColor),
-                        }}
-                      >
-                        ★
-                      </span>
-                    )}
-                    <div className="size-5 mb-0.5">
-                      {tech.renderIcon({ className: 'size-full', isSelected })}
-                    </div>
-                    <span className={`font-p5Heading text-[10px] uppercase truncate max-w-full ${isSelected ? 'text-white font-black' : 'text-zinc-400'}`}>
-                      {tech.shortLabel}
-                    </span>
-                  </button>
-                )
-              })}
-            </div>
-
-            {/* Modal Body: Tactical Radar + Detailed Tech Dossier */}
-            <div className="grid grid-cols-1 md:grid-cols-12 gap-4">
-              {/* Left Column: Pentagon Radar & Stat Readouts */}
-              <div className="md:col-span-5 flex flex-col gap-3 bg-zinc-950 border border-zinc-700 p-3 shadow-[4px_4px_0px_#000000] p5-hud-left-anim">
-                <span className="font-p5Sub text-[10px] text-zinc-300 font-bold tracking-widest uppercase flex items-center gap-1.5">
-                  <span className="size-2 bg-white animate-pulse" />
-                  TACTICAL PENTAGON // LV. 99
-                </span>
-
-                <div className="flex justify-center items-center py-1">
-                  <svg viewBox="0 0 150 150" className="w-[130px] h-[130px]">
-                    <polygon points={getPoints(1.0)} fill="none" stroke="#555555" strokeWidth="1.2" />
-                    <polygon points={getPoints(0.75)} fill="none" stroke="#333333" strokeWidth="1" />
-                    <polygon points={getPoints(0.5)} fill="none" stroke="#222222" strokeWidth="1" />
-                    <polygon points={getPoints(0.25)} fill="none" stroke="#1a1a1a" strokeWidth="1" />
-
-                    {RADAR_STATS.map((s, idx) => {
-                      const rad = (s.angle * Math.PI) / 180
-                      return (
-                        <line
-                          key={idx}
-                          x1={cx}
-                          y1={cy}
-                          x2={cx + maxR * Math.cos(rad)}
-                          y2={cy + maxR * Math.sin(rad)}
-                          stroke="#444444"
-                          strokeWidth="1"
-                        />
-                      )
-                    })}
-
-                    <polygon
-                      points={statPolygon}
-                      fill="rgba(255, 255, 255, 0.22)"
-                      stroke="#FFFFFF"
-                      strokeWidth="2.5"
-                      className="filter drop-shadow-[0_0_8px_rgba(255,255,255,0.7)]"
-                    />
-
-                    {RADAR_STATS.map((s, idx) => {
-                      const rad = (s.angle * Math.PI) / 180
-                      const r = (s.value / 100) * maxR
-                      const px = cx + r * Math.cos(rad)
-                      const py = cy + r * Math.sin(rad)
-                      const lx = cx + (maxR + 12) * Math.cos(rad)
-                      const ly = cy + (maxR + 12) * Math.sin(rad)
-                      return (
-                        <g key={idx}>
-                          <circle cx={px} cy={py} r="2.5" fill="#FFFFFF" stroke="#000000" strokeWidth="1.5" />
-                          <text
-                            x={lx}
-                            y={ly + 2.5}
-                            fill="#FFFFFF"
-                            fontSize="9"
-                            fontWeight="900"
-                            fontFamily="monospace"
-                            textAnchor="middle"
-                          >
-                            {s.key}
-                          </text>
-                        </g>
-                      )
-                    })}
-                  </svg>
-                </div>
-
-                <div className="flex flex-col gap-1 font-p5Mono">
-                  {RADAR_STATS.map(stat => (
-                    <div key={stat.key} className="flex items-center justify-between bg-zinc-900 px-2 py-0.5 border border-zinc-700 text-xs">
-                      <div className="flex items-center gap-1.5">
-                        <span className="font-black text-white text-xs">{stat.key}</span>
-                        <span className="text-zinc-300 font-bold text-[10px]">{stat.label}</span>
-                      </div>
-                      <span className="font-black text-white bg-black px-1.5 py-0.2 border border-zinc-600 shadow-[1px_1px_0px_#000] text-xs">
-                        {stat.value}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Right Column: Active Tech Detailed Dossier */}
-              <div className="md:col-span-7 flex flex-col justify-between bg-zinc-950 border-2 border-zinc-700 p-4 sm:p-5 shadow-[4px_4px_0px_#000000] p5-hud-right-anim">
-                <div>
-                  <div className="flex items-center justify-between border-b border-zinc-700 pb-3 mb-4">
-                    <div className="flex items-center gap-3">
-                      <div className="size-9">
-                        {activeTech.renderIcon({ className: 'size-full', isSelected: true })}
-                      </div>
-                      <div>
-                        <div className="font-p5Heading text-2xl sm:text-3xl font-black text-white uppercase">
-                          {activeTech.name}
-                        </div>
-                        <div className="font-p5Mono text-[11px] text-cyan-300 font-bold">
-                          {activeTech.category} // {activeTech.cost}
-                        </div>
-                      </div>
-                    </div>
-                    <span className="font-p5Mono text-xs text-yellow-300 font-black bg-black px-2.5 py-1 border border-zinc-600 shadow-[2px_2px_0px_#000]">
-                      MASTERY LV. {activeTech.level}
-                    </span>
-                  </div>
-
-                  {/* DEPLOYED IN MISSIONS / REAL PROJECTS (OPSI 2) */}
-                  {activeTech.deployedIn && activeTech.deployedIn.length > 0 && (
-                    <div className="mb-4">
-                      <span className="font-p5Sub text-[10px] sm:text-xs text-zinc-300 font-bold tracking-wider flex items-center gap-1.5 mb-2">
-                        <span className="text-yellow-400">🎯</span>
-                        <span>DEPLOYED IN MISSIONS //</span>
-                      </span>
-                      <div className="flex items-center gap-2 flex-wrap">
-                        {activeTech.deployedIn.map((missionName, idx) => (
-                          <div
-                            key={idx}
-                            className="bg-black text-white font-p5Heading text-xs sm:text-sm px-3 py-1 border-2 border-white shadow-[3px_3px_0px_#000] -skew-x-6 flex items-center gap-1.5 hover:bg-white hover:text-black transition-colors"
-                          >
-                            <span className="text-yellow-400 font-bold">★</span>
-                            <span className="tracking-wide uppercase">{missionName}</span>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-                </div>
-
-                <div>
-                  <span className="font-p5Sub text-[10px] sm:text-xs text-zinc-300 font-bold tracking-wider block mb-2">
-                    CORE MODULES & LIBRARIES:
-                  </span>
-                  <div className="flex items-center gap-2 flex-wrap">
-                    {activeTech.libraries.map((lib, idx) => (
-                      <span
-                        key={idx}
-                        className="font-p5Heading text-xs sm:text-sm font-black text-black bg-white border border-black px-3 py-1 shadow-[2px_2px_0px_#71717A] -skew-x-6 hover:scale-105 transition-transform"
-                      >
-                        {lib}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </div>
-
-          </div>
-        </div>
-      )}
 
       {/* ── TACTICAL POSITION CALIBRATOR (FLOATING UI PANEL) ── */}
       <div className="fixed top-4 right-4 z-[70] flex flex-col items-end">
