@@ -592,23 +592,23 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
                 i === 0
                   ? 'bg-black text-white -rotate-6'
                   : i === 1
-                  ? 'bg-white text-black rotate-3'
+                  ? 'bg-[#7C4A1E] text-white rotate-3 font-black scale-105'
                   : i === 2
-                  ? 'bg-[#E60012] text-white -rotate-3 font-black scale-105'
+                  ? 'bg-white text-black -rotate-3'
                   : i === 3
-                  ? 'bg-white text-black rotate-4'
+                  ? 'bg-black text-white rotate-4 border border-white'
                   : i === 4
-                  ? 'bg-black text-white -rotate-2'
+                  ? 'bg-[#7C4A1E] text-white -rotate-2 font-black scale-110'
                   : i === 5
                   ? 'bg-white text-black rotate-3'
-                  : 'bg-[#E60012] text-white rotate-6 font-black'
+                  : 'bg-[#7C4A1E] text-white rotate-6 font-black scale-105'
               }`}
             >
               {char}
             </span>
           ))}
         </div>
-        <div className="mt-1 flex items-center bg-black border-l-4 border-[#E60012] px-2.5 sm:px-3 py-0.5 text-[10px] sm:text-xs font-p5Sub tracking-widest text-white -skew-x-6 shadow-[3px_3px_0px_#000000]">
+        <div className="mt-1 flex items-center bg-black border-l-4 border-[#7C4A1E] px-2.5 sm:px-3 py-0.5 text-[10px] sm:text-xs font-p5Sub tracking-widest text-white -skew-x-6 shadow-[3px_3px_0px_#000000]">
           <span className="text-yellow-400 font-bold mr-1.5">CAFE LEBLANC ATTIC</span>
           <span className="text-zinc-500 mx-1">//</span>
           <span className="text-zinc-200">
@@ -907,7 +907,7 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
             {/* Modal Header */}
             <div className="flex items-center justify-between border-b-2 border-zinc-700 pb-3 mb-4">
               <div className="flex items-center gap-2.5">
-                <span className="bg-[#64748B] text-white px-2.5 py-0.5 font-p5Sub text-xs md:text-sm tracking-widest uppercase -skew-x-6 shadow-[2px_2px_0px_#000]">
+                <span className="bg-[#7C4A1E] text-white px-2.5 py-0.5 font-p5Sub text-xs md:text-sm tracking-widest uppercase -skew-x-6 shadow-[2px_2px_0px_#000]">
                   TECH ARSENAL
                 </span>
                 <span className="font-p5Heading text-lg sm:text-2xl text-white tracking-wide uppercase">

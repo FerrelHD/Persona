@@ -42,15 +42,15 @@ const MENU_ITEMS: MenuItem[] = [
     label: 'HIDEOUT',
     rotation: '-rotate-1',
     offsetClass: 'ml-2 sm:ml-3 md:ml-4',
-    arrowColor: 'text-[#94A3B8]',
+    arrowColor: 'text-[#B45309]',
     letters: [
       { char: 'H', bg: 'bg-white text-black', rotate: '-rotate-2' },
-      { char: 'I', bg: 'bg-[#64748B] text-white font-black scale-105 shadow-md', rotate: 'rotate-1' },
+      { char: 'I', bg: 'bg-[#7C4A1E] text-white font-black scale-105 shadow-md', rotate: 'rotate-1' },
       { char: 'D', bg: 'bg-white text-black', rotate: '-rotate-1' },
       { char: 'E', bg: 'bg-black text-white border border-white', rotate: 'rotate-2' },
-      { char: 'O', bg: 'bg-[#64748B] text-white font-black scale-110 shadow-lg', rotate: '-rotate-2' },
+      { char: 'O', bg: 'bg-[#7C4A1E] text-white font-black scale-110 shadow-lg', rotate: '-rotate-2' },
       { char: 'U', bg: 'bg-white text-black', rotate: 'rotate-3' },
-      { char: 'T', bg: 'bg-[#64748B] text-white font-black scale-110 shadow-lg', rotate: '-rotate-2' },
+      { char: 'T', bg: 'bg-[#7C4A1E] text-white font-black scale-110 shadow-lg', rotate: '-rotate-2' },
     ]
   },
   {
