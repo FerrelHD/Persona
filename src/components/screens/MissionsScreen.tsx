@@ -101,8 +101,8 @@ export const MissionsScreen: React.FC<MissionsScreenProps> = ({ onBack }) => {
           {MISSIONS_DATA.map((mission, idx) => {
             const isSelected = idx === selectedIndex
             const diff = idx - selectedIndex
-            // Only show active slot and up to 2 slots below it (hide slots above so they don't scroll up and crowd the title)
-            if (diff < 0 || diff > 2) return null
+            // Show at most 1 slot above active card (never 2 so it doesn't crowd the title) and up to 2 below
+            if (diff < -1 || diff > 2) return null
 
             return isSelected ? (
               /* ── ACTIVE SELECTED SLOT (Expanded Red Banner - Zero Clipping) ── */
