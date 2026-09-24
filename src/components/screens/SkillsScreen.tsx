@@ -392,20 +392,20 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
                   : i === 1
                   ? 'bg-white text-black rotate-3'
                   : i === 2
-                  ? 'bg-p5-crimson text-white -rotate-3 font-black scale-105'
+                  ? 'bg-zinc-300 text-black -rotate-3 font-black scale-105'
                   : i === 3
                   ? 'bg-white text-black rotate-4'
                   : i === 4
                   ? 'bg-black text-white -rotate-2'
-                  : 'bg-p5-crimson text-white rotate-6 scale-110 shadow-[4px_4px_0px_#000000]'
+                  : 'bg-zinc-300 text-black rotate-6 scale-110 shadow-[4px_4px_0px_#000000] font-black'
               }`}
             >
               {char}
             </span>
           ))}
         </div>
-        <div className="mt-1.5 flex items-center bg-black border-l-4 border-p5-crimson px-2.5 sm:px-3 py-0.5 text-[10px] sm:text-xs font-p5Sub tracking-widest text-white -skew-x-6 shadow-[3px_3px_0px_#000000]">
-          <span className="text-p5-crimson font-bold mr-1.5">TECH ARSENAL</span>
+        <div className="mt-1.5 flex items-center bg-black border-l-4 border-zinc-400 px-2.5 sm:px-3 py-0.5 text-[10px] sm:text-xs font-p5Sub tracking-widest text-white -skew-x-6 shadow-[3px_3px_0px_#000000]">
+          <span className="text-zinc-300 font-bold mr-1.5">TECH ARSENAL</span>
           <span className="text-zinc-500 mx-1">//</span>
           <span className="text-zinc-200">{activeTech.name}</span>
         </div>

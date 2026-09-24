@@ -42,14 +42,14 @@ const MENU_ITEMS: MenuItem[] = [
     label: 'SKILLS',
     rotation: '-rotate-1',
     offsetClass: 'ml-2 sm:ml-3 md:ml-4',
-    arrowColor: 'text-p5-crimson',
+    arrowColor: 'text-zinc-300',
     letters: [
       { char: 'S', bg: 'bg-white text-black', rotate: '-rotate-2' },
       { char: 'K', bg: 'bg-white text-black', rotate: 'rotate-3' },
       { char: 'I', bg: 'bg-black text-white border border-white', rotate: '-rotate-1' },
       { char: 'L', bg: 'bg-white text-black', rotate: 'rotate-4' },
       { char: 'L', bg: 'bg-white text-black', rotate: '-rotate-3' },
-      { char: 'S', bg: 'bg-p5-crimson text-white font-extrabold scale-110 shadow-lg', rotate: 'rotate-2' },
+      { char: 'S', bg: 'bg-zinc-300 text-black font-black scale-110 shadow-lg', rotate: 'rotate-2' },
     ]
   },
   {

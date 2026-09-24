@@ -15,7 +15,7 @@ import { useAssetPreloader } from '@/hooks/useAssetPreloader'
 const SCREEN_COLOR: Record<ActiveScreen, string> = {
   menu:        '#E60012',
   missions:    '#00D4FF',
-  skills:      '#E60012', // Persona 5 Crimson / Tokyo Calendar
+  skills:      '#71717A', // Cool Slate Gray / Tech Arsenal
   about:       '#B91C1C',
   callingCard: '#10B981',
 }
