@@ -453,43 +453,43 @@ interface KanjiConfig {
 
 const DEFAULT_KANJI_CONFIGS: Record<string, KanjiConfig> = {
   joker: {
-    x: -8, // spans in the open space behind Joker's right shoulder/cape
+    x: -20,
     y: 0,
     rotate: -10,
     scale: 1.05,
     opacity: 0.22,
   },
   futaba: {
-    x: -12, // sits to the left behind Futaba's hair, clear of dialog box on the right
+    x: -12,
     y: 0,
     rotate: -8,
     scale: 1,
     opacity: 0.22,
   },
   morgana: {
-    x: 0,
-    y: -5,
+    x: -14,
+    y: -2,
     rotate: -6,
     scale: 1,
     opacity: 0.22,
   },
   ryuji: {
-    x: 4,
-    y: -3,
+    x: -17,
+    y: -5,
     rotate: -8,
     scale: 1,
     opacity: 0.22,
   },
   ann: {
-    x: 4,
+    x: -10,
     y: -2,
     rotate: -8,
     scale: 1,
     opacity: 0.22,
   },
   yusuke: {
-    x: 6,
-    y: -6,
+    x: -4,
+    y: -18,
     rotate: -8,
     scale: 1,
     opacity: 0.22,
@@ -611,7 +611,7 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
 
   // Floating giant Japanese kanji configuration state (persisted in localStorage)
   const [kanjiList, setKanjiList] = useState<Record<string, KanjiConfig>>(() => {
-    const saved = localStorage.getItem('p5_kanji_v1')
+    const saved = localStorage.getItem('p5_kanji_v2')
     if (saved) {
       try {
         const parsed = JSON.parse(saved)
@@ -625,7 +625,7 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
     setKanjiList(prev => {
       const current = prev[calibratingCharId] || DEFAULT_KANJI_CONFIGS[calibratingCharId] || DEFAULT_KANJI_CONFIGS.joker
       const next = { ...prev, [calibratingCharId]: { ...current, ...updates } }
-      localStorage.setItem('p5_kanji_v1', JSON.stringify(next))
+      localStorage.setItem('p5_kanji_v2', JSON.stringify(next))
       return next
     })
   }
@@ -666,7 +666,7 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
   const resetToDefaultPositions = () => {
     localStorage.removeItem('p5_characters_bocchi_v3')
     localStorage.removeItem('p5_bubbles_v2')
-    localStorage.removeItem('p5_kanji_v1')
+    localStorage.removeItem('p5_kanji_v2')
     setCharacterList(PHANTOM_CHARACTERS)
     setBubbleList(DEFAULT_BUBBLES)
     setKanjiList(DEFAULT_KANJI_CONFIGS)
@@ -693,7 +693,7 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
 
       setCharacterList(prev => {
         const next = prev.map(c => c.id === charId ? { ...c, tx: newTx, ty: newTy } : c)
-        localStorage.setItem('p5_characters_bocchi_v2', JSON.stringify(next))
+        localStorage.setItem('p5_characters_bocchi_v3', JSON.stringify(next))
         return next
       })
     }
