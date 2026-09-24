@@ -179,7 +179,7 @@ const TECH_DECK: TechItem[] = [
     description: 'Crafts real-time lighting passes, custom HLSL surface shaders, post-processing camera VFX, arcade vehicle physics, and responsive game loops.',
     libraries: ['Unity 3D', 'C# Scripting', 'HLSL Shaders', 'RigidBody Physics'],
     deployedIn: ['STREET RUSH (SHADERS & PHYSICS)'],
-    accentColor: '#E60012',
+    accentColor: '#FFFFFF',
     renderIcon: (props) => <UnityIcon {...props} />,
   },
   {
@@ -219,6 +219,65 @@ const RADAR_STATS = [
   { key: 'AG', label: 'AGILITY (PERF & VITE)', value: 96, angle: 126 },
   { key: 'LU', label: 'LUCK (GAME & SHADERS)', value: 90, angle: 198 },
 ]
+
+// ── BRAND CONTRAST HELPER FOR P5 RIBBON LABELS ──
+const getRibbonTextColor = (hexColor: string) => {
+  const lightColors = ['#00D4FF', '#FFD43B', '#FACC15', '#FFFFFF', '#38BDF8']
+  return lightColors.includes(hexColor.toUpperCase()) ? 'text-black' : 'text-white'
+}
+
+// ── CALENDAR CURVED CITYSCAPE 5-SLOT GEOMETRY ──
+interface CalendarSlotStyle {
+  containerClass: string
+  rotation: string
+  skew: string
+  scaleClass: string
+  zIndex: number
+  opacityClass: string
+}
+
+const CALENDAR_SLOT_MAP: Record<number, CalendarSlotStyle> = {
+  [-2]: {
+    containerClass: 'hidden sm:flex left-[8%] md:left-[9%] top-[34%] sm:top-[36%] md:top-[38%]',
+    rotation: '-14deg',
+    skew: '-skew-x-3',
+    scaleClass: 'scale-75 sm:scale-80 md:scale-85 hover:scale-95',
+    zIndex: 10,
+    opacityClass: 'opacity-75 hover:opacity-100',
+  },
+  [-1]: {
+    containerClass: 'flex left-[18%] sm:left-[26%] md:left-[27%] top-[46%] sm:top-[48%]',
+    rotation: '-7deg',
+    skew: '-skew-x-2',
+    scaleClass: 'scale-85 sm:scale-95 md:scale-100 hover:scale-110',
+    zIndex: 20,
+    opacityClass: 'opacity-90 hover:opacity-100',
+  },
+  [0]: {
+    containerClass: 'flex left-1/2 top-[41%] sm:top-[43%]',
+    rotation: '1deg',
+    skew: '-skew-x-1',
+    scaleClass: 'scale-115 sm:scale-130 md:scale-140',
+    zIndex: 30,
+    opacityClass: 'opacity-100',
+  },
+  [1]: {
+    containerClass: 'flex left-[82%] sm:left-[74%] md:left-[73%] top-[46%] sm:top-[48%]',
+    rotation: '7deg',
+    skew: 'skew-x-2',
+    scaleClass: 'scale-85 sm:scale-95 md:scale-100 hover:scale-110',
+    zIndex: 20,
+    opacityClass: 'opacity-90 hover:opacity-100',
+  },
+  [2]: {
+    containerClass: 'hidden sm:flex left-[92%] md:left-[91%] top-[34%] sm:top-[36%] md:top-[38%]',
+    rotation: '14deg',
+    skew: 'skew-x-3',
+    scaleClass: 'scale-75 sm:scale-80 md:scale-85 hover:scale-95',
+    zIndex: 10,
+    opacityClass: 'opacity-75 hover:opacity-100',
+  },
+}
 
 export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
   const { playHover, playSlash, playBack } = usePersonaSFX()
@@ -320,53 +379,11 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
   return (
     <div className="fixed inset-0 z-30 select-none overflow-hidden flex flex-col justify-between p-4 sm:p-6 md:p-8 pt-5 sm:pt-7 md:pt-9 pb-3 sm:pb-4 animate-in fade-in duration-300">
       
-      {/* ── CINEMATIC VFX: DUAL-LAYER TOKYO FOG & SILVER SPARKS ── */}
+      {/* ── CINEMATIC VFX: CLEAN VIGNETTE & SILVER SPARK EMBERS ── */}
       <div className="pointer-events-none fixed inset-0 overflow-hidden z-10">
-        {/* ── CINEMATIC TOKYO FOG / MIST DRIFT (HIGH-CONTRAST PARALLAX) ── */}
-        {/* Layer 1: Dark Manga Street Fog across Tokyo buildings */}
+        {/* Subtle Bottom Vignette for UI readability without blurring Tokyo Tower */}
         <div
-          className="absolute -inset-x-[20%] bottom-0 h-[58%] p5-fog-layer-1 pointer-events-none mix-blend-multiply"
-          style={{
-            background: 'radial-gradient(ellipse 85% 55% at 50% 80%, rgba(10, 10, 15, 0.70) 0%, rgba(30, 30, 42, 0.50) 45%, transparent 75%)',
-            filter: 'blur(20px)',
-          }}
-          aria-hidden="true"
-        />
-
-        {/* Layer 2: Manga Street Smog Haze drifting between towers */}
-        <div
-          className="absolute -inset-x-[25%] bottom-[8%] h-[50%] p5-fog-layer-2 pointer-events-none"
-          style={{
-            background: 'radial-gradient(ellipse 70% 45% at 55% 65%, rgba(15, 23, 42, 0.65) 0%, rgba(30, 41, 59, 0.35) 40%, transparent 70%)',
-            filter: 'blur(26px)',
-          }}
-          aria-hidden="true"
-        />
-
-        {/* Layer 3: Rolling Tokyo Alleyway Smog Bank */}
-        <div
-          className="absolute -inset-x-[15%] bottom-[2%] h-[42%] p5-fog-layer-3 pointer-events-none"
-          style={{
-            background: 'radial-gradient(ellipse 95% 40% at 42% 85%, rgba(15, 23, 42, 0.55) 0%, rgba(51, 65, 85, 0.25) 50%, transparent 72%)',
-            filter: 'blur(22px)',
-          }}
-          aria-hidden="true"
-        />
-
-        {/* ── GAYA C: DEEP FOG ARC (CINEMATIC BOTTOM VIGNETTE CURVE) ── */}
-        <div
-          className="absolute -inset-x-[15%] -bottom-[8%] h-[38%] pointer-events-none z-10"
-          style={{
-            background: 'radial-gradient(ellipse 120% 70% at 50% 115%, rgba(0, 0, 0, 0.96) 0%, rgba(5, 5, 10, 0.88) 42%, rgba(15, 15, 25, 0.45) 72%, transparent 100%)',
-          }}
-          aria-hidden="true"
-        />
-        {/* Soft Metallic Slate Atmospheric Edge Curve */}
-        <div
-          className="absolute -inset-x-[20%] -bottom-[12%] h-[28%] pointer-events-none z-10 mix-blend-screen opacity-25"
-          style={{
-            background: 'radial-gradient(ellipse 110% 65% at 50% 118%, rgba(100, 116, 139, 0.5) 0%, transparent 70%)',
-          }}
+          className="absolute inset-x-0 bottom-0 h-44 bg-gradient-to-t from-black/80 via-black/40 to-transparent pointer-events-none"
           aria-hidden="true"
         />
         {/* Floating Silver Sparks */}
@@ -425,121 +442,148 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
         </div>
       </div>
 
-      {/* ── UPPER-CENTER: INTERACTIVE TECH STACK ARC WITH PHANTOM DAGGER ── */}
-      <div className="z-20 my-auto flex flex-col items-center justify-center w-full p5-skills-entrance">
-        {/* Arc of Tech Cards */}
-        <div className="relative flex items-center justify-center gap-3 sm:gap-6 md:gap-10 w-full max-w-5xl px-2">
-          {visibleCards.map((item) => {
-            const { targetIndex, relOffset, tech, isActive } = item
+      {/* ── PANORAMIC TOKYO SKYLINE TECH SLOTS (CALENDAR CURVED CITYSCAPE) ── */}
+      <div className="z-20 relative flex-1 w-full max-w-[1700px] mx-auto min-h-[380px] sm:min-h-[440px] md:min-h-[500px] flex items-center justify-center p5-skills-entrance">
+        {visibleCards.map((item) => {
+          const { targetIndex, relOffset, tech, isActive } = item
+          const slotConfig = CALENDAR_SLOT_MAP[relOffset]
+          if (!slotConfig) return null
 
-            // Parabolic curve dropping on outer cards following the fisheye curvature
-            const yDrop = Math.pow(Math.abs(relOffset), 1.8) * 16
-            const rotation = relOffset * 5
-
+          if (isActive) {
             return (
               <div
                 key={tech.id}
-                onClick={() => {
-                  if (isActive) {
-                    openInspector()
-                  } else {
-                    handleSelectIndex(targetIndex)
-                  }
-                }}
+                onClick={openInspector}
                 onMouseEnter={playHover}
                 style={{
-                  transform: `translateY(${yDrop}px) rotate(${rotation}deg)`,
+                  transform: 'translate(-50%, -50%) rotate(1deg)',
+                  filter: `drop-shadow(0 0 24px ${tech.accentColor}95) drop-shadow(0 0 50px ${tech.accentColor}40)`,
                 }}
-                className={`relative flex flex-col items-center transition-all duration-200 cursor-pointer ${
-                  isActive
-                    ? 'scale-110 sm:scale-120 md:scale-130 z-30'
-                    : 'scale-85 sm:scale-95 hover:scale-100 opacity-80 hover:opacity-100 z-10'
-                }`}
+                className="absolute left-1/2 top-[41%] sm:top-[43%] -translate-x-1/2 -translate-y-1/2 flex flex-col items-center transition-all duration-300 ease-out cursor-pointer z-30 scale-110 sm:scale-125 md:scale-135"
               >
                 {/* ── PHANTOM THIEVES DAGGER (STABBED DIAGONALLY INTO ACTIVE TECH) ── */}
-                {isActive && (
-                  <div
-                    key={`dagger-${tech.id}`}
-                    className="absolute -top-22 sm:-top-26 md:-top-32 right-1 sm:right-2 md:right-3 w-18 sm:w-22 md:w-26 h-24 sm:h-30 md:h-36 pointer-events-none z-40 p5-dagger-slam-anim"
-                    style={{ transformOrigin: 'bottom center' }}
-                  >
-                    <PhantomDagger className="w-full h-full" />
-                  </div>
-                )}
-
-                {/* Tech Card Body */}
                 <div
-                  className={`
-                    relative flex flex-col items-center justify-center p-3 sm:p-4 rounded-sm border-[3px] transition-all
-                    ${isActive
-                      ? 'bg-black/95 border-white shadow-[8px_8px_0px_#000000] -skew-x-2'
-                      : 'bg-zinc-950/90 border-zinc-600 hover:border-white shadow-[4px_4px_0px_#000000] -skew-x-1'
-                    }
-                    min-w-[90px] sm:min-w-[110px] md:min-w-[125px] h-[95px] sm:h-[115px] md:h-[130px]
-                  `}
+                  key={`dagger-${tech.id}`}
+                  className="absolute -top-18 sm:-top-22 md:-top-26 -right-3 sm:-right-5 md:-right-7 w-16 sm:w-20 md:w-24 h-22 sm:h-28 md:h-34 pointer-events-none z-40 p5-dagger-slam-anim"
+                  style={{ transformOrigin: 'bottom center' }}
                 >
-                  {/* Subtle Corner Level Badge */}
-                  <span className={`absolute top-1 left-1.5 font-p5Mono text-[9px] font-black ${isActive ? 'text-p5-yellow' : 'text-zinc-400'}`}>
-                    LV.{tech.level}
-                  </span>
+                  <PhantomDagger className="w-full h-full" />
+                </div>
 
-                  {/* SVG Tech Icon */}
-                  <div className="my-auto transition-transform hover:scale-110 filter drop-shadow-[2px_2px_0px_#000000]">
-                    {tech.renderIcon({ className: isActive ? 'size-10 sm:size-12 md:size-14' : 'size-7 sm:size-8 md:size-10', isSelected: isActive })}
+                {/* Centerpiece Persona 5 Die-Cut Ransom Sticker Body */}
+                <div className="relative flex flex-col items-center justify-between p-3 sm:p-4 rounded-sm border-[4px] border-white bg-black shadow-[10px_10px_0px_#000000] -skew-x-2 min-w-[125px] sm:min-w-[145px] md:min-w-[165px] h-[130px] sm:h-[155px] md:h-[175px] transition-transform hover:scale-105">
+                  {/* Top Header: Level + Element Badge */}
+                  <div className="flex items-center justify-between w-full">
+                    <span className="font-p5Mono text-[10px] sm:text-xs font-black text-p5-yellow bg-zinc-900 px-1.5 py-0.5 -skew-x-6 border border-zinc-700 shadow-[1px_1px_0px_#000]">
+                      LV.{tech.level}
+                    </span>
+                    <span
+                      className={`font-p5Mono text-[9px] sm:text-[10px] font-extrabold uppercase px-1.5 py-0.5 -skew-x-6 border border-black shadow-[1.5px_1.5px_0px_#000] ${getRibbonTextColor(tech.accentColor)}`}
+                      style={{ backgroundColor: tech.accentColor }}
+                    >
+                      {tech.element}
+                    </span>
                   </div>
 
-                  {/* Persona 5 Styled Sticker Label */}
+                  {/* SVG Tech Icon with Hover Punch */}
+                  <div className="my-auto transition-transform hover:scale-115 filter drop-shadow-[0_0_8px_rgba(255,255,255,0.4)]">
+                    {tech.renderIcon({
+                      className: 'size-12 sm:size-14 md:size-16',
+                      isSelected: true,
+                    })}
+                  </div>
+
+                  {/* Bottom Brand Ransom Ribbon */}
                   <div
                     className={`
-                      mt-auto px-2 py-0.5 -skew-x-12 border border-black font-p5Heading text-xs sm:text-sm font-black tracking-wider uppercase truncate max-w-full
-                      ${isActive
-                        ? 'bg-white text-black font-black shadow-[2px_2px_0px_#000000] rotate-1'
-                        : 'bg-white text-black shadow-[1.5px_1.5px_0px_#000000] -rotate-1'
-                      }
+                      px-3 py-0.5 sm:py-1 -skew-x-12 rotate-1 border-2 border-black font-p5Heading text-sm sm:text-base md:text-lg font-black tracking-wider uppercase truncate max-w-full shadow-[3px_3px_0px_#000000]
+                      ${getRibbonTextColor(tech.accentColor)}
                     `}
+                    style={{ backgroundColor: tech.accentColor }}
                   >
                     {tech.shortLabel}
                   </div>
                 </div>
 
-                {/* 'ACTIVE TARGET' indicator pin */}
-                {isActive && (
-                  <span className="mt-2 bg-p5-yellow text-black text-[9px] sm:text-[10px] font-p5Mono font-extrabold px-2 py-0.5 -skew-x-6 border border-black shadow-[2px_2px_0px_#000]">
-                    ★ SELECTED TECH
-                  </span>
-                )}
+                {/* 'ACTIVE TARGET // INSPECT' Indicator Tag */}
+                <div className="mt-2.5 sm:mt-3 flex items-center gap-1.5 bg-p5-yellow text-black font-p5Heading text-[11px] sm:text-xs font-black px-2.5 py-0.5 -skew-x-6 border border-black shadow-[2px_2px_0px_#000] hover:bg-white transition-colors">
+                  <span className="size-3.5 rounded-full bg-black text-p5-yellow text-[9px] font-bold flex items-center justify-center">X</span>
+                  <span>INSPECT WEAPON</span>
+                </div>
               </div>
             )
-          })}
-        </div>
+          }
 
-        {/* ── CINEMATIC PROMPT UNDER ARC (ALTERNATIF B - CLEAN & SPACIOUS) ── */}
-        <div className="mt-12 sm:mt-16 md:mt-20 flex items-center gap-3 font-p5Mono text-xs text-white/90 bg-black/85 px-4 py-1.5 border border-white/60 -skew-x-6 shadow-[4px_4px_0px_#000000]">
-          <span className="text-yellow-400 font-bold">◀ / ▶</span>
-          <span>SELECT TECH WEAPON</span>
-          <span className="text-zinc-500">//</span>
-          <button
-            onClick={openInspector}
-            className="text-white hover:text-yellow-300 font-bold underline cursor-pointer transition-colors"
-          >
-            INSPECT {activeTech.name}
-          </button>
-        </div>
-
-        {/* Slot Pips Indicator */}
-        <div className="flex items-center gap-1.5 mt-3">
-          {TECH_DECK.map((tech, i) => (
-            <button
+          return (
+            <div
               key={tech.id}
-              onClick={() => handleSelectIndex(i)}
-              className={`h-2 transition-all cursor-pointer ${
-                i === activeIndex
-                  ? 'w-7 bg-white shadow-[0_0_8px_#FFFFFF]'
-                  : 'w-2 bg-zinc-600 hover:bg-white'
-              }`}
-              title={tech.name}
-            />
-          ))}
+              onClick={() => handleSelectIndex(targetIndex)}
+              onMouseEnter={playHover}
+              style={{
+                transform: `translate(-50%, -50%) rotate(${slotConfig.rotation})`,
+                zIndex: slotConfig.zIndex,
+              }}
+              className={`absolute -translate-x-1/2 -translate-y-1/2 flex flex-col items-center cursor-pointer transition-all duration-300 ease-out ${slotConfig.containerClass} ${slotConfig.scaleClass} ${slotConfig.opacityClass}`}
+              title={`Shift ${tech.name} to Center`}
+            >
+              {/* Inactive Persona 5 Monochrome Ransom Sticker Body */}
+              <div className={`relative flex flex-col items-center justify-between p-2 sm:p-2.5 rounded-sm border-[3px] border-white/90 bg-zinc-950/95 shadow-[6px_6px_0px_#000000] ${slotConfig.skew} min-w-[85px] sm:min-w-[100px] md:min-w-[115px] h-[95px] sm:h-[110px] md:h-[125px] transition-transform hover:scale-105`}>
+                {/* Corner Level & Element */}
+                <div className="flex items-center justify-between w-full">
+                  <span className="font-p5Mono text-[9px] sm:text-[10px] font-bold text-zinc-400">
+                    LV.{tech.level}
+                  </span>
+                  <span className="font-p5Mono text-[8px] font-semibold text-zinc-500">
+                    {tech.element}
+                  </span>
+                </div>
+
+                {/* SVG Tech Icon (Monochrome) */}
+                <div className="my-auto opacity-80 group-hover:opacity-100 transition-opacity">
+                  {tech.renderIcon({
+                    className: 'size-8 sm:size-9 md:size-10',
+                    isSelected: false,
+                  })}
+                </div>
+
+                {/* Persona 5 Cutout White Label Tape */}
+                <div className="px-2 py-0.5 -skew-x-12 -rotate-1 bg-white text-black border border-black font-p5Heading text-xs sm:text-sm font-black tracking-wider uppercase truncate max-w-full shadow-[2px_2px_0px_#000000]">
+                  {tech.shortLabel}
+                </div>
+              </div>
+            </div>
+          )
+        })}
+
+        {/* ── CINEMATIC PROMPT UNDER SKYLINE (PERSONA 5 HUD PROMPT) ── */}
+        <div className="absolute bottom-1 sm:bottom-2 md:bottom-3 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 z-20 pointer-events-auto">
+          <div className="flex items-center gap-3 font-p5Mono text-[11px] sm:text-xs text-white/90 bg-black/85 px-4 py-1.5 border border-white/60 -skew-x-6 shadow-[4px_4px_0px_#000000]">
+            <span className="text-yellow-400 font-bold">◀ / ▶</span>
+            <span>SELECT TECH WEAPON</span>
+            <span className="text-zinc-500">//</span>
+            <button
+              onClick={openInspector}
+              className="text-white hover:text-yellow-300 font-bold underline cursor-pointer transition-colors"
+            >
+              INSPECT {activeTech.name}
+            </button>
+          </div>
+
+          {/* Slot Pips Indicator */}
+          <div className="flex items-center gap-1.5">
+            {TECH_DECK.map((tech, i) => (
+              <button
+                key={tech.id}
+                onClick={() => handleSelectIndex(i)}
+                className={`h-2 transition-all cursor-pointer ${
+                  i === activeIndex
+                    ? 'w-7 bg-white shadow-[0_0_8px_#FFFFFF]'
+                    : 'w-2 bg-zinc-600 hover:bg-white'
+                }`}
+                title={tech.name}
+              />
+            ))}
+          </div>
         </div>
       </div>
 
