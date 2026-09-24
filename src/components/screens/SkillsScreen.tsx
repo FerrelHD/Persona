@@ -872,6 +872,46 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
                 </div>
               )
             })}
+
+            {/* ── OPTICAL ILLUSION FOREGROUND FURNITURE MASKS ── */}
+            {/* 1. Tiang Rak Kanan (Layer 21) */}
+            <img
+              src="/assets/self.png"
+              alt=""
+              style={{
+                zIndex: 21,
+                imageRendering: '-webkit-optimize-contrast',
+                willChange: 'transform',
+                transform: 'translateZ(0)',
+              }}
+              className="absolute inset-0 w-full h-full object-cover pointer-events-none select-none"
+            />
+
+            {/* 2. Pagar Tangga Kiri Bawah (Layer 25) */}
+            <img
+              src="/assets/handlestairs.png"
+              alt=""
+              style={{
+                zIndex: 25,
+                imageRendering: '-webkit-optimize-contrast',
+                willChange: 'transform',
+                transform: 'translateZ(0)',
+              }}
+              className="absolute inset-0 w-full h-full object-cover pointer-events-none select-none"
+            />
+
+            {/* 3. Meja / Tatami Depan Kanan Bawah (Layer 27) */}
+            <img
+              src="/assets/tablefront.png"
+              alt=""
+              style={{
+                zIndex: 27,
+                imageRendering: '-webkit-optimize-contrast',
+                willChange: 'transform',
+                transform: 'translateZ(0)',
+              }}
+              className="absolute inset-0 w-full h-full object-cover pointer-events-none select-none"
+            />
           </div>
 
           {/* ── OPSI A: PERSONA 5 FLOATING COMIC SPEECH BUBBLE ── */}

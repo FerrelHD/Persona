@@ -10,6 +10,10 @@ const PRELOAD_VIDEOS = [
 const PRELOAD_IMAGES = [
   '/assets/tokyobackground.png',
   '/assets/Background Joker Hideout.png',
+  '/assets/background attic.jpe',
+  '/assets/handlestairs.png',
+  '/assets/self.png',
+  '/assets/tablefront.png',
   '/assets/Futaba_Sakura.webp',
   '/assets/yusuke kitagawa.png',
   '/assets/Ryuji_Sakamoto.webp',
