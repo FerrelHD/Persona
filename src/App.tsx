@@ -15,7 +15,7 @@ import { useAssetPreloader } from '@/hooks/useAssetPreloader'
 const SCREEN_COLOR: Record<ActiveScreen, string> = {
   menu:        '#E60012',
   missions:    '#00D4FF',
-  hideout:     '#64748B', // Steel Slate Gray / Tech Arsenal
+  hideout:     '#7C4A1E', // Cafe Leblanc Warm Coffee Brown
   about:       '#B91C1C',
   callingCard: '#10B981',
 }
