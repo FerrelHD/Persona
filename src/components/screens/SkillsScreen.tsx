@@ -719,7 +719,7 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
                     alt={char.name}
                     style={{
                       filter: isHovered
-                        ? `sepia(${char.warmth}) brightness(${char.brightness * 1.08}) contrast(1.12) drop-shadow(3px 0 0 #E60012) drop-shadow(-3px 0 0 #E60012) drop-shadow(0 3px 0 #E60012) drop-shadow(0 -3px 0 #E60012)`
+                        ? `sepia(${char.warmth}) brightness(${char.brightness * 1.08}) contrast(1.12) drop-shadow(2px 0 0 #E60012) drop-shadow(-2px 0 0 #E60012) drop-shadow(0 2px 0 #E60012) drop-shadow(0 -2px 0 #E60012) drop-shadow(1.5px 1.5px 0 #E60012) drop-shadow(-1.5px -1.5px 0 #E60012) drop-shadow(1.5px -1.5px 0 #E60012) drop-shadow(-1.5px 1.5px 0 #E60012)`
                         : `sepia(${char.warmth}) brightness(${char.brightness}) contrast(1.05)`,
                       transition: 'filter 150ms ease-out',
                     }}
