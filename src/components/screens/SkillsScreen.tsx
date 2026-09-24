@@ -419,7 +419,7 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
                 {isActive && (
                   <div
                     key={`dagger-${tech.id}`}
-                    className="absolute -top-16 sm:-top-20 md:-top-24 right-0 sm:right-1 md:right-2 w-18 sm:w-22 md:w-26 h-24 sm:h-30 md:h-36 pointer-events-none z-40 p5-dagger-slam-anim"
+                    className="absolute -top-22 sm:-top-26 md:-top-32 right-1 sm:right-2 md:right-3 w-18 sm:w-22 md:w-26 h-24 sm:h-30 md:h-36 pointer-events-none z-40 p5-dagger-slam-anim"
                     style={{ transformOrigin: 'bottom center' }}
                   >
                     <PhantomDagger className="w-full h-full" />
