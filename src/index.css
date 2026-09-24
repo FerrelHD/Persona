@@ -161,13 +161,13 @@
 /* Persona 5 Tokyo Background Cinematic Drift (Anime Camera Sway) */
 @keyframes p5-bg-drift {
   0% {
-    transform: scale(1.02) translate(0, 0);
+    transform: scale(1.01) translate3d(0, 0, 0);
   }
   50% {
-    transform: scale(1.05) translate(-8px, -5px);
+    transform: scale(1.02) translate3d(-10px, -4px, 0);
   }
   100% {
-    transform: scale(1.02) translate(0, 0);
+    transform: scale(1.01) translate3d(0, 0, 0);
   }
 }
 .p5-bg-drift-anim {

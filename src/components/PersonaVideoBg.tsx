@@ -44,7 +44,7 @@ export const PersonaVideoBg: React.FC<PersonaVideoBgProps> = ({ videoSrc, onRead
           src={currentSrc}
           alt="Background"
           onLoad={() => onReady?.()}
-          className="w-full h-full object-cover object-center select-none p5-bg-drift-anim"
+          className="w-full h-full object-cover object-[center_18%] select-none p5-bg-drift-anim"
         />
       ) : (
         <video

@@ -101,8 +101,8 @@ export const MissionsScreen: React.FC<MissionsScreenProps> = ({ onBack }) => {
           {MISSIONS_DATA.map((mission, idx) => {
             const isSelected = idx === selectedIndex
             const diff = idx - selectedIndex
-            // Only show slots near selected index
-            if (Math.abs(diff) > 2) return null
+            // Only show active slot and up to 2 slots below it (hide slots above so they don't scroll up and crowd the title)
+            if (diff < 0 || diff > 2) return null
 
             return isSelected ? (
               /* ── ACTIVE SELECTED SLOT (Expanded Red Banner - Zero Clipping) ── */
@@ -208,10 +208,10 @@ export const MissionsScreen: React.FC<MissionsScreenProps> = ({ onBack }) => {
                   playHover()
                   setSelectedIndex(idx)
                 }}
-                className="relative w-full bg-zinc-100 hover:bg-white text-black border-2 sm:border-[3px] border-black shadow-[6px_6px_0px_#000000] -rotate-2 sm:-rotate-[3deg] -skew-x-6 sm:-skew-x-12 py-2 sm:py-2.5 px-5 sm:px-8 transition-all duration-200 cursor-pointer hover:translate-x-2 group flex items-center justify-between"
+                className="relative w-full h-11 sm:h-12 bg-zinc-100 hover:bg-white text-black border-2 sm:border-[3px] border-black shadow-[6px_6px_0px_#000000] -rotate-2 sm:-rotate-[3deg] -skew-x-6 sm:-skew-x-12 px-5 sm:px-8 transition-transform duration-200 cursor-pointer hover:translate-x-2 group flex flex-nowrap items-center justify-between overflow-hidden"
               >
                 {/* Left Filmstrip Sprockets & Number */}
-                <div className="flex items-center gap-3 z-10 shrink-0">
+                <div className="flex items-center gap-2.5 sm:gap-3 z-10 shrink-0">
                   <div className="bg-black text-white font-p5Heading text-sm sm:text-lg px-2 py-0.5 border border-black shadow-[2px_2px_0px_#000] -rotate-1 group-hover:bg-[#003876] transition-colors shrink-0">
                     {mission.slotNumber}
                   </div>
@@ -225,8 +225,8 @@ export const MissionsScreen: React.FC<MissionsScreenProps> = ({ onBack }) => {
                   </div>
                 </div>
 
-                {/* Watermark Project Name */}
-                <div className="font-p5Heading text-lg sm:text-2xl md:text-3xl text-zinc-400 group-hover:text-black tracking-widest uppercase transition-colors truncate whitespace-nowrap max-w-[45%] px-2">
+                {/* Watermark Project Name - Absorbs remaining width with zero overflow */}
+                <div className="flex-1 min-w-0 mx-3 text-center font-p5Heading text-base sm:text-xl lg:text-2xl text-zinc-400 group-hover:text-black tracking-widest uppercase transition-colors truncate whitespace-nowrap">
                   {mission.title.split('//')[0]}
                 </div>
 
