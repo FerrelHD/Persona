@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react'
 import { usePersonaSFX } from '@/hooks/usePersonaSFX'
 import { PhantomDagger } from '@/components/common/PhantomDagger'
+import { TakeYourTime } from '@/components/common/TakeYourTime'
 import { Zap, Sparkles, Shield, Flame, Sword, Crosshair, HeartPulse, RefreshCw, X, ChevronRight, Layers, Sliders, Move, Copy, Check, RotateCcw } from 'lucide-react'
 
 interface SkillsScreenProps {
@@ -455,6 +456,50 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
     originY: 50,
   })
 
+  // Preloading & Cinematic Entrance state
+  const [isAssetsLoading, setIsAssetsLoading] = useState(true)
+  const [isEntranceAnimating, setIsEntranceAnimating] = useState(true)
+
+  useEffect(() => {
+    let isMounted = true
+    const preloadList = [
+      '/assets/background attic.jpe',
+      '/assets/self.png',
+      '/assets/handlestairs.png',
+      '/assets/tablefront.png',
+      '/assets/yusuke kitagawa.png',
+      '/assets/Futaba_Sakura.webp',
+      '/assets/Morgana.webp',
+      '/assets/Ryuji_Sakamoto.webp',
+      '/assets/An_takamaki.webp',
+      '/assets/Joker.png',
+    ]
+
+    const minDelayPromise = new Promise(resolve => setTimeout(resolve, 450))
+
+    const imagePromises = preloadList.map(src => {
+      return new Promise<void>((resolve) => {
+        const img = new Image()
+        img.src = src
+        img.onload = () => resolve()
+        img.onerror = () => resolve()
+      })
+    })
+
+    Promise.all([minDelayPromise, ...imagePromises]).then(() => {
+      if (!isMounted) return
+      playSlash()
+      setIsAssetsLoading(false)
+      setTimeout(() => {
+        if (isMounted) setIsEntranceAnimating(false)
+      }, 700)
+    })
+
+    return () => {
+      isMounted = false
+    }
+  }, [playSlash])
+
   // Character list with dynamic positioning state
   const [characterList, setCharacterList] = useState<PhantomCharacter[]>(() => {
     const saved = localStorage.getItem('p5_characters_bocchi_v3')
@@ -626,12 +671,22 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
     // stays pinned to the character's focus point while the camera smoothly scales back down to 1!
   }, [playBack])
 
-  // Keyboard navigation: Escape for back/close
+  // Keyboard navigation: Shift+C for Calibrator, Escape for back/close
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
+      // Shift + C: Toggle Calibrator drawer
+      if (e.shiftKey && (e.key === 'C' || e.key === 'c')) {
+        e.preventDefault()
+        playSlash()
+        setIsCalibratorOpen(prev => !prev)
+        return
+      }
+
       if (e.key === 'Escape') {
         e.preventDefault()
-        if (activeCharId) {
+        if (isCalibratorOpen) {
+          setIsCalibratorOpen(false)
+        } else if (activeCharId) {
           handleResetCamera()
         } else {
           playBack()
@@ -642,11 +697,42 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
 
     window.addEventListener('keydown', handleKeyDown)
     return () => window.removeEventListener('keydown', handleKeyDown)
-  }, [activeCharId, onBack, playBack, handleResetCamera])
+  }, [activeCharId, isCalibratorOpen, onBack, playBack, playSlash, handleResetCamera])
 
   return (
     <div className="fixed inset-0 z-30 select-none overflow-hidden bg-black flex flex-col justify-between animate-in fade-in duration-300">
       
+      {/* ── PERSONA 5 'TAKE YOUR TIME' INFILTRATION LOADING SCREEN ── */}
+      {isAssetsLoading && (
+        <div className="fixed inset-0 z-[100] bg-black flex flex-col justify-between p-6 sm:p-10 select-none animate-in fade-in duration-200">
+          {/* Subtle Persona 5 Speedlines / Halftone Watermark */}
+          <div className="absolute inset-0 pointer-events-none opacity-20 overflow-hidden">
+            <div className="w-full h-full bg-[radial-gradient(circle_at_center,rgba(230,0,18,0.2)_0%,transparent_70%)]" />
+          </div>
+
+          {/* Top Left Title Stamp */}
+          <div className="relative z-10 flex items-center gap-2">
+            <span className="bg-[#E60012] text-white px-2 py-0.5 font-p5Heading text-xs font-black uppercase -skew-x-6 border border-black shadow-[2px_2px_0px_#000]">
+              HIDEOUT
+            </span>
+            <span className="font-p5Sub text-xs text-zinc-400 tracking-widest uppercase">
+              CAFE LEBLANC // ATTIC HEADQUARTERS
+            </span>
+          </div>
+
+          {/* Center Subtle Infiltration Text */}
+          <div className="relative z-10 self-center flex items-center gap-3">
+            <span className="size-2 bg-red-600 animate-ping rounded-full" />
+            <span className="font-p5Heading text-sm sm:text-base tracking-widest text-zinc-300 uppercase">
+              INFILTRATING ATTIC...
+            </span>
+          </div>
+
+          {/* Bottom Right: Iconic P5 Take Your Time Animated Mascot */}
+          <TakeYourTime visible={true} />
+        </div>
+      )}
+
       {/* ── CINEMATIC LETTERBOX BLACK BARS (FOREGROUND LAYER - ZERO OUTLINE, ZERO TEXT) ── */}
       {/* Top Black Bar */}
       <div
@@ -693,8 +779,17 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
         </div>
       )}
 
-      {/* ── TOP-LEFT: PERSONA 5 RANSOM 'HIDEOUT' BANNER ── */}
-      <div className="absolute top-4 left-4 sm:top-6 sm:left-6 z-40 flex flex-col items-start select-none pointer-events-none p5-tile-entrance">
+      {/* ── TOP-LEFT: PERSONA 5 RANSOM 'HIDEOUT' BANNER (HIDES SWIFTLY WHEN CHARACTER IS SELECTED) ── */}
+      <div
+        className={`absolute top-4 left-4 sm:top-6 sm:left-6 z-40 flex flex-col items-start select-none pointer-events-none transition-all duration-500 ${
+          activeChar
+            ? '-translate-x-[120%] -translate-y-6 opacity-0'
+            : 'translate-x-0 translate-y-0 opacity-100 p5-tile-entrance'
+        }`}
+        style={{
+          transitionTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)',
+        }}
+      >
         <div className="flex items-center gap-1 sm:gap-1.5 filter drop-shadow-[4px_4px_0px_#000000]">
           {['H', 'I', 'D', 'E', 'O', 'U', 'T'].map((char, i) => (
             <span
@@ -729,7 +824,9 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
       </div>
 
       {/* ── 2.5D LEBLANC ATTIC VIRTUAL CAMERA STAGE ── */}
-      <div className="relative w-full h-full flex items-center justify-center overflow-hidden">
+      <div className={`relative w-full h-full flex items-center justify-center overflow-hidden transition-all duration-700 ease-out ${
+        isEntranceAnimating ? 'scale-105 opacity-90' : 'scale-100 opacity-100'
+      }`}>
         {/* Full-bleed Reference Stage Container */}
         <div ref={stageRef} className="relative w-full h-full select-none overflow-hidden">
           
@@ -1066,30 +1163,23 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
       )}
 
 
-      {/* ── TACTICAL POSITION CALIBRATOR (FLOATING UI PANEL) ── */}
-      <div className="fixed top-4 right-4 z-[70] flex flex-col items-end">
-        {/* Toggle Button */}
-        <button
-          onClick={() => setIsCalibratorOpen(o => !o)}
-          className={`flex items-center gap-2 px-3 py-1.5 font-p5Heading text-xs font-black uppercase -skew-x-6 border-2 border-black shadow-[3px_3px_0px_#000] cursor-pointer transition-transform hover:scale-105 ${
-            isCalibratorOpen ? 'bg-yellow-400 text-black' : 'bg-[#E60012] text-white hover:bg-white hover:text-black'
-          }`}
-          title="Toggle Character Position Calibrator"
-        >
-          <Sliders className="size-3.5" />
-          <span>{isCalibratorOpen ? 'CLOSE CALIBRATOR' : '🔧 ADJUST POSITIONS'}</span>
-        </button>
-
-        {/* Floating Controls Drawer */}
-        {isCalibratorOpen && (
-          <div className="mt-2 w-[340px] sm:w-[380px] bg-black/95 border-2 border-yellow-400 text-white p-3.5 shadow-[6px_6px_0px_#000] max-h-[82vh] overflow-y-auto font-sans text-xs">
+      {/* ── TACTICAL POSITION CALIBRATOR (ACCESSIBLE VIA SHIFT + C) ── */}
+      {isCalibratorOpen && (
+        <div className="fixed top-4 right-4 z-[70] flex flex-col items-end animate-in fade-in zoom-in-95 duration-200">
+          <div className="w-[340px] sm:w-[380px] bg-black/95 border-2 border-yellow-400 text-white p-3.5 shadow-[6px_6px_0px_#000] max-h-[85vh] overflow-y-auto font-sans text-xs">
             {/* Header */}
             <div className="flex items-center justify-between border-b border-zinc-800 pb-2 mb-3">
               <div className="flex items-center gap-1.5">
                 <Move className="size-4 text-yellow-400" />
-                <span className="font-p5Heading text-sm font-bold text-yellow-400">CHARACTER POS CALIBRATOR</span>
+                <span className="font-p5Heading text-sm font-bold text-yellow-400">POSITION CALIBRATOR</span>
               </div>
-              <span className="text-[10px] text-zinc-400 font-mono">DRAG ON STAGE</span>
+              <button
+                onClick={() => setIsCalibratorOpen(false)}
+                className="px-2 py-0.5 bg-zinc-800 hover:bg-[#E60012] text-zinc-300 hover:text-white font-mono text-[10px] rounded transition-colors cursor-pointer"
+                title="Close (Shift+C or Esc)"
+              >
+                ✕ CLOSE [Shift+C]
+              </button>
             </div>
 
             {/* Character Selector Tabs */}
@@ -1401,8 +1491,8 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
               </button>
             </div>
           </div>
-        )}
-      </div>
+        </div>
+      )}
 
     </div>
   )
