@@ -162,8 +162,16 @@ export const MainMenu: React.FC<MainMenuProps> = ({ onSelectScreen, onBackToTitl
                   className="group relative inline-flex items-center text-left cursor-pointer outline-none transition-transform duration-150"
                 >
                   {isFocused ? (
-                    /* ACTIVE STATE: Jagged Ribbon + Ransom Cutout */
-                    <div className="relative flex items-center translate-x-2 sm:translate-x-4 md:translate-x-5 scale-100 sm:scale-105 transition-all duration-150">
+                    /* ACTIVE STATE: Jagged Ribbon Slam + Katana Slash Flash + Staggered Letter Pop (Opsi 1 + Opsi 2) */
+                    <div className="relative flex items-center translate-x-2 sm:translate-x-4 md:translate-x-5 scale-100 sm:scale-105 transition-transform duration-150 p5-ribbon-slam-anim">
+                      {/* Katana Red Slash Flash Streak (Opsi 2) */}
+                      <div
+                        key={`slash-${item.id}`}
+                        className="absolute -inset-y-3 -inset-x-8 z-0 overflow-hidden pointer-events-none"
+                      >
+                        <div className="h-full w-[45%] bg-gradient-to-r from-transparent via-[#E60012] to-white/90 p5-slash-flash-anim filter drop-shadow-[0_0_12px_#E60012]" />
+                      </div>
+
                       <svg
                         viewBox="0 0 540 100"
                         preserveAspectRatio="none"
@@ -186,13 +194,14 @@ export const MainMenu: React.FC<MainMenuProps> = ({ onSelectScreen, onBackToTitl
                         {item.letters.map((ltr, ltrIdx) => (
                           <span
                             key={ltrIdx}
-                            className={`inline-flex items-center justify-center min-w-[28px] md:min-w-[34px] h-[40px] md:h-[48px] laptop-main-letter px-1.5 md:px-2 font-p5Heading text-xl sm:text-2xl md:text-3xl laptop-main-letter-text uppercase shadow-[3px_3px_0px_#000000] border-2 border-black ${ltr.bg} ${ltr.rotate} transition-transform duration-100 hover:scale-120`}
+                            style={{ animationDelay: `${ltrIdx * 25 + 20}ms` }}
+                            className={`inline-flex items-center justify-center min-w-[28px] md:min-w-[34px] h-[40px] md:h-[48px] laptop-main-letter px-1.5 md:px-2 font-p5Heading text-xl sm:text-2xl md:text-3xl laptop-main-letter-text uppercase shadow-[3px_3px_0px_#000000] border-2 border-black ${ltr.bg} ${ltr.rotate} p5-letter-pop-anim transition-transform duration-100 hover:scale-120`}
                           >
                             {ltr.char}
                           </span>
                         ))}
 
-                        <span className={`${item.arrowColor} text-lg md:text-xl ml-2 md:ml-3 -skew-x-12 animate-pulse filter drop-shadow-[2px_2px_0px_#000000]`}>
+                        <span className={`${item.arrowColor} text-lg md:text-xl ml-2 md:ml-3 p5-arrow-dart-anim filter drop-shadow-[2px_2px_0px_#000000]`}>
                           ▶
                         </span>
                       </div>

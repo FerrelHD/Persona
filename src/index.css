@@ -519,6 +519,89 @@
   will-change: transform, opacity;
 }
 
+/* ── Persona 5 Main Menu Hover Animations (Opsi 1 + Opsi 2) ── */
+
+/* 1. Kinetic Ribbon Slam Entrance */
+@keyframes p5-ribbon-slam {
+  0% {
+    transform: translate3d(-32px, 0, 0) scaleX(0.75) skewX(-8deg);
+    opacity: 0;
+  }
+  65% {
+    transform: translate3d(5px, 0, 0) scaleX(1.04) skewX(-1.5deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translate3d(0, 0, 0) scaleX(1) skewX(-2deg);
+    opacity: 1;
+  }
+}
+
+.p5-ribbon-slam-anim {
+  animation: p5-ribbon-slam 0.22s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  will-change: transform, opacity;
+}
+
+/* 2. Staggered Ransom Letter Pop-In */
+@keyframes p5-letter-pop-slam {
+  0% {
+    transform: scale(0.35) translateY(10px);
+    opacity: 0;
+  }
+  65% {
+    transform: scale(1.18) translateY(-2px);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+  }
+}
+
+.p5-letter-pop-anim {
+  animation: p5-letter-pop-slam 0.22s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
+  will-change: transform, opacity;
+}
+
+/* 3. Phantom Red Katana Slash Flash Streak (Opsi 2) */
+@keyframes p5-slash-flash {
+  0% {
+    transform: translate3d(-120%, 0, 0) skewX(-35deg);
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+  }
+  80% {
+    opacity: 0.9;
+  }
+  100% {
+    transform: translate3d(180%, 0, 0) skewX(-35deg);
+    opacity: 0;
+  }
+}
+
+.p5-slash-flash-anim {
+  animation: p5-slash-flash 0.24s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  pointer-events: none;
+  will-change: transform, opacity;
+}
+
+/* 4. Arrow Darting Thrust */
+@keyframes p5-arrow-thrust {
+  0%, 100% {
+    transform: translate3d(0, 0, 0) skewX(-12deg);
+  }
+  50% {
+    transform: translate3d(6px, 0, 0) skewX(-12deg) scale(1.15);
+  }
+}
+
+.p5-arrow-dart-anim {
+  animation: p5-arrow-thrust 0.65s ease-in-out infinite;
+  will-change: transform;
+}
+
 /* Persona 5 Modal Kinetic Slam & Skew Snap */
 @keyframes p5-modal-slam {
   0% {
