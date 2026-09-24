@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { RansomTitle } from '@/components/RansomTitle'
 import { usePersonaSFX } from '@/hooks/usePersonaSFX'
 
-export type ActiveScreen = 'menu' | 'missions' | 'skills' | 'callingCard' | 'about'
+export type ActiveScreen = 'menu' | 'missions' | 'hideout' | 'callingCard' | 'about'
 
 interface MainMenuProps {
   onSelectScreen: (screen: ActiveScreen) => void
@@ -38,18 +38,19 @@ const MENU_ITEMS: MenuItem[] = [
     ]
   },
   {
-    id: 'skills',
-    label: 'SKILLS',
+    id: 'hideout',
+    label: 'HIDEOUT',
     rotation: '-rotate-1',
     offsetClass: 'ml-2 sm:ml-3 md:ml-4',
     arrowColor: 'text-[#94A3B8]',
     letters: [
-      { char: 'S', bg: 'bg-white text-black', rotate: '-rotate-2' },
-      { char: 'K', bg: 'bg-black text-white border border-white', rotate: 'rotate-3' },
-      { char: 'I', bg: 'bg-[#64748B] text-white font-black scale-105 shadow-md', rotate: '-rotate-1' },
-      { char: 'L', bg: 'bg-white text-black', rotate: 'rotate-4' },
-      { char: 'L', bg: 'bg-black text-white border border-white', rotate: '-rotate-3' },
-      { char: 'S', bg: 'bg-[#64748B] text-white font-black scale-110 shadow-lg', rotate: 'rotate-2' },
+      { char: 'H', bg: 'bg-white text-black', rotate: '-rotate-2' },
+      { char: 'I', bg: 'bg-[#64748B] text-white font-black scale-105 shadow-md', rotate: 'rotate-1' },
+      { char: 'D', bg: 'bg-white text-black', rotate: '-rotate-1' },
+      { char: 'E', bg: 'bg-black text-white border border-white', rotate: 'rotate-2' },
+      { char: 'O', bg: 'bg-[#64748B] text-white font-black scale-110 shadow-lg', rotate: '-rotate-2' },
+      { char: 'U', bg: 'bg-white text-black', rotate: 'rotate-3' },
+      { char: 'T', bg: 'bg-[#64748B] text-white font-black scale-110 shadow-lg', rotate: '-rotate-2' },
     ]
   },
   {

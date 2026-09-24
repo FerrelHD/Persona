@@ -222,8 +222,8 @@ const RADAR_STATS = [
 
 // ── BRAND CONTRAST HELPER FOR P5 RIBBON LABELS ──
 const getRibbonTextColor = (hexColor: string) => {
-  const lightColors = ['#00D4FF', '#FFD43B', '#FACC15', '#FFFFFF', '#38BDF8']
-  return lightColors.includes(hexColor.toUpperCase()) ? 'text-black' : 'text-white'
+  const lightColors = ['#00D4FF', '#FFD43B', '#FACC15', '#FFFFFF', '#38BDF8', '#00FF66', '#FFE500', '#FFD700', '#00E5A3', '#00A3FF']
+  return lightColors.includes(hexColor.toUpperCase()) ? '#000000' : '#FFFFFF'
 }
 
 // ── PHANTOM THIEVES CHARACTERS & LEBLANC ATTIC STAGE DATA ──
@@ -236,32 +236,44 @@ interface PhantomCharacter {
   quote: string
   src: string
   techId: string
+  thiefColor: string
+  thiefTextColor: string
   left: number
   bottom: number
   widthPercent: number
   zIndex: number
+  shadowWidth: number
+  shadowHeight: number
+  brightness: number
+  warmth: number
   camera: {
     scale: number
-    x: number
-    y: number
+    originX: number
+    originY: number
   }
 }
 
 const PHANTOM_CHARACTERS: PhantomCharacter[] = [
   {
-    id: 'joker',
-    name: 'REN AMAMIYA',
-    codename: 'JOKER',
-    kanji: '雨宮 蓮',
-    role: 'PHANTOM LEADER // ARCHITECT',
-    quote: 'Show me your true form! Ultra-reactive frontend architecture & TypeScript contracts unleashed.',
-    src: '/assets/Joker.png',
-    techId: 'react',
-    left: 49,
-    bottom: 5.5,
-    widthPercent: 17.5,
-    zIndex: 28,
-    camera: { scale: 2.15, x: -6, y: 7 },
+    id: 'yusuke',
+    name: 'YUSUKE KITAGAWA',
+    codename: 'FOX',
+    kanji: '喜多川 祐介',
+    role: 'METICULOUS ARTISAN // BACKEND MVC',
+    quote: 'An exquisite composition of robust Eloquent schemas, clean relations, and authenticated APIs.',
+    src: '/assets/yusuke kitagawa.png',
+    techId: 'laravel',
+    thiefColor: '#00A3FF',
+    thiefTextColor: '#000000',
+    left: 17.5,
+    bottom: 14.5,
+    widthPercent: 12,
+    zIndex: 24,
+    shadowWidth: 72,
+    shadowHeight: 12,
+    brightness: 0.96,
+    warmth: 0.08,
+    camera: { scale: 1.95, originX: 23.5, originY: 42 },
   },
   {
     id: 'futaba',
@@ -272,11 +284,17 @@ const PHANTOM_CHARACTERS: PhantomCharacter[] = [
     quote: 'Target locked! Transformer telemetry, IndoBERT sentiment pipelines, and PyTorch inference ready!',
     src: '/assets/Futaba_Sakura.webp',
     techId: 'python-ai',
+    thiefColor: '#00FF66',
+    thiefTextColor: '#000000',
     left: 28.5,
     bottom: 17.5,
-    widthPercent: 12,
+    widthPercent: 9,
     zIndex: 22,
-    camera: { scale: 2.5, x: 25, y: 14 },
+    shadowWidth: 76,
+    shadowHeight: 10,
+    brightness: 0.95,
+    warmth: 0.08,
+    camera: { scale: 2.05, originX: 33.0, originY: 44 },
   },
   {
     id: 'morgana',
@@ -287,11 +305,17 @@ const PHANTOM_CHARACTERS: PhantomCharacter[] = [
     quote: 'Looking cool, Joker! Fluid animations, custom keyframe passes, and tailored responsive tokens!',
     src: '/assets/Morgana.webp',
     techId: 'tailwind',
+    thiefColor: '#FFD700',
+    thiefTextColor: '#000000',
     left: 42,
-    bottom: 33.5,
-    widthPercent: 7.2,
+    bottom: 51,
+    widthPercent: 4.5,
     zIndex: 25,
-    camera: { scale: 3.1, x: 8, y: -20 },
+    shadowWidth: 68,
+    shadowHeight: 6,
+    brightness: 0.98,
+    warmth: 0.1,
+    camera: { scale: 2.45, originX: 44.2, originY: 46 },
   },
   {
     id: 'ryuji',
@@ -302,11 +326,17 @@ const PHANTOM_CHARACTERS: PhantomCharacter[] = [
     quote: 'For real?! High-throughput arcade vehicle physics and custom HLSL surface shaders kicking in!',
     src: '/assets/Ryuji_Sakamoto.webp',
     techId: 'unity',
-    left: 69,
-    bottom: 9.5,
-    widthPercent: 14.5,
-    zIndex: 27,
-    camera: { scale: 2.3, x: -28, y: 10 },
+    thiefColor: '#FFE500',
+    thiefTextColor: '#000000',
+    left: 48.5,
+    bottom: 24,
+    widthPercent: 8,
+    zIndex: 20,
+    shadowWidth: 75,
+    shadowHeight: 10,
+    brightness: 0.95,
+    warmth: 0.08,
+    camera: { scale: 2.05, originX: 52.5, originY: 46 },
   },
   {
     id: 'ann',
@@ -317,28 +347,87 @@ const PHANTOM_CHARACTERS: PhantomCharacter[] = [
     quote: 'Time for serious magic! Enterprise-grade hybrid SSR, App Router, and edge middleware deployed!',
     src: '/assets/An_takamaki.webp',
     techId: 'nextjs',
-    left: 61.5,
-    bottom: 27,
-    widthPercent: 9.5,
+    thiefColor: '#E60012',
+    thiefTextColor: '#FFFFFF',
+    left: 70.5,
+    bottom: 38.5,
+    widthPercent: 5.5,
     zIndex: 18,
-    camera: { scale: 2.7, x: -18, y: 22 },
+    shadowWidth: 70,
+    shadowHeight: 8,
+    brightness: 0.94,
+    warmth: 0.08,
+    camera: { scale: 2.15, originX: 73.2, originY: 42 },
   },
   {
-    id: 'yusuke',
-    name: 'YUSUKE KITAGAWA',
-    codename: 'FOX',
-    kanji: '喜多川 祐介',
-    role: 'METICULOUS ARTISAN // BACKEND MVC',
-    quote: 'An exquisite composition of robust Eloquent schemas, clean relations, and authenticated APIs.',
-    src: '/assets/yusuke kitagawa.png',
-    techId: 'laravel',
-    left: 17.5,
-    bottom: 14.5,
-    widthPercent: 12,
-    zIndex: 21,
-    camera: { scale: 2.35, x: 36, y: 13 },
+    id: 'joker',
+    name: 'REN AMAMIYA',
+    codename: 'JOKER',
+    kanji: '雨宮 蓮',
+    role: 'PHANTOM LEADER // ARCHITECT',
+    quote: 'Show me your true form! Ultra-reactive frontend architecture & TypeScript contracts unleashed.',
+    src: '/assets/Joker.png',
+    techId: 'react',
+    thiefColor: '#E60012',
+    thiefTextColor: '#FFFFFF',
+    left: 74,
+    bottom: 9.5,
+    widthPercent: 16.5,
+    zIndex: 26,
+    shadowWidth: 75,
+    shadowHeight: 14,
+    brightness: 0.97,
+    warmth: 0.08,
+    camera: { scale: 1.9, originX: 82.0, originY: 40 },
   },
 ]
+
+// ── PERSONA 5 FLOATING COMIC SPEECH BUBBLE POSITIONS (OPSI A) ──
+interface BubblePosition {
+  side: 'left' | 'right'
+  desktopStyle: React.CSSProperties
+  tailSide: 'left' | 'right'
+  tailTop: string
+}
+
+const BUBBLE_POSITIONS: Record<string, BubblePosition> = {
+  yusuke: {
+    side: 'right',
+    desktopStyle: { left: '36%', top: '16%' },
+    tailSide: 'left',
+    tailTop: '35%',
+  },
+  futaba: {
+    side: 'right',
+    desktopStyle: { left: '43%', top: '16%' },
+    tailSide: 'left',
+    tailTop: '35%',
+  },
+  morgana: {
+    side: 'right',
+    desktopStyle: { left: '50%', top: '15%' },
+    tailSide: 'left',
+    tailTop: '40%',
+  },
+  ryuji: {
+    side: 'left',
+    desktopStyle: { right: '55%', top: '16%' },
+    tailSide: 'right',
+    tailTop: '35%',
+  },
+  ann: {
+    side: 'left',
+    desktopStyle: { right: '32%', top: '16%' },
+    tailSide: 'right',
+    tailTop: '35%',
+  },
+  joker: {
+    side: 'left',
+    desktopStyle: { right: '31%', top: '16%' },
+    tailSide: 'right',
+    tailTop: '35%',
+  },
+}
 
 export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
   const { playHover, playSlash, playBack } = usePersonaSFX()
@@ -346,6 +435,12 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
   // Active character in Leblanc Attic (null = Overview Mode)
   const [activeCharId, setActiveCharId] = useState<string | null>(null)
   const [showSpeedlines, setShowSpeedlines] = useState<boolean>(false)
+
+  // Track the focal camera origin so zoom-out scales back from the exact same point without jerking
+  const [lastFocusOrigin, setLastFocusOrigin] = useState<{ originX: number; originY: number }>({
+    originX: 50,
+    originY: 50,
+  })
 
   // Tactical Modal Inspector
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
@@ -377,6 +472,7 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
     playSlash()
     setShowSpeedlines(true)
     setTimeout(() => setShowSpeedlines(false), 400)
+    setLastFocusOrigin({ originX: char.camera.originX, originY: char.camera.originY })
     setActiveCharId(char.id)
     const techIdx = TECH_DECK.findIndex(t => t.id === char.techId)
     if (techIdx >= 0) setModalTechIndex(techIdx)
@@ -385,6 +481,8 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
   const handleResetCamera = useCallback(() => {
     playBack()
     setActiveCharId(null)
+    // NOTE: lastFocusOrigin is deliberately preserved so that CSS transform-origin
+    // stays pinned to the character's focus point while the camera smoothly scales back down to 1!
   }, [playBack])
 
   const openInspector = useCallback(() => {
@@ -406,6 +504,7 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
       setActiveCharId(matchingChar.id)
     }
   }, [playSlash])
+
 
   // Keyboard navigation: click-only for selecting characters, Escape for back/close, X/Enter for inspect
   useEffect(() => {
@@ -520,173 +619,264 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
 
       {/* ── 2.5D LEBLANC ATTIC VIRTUAL CAMERA STAGE ── */}
       <div className="relative w-full h-full flex items-center justify-center overflow-hidden">
-        <div
-          className="relative w-full h-full max-w-[1920px] max-h-[1080px] aspect-video transition-transform duration-700 ease-out will-change-transform select-none"
-          style={{
-            transform: activeChar
-              ? `scale(${activeChar.camera.scale}) translate(${activeChar.camera.x}%, ${activeChar.camera.y}%)`
-              : 'scale(1) translate(0%, 0%)',
-            transformOrigin: 'center center',
-          }}
-        >
-          {/* Base 3D Room Render Background */}
-          <img
-            src="/assets/Background Joker Hideout.png"
-            alt="Cafe Leblanc Attic"
-            className="absolute inset-0 w-full h-full object-cover pointer-events-none select-none"
-          />
-
-          {/* Ambient Dark Dim Overlay (active when zoomed in, clickable to reset) */}
+        {/* Fixed 16:9 Screen Reference Canvas Container */}
+        <div className="relative w-full h-full max-w-[1920px] max-h-[1080px] aspect-video select-none overflow-hidden">
+          
+          {/* Virtual 2.5D Camera Stage (Zooms and scales smoothly) */}
           <div
-            onClick={handleResetCamera}
-            className={`absolute inset-0 bg-black/60 transition-opacity duration-500 z-10 ${
-              activeChar ? 'opacity-100 pointer-events-auto cursor-pointer' : 'opacity-0 pointer-events-none'
-            }`}
-          />
+            className="absolute inset-0 w-full h-full select-none"
+            style={{
+              transform: activeChar
+                ? `scale(${activeChar.camera.scale})`
+                : 'scale(1)',
+              transformOrigin: `${lastFocusOrigin.originX}% ${lastFocusOrigin.originY}%`,
+              transition: 'transform 700ms cubic-bezier(0.16, 1, 0.3, 1)',
+              willChange: 'transform',
+            }}
+          >
+            {/* Base 3D Room Render Background */}
+            <img
+              src="/assets/Background Joker Hideout.png"
+              alt="Cafe Leblanc Attic"
+              style={{ imageRendering: '-webkit-optimize-contrast' }}
+              className="absolute inset-0 w-full h-full object-cover pointer-events-none select-none"
+            />
 
-          {/* Giant Japanese Kanji Backdrop (visible when zoomed in) */}
-          {activeChar && (
-            <div className="absolute inset-0 flex items-center justify-center pointer-events-none overflow-hidden select-none z-15 p5-splash-text-anim">
-              <span className="font-p5Heading text-[16vw] font-black text-white/12 uppercase tracking-widest -rotate-12 select-none filter blur-[0.5px]">
-                {activeChar.kanji}
-              </span>
-            </div>
-          )}
+            {/* Ambient Dark Dim Overlay (active when zoomed in, clickable to reset) */}
+            <div
+              onClick={handleResetCamera}
+              className={`absolute inset-0 bg-black/60 transition-opacity duration-500 z-10 ${
+                activeChar ? 'opacity-100 pointer-events-auto cursor-pointer' : 'opacity-0 pointer-events-none'
+              }`}
+            />
 
-          {/* 6 Character Cutout Sprites */}
-          {PHANTOM_CHARACTERS.map((char) => {
-            const isSelected = activeChar?.id === char.id
-            const tech = TECH_DECK.find(t => t.id === char.techId)
-
-            return (
-              <div
-                key={char.id}
-                onClick={(e) => {
-                  e.stopPropagation()
-                  handleSelectCharacter(char)
-                }}
-                onMouseEnter={playHover}
-                style={{
-                  left: `${char.left}%`,
-                  bottom: `${char.bottom}%`,
-                  width: `${char.widthPercent}%`,
-                  zIndex: isSelected ? 35 : char.zIndex,
-                }}
-                className={`
-                  absolute group cursor-pointer transition-all duration-300
-                  ${isSelected ? 'scale-105' : 'hover:scale-105'}
-                `}
-                title={`Select ${char.name} [${char.codename}]`}
-              >
-                {/* Character Cutout Image with Comic Die-Cut Contour */}
-                <img
-                  src={char.src}
-                  alt={char.name}
-                  className={`
-                    w-full h-auto object-contain select-none transition-all duration-300
-                    ${isSelected
-                      ? 'filter drop-shadow-[0_0_10px_rgba(255,255,255,0.95)] drop-shadow-[0_0_24px_' + (tech?.accentColor || '#ffffff') + '90)] brightness-105'
-                      : 'filter drop-shadow-[0_0_2.5px_rgba(255,255,255,0.85)] drop-shadow-[4px_4px_0px_rgba(0,0,0,0.85)] group-hover:drop-shadow-[0_0_12px_rgba(255,255,255,0.95)]'
-                    }
-                  `}
-                />
-              </div>
-            )
-          })}
-        </div>
-      </div>
-
-      {/* ── BOTTOM HUD: TACTICAL DIALOGUE & SKILL DOSSIER (WHEN CHARACTER ZOOMED) ── */}
-      {activeChar && activeTech && (
-        <div className="absolute bottom-3 inset-x-3 sm:bottom-5 sm:inset-x-5 md:max-w-4xl md:mx-auto z-40 p5-hud-bottom-anim pointer-events-auto">
-          <div className="relative bg-black/95 border-[3px] border-white p-3 sm:p-4 md:p-5 shadow-[8px_8px_0px_#000000] -skew-x-1">
-            {/* Top Banner: Codename + Kanji + Element Badge */}
-            <div className="flex items-center justify-between border-b border-zinc-700 pb-2 mb-2 sm:mb-2.5">
-              <div className="flex items-center gap-2 flex-wrap">
-                <span
-                  className="px-2.5 py-0.5 font-p5Heading text-xs sm:text-sm font-black uppercase -skew-x-6 shadow-[2px_2px_0px_#000]"
-                  style={{ backgroundColor: activeTech.accentColor, color: getRibbonTextColor(activeTech.accentColor) }}
-                >
-                  {activeChar.codename}
-                </span>
-                <span className="font-p5Heading text-base sm:text-xl text-white tracking-wide uppercase">
-                  {activeChar.name}
-                </span>
-                <span className="text-zinc-500 font-p5Mono text-xs">//</span>
-                <span className="font-p5Mono text-xs text-yellow-400 font-black">
+            {/* Giant Japanese Kanji Backdrop (visible when zoomed in) */}
+            {activeChar && (
+              <div className="absolute inset-0 flex items-center justify-center pointer-events-none overflow-hidden select-none z-15 p5-splash-text-anim">
+                <span className="font-p5Heading text-[16vw] font-black text-white/12 uppercase tracking-widest -rotate-12 select-none filter blur-[0.5px]">
                   {activeChar.kanji}
                 </span>
               </div>
+            )}
 
-              <div className="flex items-center gap-2">
-                <span className="font-p5Mono text-[10px] sm:text-xs font-black text-yellow-300 bg-zinc-900 px-2 py-0.5 border border-zinc-700">
-                  LV.{activeTech.level}
-                </span>
-                <span className="font-p5Mono text-[10px] sm:text-xs font-bold text-white bg-zinc-800 px-2 py-0.5 border border-zinc-600">
-                  [{activeTech.element}]
-                </span>
-              </div>
-            </div>
+            {/* 6 Character Cutout Sprites with Contact Shadows & Warm Lighting */}
+            {PHANTOM_CHARACTERS.map((char) => {
+              const isSelected = activeChar?.id === char.id
+              const isDimmed = Boolean(activeChar && !isSelected)
 
-            {/* Quote Bubble */}
-            <div className="mb-2.5 sm:mb-3 flex items-start gap-2 text-zinc-200 font-p5Body text-xs sm:text-sm italic bg-zinc-900/80 px-3 py-1.5 sm:py-2 border-l-4 border-yellow-400 -skew-x-2">
-              <span className="text-yellow-400 font-black not-italic text-sm">“</span>
-              <span className="flex-1 not-italic font-sans">{activeChar.quote}</span>
-            </div>
+              return (
+                <div
+                  key={char.id}
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    handleSelectCharacter(char)
+                  }}
+                  onMouseEnter={() => {
+                    if (!activeChar) playHover()
+                  }}
+                  style={{
+                    left: `${char.left}%`,
+                    bottom: `${char.bottom}%`,
+                    width: `${char.widthPercent}%`,
+                    zIndex: isSelected ? 35 : char.zIndex,
+                  }}
+                  className={`
+                    absolute select-none cursor-pointer transition-all duration-500
+                    ${isDimmed
+                      ? 'opacity-15 pointer-events-none filter blur-[0.4px]'
+                      : isSelected
+                      ? 'opacity-100 scale-105'
+                      : 'opacity-100 hover:scale-105'
+                    }
+                  `}
+                  title={`Select ${char.name} [${char.codename}]`}
+                >
+                  {/* Realistic Contact Shadow (Floor / Tabletop) */}
+                  <div
+                    className={`
+                      absolute -bottom-1 left-1/2 -translate-x-1/2 pointer-events-none rounded-[50%] -skew-x-12 transition-opacity duration-300
+                      ${char.id === 'morgana'
+                        ? 'bg-black/80 blur-[1.5px]'
+                        : 'bg-black/70 blur-[3px]'
+                      }
+                    `}
+                    style={{
+                      width: `${char.shadowWidth}%`,
+                      height: `${char.shadowHeight}px`,
+                    }}
+                  />
 
-            {/* Tech Arsenal Quick Overview */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-4 text-xs font-p5Mono mb-2.5 sm:mb-3">
-              <div className="flex items-center gap-2.5">
-                <div className="size-7 shrink-0">
-                  {activeTech.renderIcon({ className: 'size-full', isSelected: true })}
+                  {/* Character Cutout Image - High-Definition Crisp Rendering & Solid Comic Drop Shadow */}
+                  <img
+                    src={char.src}
+                    alt={char.name}
+                    style={{
+                      imageRendering: '-webkit-optimize-contrast',
+                      filter: `sepia(${char.warmth}) brightness(${char.brightness}) contrast(1.08) saturate(1.05) drop-shadow(3px 3px 0px rgba(0,0,0,0.9)) drop-shadow(-1px -1px 0px rgba(0,0,0,0.4))`,
+                    }}
+                    className="w-full h-auto object-contain select-none transition-all duration-300"
+                  />
                 </div>
-                <div className="min-w-0">
-                  <div className="text-white font-p5Heading text-sm uppercase truncate font-bold">
-                    {activeTech.name}
-                  </div>
-                  <div className="text-zinc-400 text-[11px] truncate">
-                    {activeTech.category}
-                  </div>
-                </div>
-              </div>
-
-              <div className="flex flex-wrap items-center gap-1 sm:justify-end">
-                {activeTech.libraries.slice(0, 3).map((lib) => (
-                  <span
-                    key={lib}
-                    className="bg-zinc-800 text-zinc-300 px-1.5 py-0.5 text-[10px] border border-zinc-700"
-                  >
-                    {lib}
-                  </span>
-                ))}
-              </div>
-            </div>
-
-            {/* Action Buttons: Inspect Radar vs Close / Back */}
-            <div className="flex items-center justify-between pt-2 border-t border-zinc-800">
-              <button
-                onClick={handleResetCamera}
-                className="flex items-center gap-1.5 text-zinc-400 hover:text-white font-p5Heading text-xs uppercase cursor-pointer transition-colors"
-              >
-                <span className="size-4 rounded-full border border-red-500 text-red-500 flex items-center justify-center text-[10px] font-bold">
-                  O
-                </span>
-                <span>BACK TO ROOM</span>
-              </button>
-
-              <button
-                onClick={openInspector}
-                className="flex items-center gap-1.5 bg-yellow-400 hover:bg-white text-black font-p5Heading text-xs font-black px-3 py-1 -skew-x-6 border border-black shadow-[2px_2px_0px_#000] cursor-pointer transition-transform hover:scale-105"
-              >
-                <span className="size-3.5 rounded-full bg-black text-yellow-400 flex items-center justify-center text-[9px] font-bold">
-                  X
-                </span>
-                <span>TACTICAL DOSSIER & RADAR</span>
-              </button>
-            </div>
+              )
+            })}
           </div>
+
+          {/* ── OPSI A: PERSONA 5 FLOATING COMIC SPEECH BUBBLE ── */}
+          {activeChar && activeTech && (() => {
+            const bubbleConfig = BUBBLE_POSITIONS[activeChar.id] || BUBBLE_POSITIONS.joker
+            return (
+              <div
+                onClick={(e) => e.stopPropagation()}
+                className="
+                  absolute z-40 p5-bubble-pop-anim pointer-events-auto select-none
+                  w-[92%] sm:w-[360px] md:w-[390px] lg:w-[420px] max-w-[430px]
+                  bottom-3 left-1/2 -translate-x-1/2
+                  sm:bottom-auto sm:left-auto sm:translate-x-0
+                "
+                style={bubbleConfig.desktopStyle}
+              >
+                <div className="relative bg-black/95 border-[3px] border-white p-3.5 sm:p-4 shadow-[6px_6px_0px_#E60012,10px_10px_0px_#000000] -skew-x-2">
+                  
+                  {/* Comic Speech Pointer Tail (SVG Beak) */}
+                  {bubbleConfig.tailSide === 'left' && (
+                    <div
+                      className="hidden sm:block absolute -left-[19px] pointer-events-none filter drop-shadow-[-2px_2px_0px_#000000]"
+                      style={{ top: bubbleConfig.tailTop }}
+                    >
+                      <svg width="22" height="24" viewBox="0 0 22 24" fill="none">
+                        <polygon
+                          points="22,0 0,12 22,24"
+                          fill="#09090b"
+                          stroke="#FFFFFF"
+                          strokeWidth="3"
+                          strokeLinejoin="miter"
+                        />
+                      </svg>
+                    </div>
+                  )}
+
+                  {bubbleConfig.tailSide === 'right' && (
+                    <div
+                      className="hidden sm:block absolute -right-[19px] pointer-events-none filter drop-shadow-[2px_2px_0px_#000000]"
+                      style={{ top: bubbleConfig.tailTop }}
+                    >
+                      <svg width="22" height="24" viewBox="0 0 22 24" fill="none">
+                        <polygon
+                          points="0,0 22,12 0,24"
+                          fill="#09090b"
+                          stroke="#FFFFFF"
+                          strokeWidth="3"
+                          strokeLinejoin="miter"
+                        />
+                      </svg>
+                    </div>
+                  )}
+
+                  {/* Header Ribbon: Character Codename Tag + Kanji + Level */}
+                  <div className="flex items-center justify-between border-b border-zinc-700 pb-2 mb-2 sm:mb-2.5">
+                    <div className="flex items-center gap-2">
+                      <span
+                        className="px-2.5 py-0.5 font-p5Heading text-xs sm:text-sm font-black uppercase -skew-x-6 border border-black shadow-[2px_2px_0px_#000]"
+                        style={{
+                          backgroundColor: activeChar.thiefColor || '#E60012',
+                          color: activeChar.thiefTextColor || '#FFFFFF',
+                        }}
+                      >
+                        ★ {activeChar.codename}
+                      </span>
+                      <span className="font-p5Mono text-xs text-yellow-400 font-black">
+                        {activeChar.kanji}
+                      </span>
+                    </div>
+
+                    <div className="flex items-center gap-1.5">
+                      <span className="font-p5Mono text-[10px] sm:text-xs font-black text-yellow-300 bg-zinc-900 px-2 py-0.5 border border-zinc-700">
+                        LV.{activeTech.level}
+                      </span>
+                      <span className="font-p5Mono text-[10px] sm:text-xs font-bold text-white bg-zinc-800 px-1.5 py-0.5 border border-zinc-600">
+                        [{activeTech.element}]
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Persona Comic Dialogue Quote */}
+                  <div className="mb-2.5 flex items-start gap-2 bg-zinc-900/90 p-2 sm:p-2.5 border-l-4 border-[#E60012] -skew-x-1">
+                    <span className="text-[#E60012] font-p5Heading font-black text-xl leading-none select-none">
+                      “
+                    </span>
+                    <p className="font-p5Body text-xs sm:text-[13px] text-zinc-100 font-bold leading-snug flex-1">
+                      {activeChar.quote}
+                    </p>
+                  </div>
+
+                  {/* Character Role & Tech Arsenal Preview */}
+                  <div className="flex items-center justify-between bg-zinc-950 px-2.5 py-2 border border-zinc-800 mb-2.5 sm:mb-3">
+                    <div className="flex items-center gap-2 min-w-0">
+                      <div className="size-6 sm:size-7 shrink-0">
+                        {activeTech.renderIcon({ className: 'size-full', isSelected: true })}
+                      </div>
+                      <div className="min-w-0">
+                        <div className="font-p5Heading text-xs sm:text-sm text-white uppercase truncate font-bold">
+                          {activeTech.name}
+                        </div>
+                        <div className="font-p5Mono text-[10px] text-zinc-400 truncate">
+                          {activeChar.role}
+                        </div>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-1 shrink-0">
+                      {activeTech.libraries.slice(0, 2).map((lib) => (
+                        <span
+                          key={lib}
+                          className="bg-zinc-800 text-zinc-300 px-1.5 py-0.5 text-[9px] font-p5Mono border border-zinc-700"
+                        >
+                          {lib}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Action Buttons: Inspect Radar vs Close / Back */}
+                  <div className="flex items-center justify-between pt-1.5 border-t border-zinc-800">
+                    <button
+                      onClick={handleResetCamera}
+                      className="flex items-center gap-1.5 text-zinc-400 hover:text-white font-p5Heading text-xs uppercase cursor-pointer transition-colors group"
+                      title="Return to room overview"
+                    >
+                      <span className="size-4 rounded-full border border-red-500 text-red-500 flex items-center justify-center text-[10px] font-bold group-hover:bg-red-500 group-hover:text-white transition-colors">
+                        O
+                      </span>
+                      <span>BACK [ESC]</span>
+                    </button>
+
+                    <button
+                      onClick={openInspector}
+                      className="flex items-center gap-1.5 bg-yellow-400 hover:bg-white text-black font-p5Heading text-xs font-black px-3 py-1 -skew-x-6 border border-black shadow-[2px_2px_0px_#000] cursor-pointer transition-transform hover:scale-105"
+                      title="Open full tactical radar & dossier"
+                    >
+                      <span className="size-3.5 rounded-full bg-black text-yellow-400 flex items-center justify-center text-[9px] font-bold">
+                        X
+                      </span>
+                      <span>TACTICAL DOSSIER</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )
+          })()}
+
+          {/* Subdued Bottom Guide Prompt When Zoomed */}
+          {activeChar && (
+            <div className="absolute bottom-3 left-4 sm:bottom-4 sm:left-6 z-40 hidden sm:flex items-center gap-2 pointer-events-none text-zinc-400 font-p5Mono text-[11px] -skew-x-6 bg-black/75 px-2.5 py-1 border border-zinc-800 shadow-[2px_2px_0px_#000]">
+              <span className="text-yellow-400 font-bold">CLICK ROOM / ESC:</span>
+              <span>ZOOM OUT</span>
+              <span className="text-zinc-600">//</span>
+              <span className="text-white font-bold">[X]:</span>
+              <span>DOSSIER & RADAR</span>
+            </div>
+          )}
         </div>
-      )}
+      </div>
 
       {/* ── BOTTOM HUD: OVERVIEW MODE (BACK TO MAIN MENU) ── */}
       {!activeChar && (
@@ -753,7 +943,10 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
                     {isSelected && (
                       <span
                         className="absolute -top-1.5 -right-1 text-[9px] font-black px-1 leading-tight -skew-x-6 border border-black shadow-[1px_1px_0px_#000]"
-                        style={{ backgroundColor: tech.accentColor, color: getRibbonTextColor(tech.accentColor) }}
+                        style={{
+                          backgroundColor: tech.accentColor === '#FFFFFF' ? '#E60012' : tech.accentColor,
+                          color: getRibbonTextColor(tech.accentColor === '#FFFFFF' ? '#E60012' : tech.accentColor),
+                        }}
                       >
                         ★
                       </span>

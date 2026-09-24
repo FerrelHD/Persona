@@ -15,7 +15,7 @@ import { useAssetPreloader } from '@/hooks/useAssetPreloader'
 const SCREEN_COLOR: Record<ActiveScreen, string> = {
   menu:        '#E60012',
   missions:    '#00D4FF',
-  skills:      '#64748B', // Steel Slate Gray / Tech Arsenal
+  hideout:     '#64748B', // Steel Slate Gray / Tech Arsenal
   about:       '#B91C1C',
   callingCard: '#10B981',
 }
@@ -23,7 +23,7 @@ const SCREEN_COLOR: Record<ActiveScreen, string> = {
 const VIDEO_MAP: Record<ActiveScreen, string> = {
   menu:        '/assets/videos/joker.mp4',
   missions:    '/assets/videos/makoto.mp4',
-  skills:      '/assets/tokyobackground.png',
+  hideout:     '/assets/tokyobackground.png',
   about:       '/assets/videos/shinji.mp4',
   callingCard: '/assets/videos/fuuka.mp4',
 }
@@ -192,7 +192,7 @@ export function App() {
         {currentScreen === 'missions' && (
           <MissionsScreen onBack={handleBackToMenu} />
         )}
-        {currentScreen === 'skills' && (
+        {currentScreen === 'hideout' && (
           <SkillsScreen onBack={handleBackToMenu} />
         )}
         {currentScreen === 'about' && (
