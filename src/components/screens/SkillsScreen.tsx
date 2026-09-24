@@ -650,7 +650,7 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
       {/* ── CINEMATIC LETTERBOX BLACK BARS (FOREGROUND LAYER - ZERO OUTLINE, ZERO TEXT) ── */}
       {/* Top Black Bar */}
       <div
-        className={`fixed top-0 inset-x-0 z-[60] bg-black pointer-events-none transition-all duration-500 h-16 sm:h-20 md:h-24 lg:h-28 ${
+        className={`fixed top-0 inset-x-0 z-[60] bg-black pointer-events-none transition-all duration-500 h-10 sm:h-12 md:h-14 lg:h-16 ${
           activeChar ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0'
         }`}
         style={{
@@ -660,7 +660,7 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
 
       {/* Bottom Black Bar */}
       <div
-        className={`fixed bottom-0 inset-x-0 z-[60] bg-black pointer-events-none transition-all duration-500 h-16 sm:h-20 md:h-24 lg:h-28 ${
+        className={`fixed bottom-0 inset-x-0 z-[60] bg-black pointer-events-none transition-all duration-500 h-10 sm:h-12 md:h-14 lg:h-16 ${
           activeChar ? 'translate-y-0 opacity-100' : 'translate-y-full opacity-0'
         }`}
         style={{
