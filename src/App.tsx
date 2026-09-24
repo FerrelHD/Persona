@@ -48,7 +48,7 @@ export function App() {
   const videoReadyRef = useRef(false)
   const minTimerPassedRef = useRef(false)
   const hasTriggeredFadeRef = useRef(false)
-  const fallbackTimerRef = useRef<NodeJS.Timeout | null>(null)
+  const fallbackTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   const { playSlash, playBack } = usePersonaSFX()
 
