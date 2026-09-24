@@ -265,15 +265,19 @@ const PHANTOM_CHARACTERS: PhantomCharacter[] = [
     techId: 'laravel',
     thiefColor: '#00A3FF',
     thiefTextColor: '#000000',
-    left: 16.3,
-    bottom: 12.5,
-    widthPercent: 12,
+    left: 14.5,
+    bottom: 8.5,
+    widthPercent: 13,
     zIndex: 24,
     shadowWidth: 72,
     shadowHeight: 12,
-    brightness: 0.96,
-    warmth: 0.08,
-    camera: { scale: 1.95, originX: 21.8, originY: 42 },
+    brightness: 0.98,
+    warmth: 0.14,
+    camera: {
+      scale: 2.1,
+      originX: 21.0,
+      originY: 48,
+    },
   },
   {
     id: 'futaba',
@@ -286,15 +290,19 @@ const PHANTOM_CHARACTERS: PhantomCharacter[] = [
     techId: 'python-ai',
     thiefColor: '#00FF66',
     thiefTextColor: '#000000',
-    left: 28.5,
-    bottom: 17.5,
-    widthPercent: 9,
+    left: 39.6,
+    bottom: 27.2,
+    widthPercent: 7,
     zIndex: 22,
     shadowWidth: 76,
     shadowHeight: 10,
-    brightness: 0.95,
-    warmth: 0.08,
-    camera: { scale: 2.05, originX: 33.0, originY: 44 },
+    brightness: 0.97,
+    warmth: 0.12,
+    camera: {
+      scale: 2.25,
+      originX: 43.1,
+      originY: 52,
+    },
   },
   {
     id: 'morgana',
@@ -307,15 +315,19 @@ const PHANTOM_CHARACTERS: PhantomCharacter[] = [
     techId: 'tailwind',
     thiefColor: '#FFD700',
     thiefTextColor: '#000000',
-    left: 42,
-    bottom: 51,
-    widthPercent: 4.5,
+    left: 47.1,
+    bottom: 46.6,
+    widthPercent: 4,
     zIndex: 25,
     shadowWidth: 68,
     shadowHeight: 6,
-    brightness: 0.98,
-    warmth: 0.1,
-    camera: { scale: 2.45, originX: 44.2, originY: 46 },
+    brightness: 0.99,
+    warmth: 0.15,
+    camera: {
+      scale: 2.6,
+      originX: 49.1,
+      originY: 48,
+    },
   },
   {
     id: 'ryuji',
@@ -328,15 +340,19 @@ const PHANTOM_CHARACTERS: PhantomCharacter[] = [
     techId: 'unity',
     thiefColor: '#FFE500',
     thiefTextColor: '#000000',
-    left: 48.5,
-    bottom: 24,
-    widthPercent: 8,
+    left: 55,
+    bottom: 42,
+    widthPercent: 4.5,
     zIndex: 20,
     shadowWidth: 75,
     shadowHeight: 10,
-    brightness: 0.95,
-    warmth: 0.08,
-    camera: { scale: 2.05, originX: 52.5, originY: 46 },
+    brightness: 0.96,
+    warmth: 0.14,
+    camera: {
+      scale: 2.4,
+      originX: 57.25,
+      originY: 46,
+    },
   },
   {
     id: 'ann',
@@ -349,15 +365,19 @@ const PHANTOM_CHARACTERS: PhantomCharacter[] = [
     techId: 'nextjs',
     thiefColor: '#E60012',
     thiefTextColor: '#FFFFFF',
-    left: 70.5,
-    bottom: 38.5,
-    widthPercent: 5.5,
+    left: 64,
+    bottom: 6.4,
+    widthPercent: 10,
     zIndex: 18,
     shadowWidth: 70,
     shadowHeight: 8,
-    brightness: 0.94,
-    warmth: 0.08,
-    camera: { scale: 2.15, originX: 73.2, originY: 42 },
+    brightness: 0.98,
+    warmth: 0.12,
+    camera: {
+      scale: 2.05,
+      originX: 69.0,
+      originY: 56,
+    },
   },
   {
     id: 'joker',
@@ -370,15 +390,19 @@ const PHANTOM_CHARACTERS: PhantomCharacter[] = [
     techId: 'react',
     thiefColor: '#E60012',
     thiefTextColor: '#FFFFFF',
-    left: 74,
-    bottom: 9.5,
-    widthPercent: 16.5,
+    left: 83.5,
+    bottom: 0,
+    widthPercent: 20,
     zIndex: 26,
     shadowWidth: 75,
     shadowHeight: 14,
-    brightness: 0.97,
-    warmth: 0.08,
-    camera: { scale: 1.9, originX: 82.0, originY: 40 },
+    brightness: 0.98,
+    warmth: 0.12,
+    camera: {
+      scale: 1.85,
+      originX: 91.0,
+      originY: 52,
+    },
   },
 ]
 
@@ -393,37 +417,37 @@ interface BubblePosition {
 const BUBBLE_POSITIONS: Record<string, BubblePosition> = {
   yusuke: {
     side: 'right',
-    desktopStyle: { left: '34%', top: '16%' },
+    desktopStyle: { left: '30%', top: '15%' },
     tailSide: 'left',
     tailTop: '35%',
   },
   futaba: {
     side: 'right',
-    desktopStyle: { left: '43%', top: '16%' },
+    desktopStyle: { left: '49%', top: '16%' },
     tailSide: 'left',
     tailTop: '35%',
   },
   morgana: {
-    side: 'right',
-    desktopStyle: { left: '50%', top: '15%' },
-    tailSide: 'left',
+    side: 'left',
+    desktopStyle: { right: '55%', top: '15%' },
+    tailSide: 'right',
     tailTop: '40%',
   },
   ryuji: {
     side: 'left',
-    desktopStyle: { right: '55%', top: '16%' },
+    desktopStyle: { right: '48%', top: '14%' },
     tailSide: 'right',
     tailTop: '35%',
   },
   ann: {
     side: 'left',
-    desktopStyle: { right: '32%', top: '16%' },
+    desktopStyle: { right: '39%', top: '16%' },
     tailSide: 'right',
     tailTop: '35%',
   },
   joker: {
     side: 'left',
-    desktopStyle: { right: '31%', top: '16%' },
+    desktopStyle: { right: '24%', top: '16%' },
     tailSide: 'right',
     tailTop: '35%',
   },
@@ -449,7 +473,7 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
 
   // Character list with dynamic positioning state
   const [characterList, setCharacterList] = useState<PhantomCharacter[]>(() => {
-    const saved = localStorage.getItem('p5_characters_pos_custom')
+    const saved = localStorage.getItem('p5_characters_pos_custom_v3')
     if (saved) {
       try {
         const parsed = JSON.parse(saved)
@@ -479,7 +503,7 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
   const updateCalibratingChar = (updates: Partial<PhantomCharacter>) => {
     setCharacterList(prev => {
       const next = prev.map(c => c.id === calibratingCharId ? { ...c, ...updates } : c)
-      localStorage.setItem('p5_characters_pos_custom', JSON.stringify(next))
+      localStorage.setItem('p5_characters_pos_custom_v3', JSON.stringify(next))
       return next
     })
   }
@@ -492,7 +516,7 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
   }
 
   const resetToDefaultPositions = () => {
-    localStorage.removeItem('p5_characters_pos_custom')
+    localStorage.removeItem('p5_characters_pos_custom_v3')
     setCharacterList(PHANTOM_CHARACTERS)
   }
 
@@ -521,7 +545,7 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
 
       setCharacterList(prev => {
         const next = prev.map(c => c.id === charId ? { ...c, left: newLeft, bottom: newBottom } : c)
-        localStorage.setItem('p5_characters_pos_custom', JSON.stringify(next))
+        localStorage.setItem('p5_characters_pos_custom_v3', JSON.stringify(next))
         return next
       })
     }
@@ -845,12 +869,12 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
                   <div
                     className={`
                       absolute -bottom-1 left-1/2 -translate-x-1/2 pointer-events-none rounded-[50%] -skew-x-12 transition-opacity duration-300
-                      ${isHovered ? 'opacity-95' : 'opacity-75'}
+                      ${isHovered ? 'opacity-95' : 'opacity-85'}
                     `}
                     style={{
                       width: `${char.shadowWidth}%`,
                       height: `${char.shadowHeight}px`,
-                      background: 'radial-gradient(ellipse at center, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.35) 55%, transparent 75%)',
+                      background: 'radial-gradient(ellipse at center, rgba(16, 9, 5, 0.92) 0%, rgba(25, 13, 7, 0.45) 55%, transparent 75%)',
                     }}
                   />
 
@@ -863,9 +887,9 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
                       willChange: 'transform',
                       transform: 'translateZ(0)',
                       filter: isHovered
-                        ? `sepia(${char.warmth}) brightness(${char.brightness * 1.08}) contrast(1.12)`
-                        : `sepia(${char.warmth}) brightness(${char.brightness}) contrast(1.05)`,
-                      transition: 'filter 150ms ease-out',
+                        ? `sepia(${char.warmth * 1.35}) hue-rotate(-8deg) brightness(${char.brightness * 1.06}) contrast(1.1)`
+                        : `sepia(${char.warmth}) hue-rotate(-6deg) brightness(${char.brightness}) contrast(1.05)`,
+                      transition: 'filter 180ms ease-out',
                     }}
                     className="w-full h-auto object-contain select-none"
                   />

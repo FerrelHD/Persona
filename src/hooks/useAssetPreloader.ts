@@ -9,7 +9,6 @@ const PRELOAD_VIDEOS = [
 
 const PRELOAD_IMAGES = [
   '/assets/tokyobackground.png',
-  '/assets/Background Joker Hideout.png',
   '/assets/background attic.jpe',
   '/assets/handlestairs.png',
   '/assets/self.png',
