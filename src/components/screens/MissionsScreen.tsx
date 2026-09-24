@@ -166,7 +166,7 @@ export const MissionsScreen: React.FC<MissionsScreenProps> = ({ onBack }) => {
                 </div>
 
                 {/* Center Content: Clean, Impactful Project Display */}
-                <div className="relative z-10 px-6 sm:px-8 py-3 sm:py-4 flex flex-col justify-center">
+                <div className="relative z-10 px-6 sm:px-8 pt-3 sm:pt-3.5 pb-4 sm:pb-5 flex flex-col justify-center">
                   {/* Project Title */}
                   <h2 className="font-p5Heading text-2xl sm:text-3xl md:text-4xl text-white tracking-wider uppercase filter drop-shadow-[3px_3px_0px_#000000]">
                     {mission.title}
@@ -198,13 +198,6 @@ export const MissionsScreen: React.FC<MissionsScreenProps> = ({ onBack }) => {
                       <span className="tracking-wider uppercase">VIEW DOSSIER</span>
                     </button>
                   </div>
-                </div>
-
-                {/* Bottom Border Film Perforation Teeth */}
-                <div className="w-full h-2.5 bg-black flex items-center justify-around px-4">
-                  {Array.from({ length: 30 }).map((_, i) => (
-                    <div key={i} className="w-2.5 h-1 bg-[#00A3FF] rounded-[0.5px]" />
-                  ))}
                 </div>
               </div>
             ) : (
