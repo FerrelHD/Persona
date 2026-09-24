@@ -238,9 +238,9 @@ interface PhantomCharacter {
   techId: string
   thiefColor: string
   thiefTextColor: string
-  left: number
-  bottom: number
-  widthPercent: number
+  tx: number
+  ty: number
+  width: number
   zIndex: number
   shadowWidth: number
   shadowHeight: number
@@ -265,9 +265,9 @@ const PHANTOM_CHARACTERS: PhantomCharacter[] = [
     techId: 'laravel',
     thiefColor: '#00A3FF',
     thiefTextColor: '#000000',
-    left: 14.5,
-    bottom: 8.5,
-    widthPercent: 13,
+    tx: -682,
+    ty: -77,
+    width: 250,
     zIndex: 24,
     shadowWidth: 72,
     shadowHeight: 12,
@@ -290,9 +290,9 @@ const PHANTOM_CHARACTERS: PhantomCharacter[] = [
     techId: 'python-ai',
     thiefColor: '#00FF66',
     thiefTextColor: '#000000',
-    left: 39.6,
-    bottom: 27.2,
-    widthPercent: 7,
+    tx: -200,
+    ty: -95,
+    width: 134,
     zIndex: 22,
     shadowWidth: 76,
     shadowHeight: 10,
@@ -315,9 +315,9 @@ const PHANTOM_CHARACTERS: PhantomCharacter[] = [
     techId: 'tailwind',
     thiefColor: '#FFD700',
     thiefTextColor: '#000000',
-    left: 47.1,
-    bottom: 46.6,
-    widthPercent: 4,
+    tx: -56,
+    ty: -48,
+    width: 77,
     zIndex: 25,
     shadowWidth: 68,
     shadowHeight: 6,
@@ -340,9 +340,9 @@ const PHANTOM_CHARACTERS: PhantomCharacter[] = [
     techId: 'unity',
     thiefColor: '#FFE500',
     thiefTextColor: '#000000',
-    left: 55,
-    bottom: 42,
-    widthPercent: 4.5,
+    tx: 96,
+    ty: -145,
+    width: 86,
     zIndex: 20,
     shadowWidth: 75,
     shadowHeight: 10,
@@ -365,9 +365,9 @@ const PHANTOM_CHARACTERS: PhantomCharacter[] = [
     techId: 'nextjs',
     thiefColor: '#E60012',
     thiefTextColor: '#FFFFFF',
-    left: 64,
-    bottom: 6.4,
-    widthPercent: 10,
+    tx: 269,
+    ty: -52,
+    width: 192,
     zIndex: 18,
     shadowWidth: 70,
     shadowHeight: 8,
@@ -390,9 +390,9 @@ const PHANTOM_CHARACTERS: PhantomCharacter[] = [
     techId: 'react',
     thiefColor: '#E60012',
     thiefTextColor: '#FFFFFF',
-    left: 83.5,
-    bottom: 0,
-    widthPercent: 20,
+    tx: 643,
+    ty: -74,
+    width: 384,
     zIndex: 26,
     shadowWidth: 75,
     shadowHeight: 14,
@@ -473,7 +473,7 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
 
   // Character list with dynamic positioning state
   const [characterList, setCharacterList] = useState<PhantomCharacter[]>(() => {
-    const saved = localStorage.getItem('p5_characters_pos_custom_v3')
+    const saved = localStorage.getItem('p5_characters_bocchi_v1')
     if (saved) {
       try {
         const parsed = JSON.parse(saved)
@@ -484,6 +484,19 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
     }
     return PHANTOM_CHARACTERS
   })
+
+  // Dynamic stage scale based on reference 1920x1080 canvas
+  const [scale, setScale] = useState<number>(1)
+
+  useEffect(() => {
+    const updateScale = () => {
+      const s = Math.min(window.innerWidth / 1920, window.innerHeight / 1080)
+      setScale(Math.max(0.4, Math.min(1.2, s)))
+    }
+    updateScale()
+    window.addEventListener('resize', updateScale)
+    return () => window.removeEventListener('resize', updateScale)
+  }, [])
 
   // Calibrator Panel state
   const [isCalibratorOpen, setIsCalibratorOpen] = useState(false)
@@ -503,7 +516,7 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
   const updateCalibratingChar = (updates: Partial<PhantomCharacter>) => {
     setCharacterList(prev => {
       const next = prev.map(c => c.id === calibratingCharId ? { ...c, ...updates } : c)
-      localStorage.setItem('p5_characters_pos_custom_v3', JSON.stringify(next))
+      localStorage.setItem('p5_characters_bocchi_v1', JSON.stringify(next))
       return next
     })
   }
@@ -516,7 +529,7 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
   }
 
   const resetToDefaultPositions = () => {
-    localStorage.removeItem('p5_characters_pos_custom_v3')
+    localStorage.removeItem('p5_characters_bocchi_v1')
     setCharacterList(PHANTOM_CHARACTERS)
   }
 
@@ -526,26 +539,22 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
     e.preventDefault()
     setCalibratingCharId(charId)
 
-    const stageEl = stageRef.current
-    if (!stageEl) return
-    const rect = stageEl.getBoundingClientRect()
-
     const startX = e.clientX
     const startY = e.clientY
     const target = characterList.find(c => c.id === charId)
     if (!target) return
-    const initLeft = target.left
-    const initBottom = target.bottom
+    const initTx = target.tx
+    const initTy = target.ty
 
     const onMouseMove = (ev: MouseEvent) => {
-      const dx = ((ev.clientX - startX) / rect.width) * 100
-      const dy = -((ev.clientY - startY) / rect.height) * 100
-      const newLeft = parseFloat(Math.max(0, Math.min(95, initLeft + dx)).toFixed(1))
-      const newBottom = parseFloat(Math.max(0, Math.min(95, initBottom + dy)).toFixed(1))
+      const dx = (ev.clientX - startX) / scale
+      const dy = (ev.clientY - startY) / scale
+      const newTx = Math.round(initTx + dx)
+      const newTy = Math.round(initTy + dy)
 
       setCharacterList(prev => {
-        const next = prev.map(c => c.id === charId ? { ...c, left: newLeft, bottom: newBottom } : c)
-        localStorage.setItem('p5_characters_pos_custom_v3', JSON.stringify(next))
+        const next = prev.map(c => c.id === charId ? { ...c, tx: newTx, ty: newTy } : c)
+        localStorage.setItem('p5_characters_bocchi_v1', JSON.stringify(next))
         return next
       })
     }
@@ -766,8 +775,8 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
 
       {/* ── 2.5D LEBLANC ATTIC VIRTUAL CAMERA STAGE ── */}
       <div className="relative w-full h-full flex items-center justify-center overflow-hidden">
-        {/* Fixed 16:9 Screen Reference Canvas Container */}
-        <div ref={stageRef} className="relative w-full h-full max-w-[1920px] max-h-[1080px] aspect-video select-none overflow-hidden">
+        {/* Full-bleed Reference Stage Container */}
+        <div ref={stageRef} className="relative w-full h-full select-none overflow-hidden">
           
           {/* Virtual 2.5D Camera Stage (Zooms and scales smoothly with hardware acceleration) */}
           <div
@@ -794,7 +803,6 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
               style={{
                 imageRendering: '-webkit-optimize-contrast',
                 willChange: 'transform',
-                transform: 'translateZ(0)',
               }}
               className="absolute inset-0 w-full h-full object-cover pointer-events-none select-none"
             />
@@ -850,13 +858,13 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
                     setHoveredCharId(null)
                   }}
                   style={{
-                    left: `${char.left}%`,
-                    bottom: `${char.bottom}%`,
-                    width: `${char.widthPercent}%`,
+                    transform: `translate(${char.tx * scale}px, ${char.ty * scale}px) scale(${scale})`,
+                    transformOrigin: 'top left',
+                    width: `${char.width}px`,
                     zIndex: isSelected ? 35 : char.zIndex,
                   }}
                   className={`
-                    absolute select-none transition-opacity duration-400
+                    absolute top-1/2 left-1/2 select-none transition-opacity duration-400
                     ${isCalibratorOpen ? 'cursor-grab active:cursor-grabbing' : 'cursor-pointer'}
                     ${isCalibrating ? 'ring-2 ring-yellow-400 ring-offset-2 ring-offset-black rounded' : ''}
                     ${isDimmed
@@ -886,13 +894,12 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
                     style={{
                       imageRendering: '-webkit-optimize-contrast',
                       willChange: 'transform',
-                      transform: 'translateZ(0)',
                       filter: isHovered
                         ? `brightness(1.1) contrast(1.08)`
                         : `brightness(${char.brightness}) contrast(1.02)`,
                       transition: 'filter 180ms ease-out',
                     }}
-                    className="w-full h-auto object-contain select-none"
+                    className="w-full h-auto object-contain select-none pointer-events-auto"
                   />
                 </div>
               )
@@ -907,7 +914,6 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
                 zIndex: 21,
                 imageRendering: '-webkit-optimize-contrast',
                 willChange: 'transform',
-                transform: 'translateZ(0)',
               }}
               className="absolute inset-0 w-full h-full object-cover pointer-events-none select-none"
             />
@@ -920,7 +926,6 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
                 zIndex: 25,
                 imageRendering: '-webkit-optimize-contrast',
                 willChange: 'transform',
-                transform: 'translateZ(0)',
               }}
               className="absolute inset-0 w-full h-full object-cover pointer-events-none select-none"
             />
@@ -933,7 +938,6 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
                 zIndex: 27,
                 imageRendering: '-webkit-optimize-contrast',
                 willChange: 'transform',
-                transform: 'translateZ(0)',
               }}
               className="absolute inset-0 w-full h-full object-cover pointer-events-none select-none"
             />
@@ -1378,53 +1382,53 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
 
             {/* Slider Controls */}
             <div className="space-y-2.5 font-mono text-[11px]">
-              {/* Left (X) */}
+              {/* Horizontal (Offset X px) */}
               <div>
                 <div className="flex justify-between text-zinc-300 mb-1">
-                  <span>Horizontal (Left %):</span>
-                  <span className="text-yellow-400 font-bold">{calibratingChar.left}%</span>
+                  <span>Horizontal (Offset X):</span>
+                  <span className="text-yellow-400 font-bold">{calibratingChar.tx}px</span>
                 </div>
                 <input
                   type="range"
-                  min="0"
-                  max="95"
-                  step="0.5"
-                  value={calibratingChar.left}
-                  onChange={(e) => updateCalibratingChar({ left: parseFloat(e.target.value) })}
+                  min="-960"
+                  max="960"
+                  step="2"
+                  value={calibratingChar.tx}
+                  onChange={(e) => updateCalibratingChar({ tx: parseInt(e.target.value, 10) })}
                   className="w-full accent-yellow-400 cursor-pointer"
                 />
               </div>
 
-              {/* Bottom (Y) */}
+              {/* Vertical (Offset Y px) */}
               <div>
                 <div className="flex justify-between text-zinc-300 mb-1">
-                  <span>Vertical (Bottom %):</span>
-                  <span className="text-yellow-400 font-bold">{calibratingChar.bottom}%</span>
+                  <span>Vertical (Offset Y):</span>
+                  <span className="text-yellow-400 font-bold">{calibratingChar.ty}px</span>
                 </div>
                 <input
                   type="range"
-                  min="0"
-                  max="95"
-                  step="0.5"
-                  value={calibratingChar.bottom}
-                  onChange={(e) => updateCalibratingChar({ bottom: parseFloat(e.target.value) })}
+                  min="-540"
+                  max="540"
+                  step="2"
+                  value={calibratingChar.ty}
+                  onChange={(e) => updateCalibratingChar({ ty: parseInt(e.target.value, 10) })}
                   className="w-full accent-yellow-400 cursor-pointer"
                 />
               </div>
 
-              {/* Width (% Size) */}
+              {/* Width (px Size) */}
               <div>
                 <div className="flex justify-between text-zinc-300 mb-1">
-                  <span>Size (Width %):</span>
-                  <span className="text-yellow-400 font-bold">{calibratingChar.widthPercent}%</span>
+                  <span>Size (Width):</span>
+                  <span className="text-yellow-400 font-bold">{calibratingChar.width}px</span>
                 </div>
                 <input
                   type="range"
-                  min="3"
-                  max="25"
-                  step="0.5"
-                  value={calibratingChar.widthPercent}
-                  onChange={(e) => updateCalibratingChar({ widthPercent: parseFloat(e.target.value) })}
+                  min="40"
+                  max="600"
+                  step="2"
+                  value={calibratingChar.width}
+                  onChange={(e) => updateCalibratingChar({ width: parseInt(e.target.value, 10) })}
                   className="w-full accent-yellow-400 cursor-pointer"
                 />
               </div>
