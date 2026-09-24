@@ -226,75 +226,166 @@ const getRibbonTextColor = (hexColor: string) => {
   return lightColors.includes(hexColor.toUpperCase()) ? 'text-black' : 'text-white'
 }
 
-// ── CALENDAR CURVED CITYSCAPE 5-SLOT GEOMETRY ──
-interface CalendarSlotStyle {
-  containerClass: string
-  rotation: string
-  skew: string
-  scaleClass: string
+// ── PHANTOM THIEVES CHARACTERS & LEBLANC ATTIC STAGE DATA ──
+interface PhantomCharacter {
+  id: string
+  name: string
+  codename: string
+  kanji: string
+  role: string
+  quote: string
+  src: string
+  techId: string
+  left: number
+  bottom: number
+  widthPercent: number
   zIndex: number
-  opacityClass: string
+  camera: {
+    scale: number
+    x: number
+    y: number
+  }
 }
 
-const CALENDAR_SLOT_MAP: Record<number, CalendarSlotStyle> = {
-  [-2]: {
-    containerClass: 'hidden sm:flex left-[8%] md:left-[9%] top-[34%] sm:top-[36%] md:top-[38%]',
-    rotation: '-14deg',
-    skew: '-skew-x-3',
-    scaleClass: 'scale-75 sm:scale-80 md:scale-85 hover:scale-95',
-    zIndex: 10,
-    opacityClass: 'opacity-75 hover:opacity-100',
+const PHANTOM_CHARACTERS: PhantomCharacter[] = [
+  {
+    id: 'joker',
+    name: 'REN AMAMIYA',
+    codename: 'JOKER',
+    kanji: '雨宮 蓮',
+    role: 'PHANTOM LEADER // ARCHITECT',
+    quote: 'Show me your true form! Ultra-reactive frontend architecture & TypeScript contracts unleashed.',
+    src: '/assets/Joker.png',
+    techId: 'react',
+    left: 52,
+    bottom: 8,
+    widthPercent: 16.5,
+    zIndex: 26,
+    camera: { scale: 2.15, x: -8, y: 6 },
   },
-  [-1]: {
-    containerClass: 'flex left-[18%] sm:left-[26%] md:left-[27%] top-[46%] sm:top-[48%]',
-    rotation: '-7deg',
-    skew: '-skew-x-2',
-    scaleClass: 'scale-85 sm:scale-95 md:scale-100 hover:scale-110',
-    zIndex: 20,
-    opacityClass: 'opacity-90 hover:opacity-100',
+  {
+    id: 'futaba',
+    name: 'FUTABA SAKURA',
+    codename: 'ORACLE',
+    kanji: '佐倉 双葉',
+    role: 'TACTICAL HACKER // DATA & AI',
+    quote: 'Target locked! Transformer telemetry, IndoBERT sentiment pipelines, and PyTorch inference ready!',
+    src: '/assets/Futaba_Sakura.webp',
+    techId: 'python-ai',
+    left: 31,
+    bottom: 23,
+    widthPercent: 11.5,
+    zIndex: 22,
+    camera: { scale: 2.5, x: 22, y: 12 },
   },
-  [0]: {
-    containerClass: 'flex left-1/2 top-[41%] sm:top-[43%]',
-    rotation: '1deg',
-    skew: '-skew-x-1',
-    scaleClass: 'scale-115 sm:scale-130 md:scale-140',
-    zIndex: 30,
-    opacityClass: 'opacity-100',
+  {
+    id: 'morgana',
+    name: 'MORGANA',
+    codename: 'MONA',
+    kanji: 'モルガナ',
+    role: 'VANGUARD GUIDE // KINETIC UI',
+    quote: 'Looking cool, Joker! Fluid animations, custom keyframe passes, and tailored responsive tokens!',
+    src: '/assets/Morgana.webp',
+    techId: 'tailwind',
+    left: 42,
+    bottom: 27,
+    widthPercent: 8,
+    zIndex: 24,
+    camera: { scale: 2.9, x: 8, y: -15 },
   },
-  [1]: {
-    containerClass: 'flex left-[82%] sm:left-[74%] md:left-[73%] top-[46%] sm:top-[48%]',
-    rotation: '7deg',
-    skew: 'skew-x-2',
-    scaleClass: 'scale-85 sm:scale-95 md:scale-100 hover:scale-110',
-    zIndex: 20,
-    opacityClass: 'opacity-90 hover:opacity-100',
+  {
+    id: 'ryuji',
+    name: 'RYUJI SAKAMOTO',
+    codename: 'SKULL',
+    kanji: '坂本 竜司',
+    role: 'HEAVY CHARGER // GAME & VFX',
+    quote: 'For real?! High-throughput arcade vehicle physics and custom HLSL surface shaders kicking in!',
+    src: '/assets/Ryuji_Sakamoto.webp',
+    techId: 'unity',
+    left: 71,
+    bottom: 14,
+    widthPercent: 14.5,
+    zIndex: 25,
+    camera: { scale: 2.3, x: -28, y: 8 },
   },
-  [2]: {
-    containerClass: 'hidden sm:flex left-[92%] md:left-[91%] top-[34%] sm:top-[36%] md:top-[38%]',
-    rotation: '14deg',
-    skew: 'skew-x-3',
-    scaleClass: 'scale-75 sm:scale-80 md:scale-85 hover:scale-95',
-    zIndex: 10,
-    opacityClass: 'opacity-75 hover:opacity-100',
+  {
+    id: 'ann',
+    name: 'ANN TAKAMAKI',
+    codename: 'PANTHER',
+    kanji: '高巻 杏',
+    role: 'AGILE INFILTRATOR // SSR & EDGE',
+    quote: 'Time for serious magic! Enterprise-grade hybrid SSR, App Router, and edge middleware deployed!',
+    src: '/assets/An_takamaki.webp',
+    techId: 'nextjs',
+    left: 63,
+    bottom: 33,
+    widthPercent: 9.8,
+    zIndex: 18,
+    camera: { scale: 2.7, x: -18, y: 22 },
   },
-}
+  {
+    id: 'yusuke',
+    name: 'YUSUKE KITAGAWA',
+    codename: 'FOX',
+    kanji: '喜多川 祐介',
+    role: 'METICULOUS ARTISAN // BACKEND MVC',
+    quote: 'An exquisite composition of robust Eloquent schemas, clean relations, and authenticated APIs.',
+    src: '/assets/yusuke kitagawa.png',
+    techId: 'laravel',
+    left: 19,
+    bottom: 21,
+    widthPercent: 12,
+    zIndex: 21,
+    camera: { scale: 2.4, x: 32, y: 10 },
+  },
+]
 
 export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
   const { playHover, playSlash, playBack } = usePersonaSFX()
 
-  // Active index of the selected Tech Item
-  const [activeIndex, setActiveIndex] = useState<number>(0)
-  // Tactical Modal Inspector (Alternatif B)
+  // Active character in Leblanc Attic (null = Overview Mode)
+  const [activeCharId, setActiveCharId] = useState<string | null>(null)
+  const [showSpeedlines, setShowSpeedlines] = useState<boolean>(false)
+
+  // Tactical Modal Inspector
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
+  const [modalTechIndex, setModalTechIndex] = useState<number>(0)
 
-  const activeTech = TECH_DECK[activeIndex]
+  // Active character object
+  const activeChar = useMemo(() => {
+    return PHANTOM_CHARACTERS.find(c => c.id === activeCharId) || null
+  }, [activeCharId])
 
-  const handleSelectIndex = useCallback((index: number) => {
-    if (index !== activeIndex) {
-      playSlash()
-      setActiveIndex((index + TECH_DECK.length) % TECH_DECK.length)
+  // Active tech item
+  const activeTech = useMemo(() => {
+    if (isModalOpen) {
+      return TECH_DECK[modalTechIndex] || TECH_DECK[0]
     }
-  }, [activeIndex, playSlash])
+    if (activeChar) {
+      const found = TECH_DECK.find(t => t.id === activeChar.techId)
+      if (found) return found
+    }
+    return TECH_DECK[0]
+  }, [activeChar, isModalOpen, modalTechIndex])
+
+  const activeIndex = useMemo(() => {
+    const idx = TECH_DECK.findIndex(t => t.id === activeTech.id)
+    return idx >= 0 ? idx : 0
+  }, [activeTech])
+
+  const handleSelectCharacter = useCallback((char: PhantomCharacter) => {
+    playSlash()
+    setShowSpeedlines(true)
+    setTimeout(() => setShowSpeedlines(false), 400)
+    setActiveCharId(char.id)
+    const techIdx = TECH_DECK.findIndex(t => t.id === char.techId)
+    if (techIdx >= 0) setModalTechIndex(techIdx)
+  }, [playSlash])
+
+  const handleResetCamera = useCallback(() => {
+    playBack()
+    setActiveCharId(null)
+  }, [playBack])
 
   const openInspector = useCallback(() => {
     playSlash()
@@ -306,43 +397,31 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
     setIsModalOpen(false)
   }, [playBack])
 
-  // 5 visible tech cards along the fisheye curvature: [-2, -1, 0, 1, 2]
-  const visibleCards = useMemo(() => {
-    return [-2, -1, 0, 1, 2].map(relOffset => {
-      const targetIndex = (activeIndex + relOffset + TECH_DECK.length) % TECH_DECK.length
-      const tech = TECH_DECK[targetIndex]
-      const isActive = relOffset === 0
+  const handleSelectIndex = useCallback((index: number) => {
+    playSlash()
+    setModalTechIndex(index)
+    const targetTech = TECH_DECK[index]
+    const matchingChar = PHANTOM_CHARACTERS.find(c => c.techId === targetTech.id)
+    if (matchingChar) {
+      setActiveCharId(matchingChar.id)
+    }
+  }, [playSlash])
 
-      return {
-        targetIndex,
-        relOffset,
-        tech,
-        isActive,
-      }
-    })
-  }, [activeIndex])
-
-  // Keyboard navigation
+  // Keyboard navigation: click-only for selecting characters, Escape for back/close, X/Enter for inspect
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
         e.preventDefault()
         if (isModalOpen) {
           closeInspector()
+        } else if (activeCharId) {
+          handleResetCamera()
         } else {
           playBack()
           onBack()
         }
-      } else if (e.key === 'ArrowLeft') {
-        e.preventDefault()
-        playHover()
-        setActiveIndex(prev => (prev - 1 + TECH_DECK.length) % TECH_DECK.length)
-      } else if (e.key === 'ArrowRight') {
-        e.preventDefault()
-        playHover()
-        setActiveIndex(prev => (prev + 1) % TECH_DECK.length)
       } else if (e.key === 'x' || e.key === 'X' || e.key === 'Enter') {
-        if (!isModalOpen) {
+        if (!isModalOpen && activeCharId) {
           e.preventDefault()
           openInspector()
         }
@@ -351,7 +430,7 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
 
     window.addEventListener('keydown', handleKeyDown)
     return () => window.removeEventListener('keydown', handleKeyDown)
-  }, [isModalOpen, onBack, playBack, playHover, openInspector, closeInspector])
+  }, [isModalOpen, activeCharId, onBack, playBack, openInspector, closeInspector, handleResetCamera])
 
   // Pentagon radar points calculation
   const cx = 75
@@ -377,245 +456,271 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
   }).join(' ')
 
   return (
-    <div className="fixed inset-0 z-30 select-none overflow-hidden flex flex-col justify-between p-4 sm:p-6 md:p-8 pt-5 sm:pt-7 md:pt-9 pb-3 sm:pb-4 animate-in fade-in duration-300">
+    <div className="fixed inset-0 z-30 select-none overflow-hidden bg-black flex flex-col justify-between animate-in fade-in duration-300">
       
-      {/* ── CINEMATIC VFX: CLEAN VIGNETTE & SILVER SPARK EMBERS ── */}
-      <div className="pointer-events-none fixed inset-0 overflow-hidden z-10">
-        {/* Subtle Bottom Vignette for UI readability without blurring Tokyo Tower */}
-        <div
-          className="absolute inset-x-0 bottom-0 h-44 bg-gradient-to-t from-black/80 via-black/40 to-transparent pointer-events-none"
-          aria-hidden="true"
-        />
-        {/* Floating Silver Sparks */}
-        {[
-          { left: '10%', delay: '0s', dur: '10s', size: 3 },
-          { left: '22%', delay: '3s', dur: '13s', size: 4 },
-          { left: '36%', delay: '6s', dur: '9s', size: 2.5 },
-          { left: '48%', delay: '1.5s', dur: '11s', size: 4 },
-          { left: '64%', delay: '4.2s', dur: '12s', size: 3.5 },
-          { left: '76%', delay: '7s', dur: '10.5s', size: 4 },
-          { left: '88%', delay: '2.2s', dur: '14s', size: 2.5 },
-        ].map((ember, idx) => (
-          <span
-            key={idx}
-            className="p5-ember rounded-full bg-zinc-200 shadow-[0_0_6px_#FFFFFF] opacity-75"
-            style={{
-              left: ember.left,
-              bottom: 0,
-              width: `${ember.size}px`,
-              height: `${ember.size}px`,
-              animationDelay: ember.delay,
-              animationDuration: ember.dur,
-            }}
-          />
-        ))}
-      </div>
+      {/* ── ANIME SPEED LINES FLASH IMPACT OVERLAY ── */}
+      {showSpeedlines && (
+        <div className="pointer-events-none fixed inset-0 z-50 overflow-hidden p5-speedlines-anim">
+          <svg className="w-full h-full opacity-65" viewBox="0 0 1000 1000" preserveAspectRatio="none">
+            {Array.from({ length: 40 }).map((_, idx) => {
+              const angle = (idx * 9 * Math.PI) / 180
+              const x2 = 500 + Math.cos(angle) * 900
+              const y2 = 500 + Math.sin(angle) * 900
+              return (
+                <line
+                  key={idx}
+                  x1="500"
+                  y1="500"
+                  x2={x2}
+                  y2={y2}
+                  stroke={idx % 2 === 0 ? '#E60012' : '#FFFFFF'}
+                  strokeWidth={idx % 4 === 0 ? '4' : '2'}
+                  strokeDasharray="60 140"
+                />
+              )
+            })}
+          </svg>
+        </div>
+      )}
 
-      {/* ── TOP-LEFT: PERSONA 5 RANSOM 'SKILLS' TITLE ── */}
-      <div className="z-20 flex flex-col items-start select-none p5-tile-entrance">
-        <div className="flex items-center gap-1 sm:gap-1.5 filter drop-shadow-[5px_5px_0px_#000000]">
-          {['S', 'K', 'I', 'L', 'L', 'S'].map((char, i) => (
+      {/* ── TOP-LEFT: PERSONA 5 RANSOM 'HIDEOUT' BANNER ── */}
+      <div className="absolute top-4 left-4 sm:top-6 sm:left-6 z-40 flex flex-col items-start select-none pointer-events-none p5-tile-entrance">
+        <div className="flex items-center gap-1 sm:gap-1.5 filter drop-shadow-[4px_4px_0px_#000000]">
+          {['H', 'I', 'D', 'E', 'O', 'U', 'T'].map((char, i) => (
             <span
               key={i}
-              className={`inline-flex items-center justify-center font-p5Heading text-3xl sm:text-4xl md:text-5xl min-w-[36px] sm:min-w-[44px] md:min-w-[50px] h-[44px] sm:h-[54px] md:h-[62px] px-1.5 py-0.5 border-[3px] border-black uppercase transition-transform hover:scale-115 ${
+              className={`inline-flex items-center justify-center font-p5Heading text-2xl sm:text-3xl md:text-4xl min-w-[28px] sm:min-w-[34px] md:min-w-[42px] h-[34px] sm:h-[42px] md:h-[50px] px-1 border-[2.5px] border-black uppercase ${
                 i === 0
                   ? 'bg-black text-white -rotate-6'
                   : i === 1
                   ? 'bg-white text-black rotate-3'
                   : i === 2
-                  ? 'bg-[#64748B] text-white -rotate-3 font-black scale-105'
+                  ? 'bg-[#E60012] text-white -rotate-3 font-black scale-105'
                   : i === 3
                   ? 'bg-white text-black rotate-4'
                   : i === 4
                   ? 'bg-black text-white -rotate-2'
-                  : 'bg-[#64748B] text-white rotate-6 scale-110 shadow-[4px_4px_0px_#000000] font-black'
+                  : i === 5
+                  ? 'bg-white text-black rotate-3'
+                  : 'bg-[#E60012] text-white rotate-6 font-black'
               }`}
             >
               {char}
             </span>
           ))}
         </div>
-        <div className="mt-1.5 flex items-center bg-black border-l-4 border-[#64748B] px-2.5 sm:px-3 py-0.5 text-[10px] sm:text-xs font-p5Sub tracking-widest text-white -skew-x-6 shadow-[3px_3px_0px_#000000]">
-          <span className="text-[#94A3B8] font-bold mr-1.5">TECH ARSENAL</span>
+        <div className="mt-1 flex items-center bg-black border-l-4 border-[#E60012] px-2.5 sm:px-3 py-0.5 text-[10px] sm:text-xs font-p5Sub tracking-widest text-white -skew-x-6 shadow-[3px_3px_0px_#000000]">
+          <span className="text-yellow-400 font-bold mr-1.5">CAFE LEBLANC ATTIC</span>
           <span className="text-zinc-500 mx-1">//</span>
-          <span className="text-zinc-200">{activeTech.name}</span>
+          <span className="text-zinc-200">
+            {activeChar ? `${activeChar.name} [${activeChar.codename}]` : 'SELECT PHANTOM THIEF'}
+          </span>
         </div>
       </div>
 
-      {/* ── PANORAMIC TOKYO SKYLINE TECH SLOTS (CALENDAR CURVED CITYSCAPE) ── */}
-      <div className="z-20 relative flex-1 w-full max-w-[1700px] mx-auto min-h-[380px] sm:min-h-[440px] md:min-h-[500px] flex items-center justify-center p5-skills-entrance">
-        {visibleCards.map((item) => {
-          const { targetIndex, relOffset, tech, isActive } = item
-          const slotConfig = CALENDAR_SLOT_MAP[relOffset]
-          if (!slotConfig) return null
+      {/* ── 2.5D LEBLANC ATTIC VIRTUAL CAMERA STAGE ── */}
+      <div className="relative w-full h-full flex items-center justify-center overflow-hidden">
+        <div
+          className="relative w-full h-full max-w-[1920px] max-h-[1080px] aspect-video transition-transform duration-700 ease-out will-change-transform select-none"
+          style={{
+            transform: activeChar
+              ? `scale(${activeChar.camera.scale}) translate(${activeChar.camera.x}%, ${activeChar.camera.y}%)`
+              : 'scale(1) translate(0%, 0%)',
+            transformOrigin: 'center center',
+          }}
+        >
+          {/* Base 3D Room Render Background */}
+          <img
+            src="/assets/Background Joker Hideout.png"
+            alt="Cafe Leblanc Attic"
+            className="absolute inset-0 w-full h-full object-cover pointer-events-none select-none"
+          />
 
-          if (isActive) {
+          {/* Ambient Dark Dim Overlay (active when zoomed in, clickable to reset) */}
+          <div
+            onClick={handleResetCamera}
+            className={`absolute inset-0 bg-black/60 transition-opacity duration-500 z-10 ${
+              activeChar ? 'opacity-100 pointer-events-auto cursor-pointer' : 'opacity-0 pointer-events-none'
+            }`}
+          />
+
+          {/* Giant Japanese Kanji Backdrop (visible when zoomed in) */}
+          {activeChar && (
+            <div className="absolute inset-0 flex items-center justify-center pointer-events-none overflow-hidden select-none z-15 p5-splash-text-anim">
+              <span className="font-p5Heading text-[16vw] font-black text-white/12 uppercase tracking-widest -rotate-12 select-none filter blur-[0.5px]">
+                {activeChar.kanji}
+              </span>
+            </div>
+          )}
+
+          {/* 6 Character Cutout Sprites */}
+          {PHANTOM_CHARACTERS.map((char) => {
+            const isSelected = activeChar?.id === char.id
+            const tech = TECH_DECK.find(t => t.id === char.techId)
+
             return (
               <div
-                key={tech.id}
-                onClick={openInspector}
+                key={char.id}
+                onClick={(e) => {
+                  e.stopPropagation()
+                  handleSelectCharacter(char)
+                }}
                 onMouseEnter={playHover}
                 style={{
-                  transform: 'translate(-50%, -50%) rotate(1deg)',
-                  filter: `drop-shadow(0 0 24px ${tech.accentColor}95) drop-shadow(0 0 50px ${tech.accentColor}40)`,
+                  left: `${char.left}%`,
+                  bottom: `${char.bottom}%`,
+                  width: `${char.widthPercent}%`,
+                  zIndex: isSelected ? 35 : char.zIndex,
                 }}
-                className="absolute left-1/2 top-[41%] sm:top-[43%] -translate-x-1/2 -translate-y-1/2 flex flex-col items-center transition-all duration-300 ease-out cursor-pointer z-30 scale-110 sm:scale-125 md:scale-135"
+                className={`
+                  absolute group cursor-pointer transition-all duration-300
+                  ${isSelected ? 'scale-105' : 'hover:scale-105'}
+                `}
+                title={`Select ${char.name} [${char.codename}]`}
               >
-                {/* ── PHANTOM THIEVES DAGGER (STABBED DIAGONALLY INTO ACTIVE TECH) ── */}
-                <div
-                  key={`dagger-${tech.id}`}
-                  className="absolute -top-18 sm:-top-22 md:-top-26 -right-3 sm:-right-5 md:-right-7 w-16 sm:w-20 md:w-24 h-22 sm:h-28 md:h-34 pointer-events-none z-40 p5-dagger-slam-anim"
-                  style={{ transformOrigin: 'bottom center' }}
-                >
-                  <PhantomDagger className="w-full h-full" />
-                </div>
-
-                {/* Centerpiece Persona 5 Die-Cut Ransom Sticker Body */}
-                <div className="relative flex flex-col items-center justify-between p-3 sm:p-4 rounded-sm border-[4px] border-white bg-black shadow-[10px_10px_0px_#000000] -skew-x-2 min-w-[125px] sm:min-w-[145px] md:min-w-[165px] h-[130px] sm:h-[155px] md:h-[175px] transition-transform hover:scale-105">
-                  {/* Top Header: Level + Element Badge */}
-                  <div className="flex items-center justify-between w-full">
-                    <span className="font-p5Mono text-[10px] sm:text-xs font-black text-p5-yellow bg-zinc-900 px-1.5 py-0.5 -skew-x-6 border border-zinc-700 shadow-[1px_1px_0px_#000]">
-                      LV.{tech.level}
-                    </span>
+                {/* Floating Codename Pin Above Head in Overview */}
+                {!activeChar && (
+                  <div className="absolute -top-7 sm:-top-8 left-1/2 -translate-x-1/2 whitespace-nowrap pointer-events-none transition-transform group-hover:scale-110 z-40">
                     <span
-                      className={`font-p5Mono text-[9px] sm:text-[10px] font-extrabold uppercase px-1.5 py-0.5 -skew-x-6 border border-black shadow-[1.5px_1.5px_0px_#000] ${getRibbonTextColor(tech.accentColor)}`}
-                      style={{ backgroundColor: tech.accentColor }}
+                      className="bg-black/95 text-white border-2 border-white px-2 py-0.5 font-p5Heading text-[10px] sm:text-xs font-black tracking-wider -skew-x-12 shadow-[2px_2px_0px_#000] flex items-center gap-1.5"
+                      style={{ borderBottomColor: tech?.accentColor || '#ffffff', borderBottomWidth: '3px' }}
                     >
-                      {tech.element}
+                      <span className="text-yellow-400">★</span>
+                      <span>{char.codename}</span>
+                      <span className="text-zinc-500">//</span>
+                      <span className="text-zinc-300 font-p5Mono">{tech?.shortLabel}</span>
                     </span>
                   </div>
+                )}
 
-                  {/* SVG Tech Icon with Hover Punch */}
-                  <div className="my-auto transition-transform hover:scale-115 filter drop-shadow-[0_0_8px_rgba(255,255,255,0.4)]">
-                    {tech.renderIcon({
-                      className: 'size-12 sm:size-14 md:size-16',
-                      isSelected: true,
-                    })}
-                  </div>
-
-                  {/* Bottom Brand Ransom Ribbon */}
-                  <div
-                    className={`
-                      px-3 py-0.5 sm:py-1 -skew-x-12 rotate-1 border-2 border-black font-p5Heading text-sm sm:text-base md:text-lg font-black tracking-wider uppercase truncate max-w-full shadow-[3px_3px_0px_#000000]
-                      ${getRibbonTextColor(tech.accentColor)}
-                    `}
-                    style={{ backgroundColor: tech.accentColor }}
-                  >
-                    {tech.shortLabel}
-                  </div>
-                </div>
-
-                {/* 'ACTIVE TARGET // INSPECT' Indicator Tag */}
-                <div className="mt-2.5 sm:mt-3 flex items-center gap-1.5 bg-p5-yellow text-black font-p5Heading text-[11px] sm:text-xs font-black px-2.5 py-0.5 -skew-x-6 border border-black shadow-[2px_2px_0px_#000] hover:bg-white transition-colors">
-                  <span className="size-3.5 rounded-full bg-black text-p5-yellow text-[9px] font-bold flex items-center justify-center">X</span>
-                  <span>INSPECT WEAPON</span>
-                </div>
+                {/* Character Cutout Image with Comic Die-Cut Contour */}
+                <img
+                  src={char.src}
+                  alt={char.name}
+                  className={`
+                    w-full h-auto object-contain select-none transition-all duration-300
+                    ${isSelected
+                      ? 'filter drop-shadow-[0_0_10px_rgba(255,255,255,0.95)] drop-shadow-[0_0_24px_' + (tech?.accentColor || '#ffffff') + '90)] brightness-105'
+                      : 'filter drop-shadow-[0_0_2.5px_rgba(255,255,255,0.85)] drop-shadow-[4px_4px_0px_rgba(0,0,0,0.85)] group-hover:drop-shadow-[0_0_12px_rgba(255,255,255,0.95)]'
+                    }
+                  `}
+                />
               </div>
             )
-          }
-
-          return (
-            <div
-              key={tech.id}
-              onClick={() => handleSelectIndex(targetIndex)}
-              onMouseEnter={playHover}
-              style={{
-                transform: `translate(-50%, -50%) rotate(${slotConfig.rotation})`,
-                zIndex: slotConfig.zIndex,
-              }}
-              className={`absolute -translate-x-1/2 -translate-y-1/2 flex flex-col items-center cursor-pointer transition-all duration-300 ease-out ${slotConfig.containerClass} ${slotConfig.scaleClass} ${slotConfig.opacityClass}`}
-              title={`Shift ${tech.name} to Center`}
-            >
-              {/* Inactive Persona 5 Monochrome Ransom Sticker Body */}
-              <div className={`relative flex flex-col items-center justify-between p-2 sm:p-2.5 rounded-sm border-[3px] border-white/90 bg-zinc-950/95 shadow-[6px_6px_0px_#000000] ${slotConfig.skew} min-w-[85px] sm:min-w-[100px] md:min-w-[115px] h-[95px] sm:h-[110px] md:h-[125px] transition-transform hover:scale-105`}>
-                {/* Corner Level & Element */}
-                <div className="flex items-center justify-between w-full">
-                  <span className="font-p5Mono text-[9px] sm:text-[10px] font-bold text-zinc-400">
-                    LV.{tech.level}
-                  </span>
-                  <span className="font-p5Mono text-[8px] font-semibold text-zinc-500">
-                    {tech.element}
-                  </span>
-                </div>
-
-                {/* SVG Tech Icon (Monochrome) */}
-                <div className="my-auto opacity-80 group-hover:opacity-100 transition-opacity">
-                  {tech.renderIcon({
-                    className: 'size-8 sm:size-9 md:size-10',
-                    isSelected: false,
-                  })}
-                </div>
-
-                {/* Persona 5 Cutout White Label Tape */}
-                <div className="px-2 py-0.5 -skew-x-12 -rotate-1 bg-white text-black border border-black font-p5Heading text-xs sm:text-sm font-black tracking-wider uppercase truncate max-w-full shadow-[2px_2px_0px_#000000]">
-                  {tech.shortLabel}
-                </div>
-              </div>
-            </div>
-          )
-        })}
-
-        {/* ── CINEMATIC PROMPT UNDER SKYLINE (PERSONA 5 HUD PROMPT) ── */}
-        <div className="absolute bottom-1 sm:bottom-2 md:bottom-3 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 z-20 pointer-events-auto">
-          <div className="flex items-center gap-3 font-p5Mono text-[11px] sm:text-xs text-white/90 bg-black/85 px-4 py-1.5 border border-white/60 -skew-x-6 shadow-[4px_4px_0px_#000000]">
-            <span className="text-yellow-400 font-bold">◀ / ▶</span>
-            <span>SELECT TECH WEAPON</span>
-            <span className="text-zinc-500">//</span>
-            <button
-              onClick={openInspector}
-              className="text-white hover:text-yellow-300 font-bold underline cursor-pointer transition-colors"
-            >
-              INSPECT {activeTech.name}
-            </button>
-          </div>
-
-          {/* Slot Pips Indicator */}
-          <div className="flex items-center gap-1.5">
-            {TECH_DECK.map((tech, i) => (
-              <button
-                key={tech.id}
-                onClick={() => handleSelectIndex(i)}
-                className={`h-2 transition-all cursor-pointer ${
-                  i === activeIndex
-                    ? 'w-7 bg-white shadow-[0_0_8px_#FFFFFF]'
-                    : 'w-2 bg-zinc-600 hover:bg-white'
-                }`}
-                title={tech.name}
-              />
-            ))}
-          </div>
+          })}
         </div>
       </div>
 
-      {/* ── BOTTOM ACTION BAR (PERSONA 5 HUD LEGEND) ── */}
-      <div className="z-20 flex items-center gap-4 sm:gap-6 flex-wrap text-xs sm:text-sm pointer-events-auto p5-footer-entrance">
-        {/* Left: (O) BACK button - restored to red console standard */}
-        <button
-          onClick={() => {
-            playBack()
-            onBack()
-          }}
-          className="flex items-center gap-1.5 text-zinc-300 hover:text-white group cursor-pointer transition-colors"
-          title="Return to Main Menu"
-        >
-          <span className="size-5 rounded-full border-2 border-red-500 text-red-500 font-bold flex items-center justify-center text-[11px] group-hover:bg-red-500 group-hover:text-white transition-colors shadow-[0_0_6px_rgba(239,68,68,0.4)]">
-            O
-          </span>
-          <span className="font-p5Heading text-sm tracking-wider uppercase">BACK</span>
-        </button>
+      {/* ── BOTTOM HUD: TACTICAL DIALOGUE & SKILL DOSSIER (WHEN CHARACTER ZOOMED) ── */}
+      {activeChar && activeTech && (
+        <div className="absolute bottom-3 inset-x-3 sm:bottom-5 sm:inset-x-5 md:max-w-4xl md:mx-auto z-40 p5-hud-bottom-anim pointer-events-auto">
+          <div className="relative bg-black/95 border-[3px] border-white p-3 sm:p-4 md:p-5 shadow-[8px_8px_0px_#000000] -skew-x-1">
+            {/* Top Banner: Codename + Kanji + Element Badge */}
+            <div className="flex items-center justify-between border-b border-zinc-700 pb-2 mb-2 sm:mb-2.5">
+              <div className="flex items-center gap-2 flex-wrap">
+                <span
+                  className="px-2.5 py-0.5 font-p5Heading text-xs sm:text-sm font-black uppercase -skew-x-6 shadow-[2px_2px_0px_#000]"
+                  style={{ backgroundColor: activeTech.accentColor, color: getRibbonTextColor(activeTech.accentColor) }}
+                >
+                  {activeChar.codename}
+                </span>
+                <span className="font-p5Heading text-base sm:text-xl text-white tracking-wide uppercase">
+                  {activeChar.name}
+                </span>
+                <span className="text-zinc-500 font-p5Mono text-xs">//</span>
+                <span className="font-p5Mono text-xs text-yellow-400 font-black">
+                  {activeChar.kanji}
+                </span>
+              </div>
 
-        {/* Right: (X) INSPECT Action Button - unified side-by-side with BACK */}
-        <button
-          onClick={openInspector}
-          className="flex items-center gap-1.5 text-zinc-300 hover:text-white group cursor-pointer transition-colors"
-          title={`Inspect ${activeTech.name} & Radar`}
-        >
-          <span className="size-5 rounded-full border-2 border-cyan-400 text-cyan-400 font-bold flex items-center justify-center text-[11px] group-hover:bg-cyan-400 group-hover:text-black transition-colors shadow-[0_0_6px_rgba(34,211,238,0.4)]">
-            X
-          </span>
-          <span className="font-p5Heading text-sm tracking-wider uppercase">INSPECT {activeTech.name} & RADAR</span>
-        </button>
-      </div>
+              <div className="flex items-center gap-2">
+                <span className="font-p5Mono text-[10px] sm:text-xs font-black text-yellow-300 bg-zinc-900 px-2 py-0.5 border border-zinc-700">
+                  LV.{activeTech.level}
+                </span>
+                <span className="font-p5Mono text-[10px] sm:text-xs font-bold text-white bg-zinc-800 px-2 py-0.5 border border-zinc-600">
+                  [{activeTech.element}]
+                </span>
+              </div>
+            </div>
+
+            {/* Quote Bubble */}
+            <div className="mb-2.5 sm:mb-3 flex items-start gap-2 text-zinc-200 font-p5Body text-xs sm:text-sm italic bg-zinc-900/80 px-3 py-1.5 sm:py-2 border-l-4 border-yellow-400 -skew-x-2">
+              <span className="text-yellow-400 font-black not-italic text-sm">“</span>
+              <span className="flex-1 not-italic font-sans">{activeChar.quote}</span>
+            </div>
+
+            {/* Tech Arsenal Quick Overview */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-4 text-xs font-p5Mono mb-2.5 sm:mb-3">
+              <div className="flex items-center gap-2.5">
+                <div className="size-7 shrink-0">
+                  {activeTech.renderIcon({ className: 'size-full', isSelected: true })}
+                </div>
+                <div className="min-w-0">
+                  <div className="text-white font-p5Heading text-sm uppercase truncate font-bold">
+                    {activeTech.name}
+                  </div>
+                  <div className="text-zinc-400 text-[11px] truncate">
+                    {activeTech.category}
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex flex-wrap items-center gap-1 sm:justify-end">
+                {activeTech.libraries.slice(0, 3).map((lib) => (
+                  <span
+                    key={lib}
+                    className="bg-zinc-800 text-zinc-300 px-1.5 py-0.5 text-[10px] border border-zinc-700"
+                  >
+                    {lib}
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            {/* Action Buttons: Inspect Radar vs Close / Back */}
+            <div className="flex items-center justify-between pt-2 border-t border-zinc-800">
+              <button
+                onClick={handleResetCamera}
+                className="flex items-center gap-1.5 text-zinc-400 hover:text-white font-p5Heading text-xs uppercase cursor-pointer transition-colors"
+              >
+                <span className="size-4 rounded-full border border-red-500 text-red-500 flex items-center justify-center text-[10px] font-bold">
+                  O
+                </span>
+                <span>BACK TO ROOM</span>
+              </button>
+
+              <button
+                onClick={openInspector}
+                className="flex items-center gap-1.5 bg-yellow-400 hover:bg-white text-black font-p5Heading text-xs font-black px-3 py-1 -skew-x-6 border border-black shadow-[2px_2px_0px_#000] cursor-pointer transition-transform hover:scale-105"
+              >
+                <span className="size-3.5 rounded-full bg-black text-yellow-400 flex items-center justify-center text-[9px] font-bold">
+                  X
+                </span>
+                <span>TACTICAL DOSSIER & RADAR</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ── BOTTOM HUD: OVERVIEW MODE (BACK TO MAIN MENU) ── */}
+      {!activeChar && (
+        <div className="absolute bottom-4 left-4 sm:bottom-6 sm:left-6 z-40 flex items-center gap-4 pointer-events-auto p5-footer-entrance">
+          <button
+            onClick={() => {
+              playBack()
+              onBack()
+            }}
+            className="flex items-center gap-1.5 text-zinc-300 hover:text-white group cursor-pointer transition-colors"
+            title="Return to Main Menu"
+          >
+            <span className="size-5 rounded-full border-2 border-red-500 text-red-500 font-bold flex items-center justify-center text-[11px] group-hover:bg-red-500 group-hover:text-white transition-colors shadow-[0_0_6px_rgba(239,68,68,0.4)]">
+              O
+            </span>
+            <span className="font-p5Heading text-sm tracking-wider uppercase">BACK TO MENU</span>
+          </button>
+        </div>
+      )}
 
       {/* ── TACTICAL TECH ARSENAL INSPECTOR MODAL (ALTERNATIF B) ── */}
       {isModalOpen && (

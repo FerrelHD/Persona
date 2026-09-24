@@ -576,6 +576,58 @@
   will-change: transform, opacity;
 }
 
+/* Persona 5 Tactical Bottom Dialogue HUD Entrance */
+@keyframes p5-hud-bottom-slide {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 36px, 0) skewX(-3deg) scale(0.96);
+  }
+  70% {
+    opacity: 1;
+    transform: translate3d(0, -4px, 0) skewX(-1deg) scale(1.01);
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) skewX(-1deg) scale(1);
+  }
+}
+.p5-hud-bottom-anim {
+  animation: p5-hud-bottom-slide 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
+  will-change: transform, opacity;
+}
+
+/* Persona 5 Giant Kanji Splash Backdrop */
+@keyframes p5-splash-kanji {
+  0% {
+    opacity: 0;
+    transform: scale(0.6) rotate(-20deg);
+  }
+  100% {
+    opacity: 0.18;
+    transform: scale(1) rotate(-12deg);
+  }
+}
+.p5-splash-text-anim {
+  animation: p5-splash-kanji 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+  will-change: transform, opacity;
+}
+
+/* Anime Speed Lines Flash */
+@keyframes p5-speed-lines-flash {
+  0% {
+    opacity: 0.85;
+    transform: scale(1.15);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1);
+  }
+}
+.p5-speedlines-anim {
+  animation: p5-speed-lines-flash 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  will-change: transform, opacity;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .p5-menu-entrance,
   .p5-badge-slash,
