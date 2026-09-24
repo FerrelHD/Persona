@@ -394,51 +394,21 @@ const PHANTOM_CHARACTERS: PhantomCharacter[] = [
   },
 ]
 
-// ── PERSONA 5 FLOATING COMIC SPEECH BUBBLE POSITIONS ──
-interface BubblePosition {
+// ── PERSONA 5 FLOATING COMIC SPEECH BUBBLE CONFIGS ──
+interface BubbleConfig {
   side: 'left' | 'right'
-  desktopStyle: React.CSSProperties
-  tailSide: 'left' | 'right'
-  tailTop: string
+  posX: number
+  top: number
+  tailTop: number
 }
 
-const BUBBLE_POSITIONS: Record<string, BubblePosition> = {
-  yusuke: {
-    side: 'right',
-    desktopStyle: { left: '44%', top: '16%' },
-    tailSide: 'left',
-    tailTop: '35%',
-  },
-  futaba: {
-    side: 'right',
-    desktopStyle: { left: '52%', top: '16%' },
-    tailSide: 'left',
-    tailTop: '35%',
-  },
-  morgana: {
-    side: 'left',
-    desktopStyle: { right: '56%', top: '14%' },
-    tailSide: 'right',
-    tailTop: '40%',
-  },
-  ryuji: {
-    side: 'left',
-    desktopStyle: { right: '54%', top: '14%' },
-    tailSide: 'right',
-    tailTop: '35%',
-  },
-  ann: {
-    side: 'left',
-    desktopStyle: { right: '48%', top: '16%' },
-    tailSide: 'right',
-    tailTop: '35%',
-  },
-  joker: {
-    side: 'left',
-    desktopStyle: { right: '36%', top: '16%' },
-    tailSide: 'right',
-    tailTop: '35%',
-  },
+const DEFAULT_BUBBLES: Record<string, BubbleConfig> = {
+  yusuke: { side: 'right', posX: 44, top: 16, tailTop: 35 },
+  futaba: { side: 'right', posX: 52, top: 16, tailTop: 35 },
+  morgana: { side: 'left', posX: 56, top: 14, tailTop: 40 },
+  ryuji: { side: 'left', posX: 54, top: 14, tailTop: 35 },
+  ann: { side: 'left', posX: 48, top: 16, tailTop: 35 },
+  joker: { side: 'left', posX: 36, top: 16, tailTop: 35 },
 }
 
 export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
@@ -485,8 +455,30 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
   // Calibrator Panel state
   const [isCalibratorOpen, setIsCalibratorOpen] = useState(false)
   const [calibratingCharId, setCalibratingCharId] = useState<string>('joker')
+  const [calibratorTab, setCalibratorTab] = useState<'char' | 'camera' | 'bubble'>('char')
   const [copiedSuccess, setCopiedSuccess] = useState(false)
   const stageRef = useRef<HTMLDivElement>(null)
+
+  // Floating comic speech bubble configuration state (persisted in localStorage)
+  const [bubbleList, setBubbleList] = useState<Record<string, BubbleConfig>>(() => {
+    const saved = localStorage.getItem('p5_bubbles_v1')
+    if (saved) {
+      try {
+        const parsed = JSON.parse(saved)
+        if (typeof parsed === 'object') return parsed
+      } catch { /* ignore */ }
+    }
+    return DEFAULT_BUBBLES
+  })
+
+  const updateCalibratingBubble = (updates: Partial<BubbleConfig>) => {
+    setBubbleList(prev => {
+      const current = prev[calibratingCharId] || DEFAULT_BUBBLES[calibratingCharId] || DEFAULT_BUBBLES.joker
+      const next = { ...prev, [calibratingCharId]: { ...current, ...updates } }
+      localStorage.setItem('p5_bubbles_v1', JSON.stringify(next))
+      return next
+    })
+  }
 
   // Active character object
   const activeChar = useMemo(() => {
@@ -503,18 +495,28 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
       localStorage.setItem('p5_characters_bocchi_v2', JSON.stringify(next))
       return next
     })
+    if (updates.camera) {
+      setLastFocusOrigin({
+        originX: updates.camera.originX ?? calibratingChar.camera.originX,
+        originY: updates.camera.originY ?? calibratingChar.camera.originY,
+      })
+    }
   }
 
   const copyConfigToClipboard = () => {
-    const formatted = JSON.stringify(characterList, null, 2)
-    navigator.clipboard.writeText(`const PHANTOM_CHARACTERS: PhantomCharacter[] = ${formatted}`)
+    const charsFormatted = JSON.stringify(characterList, null, 2)
+    const bubblesFormatted = JSON.stringify(bubbleList, null, 2)
+    const payload = `const PHANTOM_CHARACTERS: PhantomCharacter[] = ${charsFormatted}\n\nconst DEFAULT_BUBBLES: Record<string, BubbleConfig> = ${bubblesFormatted}`
+    navigator.clipboard.writeText(payload)
     setCopiedSuccess(true)
     setTimeout(() => setCopiedSuccess(false), 2000)
   }
 
   const resetToDefaultPositions = () => {
     localStorage.removeItem('p5_characters_bocchi_v2')
+    localStorage.removeItem('p5_bubbles_v1')
     setCharacterList(PHANTOM_CHARACTERS)
+    setBubbleList(DEFAULT_BUBBLES)
   }
 
   const handleStartDrag = (e: React.MouseEvent, charId: string) => {
@@ -878,7 +880,12 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
 
           {/* ── PERSONA 5 MANGA DIALOGUE SPEECH BUBBLE ── */}
           {activeChar && activeTech && (() => {
-            const bubbleConfig = BUBBLE_POSITIONS[activeChar.id] || BUBBLE_POSITIONS.joker
+            const bubble = bubbleList[activeChar.id] || DEFAULT_BUBBLES[activeChar.id] || DEFAULT_BUBBLES.joker
+            const desktopStyle: React.CSSProperties = bubble.side === 'right'
+              ? { left: `${bubble.posX}%`, top: `${bubble.top}%` }
+              : { right: `${bubble.posX}%`, top: `${bubble.top}%` }
+            const tailSide = bubble.side === 'right' ? 'left' : 'right'
+            const tailTop = `${bubble.tailTop}%`
             return (
               <div
                 onClick={(e) => e.stopPropagation()}
@@ -888,15 +895,15 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
                   bottom-4 left-1/2 -translate-x-1/2
                   sm:bottom-auto sm:left-auto sm:translate-x-0
                 "
-                style={bubbleConfig.desktopStyle}
+                style={desktopStyle}
               >
                 <div className="relative bg-black/95 border-[3px] border-white p-3.5 sm:p-4 shadow-[6px_6px_0px_#E60012,12px_12px_0px_#000000] -skew-x-2">
                   
                   {/* Comic Speech Pointer Tail (SVG Beak) */}
-                  {bubbleConfig.tailSide === 'left' && (
+                  {tailSide === 'left' && (
                     <div
                       className="hidden sm:block absolute -left-[19px] pointer-events-none filter drop-shadow-[-2px_2px_0px_#000000]"
-                      style={{ top: bubbleConfig.tailTop }}
+                      style={{ top: tailTop }}
                     >
                       <svg width="22" height="24" viewBox="0 0 22 24" fill="none">
                         <polygon
@@ -910,10 +917,10 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
                     </div>
                   )}
 
-                  {bubbleConfig.tailSide === 'right' && (
+                  {tailSide === 'right' && (
                     <div
                       className="hidden sm:block absolute -right-[19px] pointer-events-none filter drop-shadow-[2px_2px_0px_#000000]"
-                      style={{ top: bubbleConfig.tailTop }}
+                      style={{ top: tailTop }}
                     >
                       <svg width="22" height="24" viewBox="0 0 22 24" fill="none">
                         <polygon
@@ -1078,136 +1085,272 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
               <span className="text-yellow-400">z-index: {calibratingChar.zIndex}</span>
             </div>
 
-            {/* Slider Controls */}
-            <div className="space-y-2.5 font-mono text-[11px]">
-              {/* Horizontal (Offset X px) */}
-              <div>
-                <div className="flex justify-between text-zinc-300 mb-1">
-                  <span>Horizontal (Offset X):</span>
-                  <span className="text-yellow-400 font-bold">{calibratingChar.tx}px</span>
-                </div>
-                <input
-                  type="range"
-                  min="-960"
-                  max="960"
-                  step="2"
-                  value={calibratingChar.tx}
-                  onChange={(e) => updateCalibratingChar({ tx: parseInt(e.target.value, 10) })}
-                  className="w-full accent-yellow-400 cursor-pointer"
-                />
-              </div>
+            {/* Live Camera & Bubble Preview Toggle */}
+            <button
+              onClick={() => {
+                if (activeCharId === calibratingChar.id) {
+                  handleResetCamera()
+                } else {
+                  setActiveCharId(calibratingChar.id)
+                  setLastFocusOrigin({ originX: calibratingChar.camera.originX, originY: calibratingChar.camera.originY })
+                }
+              }}
+              className={`w-full py-1.5 px-3 mb-2.5 font-p5Heading text-xs uppercase -skew-x-3 border-2 border-black flex items-center justify-center gap-2 shadow-[2px_2px_0px_#000] cursor-pointer transition-colors ${
+                activeCharId === calibratingChar.id
+                  ? 'bg-[#E60012] text-white hover:bg-red-700'
+                  : 'bg-yellow-400 text-black hover:bg-yellow-300 font-black'
+              }`}
+            >
+              <span>{activeCharId === calibratingChar.id ? '✕ RETURN TO ROOM' : '👁️ PREVIEW ZOOM & BUBBLE'}</span>
+            </button>
 
-              {/* Vertical (Offset Y px) */}
-              <div>
-                <div className="flex justify-between text-zinc-300 mb-1">
-                  <span>Vertical (Offset Y):</span>
-                  <span className="text-yellow-400 font-bold">{calibratingChar.ty}px</span>
-                </div>
-                <input
-                  type="range"
-                  min="-540"
-                  max="540"
-                  step="2"
-                  value={calibratingChar.ty}
-                  onChange={(e) => updateCalibratingChar({ ty: parseInt(e.target.value, 10) })}
-                  className="w-full accent-yellow-400 cursor-pointer"
-                />
-              </div>
-
-              {/* Width (px Size) */}
-              <div>
-                <div className="flex justify-between text-zinc-300 mb-1">
-                  <span>Size (Width):</span>
-                  <span className="text-yellow-400 font-bold">{calibratingChar.width}px</span>
-                </div>
-                <input
-                  type="range"
-                  min="40"
-                  max="600"
-                  step="2"
-                  value={calibratingChar.width}
-                  onChange={(e) => updateCalibratingChar({ width: parseInt(e.target.value, 10) })}
-                  className="w-full accent-yellow-400 cursor-pointer"
-                />
-              </div>
-
-              {/* Z-Index */}
-              <div className="flex items-center justify-between pt-1">
-                <span className="text-zinc-300">Z-Index Layer:</span>
-                <div className="flex items-center gap-1">
-                  <button
-                    onClick={() => updateCalibratingChar({ zIndex: Math.max(1, calibratingChar.zIndex - 1) })}
-                    className="px-2 py-0.5 bg-zinc-800 hover:bg-zinc-700 border border-zinc-600 rounded font-bold"
-                  >
-                    -
-                  </button>
-                  <span className="w-8 text-center text-yellow-400 font-bold">{calibratingChar.zIndex}</span>
-                  <button
-                    onClick={() => updateCalibratingChar({ zIndex: calibratingChar.zIndex + 1 })}
-                    className="px-2 py-0.5 bg-zinc-800 hover:bg-zinc-700 border border-zinc-600 rounded font-bold"
-                  >
-                    +
-                  </button>
-                </div>
-              </div>
-
-              {/* Camera Zoom Scale */}
-              <div>
-                <div className="flex justify-between text-zinc-300 mb-1">
-                  <span>Zoom Scale:</span>
-                  <span className="text-yellow-400 font-bold">{calibratingChar.camera.scale}x</span>
-                </div>
-                <input
-                  type="range"
-                  min="1.3"
-                  max="3.2"
-                  step="0.05"
-                  value={calibratingChar.camera.scale}
-                  onChange={(e) => updateCalibratingChar({
-                    camera: { ...calibratingChar.camera, scale: parseFloat(e.target.value) }
-                  })}
-                  className="w-full accent-yellow-400 cursor-pointer"
-                />
-              </div>
-
-              {/* Camera Origin X */}
-              <div>
-                <div className="flex justify-between text-zinc-300 mb-1">
-                  <span>Camera Focus X (%):</span>
-                  <span className="text-yellow-400 font-bold">{calibratingChar.camera.originX}%</span>
-                </div>
-                <input
-                  type="range"
-                  min="0"
-                  max="100"
-                  step="0.5"
-                  value={calibratingChar.camera.originX}
-                  onChange={(e) => updateCalibratingChar({
-                    camera: { ...calibratingChar.camera, originX: parseFloat(e.target.value) }
-                  })}
-                  className="w-full accent-yellow-400 cursor-pointer"
-                />
-              </div>
-
-              {/* Camera Origin Y */}
-              <div>
-                <div className="flex justify-between text-zinc-300 mb-1">
-                  <span>Camera Focus Y (%):</span>
-                  <span className="text-yellow-400 font-bold">{calibratingChar.camera.originY}%</span>
-                </div>
-                <input
-                  type="range"
-                  min="0"
-                  max="100"
-                  step="0.5"
-                  value={calibratingChar.camera.originY}
-                  onChange={(e) => updateCalibratingChar({
-                    camera: { ...calibratingChar.camera, originY: parseFloat(e.target.value) }
-                  })}
-                  className="w-full accent-yellow-400 cursor-pointer"
-                />
-              </div>
+            {/* Calibrator Mode Sub-Tabs */}
+            <div className="flex items-center gap-1 mb-3 bg-zinc-900 p-1 border border-zinc-800">
+              <button
+                onClick={() => setCalibratorTab('char')}
+                className={`flex-1 py-1 text-center font-p5Heading text-[11px] uppercase transition-colors ${
+                  calibratorTab === 'char' ? 'bg-[#E60012] text-white font-bold' : 'text-zinc-400 hover:text-white'
+                }`}
+              >
+                1. CHARACTER
+              </button>
+              <button
+                onClick={() => setCalibratorTab('camera')}
+                className={`flex-1 py-1 text-center font-p5Heading text-[11px] uppercase transition-colors ${
+                  calibratorTab === 'camera' ? 'bg-[#E60012] text-white font-bold' : 'text-zinc-400 hover:text-white'
+                }`}
+              >
+                2. CAMERA
+              </button>
+              <button
+                onClick={() => setCalibratorTab('bubble')}
+                className={`flex-1 py-1 text-center font-p5Heading text-[11px] uppercase transition-colors ${
+                  calibratorTab === 'bubble' ? 'bg-[#E60012] text-white font-bold' : 'text-zinc-400 hover:text-white'
+                }`}
+              >
+                3. BUBBLE
+              </button>
             </div>
+
+            {/* Tab 1: Character Position & Size */}
+            {calibratorTab === 'char' && (
+              <div className="space-y-2.5 font-mono text-[11px]">
+                {/* Horizontal (Offset X px) */}
+                <div>
+                  <div className="flex justify-between text-zinc-300 mb-1">
+                    <span>Horizontal (Offset X):</span>
+                    <span className="text-yellow-400 font-bold">{calibratingChar.tx}px</span>
+                  </div>
+                  <input
+                    type="range"
+                    min="-960"
+                    max="960"
+                    step="2"
+                    value={calibratingChar.tx}
+                    onChange={(e) => updateCalibratingChar({ tx: parseInt(e.target.value, 10) })}
+                    className="w-full accent-yellow-400 cursor-pointer"
+                  />
+                </div>
+
+                {/* Vertical (Offset Y px) */}
+                <div>
+                  <div className="flex justify-between text-zinc-300 mb-1">
+                    <span>Vertical (Offset Y):</span>
+                    <span className="text-yellow-400 font-bold">{calibratingChar.ty}px</span>
+                  </div>
+                  <input
+                    type="range"
+                    min="-540"
+                    max="540"
+                    step="2"
+                    value={calibratingChar.ty}
+                    onChange={(e) => updateCalibratingChar({ ty: parseInt(e.target.value, 10) })}
+                    className="w-full accent-yellow-400 cursor-pointer"
+                  />
+                </div>
+
+                {/* Width (px Size) */}
+                <div>
+                  <div className="flex justify-between text-zinc-300 mb-1">
+                    <span>Size (Width):</span>
+                    <span className="text-yellow-400 font-bold">{calibratingChar.width}px</span>
+                  </div>
+                  <input
+                    type="range"
+                    min="40"
+                    max="600"
+                    step="2"
+                    value={calibratingChar.width}
+                    onChange={(e) => updateCalibratingChar({ width: parseInt(e.target.value, 10) })}
+                    className="w-full accent-yellow-400 cursor-pointer"
+                  />
+                </div>
+
+                {/* Z-Index */}
+                <div className="flex items-center justify-between pt-1">
+                  <span className="text-zinc-300">Z-Index Layer:</span>
+                  <div className="flex items-center gap-1">
+                    <button
+                      onClick={() => updateCalibratingChar({ zIndex: Math.max(1, calibratingChar.zIndex - 1) })}
+                      className="px-2 py-0.5 bg-zinc-800 hover:bg-zinc-700 border border-zinc-600 rounded font-bold"
+                    >
+                      -
+                    </button>
+                    <span className="w-8 text-center text-yellow-400 font-bold">{calibratingChar.zIndex}</span>
+                    <button
+                      onClick={() => updateCalibratingChar({ zIndex: calibratingChar.zIndex + 1 })}
+                      className="px-2 py-0.5 bg-zinc-800 hover:bg-zinc-700 border border-zinc-600 rounded font-bold"
+                    >
+                      +
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Tab 2: Camera Zoom & Framing */}
+            {calibratorTab === 'camera' && (
+              <div className="space-y-2.5 font-mono text-[11px]">
+                {/* Camera Zoom Scale */}
+                <div>
+                  <div className="flex justify-between text-zinc-300 mb-1">
+                    <span>Zoom Scale:</span>
+                    <span className="text-yellow-400 font-bold">{calibratingChar.camera.scale}x</span>
+                  </div>
+                  <input
+                    type="range"
+                    min="1.3"
+                    max="3.2"
+                    step="0.05"
+                    value={calibratingChar.camera.scale}
+                    onChange={(e) => updateCalibratingChar({
+                      camera: { ...calibratingChar.camera, scale: parseFloat(e.target.value) }
+                    })}
+                    className="w-full accent-yellow-400 cursor-pointer"
+                  />
+                </div>
+
+                {/* Camera Origin X */}
+                <div>
+                  <div className="flex justify-between text-zinc-300 mb-1">
+                    <span>Camera Focus X (%):</span>
+                    <span className="text-yellow-400 font-bold">{calibratingChar.camera.originX}%</span>
+                  </div>
+                  <input
+                    type="range"
+                    min="0"
+                    max="100"
+                    step="0.5"
+                    value={calibratingChar.camera.originX}
+                    onChange={(e) => updateCalibratingChar({
+                      camera: { ...calibratingChar.camera, originX: parseFloat(e.target.value) }
+                    })}
+                    className="w-full accent-yellow-400 cursor-pointer"
+                  />
+                </div>
+
+                {/* Camera Origin Y */}
+                <div>
+                  <div className="flex justify-between text-zinc-300 mb-1">
+                    <span>Camera Focus Y (%):</span>
+                    <span className="text-yellow-400 font-bold">{calibratingChar.camera.originY}%</span>
+                  </div>
+                  <input
+                    type="range"
+                    min="0"
+                    max="100"
+                    step="0.5"
+                    value={calibratingChar.camera.originY}
+                    onChange={(e) => updateCalibratingChar({
+                      camera: { ...calibratingChar.camera, originY: parseFloat(e.target.value) }
+                    })}
+                    className="w-full accent-yellow-400 cursor-pointer"
+                  />
+                </div>
+              </div>
+            )}
+
+            {/* Tab 3: Speech Bubble Position Controls */}
+            {calibratorTab === 'bubble' && (() => {
+              const currentBubble = bubbleList[calibratingCharId] || DEFAULT_BUBBLES[calibratingCharId] || DEFAULT_BUBBLES.joker
+              return (
+                <div className="space-y-3 font-mono text-[11px]">
+                  {/* Bubble Placement Side */}
+                  <div className="flex items-center justify-between">
+                    <span className="text-zinc-300">Anchor Side:</span>
+                    <div className="flex items-center gap-1">
+                      <button
+                        onClick={() => updateCalibratingBubble({ side: 'left' })}
+                        className={`px-2 py-0.5 font-p5Heading text-xs uppercase border ${
+                          currentBubble.side === 'left' ? 'bg-yellow-400 text-black border-black font-bold' : 'bg-zinc-800 text-zinc-300 border-zinc-700'
+                        }`}
+                      >
+                        LEFT
+                      </button>
+                      <button
+                        onClick={() => updateCalibratingBubble({ side: 'right' })}
+                        className={`px-2 py-0.5 font-p5Heading text-xs uppercase border ${
+                          currentBubble.side === 'right' ? 'bg-yellow-400 text-black border-black font-bold' : 'bg-zinc-800 text-zinc-300 border-zinc-700'
+                        }`}
+                      >
+                        RIGHT
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Horizontal Position (posX %) */}
+                  <div>
+                    <div className="flex justify-between text-zinc-300 mb-1">
+                      <span>Horizontal Offset ({currentBubble.side === 'right' ? 'Left' : 'Right'} %):</span>
+                      <span className="text-yellow-400 font-bold">{currentBubble.posX}%</span>
+                    </div>
+                    <input
+                      type="range"
+                      min="5"
+                      max="85"
+                      step="1"
+                      value={currentBubble.posX}
+                      onChange={(e) => updateCalibratingBubble({ posX: parseInt(e.target.value, 10) })}
+                      className="w-full accent-yellow-400 cursor-pointer"
+                    />
+                  </div>
+
+                  {/* Vertical Position (top %) */}
+                  <div>
+                    <div className="flex justify-between text-zinc-300 mb-1">
+                      <span>Vertical Offset (Top %):</span>
+                      <span className="text-yellow-400 font-bold">{currentBubble.top}%</span>
+                    </div>
+                    <input
+                      type="range"
+                      min="2"
+                      max="75"
+                      step="1"
+                      value={currentBubble.top}
+                      onChange={(e) => updateCalibratingBubble({ top: parseInt(e.target.value, 10) })}
+                      className="w-full accent-yellow-400 cursor-pointer"
+                    />
+                  </div>
+
+                  {/* Tail Height (% from top of bubble) */}
+                  <div>
+                    <div className="flex justify-between text-zinc-300 mb-1">
+                      <span>Tail Beak Height (Top %):</span>
+                      <span className="text-yellow-400 font-bold">{currentBubble.tailTop}%</span>
+                    </div>
+                    <input
+                      type="range"
+                      min="10"
+                      max="90"
+                      step="1"
+                      value={currentBubble.tailTop}
+                      onChange={(e) => updateCalibratingBubble({ tailTop: parseInt(e.target.value, 10) })}
+                      className="w-full accent-yellow-400 cursor-pointer"
+                    />
+                  </div>
+                </div>
+              )
+            })()}
 
             {/* Bottom Actions */}
             <div className="flex items-center gap-2 pt-3 border-t border-zinc-800 mt-3">
