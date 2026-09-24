@@ -634,14 +634,12 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
                 : 'scale(1)',
               transformOrigin: `${lastFocusOrigin.originX}% ${lastFocusOrigin.originY}%`,
               transition: 'transform 700ms cubic-bezier(0.16, 1, 0.3, 1)',
-              willChange: 'transform',
             }}
           >
             {/* Base 3D Room Render Background */}
             <img
               src="/assets/Background Joker Hideout.png"
               alt="Cafe Leblanc Attic"
-              style={{ imageRendering: '-webkit-optimize-contrast' }}
               className="absolute inset-0 w-full h-full object-cover pointer-events-none select-none"
             />
 
@@ -721,7 +719,6 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
                     src={char.src}
                     alt={char.name}
                     style={{
-                      imageRendering: '-webkit-optimize-contrast',
                       filter: isHovered
                         ? `sepia(${char.warmth}) brightness(${char.brightness * 1.08}) contrast(1.12) saturate(1.1) drop-shadow(4px 4px 0px #E60012) drop-shadow(-2px -2px 0px #E60012) drop-shadow(0 0 10px rgba(230,0,18,0.75))`
                         : `sepia(${char.warmth}) brightness(${char.brightness}) contrast(1.08) saturate(1.05) drop-shadow(3px 3px 0px rgba(0,0,0,0.9)) drop-shadow(-1px -1px 0px rgba(0,0,0,0.4))`,

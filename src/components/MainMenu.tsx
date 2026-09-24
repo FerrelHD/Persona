@@ -191,15 +191,22 @@ export const MainMenu: React.FC<MainMenuProps> = ({ onSelectScreen, onBackToTitl
                       </svg>
 
                       <div className="relative z-10 flex items-center gap-1 md:gap-1.5 px-3 md:px-4 py-1.5 md:py-2">
-                        {item.letters.map((ltr, ltrIdx) => (
-                          <span
-                            key={ltrIdx}
-                            style={{ animationDelay: `${ltrIdx * 25 + 20}ms` }}
-                            className={`inline-flex items-center justify-center min-w-[28px] md:min-w-[34px] h-[40px] md:h-[48px] laptop-main-letter px-1.5 md:px-2 font-p5Heading text-xl sm:text-2xl md:text-3xl laptop-main-letter-text uppercase shadow-[3px_3px_0px_#000000] border-2 border-black ${ltr.bg} ${ltr.rotate} p5-letter-pop-anim transition-transform duration-150 hover:scale-125 hover:-translate-y-1 hover:rotate-3`}
-                          >
-                            {ltr.char}
-                          </span>
-                        ))}
+                        {item.letters.map((ltr, ltrIdx) => {
+                          const RANDOM_DELAYS = [45, 10, 85, 20, 95, 30, 110, 50]
+                          const BOUNCE_CLASSES = ['p5-letter-pop-1', 'p5-letter-pop-2', 'p5-letter-pop-3']
+                          const delay = RANDOM_DELAYS[ltrIdx % RANDOM_DELAYS.length]
+                          const bounceClass = BOUNCE_CLASSES[(ltrIdx * 2 + 1) % BOUNCE_CLASSES.length]
+
+                          return (
+                            <span
+                              key={ltrIdx}
+                              style={{ animationDelay: `${delay}ms` }}
+                              className={`inline-flex items-center justify-center min-w-[28px] md:min-w-[34px] h-[40px] md:h-[48px] laptop-main-letter px-1.5 md:px-2 font-p5Heading text-xl sm:text-2xl md:text-3xl laptop-main-letter-text uppercase shadow-[3px_3px_0px_#000000] border-2 border-black ${ltr.bg} ${ltr.rotate} ${bounceClass} transition-transform duration-150 hover:scale-125 hover:-translate-y-1 hover:rotate-3`}
+                            >
+                              {ltr.char}
+                            </span>
+                          )
+                        })}
 
                         <span className={`${item.arrowColor} text-lg md:text-xl ml-2 md:ml-3 p5-arrow-dart-anim filter drop-shadow-[2px_2px_0px_#000000]`}>
                           ▶
