@@ -265,8 +265,8 @@ const PHANTOM_CHARACTERS: PhantomCharacter[] = [
     techId: 'laravel',
     thiefColor: '#00A3FF',
     thiefTextColor: '#000000',
-    left: 15.8,
-    bottom: 14.5,
+    left: 16.3,
+    bottom: 12.5,
     widthPercent: 12,
     zIndex: 24,
     shadowWidth: 72,
@@ -434,6 +434,7 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
 
   // Active character in Leblanc Attic (null = Overview Mode)
   const [activeCharId, setActiveCharId] = useState<string | null>(null)
+  const [hoveredCharId, setHoveredCharId] = useState<string | null>(null)
   const [showSpeedlines, setShowSpeedlines] = useState<boolean>(false)
 
   // Track the focal camera origin so zoom-out scales back from the exact same point without jerking
@@ -472,6 +473,7 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
     playSlash()
     setShowSpeedlines(true)
     setTimeout(() => setShowSpeedlines(false), 400)
+    setHoveredCharId(null)
     setLastFocusOrigin({ originX: char.camera.originX, originY: char.camera.originY })
     setActiveCharId(char.id)
     const techIdx = TECH_DECK.findIndex(t => t.id === char.techId)
@@ -480,6 +482,7 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
 
   const handleResetCamera = useCallback(() => {
     playBack()
+    setHoveredCharId(null)
     setActiveCharId(null)
     // NOTE: lastFocusOrigin is deliberately preserved so that CSS transform-origin
     // stays pinned to the character's focus point while the camera smoothly scales back down to 1!
@@ -663,30 +666,36 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
             {PHANTOM_CHARACTERS.map((char) => {
               const isSelected = activeChar?.id === char.id
               const isDimmed = Boolean(activeChar && !isSelected)
+              const isHovered = Boolean(!activeChar && hoveredCharId === char.id)
 
               return (
                 <div
                   key={char.id}
                   onClick={(e) => {
                     e.stopPropagation()
+                    setHoveredCharId(null)
                     handleSelectCharacter(char)
                   }}
                   onMouseEnter={() => {
-                    if (!activeChar) playHover()
+                    if (!activeChar) {
+                      playHover()
+                      setHoveredCharId(char.id)
+                    }
+                  }}
+                  onMouseLeave={() => {
+                    setHoveredCharId(null)
                   }}
                   style={{
                     left: `${char.left}%`,
                     bottom: `${char.bottom}%`,
                     width: `${char.widthPercent}%`,
-                    zIndex: isSelected ? 35 : char.zIndex,
+                    zIndex: isSelected ? 35 : isHovered ? 30 : char.zIndex,
                   }}
                   className={`
-                    absolute select-none cursor-pointer transition-all duration-500
+                    absolute select-none cursor-pointer transition-opacity duration-500
                     ${isDimmed
                       ? 'opacity-15 pointer-events-none filter blur-[0.4px]'
-                      : isSelected
-                      ? 'opacity-100 scale-105'
-                      : 'opacity-100 hover:scale-105'
+                      : 'opacity-100'
                     }
                   `}
                   title={`Select ${char.name} [${char.codename}]`}
@@ -699,6 +708,7 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
                         ? 'bg-black/80 blur-[1.5px]'
                         : 'bg-black/70 blur-[3px]'
                       }
+                      ${isHovered ? 'opacity-95' : 'opacity-75'}
                     `}
                     style={{
                       width: `${char.shadowWidth}%`,
@@ -706,15 +716,18 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
                     }}
                   />
 
-                  {/* Character Cutout Image - High-Definition Crisp Rendering & Solid Comic Drop Shadow */}
+                  {/* Character Cutout Image - High-Definition Crisp Rendering & Solid Comic Outline */}
                   <img
                     src={char.src}
                     alt={char.name}
                     style={{
                       imageRendering: '-webkit-optimize-contrast',
-                      filter: `sepia(${char.warmth}) brightness(${char.brightness}) contrast(1.08) saturate(1.05) drop-shadow(3px 3px 0px rgba(0,0,0,0.9)) drop-shadow(-1px -1px 0px rgba(0,0,0,0.4))`,
+                      filter: isHovered
+                        ? `sepia(${char.warmth}) brightness(${char.brightness * 1.08}) contrast(1.12) saturate(1.1) drop-shadow(4px 4px 0px #E60012) drop-shadow(-2px -2px 0px #E60012) drop-shadow(0 0 10px rgba(230,0,18,0.75))`
+                        : `sepia(${char.warmth}) brightness(${char.brightness}) contrast(1.08) saturate(1.05) drop-shadow(3px 3px 0px rgba(0,0,0,0.9)) drop-shadow(-1px -1px 0px rgba(0,0,0,0.4))`,
+                      transition: 'filter 180ms ease-out',
                     }}
-                    className="w-full h-auto object-contain select-none transition-all duration-300"
+                    className="w-full h-auto object-contain select-none"
                   />
                 </div>
               )
