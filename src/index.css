@@ -458,8 +458,46 @@
     line-height: 1 !important;
   }
   .laptop-phone-wrapper {
-    height: 80vh !important;
-    transform: translateY(3.5rem) translateX(-12%) !important;
+    height: 84vh !important;
+    transform: translateY(1.75rem) translateX(-12%) !important;
+  }
+  .laptop-phone-calendar {
+    transform: rotate(5.5deg) scale(0.85) !important;
+    transform-origin: top left !important;
+    top: 5% !important;
+  }
+  .laptop-phone-header {
+    padding-top: 0.75rem !important;
+    padding-bottom: 0.25rem !important;
+  }
+  .laptop-phone-chat {
+    row-gap: 0.35rem !important;
+    margin-top: 0.25rem !important;
+    margin-bottom: 0.25rem !important;
+  }
+  .laptop-phone-item {
+    gap: 0.35rem !important;
+  }
+  .laptop-phone-avatar {
+    width: 1.75rem !important;
+    height: 1.75rem !important;
+    min-width: 1.75rem !important;
+  }
+  .laptop-phone-bubble {
+    padding: 0.35rem 0.5rem !important;
+  }
+  .laptop-phone-meta {
+    font-size: 0.5rem !important;
+    margin-bottom: 0.15rem !important;
+    line-height: 1 !important;
+  }
+  .laptop-phone-text {
+    font-size: 0.625rem !important;
+    line-height: 1.25 !important;
+  }
+  .laptop-phone-footer {
+    padding-top: 0.25rem !important;
+    padding-bottom: 0.5rem !important;
   }
   .laptop-comms-deck {
     margin-top: auto !important;
@@ -541,8 +579,46 @@
     font-size: 2.65rem !important;
   }
   .laptop-phone-wrapper {
-    height: 76vh !important;
-    transform: translateY(2.75rem) translateX(-12%) !important;
+    height: 82vh !important;
+    transform: translateY(1rem) translateX(-12%) !important;
+  }
+  .laptop-phone-calendar {
+    transform: rotate(5.5deg) scale(0.75) !important;
+    transform-origin: top left !important;
+    top: 4.5% !important;
+  }
+  .laptop-phone-header {
+    padding-top: 0.55rem !important;
+    padding-bottom: 0.15rem !important;
+  }
+  .laptop-phone-chat {
+    row-gap: 0.25rem !important;
+    margin-top: 0.15rem !important;
+    margin-bottom: 0.15rem !important;
+  }
+  .laptop-phone-item {
+    gap: 0.25rem !important;
+  }
+  .laptop-phone-avatar {
+    width: 1.5rem !important;
+    height: 1.5rem !important;
+    min-width: 1.5rem !important;
+  }
+  .laptop-phone-bubble {
+    padding: 0.25rem 0.4rem !important;
+  }
+  .laptop-phone-meta {
+    font-size: 0.45rem !important;
+    margin-bottom: 0.1rem !important;
+    line-height: 1 !important;
+  }
+  .laptop-phone-text {
+    font-size: 0.5625rem !important;
+    line-height: 1.2 !important;
+  }
+  .laptop-phone-footer {
+    padding-top: 0.15rem !important;
+    padding-bottom: 0.35rem !important;
   }
   .laptop-comms-deck {
     transform: translateY(1rem) !important;

@@ -143,7 +143,7 @@ export const AboutScreen: React.FC<AboutScreenProps> = ({ onBack }) => {
 
           {/* Top-Right Calendar Widget anchored precisely to the top-right of the phone */}
           <div
-            className="absolute z-30 select-none pointer-events-none filter drop-shadow-[5px_5px_0px_#000000]"
+            className="absolute z-30 select-none pointer-events-none filter drop-shadow-[5px_5px_0px_#000000] laptop-phone-calendar"
             style={{
               left: '56.5%',
               top: '5.5%',
@@ -177,7 +177,7 @@ export const AboutScreen: React.FC<AboutScreenProps> = ({ onBack }) => {
             />
 
             {/* PHONE HEADER BAR: Cleared safely below the camera notch */}
-            <div className="relative z-10 flex items-center justify-between pb-1.5 pt-4 sm:pt-5 border-b-2 border-black/40 px-1">
+            <div className="relative z-10 flex items-center justify-between pb-1.5 pt-4 sm:pt-5 border-b-2 border-black/40 px-1 laptop-phone-header">
               <div className="flex items-center gap-1.5">
                 <div className="relative flex items-center bg-black text-white px-2 py-0.5 -skew-x-12 border-2 border-white shadow-[2px_2px_0px_#000000]">
                   <span className="font-p5Heading text-sm sm:text-base font-black tracking-tight text-white">
@@ -199,7 +199,7 @@ export const AboutScreen: React.FC<AboutScreenProps> = ({ onBack }) => {
             {/* SCROLLABLE CHAT MESSAGES THREAD (Authentic P5 Royal IM Style) */}
             <div 
               ref={chatScrollRef}
-              className="relative z-10 flex-1 overflow-y-auto space-y-2.5 my-1.5 px-0.5 pb-2 no-scrollbar [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
+              className="relative z-10 flex-1 overflow-y-auto space-y-2.5 my-1.5 px-0.5 pb-2 no-scrollbar [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden laptop-phone-chat"
             >
               {CHAT_MESSAGES.slice(0, visibleCount).map((msg) => {
                 const isSent = msg.isSent
@@ -207,12 +207,12 @@ export const AboutScreen: React.FC<AboutScreenProps> = ({ onBack }) => {
                 return (
                   <div 
                     key={msg.id} 
-                    className="flex items-start gap-1.5 sm:gap-2 animate-in fade-in slide-in-from-bottom-2 duration-200 group"
+                    className="flex items-start gap-1.5 sm:gap-2 animate-in fade-in slide-in-from-bottom-2 duration-200 group laptop-phone-item"
                     onMouseEnter={playHover}
                   >
                     {/* Character Avatar Box (Real Character Portrait Render) */}
                     <div className="shrink-0 -rotate-2 group-hover:rotate-0 transition-transform">
-                      <div className={`size-8 sm:size-9 md:size-10 ${msg.avatarBg} border-2 border-black shadow-[2px_2px_0px_#000000] overflow-hidden flex items-center justify-center p-0.5`}>
+                      <div className={`size-8 sm:size-9 md:size-10 ${msg.avatarBg} border-2 border-black shadow-[2px_2px_0px_#000000] overflow-hidden flex items-center justify-center p-0.5 laptop-phone-avatar`}>
                         <img 
                           src={msg.avatarImg} 
                           alt={msg.sender} 
@@ -234,8 +234,8 @@ export const AboutScreen: React.FC<AboutScreenProps> = ({ onBack }) => {
                             className="absolute -left-[9px] top-2.5 w-0 h-0 border-y-[5px] border-y-transparent border-r-[7px] border-r-p5-crimson z-10" 
                           />
 
-                          <div className="relative bg-white text-black p-2 sm:p-2.5 border-2 border-p5-crimson shadow-[3px_3px_0px_#E60012] mr-0.5">
-                            <div className="flex items-center justify-between text-[8px] sm:text-[9px] font-p5Mono mb-1">
+                          <div className="relative bg-white text-black p-2 sm:p-2.5 border-2 border-p5-crimson shadow-[3px_3px_0px_#E60012] mr-0.5 laptop-phone-bubble">
+                            <div className="flex items-center justify-between text-[8px] sm:text-[9px] font-p5Mono mb-1 laptop-phone-meta">
                               <div className="flex items-center gap-1">
                                 <span className="bg-p5-crimson text-white px-1 py-0.2 text-[7px] sm:text-[8px] font-black -skew-x-6">
                                   YOU
@@ -249,7 +249,7 @@ export const AboutScreen: React.FC<AboutScreenProps> = ({ onBack }) => {
                               </span>
                             </div>
 
-                            <p className="font-p5Body text-[11px] sm:text-[12px] font-extrabold text-black leading-snug tracking-tight">
+                            <p className="font-p5Body text-[11px] sm:text-[12px] font-extrabold text-black leading-snug tracking-tight laptop-phone-text">
                               {msg.text}
                             </p>
                           </div>
@@ -265,8 +265,8 @@ export const AboutScreen: React.FC<AboutScreenProps> = ({ onBack }) => {
                             className="absolute -left-[9px] top-2.5 w-0 h-0 border-y-[5px] border-y-transparent border-r-[7px] border-r-white z-10" 
                           />
 
-                          <div className="relative bg-black text-white p-2 sm:p-2.5 border-2 border-white shadow-[3px_3px_0px_#000000] mr-0.5">
-                            <div className="flex items-center justify-between text-[8px] sm:text-[9px] font-p5Mono mb-1">
+                          <div className="relative bg-black text-white p-2 sm:p-2.5 border-2 border-white shadow-[3px_3px_0px_#000000] mr-0.5 laptop-phone-bubble">
+                            <div className="flex items-center justify-between text-[8px] sm:text-[9px] font-p5Mono mb-1 laptop-phone-meta">
                               <span className={`font-black uppercase tracking-wider ${msg.nameColor}`}>
                                 {msg.sender}
                               </span>
@@ -275,7 +275,7 @@ export const AboutScreen: React.FC<AboutScreenProps> = ({ onBack }) => {
                               </span>
                             </div>
 
-                            <p className="font-p5Body text-[11px] sm:text-[12px] font-bold text-white leading-snug tracking-tight">
+                            <p className="font-p5Body text-[11px] sm:text-[12px] font-bold text-white leading-snug tracking-tight laptop-phone-text">
                               {msg.text}
                             </p>
 
@@ -294,7 +294,7 @@ export const AboutScreen: React.FC<AboutScreenProps> = ({ onBack }) => {
             </div>
 
             {/* FOOTER TYPING PROMPT: Positioned cleanly above home bar */}
-            <div className="relative z-10 pb-2 sm:pb-3 pt-1 border-t-2 border-black/40 flex items-center justify-between px-1">
+            <div className="relative z-10 pb-2 sm:pb-3 pt-1 border-t-2 border-black/40 flex items-center justify-between px-1 laptop-phone-footer">
               <div 
                 onClick={handleNextMessage}
                 className="flex items-center gap-1 bg-black text-white px-2 py-0.5 border border-white -skew-x-12 shadow-[1.5px_1.5px_0px_#000] cursor-pointer hover:bg-zinc-800 transition-colors"
