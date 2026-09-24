@@ -576,6 +576,27 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
   return (
     <div className="fixed inset-0 z-30 select-none overflow-hidden bg-black flex flex-col justify-between animate-in fade-in duration-300">
       
+      {/* ── CINEMATIC LETTERBOX BLACK BARS (FOREGROUND LAYER - ZERO OUTLINE, ZERO TEXT) ── */}
+      {/* Top Black Bar */}
+      <div
+        className={`fixed top-0 inset-x-0 z-[60] bg-black pointer-events-none transition-transform duration-500 h-16 sm:h-20 md:h-24 lg:h-28 shadow-[0_15px_40px_rgba(0,0,0,1)] ${
+          activeChar ? 'translate-y-0' : '-translate-y-full'
+        }`}
+        style={{
+          transitionTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)',
+        }}
+      />
+
+      {/* Bottom Black Bar */}
+      <div
+        className={`fixed bottom-0 inset-x-0 z-[60] bg-black pointer-events-none transition-transform duration-500 h-16 sm:h-20 md:h-24 lg:h-28 shadow-[0_-15px_40px_rgba(0,0,0,1)] ${
+          activeChar ? 'translate-y-0' : 'translate-y-full'
+        }`}
+        style={{
+          transitionTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)',
+        }}
+      />
+
       {/* ── ANIME SPEED LINES FLASH IMPACT OVERLAY ── */}
       {showSpeedlines && (
         <div className="pointer-events-none fixed inset-0 z-50 overflow-hidden p5-speedlines-anim">
@@ -898,56 +919,6 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
             )
           })()}
 
-          {/* ── CINEMATIC LETTERBOX BLACK BARS (PERSONA 5 CUTSCENE) ── */}
-          {/* Top Letterbox Bar */}
-          <div
-            className={`absolute top-0 left-0 right-0 z-35 bg-black border-b-2 border-[#E60012] pointer-events-none transition-transform duration-500 flex items-center justify-between px-4 sm:px-8 h-7 sm:h-9 shadow-[0_4px_20px_rgba(0,0,0,0.9)] ${
-              activeChar ? 'translate-y-0' : '-translate-y-full'
-            }`}
-            style={{
-              transitionTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)',
-            }}
-          >
-            <div className="flex items-center gap-2">
-              <span className="inline-block w-2 h-2 rounded-full bg-[#E60012] animate-pulse" />
-              <span className="font-p5Sub text-[10px] sm:text-xs text-white tracking-widest uppercase font-bold">
-                TACTICAL FOCUS // {activeChar?.codename}
-              </span>
-            </div>
-            <div className="font-p5Sub text-[9px] sm:text-[10px] text-zinc-400 tracking-wider">
-              LEBLANC ATTIC // 2.5D STAGE
-            </div>
-          </div>
-
-          {/* Bottom Letterbox Bar */}
-          <div
-            className={`absolute bottom-0 left-0 right-0 z-35 bg-black border-t-2 border-[#E60012] pointer-events-none transition-transform duration-500 flex items-center justify-between px-4 sm:px-8 h-7 sm:h-9 shadow-[0_-4px_20px_rgba(0,0,0,0.9)] ${
-              activeChar ? 'translate-y-0' : 'translate-y-full'
-            }`}
-            style={{
-              transitionTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)',
-            }}
-          >
-            <div className="flex items-center gap-2">
-              <span className="font-p5Heading text-xs sm:text-sm text-yellow-400">
-                {activeChar?.name}
-              </span>
-              <span className="text-zinc-600">//</span>
-              <span className="font-p5Sub text-[10px] sm:text-xs text-zinc-300">
-                {activeChar?.role}
-              </span>
-            </div>
-            <div className="flex items-center gap-3 text-[10px] sm:text-xs font-p5Sub text-zinc-400">
-              <span>
-                <kbd className="px-1.5 py-0.5 bg-zinc-800 text-white border border-zinc-600 rounded text-[9px] font-mono mr-1">ESC</kbd>
-                OVERVIEW
-              </span>
-              <span>
-                <kbd className="px-1.5 py-0.5 bg-[#E60012] text-white rounded text-[9px] font-mono mr-1">X / ENTER</kbd>
-                TACTICAL DOSSIER
-              </span>
-            </div>
-          </div>
         </div>
       </div>
 
