@@ -11,6 +11,7 @@ const PRELOAD_VIDEOS = [
 
 const PRELOAD_IMAGES = [
   '/assets/tokyobackground.png',
+  '/assets/unity_icon_svg-removebg-preview.png',
   '/assets/phone_hold_filled.png',
   '/assets/ferrel-portrait.jpg',
   '/assets/p5r_renders/futaba.png',

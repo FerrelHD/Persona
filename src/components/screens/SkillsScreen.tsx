@@ -70,13 +70,13 @@ const NodeIcon: React.FC<{ className?: string; isSelected?: boolean }> = ({ clas
 )
 
 const UnityIcon: React.FC<{ className?: string; isSelected?: boolean }> = ({ className = 'size-8', isSelected }) => (
-  <svg viewBox="0 0 256 256" className={className} fill={isSelected ? '#E60012' : '#FFFFFF'}>
-    <path d="M128 32 L192 68 L192 140 L128 176 L64 140 L64 68 Z" stroke="#000000" strokeWidth="8" />
-    <path d="M128 64 L164 84 L164 124 L128 144 L92 124 L92 84 Z" fill="#000000" />
-    <line x1="128" y1="32" x2="128" y2="64" stroke="#FFFFFF" strokeWidth="12" />
-    <line x1="192" y1="140" x2="164" y2="124" stroke="#FFFFFF" strokeWidth="12" />
-    <line x1="64" y1="140" x2="92" y2="124" stroke="#FFFFFF" strokeWidth="12" />
-  </svg>
+  <img
+    src="/assets/unity_icon_svg-removebg-preview.png"
+    alt="Unity"
+    className={`${className} object-contain select-none transition-all ${
+      isSelected ? 'filter drop-shadow-[0_0_8px_rgba(230,0,18,0.8)] brightness-110' : 'filter brightness-100'
+    }`}
+  />
 )
 
 const TailwindIcon: React.FC<{ className?: string; isSelected?: boolean }> = ({ className = 'size-8', isSelected }) => (
