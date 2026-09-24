@@ -81,7 +81,6 @@ const CHAT_MESSAGES: ChatMessage[] = [
 export const AboutScreen: React.FC<AboutScreenProps> = ({ onBack }) => {
   const { playHover, playSlash } = usePersonaSFX()
   const chatScrollRef = useRef<HTMLDivElement>(null)
-  const [visibleCount, setVisibleCount] = useState<number>(CHAT_MESSAGES.length)
 
   // Real-time Persona 5 Calendar Date & Time Slot
   const [currentDate, setCurrentDate] = useState(() => new Date())
@@ -112,26 +111,43 @@ export const AboutScreen: React.FC<AboutScreenProps> = ({ onBack }) => {
     timeSlot = 'NIGHT'
   }
 
-  // Scroll to bottom smoothly when visible messages change
+  // Ensure chat starts from the very top on initial mount
   useEffect(() => {
     if (chatScrollRef.current) {
-      chatScrollRef.current.scrollTo({
-        top: chatScrollRef.current.scrollHeight,
-        behavior: 'smooth'
-      })
+      chatScrollRef.current.scrollTop = 0
     }
-  }, [visibleCount])
+  }, [])
 
   const handleNextMessage = () => {
     playSlash()
-    if (visibleCount < CHAT_MESSAGES.length) {
-      setVisibleCount(prev => prev + 1)
-    } else {
-      if (chatScrollRef.current) {
+    if (chatScrollRef.current) {
+      const { scrollTop, scrollHeight, clientHeight } = chatScrollRef.current
+      const isNearBottom = scrollTop + clientHeight >= scrollHeight - 25
+      if (isNearBottom) {
         chatScrollRef.current.scrollTo({ top: 0, behavior: 'smooth' })
+      } else {
+        chatScrollRef.current.scrollBy({ top: 110, behavior: 'smooth' })
       }
     }
   }
+
+  // Keyboard navigation: X, Enter, Down Arrow to scroll down, Up Arrow to scroll up
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'x' || e.key === 'X' || e.key === 'Enter' || e.key === 'ArrowDown') {
+        e.preventDefault()
+        handleNextMessage()
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault()
+        playHover()
+        if (chatScrollRef.current) {
+          chatScrollRef.current.scrollBy({ top: -110, behavior: 'smooth' })
+        }
+      }
+    }
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [playHover, playSlash])
 
   return (
     <div className="fixed inset-0 z-30 flex flex-col justify-between select-none overflow-hidden bg-gradient-to-r from-black/95 from-0% via-black/70 via-45% to-transparent to-65% animate-in fade-in duration-200">
@@ -236,7 +252,7 @@ export const AboutScreen: React.FC<AboutScreenProps> = ({ onBack }) => {
               ref={chatScrollRef}
               className="relative z-10 flex-1 overflow-y-auto space-y-2.5 my-1.5 px-0.5 pb-2 no-scrollbar [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden laptop-phone-chat"
             >
-              {CHAT_MESSAGES.slice(0, visibleCount).map((msg) => {
+              {CHAT_MESSAGES.map((msg) => {
                 const isSent = msg.isSent
 
                 return (
@@ -336,12 +352,12 @@ export const AboutScreen: React.FC<AboutScreenProps> = ({ onBack }) => {
               >
                 <MessageSquare className="size-2.5 text-p5-yellow" />
                 <span className="font-p5Heading text-[9px] sm:text-[10px] tracking-wider text-p5-yellow animate-pulse">
-                  {visibleCount < CHAT_MESSAGES.length ? 'NEW MESSAGE...' : 'TAP (X) REPLAY'}
+                  TAP (X) SCROLL
                 </span>
               </div>
 
               <div className="text-[8px] sm:text-[9px] font-p5Mono text-white/90 drop-shadow-[1px_1px_0px_#000]">
-                {visibleCount}/{CHAT_MESSAGES.length}
+                {CHAT_MESSAGES.length} MSGS
               </div>
             </div>
 
