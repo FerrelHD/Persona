@@ -784,7 +784,7 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
         className={`absolute top-4 left-4 sm:top-6 sm:left-6 z-40 flex flex-col items-start select-none pointer-events-none transition-all duration-500 ${
           activeChar
             ? '-translate-x-[120%] -translate-y-6 opacity-0'
-            : 'translate-x-0 translate-y-0 opacity-100 p5-tile-entrance'
+            : 'translate-x-0 translate-y-0 opacity-100'
         }`}
         style={{
           transitionTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)',
@@ -794,7 +794,12 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
           {['H', 'I', 'D', 'E', 'O', 'U', 'T'].map((char, i) => (
             <span
               key={i}
-              className={`inline-flex items-center justify-center font-p5Heading text-2xl sm:text-3xl md:text-4xl min-w-[28px] sm:min-w-[34px] md:min-w-[42px] h-[34px] sm:h-[42px] md:h-[50px] px-1 border-[2.5px] border-black uppercase ${
+              style={{
+                animationDelay: `${i * 50}ms`,
+              }}
+              className={`inline-flex items-center justify-center font-p5Heading text-2xl sm:text-3xl md:text-4xl min-w-[28px] sm:min-w-[34px] md:min-w-[42px] h-[34px] sm:h-[42px] md:h-[50px] px-1 border-[2.5px] border-black uppercase shadow-[3px_3px_0px_#000000] ${
+                !isAssetsLoading ? 'p5-tile-entrance' : 'opacity-0'
+              } ${
                 i === 0
                   ? 'bg-black text-white -rotate-6'
                   : i === 1
@@ -814,7 +819,12 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
             </span>
           ))}
         </div>
-        <div className="mt-1 flex items-center bg-black border-l-4 border-[#7C4A1E] px-2.5 sm:px-3 py-0.5 text-[10px] sm:text-xs font-p5Sub tracking-widest text-white -skew-x-6 shadow-[3px_3px_0px_#000000]">
+        <div
+          style={{ animationDelay: '360ms' }}
+          className={`mt-1 flex items-center bg-black border-l-4 border-[#7C4A1E] px-2.5 sm:px-3 py-0.5 text-[10px] sm:text-xs font-p5Sub tracking-widest text-white -skew-x-6 shadow-[3px_3px_0px_#000000] ${
+            !isAssetsLoading ? 'p5-sub-entrance' : 'opacity-0'
+          }`}
+        >
           <span className="text-yellow-400 font-bold mr-1.5">CAFE LEBLANC ATTIC</span>
           <span className="text-zinc-500 mx-1">//</span>
           <span className="text-zinc-200">
@@ -868,9 +878,10 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
             />
 
             {/* Giant Japanese Kanji Backdrop (visible when zoomed in, zero-cost watermark without blur) */}
+            {/* [OPACITY CONFIG]: Nilai opacity Giant Kanji diatur di class 'text-white/18' di bawah ini (misal: text-white/20, text-white/30) */}
             {activeChar && (
               <div className="absolute inset-0 flex items-center justify-center pointer-events-none overflow-hidden select-none z-15 p5-splash-text-anim">
-                <span className="font-p5Heading text-[16vw] font-black text-white/12 uppercase tracking-widest -rotate-12 select-none">
+                <span className="font-p5Heading text-[16vw] font-black text-white/18 uppercase tracking-widest -rotate-12 select-none">
                   {activeChar.kanji}
                 </span>
               </div>
