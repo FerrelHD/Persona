@@ -90,7 +90,7 @@ export const MISSIONS_DATA: Mission[] = [
     playTime: '76:45',
     level: 88,
     location: 'Yongen-Jaya Studio',
-    title: 'PORTFOLIO V2 // Minimalist Interactive',
+    title: 'PORTFOLIO V2 // Interactive',
     category: 'web',
     client: 'Personal Brand',
     role: 'Frontend Engineer',
