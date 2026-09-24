@@ -405,37 +405,37 @@ interface BubblePosition {
 const BUBBLE_POSITIONS: Record<string, BubblePosition> = {
   yusuke: {
     side: 'right',
-    desktopStyle: { left: '26%', top: '16%' },
+    desktopStyle: { left: '44%', top: '16%' },
     tailSide: 'left',
     tailTop: '35%',
   },
   futaba: {
     side: 'right',
-    desktopStyle: { left: '48%', top: '16%' },
+    desktopStyle: { left: '52%', top: '16%' },
     tailSide: 'left',
     tailTop: '35%',
   },
   morgana: {
     side: 'left',
-    desktopStyle: { right: '53%', top: '15%' },
+    desktopStyle: { right: '56%', top: '14%' },
     tailSide: 'right',
     tailTop: '40%',
   },
   ryuji: {
     side: 'left',
-    desktopStyle: { right: '47%', top: '14%' },
+    desktopStyle: { right: '54%', top: '14%' },
     tailSide: 'right',
     tailTop: '35%',
   },
   ann: {
     side: 'left',
-    desktopStyle: { right: '39%', top: '16%' },
+    desktopStyle: { right: '48%', top: '16%' },
     tailSide: 'right',
     tailTop: '35%',
   },
   joker: {
     side: 'left',
-    desktopStyle: { right: '26%', top: '16%' },
+    desktopStyle: { right: '36%', top: '16%' },
     tailSide: 'right',
     tailTop: '35%',
   },
@@ -474,8 +474,8 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
 
   useEffect(() => {
     const updateScale = () => {
-      const s = Math.min(window.innerWidth / 1920, window.innerHeight / 1080)
-      setScale(Math.max(0.4, Math.min(1.2, s)))
+      const s = Math.max(window.innerWidth / 1920, window.innerHeight / 1080)
+      setScale(Math.max(0.4, Math.min(1.5, s)))
     }
     updateScale()
     window.addEventListener('resize', updateScale)
