@@ -257,11 +257,11 @@ const PHANTOM_CHARACTERS: PhantomCharacter[] = [
     quote: 'Show me your true form! Ultra-reactive frontend architecture & TypeScript contracts unleashed.',
     src: '/assets/Joker.png',
     techId: 'react',
-    left: 52,
-    bottom: 8,
-    widthPercent: 16.5,
-    zIndex: 26,
-    camera: { scale: 2.15, x: -8, y: 6 },
+    left: 49,
+    bottom: 5.5,
+    widthPercent: 17.5,
+    zIndex: 28,
+    camera: { scale: 2.15, x: -6, y: 7 },
   },
   {
     id: 'futaba',
@@ -272,11 +272,11 @@ const PHANTOM_CHARACTERS: PhantomCharacter[] = [
     quote: 'Target locked! Transformer telemetry, IndoBERT sentiment pipelines, and PyTorch inference ready!',
     src: '/assets/Futaba_Sakura.webp',
     techId: 'python-ai',
-    left: 31,
-    bottom: 23,
-    widthPercent: 11.5,
+    left: 28.5,
+    bottom: 17.5,
+    widthPercent: 12,
     zIndex: 22,
-    camera: { scale: 2.5, x: 22, y: 12 },
+    camera: { scale: 2.5, x: 25, y: 14 },
   },
   {
     id: 'morgana',
@@ -288,10 +288,10 @@ const PHANTOM_CHARACTERS: PhantomCharacter[] = [
     src: '/assets/Morgana.webp',
     techId: 'tailwind',
     left: 42,
-    bottom: 27,
-    widthPercent: 8,
-    zIndex: 24,
-    camera: { scale: 2.9, x: 8, y: -15 },
+    bottom: 33.5,
+    widthPercent: 7.2,
+    zIndex: 25,
+    camera: { scale: 3.1, x: 8, y: -20 },
   },
   {
     id: 'ryuji',
@@ -302,11 +302,11 @@ const PHANTOM_CHARACTERS: PhantomCharacter[] = [
     quote: 'For real?! High-throughput arcade vehicle physics and custom HLSL surface shaders kicking in!',
     src: '/assets/Ryuji_Sakamoto.webp',
     techId: 'unity',
-    left: 71,
-    bottom: 14,
+    left: 69,
+    bottom: 9.5,
     widthPercent: 14.5,
-    zIndex: 25,
-    camera: { scale: 2.3, x: -28, y: 8 },
+    zIndex: 27,
+    camera: { scale: 2.3, x: -28, y: 10 },
   },
   {
     id: 'ann',
@@ -317,9 +317,9 @@ const PHANTOM_CHARACTERS: PhantomCharacter[] = [
     quote: 'Time for serious magic! Enterprise-grade hybrid SSR, App Router, and edge middleware deployed!',
     src: '/assets/An_takamaki.webp',
     techId: 'nextjs',
-    left: 63,
-    bottom: 33,
-    widthPercent: 9.8,
+    left: 61.5,
+    bottom: 27,
+    widthPercent: 9.5,
     zIndex: 18,
     camera: { scale: 2.7, x: -18, y: 22 },
   },
@@ -332,11 +332,11 @@ const PHANTOM_CHARACTERS: PhantomCharacter[] = [
     quote: 'An exquisite composition of robust Eloquent schemas, clean relations, and authenticated APIs.',
     src: '/assets/yusuke kitagawa.png',
     techId: 'laravel',
-    left: 19,
-    bottom: 21,
+    left: 17.5,
+    bottom: 14.5,
     widthPercent: 12,
     zIndex: 21,
-    camera: { scale: 2.4, x: 32, y: 10 },
+    camera: { scale: 2.35, x: 36, y: 13 },
   },
 ]
 
@@ -578,21 +578,6 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
                 `}
                 title={`Select ${char.name} [${char.codename}]`}
               >
-                {/* Floating Codename Pin Above Head in Overview */}
-                {!activeChar && (
-                  <div className="absolute -top-7 sm:-top-8 left-1/2 -translate-x-1/2 whitespace-nowrap pointer-events-none transition-transform group-hover:scale-110 z-40">
-                    <span
-                      className="bg-black/95 text-white border-2 border-white px-2 py-0.5 font-p5Heading text-[10px] sm:text-xs font-black tracking-wider -skew-x-12 shadow-[2px_2px_0px_#000] flex items-center gap-1.5"
-                      style={{ borderBottomColor: tech?.accentColor || '#ffffff', borderBottomWidth: '3px' }}
-                    >
-                      <span className="text-yellow-400">★</span>
-                      <span>{char.codename}</span>
-                      <span className="text-zinc-500">//</span>
-                      <span className="text-zinc-300 font-p5Mono">{tech?.shortLabel}</span>
-                    </span>
-                  </div>
-                )}
-
                 {/* Character Cutout Image with Comic Die-Cut Contour */}
                 <img
                   src={char.src}
