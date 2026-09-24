@@ -563,9 +563,9 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
       {/* ── ANIME SPEED LINES FLASH IMPACT OVERLAY ── */}
       {showSpeedlines && (
         <div className="pointer-events-none fixed inset-0 z-50 overflow-hidden p5-speedlines-anim">
-          <svg className="w-full h-full opacity-65" viewBox="0 0 1000 1000" preserveAspectRatio="none">
-            {Array.from({ length: 40 }).map((_, idx) => {
-              const angle = (idx * 9 * Math.PI) / 180
+          <svg className="w-full h-full opacity-60" viewBox="0 0 1000 1000" preserveAspectRatio="none">
+            {Array.from({ length: 20 }).map((_, idx) => {
+              const angle = (idx * 18 * Math.PI) / 180
               const x2 = 500 + Math.cos(angle) * 900
               const y2 = 500 + Math.sin(angle) * 900
               return (
@@ -576,8 +576,8 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
                   x2={x2}
                   y2={y2}
                   stroke={idx % 2 === 0 ? '#E60012' : '#FFFFFF'}
-                  strokeWidth={idx % 4 === 0 ? '4' : '2'}
-                  strokeDasharray="60 140"
+                  strokeWidth={idx % 4 === 0 ? '3' : '1.5'}
+                  strokeDasharray="80 160"
                 />
               )
             })}
@@ -625,15 +625,17 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
         {/* Fixed 16:9 Screen Reference Canvas Container */}
         <div className="relative w-full h-full max-w-[1920px] max-h-[1080px] aspect-video select-none overflow-hidden">
           
-          {/* Virtual 2.5D Camera Stage (Zooms and scales smoothly) */}
+          {/* Virtual 2.5D Camera Stage (Zooms and scales smoothly with hardware acceleration) */}
           <div
             className="absolute inset-0 w-full h-full select-none"
             style={{
               transform: activeChar
-                ? `scale(${activeChar.camera.scale})`
-                : 'scale(1)',
+                ? `scale(${activeChar.camera.scale}) translateZ(0)`
+                : 'scale(1) translateZ(0)',
               transformOrigin: `${lastFocusOrigin.originX}% ${lastFocusOrigin.originY}%`,
-              transition: 'transform 700ms cubic-bezier(0.16, 1, 0.3, 1)',
+              transition: 'transform 600ms cubic-bezier(0.16, 1, 0.3, 1)',
+              backfaceVisibility: 'hidden',
+              WebkitBackfaceVisibility: 'hidden',
             }}
           >
             {/* Base 3D Room Render Background */}
@@ -651,10 +653,10 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
               }`}
             />
 
-            {/* Giant Japanese Kanji Backdrop (visible when zoomed in) */}
+            {/* Giant Japanese Kanji Backdrop (visible when zoomed in, zero-cost watermark without blur) */}
             {activeChar && (
               <div className="absolute inset-0 flex items-center justify-center pointer-events-none overflow-hidden select-none z-15 p5-splash-text-anim">
-                <span className="font-p5Heading text-[16vw] font-black text-white/12 uppercase tracking-widest -rotate-12 select-none filter blur-[0.5px]">
+                <span className="font-p5Heading text-[16vw] font-black text-white/12 uppercase tracking-widest -rotate-12 select-none">
                   {activeChar.kanji}
                 </span>
               </div>
@@ -690,38 +692,37 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
                     zIndex: isSelected ? 35 : isHovered ? 30 : char.zIndex,
                   }}
                   className={`
-                    absolute select-none cursor-pointer transition-opacity duration-500
+                    absolute select-none cursor-pointer transition-opacity duration-400
                     ${isDimmed
-                      ? 'opacity-15 pointer-events-none filter blur-[0.4px]'
+                      ? 'opacity-20 pointer-events-none'
                       : 'opacity-100'
                     }
                   `}
                   title={`Select ${char.name} [${char.codename}]`}
                 >
-                  {/* Realistic Contact Shadow (Floor / Tabletop) */}
+                  {/* Realistic Contact Shadow (Floor / Tabletop) with zero-cost radial-gradient */}
                   <div
                     className={`
                       absolute -bottom-1 left-1/2 -translate-x-1/2 pointer-events-none rounded-[50%] -skew-x-12 transition-opacity duration-300
-                      ${char.id === 'morgana'
-                        ? 'bg-black/80 blur-[1.5px]'
-                        : 'bg-black/70 blur-[3px]'
-                      }
                       ${isHovered ? 'opacity-95' : 'opacity-75'}
                     `}
                     style={{
                       width: `${char.shadowWidth}%`,
                       height: `${char.shadowHeight}px`,
+                      background: 'radial-gradient(ellipse at center, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.35) 55%, transparent 75%)',
                     }}
                   />
 
-                  {/* Character Cutout Image - High-Definition Crisp Rendering & Solid Comic Outline */}
+                  {/* Character Cutout Image - High-Definition Crisp Rendering & Streamlined Glow */}
                   <img
                     src={char.src}
                     alt={char.name}
                     style={{
                       filter: isHovered
-                        ? `sepia(${char.warmth}) brightness(${char.brightness * 1.08}) contrast(1.12) saturate(1.1) drop-shadow(4px 4px 0px #E60012) drop-shadow(-2px -2px 0px #E60012) drop-shadow(0 0 10px rgba(230,0,18,0.75))`
-                        : `sepia(${char.warmth}) brightness(${char.brightness}) contrast(1.08) saturate(1.05) drop-shadow(3px 3px 0px rgba(0,0,0,0.9)) drop-shadow(-1px -1px 0px rgba(0,0,0,0.4))`,
+                        ? `sepia(${char.warmth}) brightness(${char.brightness * 1.08}) contrast(1.12) drop-shadow(0 0 10px rgba(230,0,18,0.85))`
+                        : isSelected
+                        ? `sepia(${char.warmth}) brightness(${char.brightness * 1.04}) contrast(1.08) drop-shadow(0 0 8px rgba(255,255,255,0.7))`
+                        : `sepia(${char.warmth}) brightness(${char.brightness}) contrast(1.05)`,
                       transition: 'filter 180ms ease-out',
                     }}
                     className="w-full h-auto object-contain select-none"
