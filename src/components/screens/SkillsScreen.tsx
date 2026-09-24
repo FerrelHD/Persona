@@ -320,7 +320,7 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
   return (
     <div className="fixed inset-0 z-30 select-none overflow-hidden flex flex-col justify-between p-4 sm:p-6 md:p-8 pt-5 sm:pt-7 md:pt-9 pb-3 sm:pb-4 animate-in fade-in duration-300">
       
-      {/* ── CINEMATIC VFX: DUAL-LAYER TOKYO FOG, RED EMBERS & TOKYO TOWER BEACON ── */}
+      {/* ── CINEMATIC VFX: DUAL-LAYER TOKYO FOG & SILVER SPARKS ── */}
       <div className="pointer-events-none fixed inset-0 overflow-hidden z-10">
         {/* ── CINEMATIC TOKYO FOG / MIST DRIFT (HIGH-CONTRAST PARALLAX) ── */}
         {/* Layer 1: Dark Manga Street Fog across Tokyo buildings */}
@@ -578,7 +578,7 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
         <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-black/85 backdrop-blur-[3px] animate-in fade-in duration-200">
           <div className="absolute inset-0" onClick={closeInspector} />
 
-          <div className="relative z-10 w-full max-w-5xl max-h-[92vh] overflow-y-auto no-scrollbar bg-black/95 border-3 border-white p-4 sm:p-6 shadow-[10px_10px_0px_#000000] -skew-x-1">
+          <div className="relative z-10 w-full max-w-5xl max-h-[92vh] overflow-y-auto no-scrollbar bg-black/95 border-3 border-white p-4 sm:p-6 shadow-[10px_10px_0px_#000000] -skew-x-1 p5-modal-slam-anim">
             
             {/* Modal Header */}
             <div className="flex items-center justify-between border-b-2 border-zinc-700 pb-3 mb-4">
@@ -629,7 +629,7 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
             {/* Modal Body: Tactical Radar + Detailed Tech Dossier */}
             <div className="grid grid-cols-1 md:grid-cols-12 gap-4">
               {/* Left Column: Pentagon Radar & Stat Readouts */}
-              <div className="md:col-span-5 flex flex-col gap-3 bg-zinc-950 border border-zinc-700 p-3 shadow-[4px_4px_0px_#000000]">
+              <div className="md:col-span-5 flex flex-col gap-3 bg-zinc-950 border border-zinc-700 p-3 shadow-[4px_4px_0px_#000000] p5-hud-left-anim">
                 <span className="font-p5Sub text-[10px] text-zinc-300 font-bold tracking-widest uppercase flex items-center gap-1.5">
                   <span className="size-2 bg-white animate-pulse" />
                   TACTICAL PENTAGON // LV. 99
@@ -708,7 +708,7 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
               </div>
 
               {/* Right Column: Active Tech Detailed Dossier */}
-              <div className="md:col-span-7 flex flex-col justify-between bg-zinc-950 border-2 border-zinc-700 p-4 sm:p-5 shadow-[4px_4px_0px_#000000]">
+              <div className="md:col-span-7 flex flex-col justify-between bg-zinc-950 border-2 border-zinc-700 p-4 sm:p-5 shadow-[4px_4px_0px_#000000] p5-hud-right-anim">
                 <div>
                   <div className="flex items-center justify-between border-b border-zinc-700 pb-3 mb-4">
                     <div className="flex items-center gap-3">
@@ -719,7 +719,7 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
                         <div className="font-p5Heading text-2xl sm:text-3xl font-black text-white uppercase">
                           {activeTech.name}
                         </div>
-                        <div className="font-p5Mono text-[11px] text-zinc-400">
+                        <div className="font-p5Mono text-[11px] text-cyan-300 font-bold">
                           {activeTech.category} // {activeTech.cost}
                         </div>
                       </div>
