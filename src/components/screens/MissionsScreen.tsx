@@ -112,7 +112,7 @@ export const MissionsScreen: React.FC<MissionsScreenProps> = ({ onBack }) => {
                   playSlash()
                   setShowDossierModal(true)
                 }}
-                className="relative w-full bg-[#00D2FF] border-4 sm:border-[5px] border-black shadow-[10px_10px_0px_#000000] -rotate-2 sm:-rotate-[3deg] -skew-x-6 sm:-skew-x-12 transition-all duration-300 cursor-pointer group"
+                className="relative w-full bg-[#002B5B] border-4 sm:border-[5px] border-black shadow-[10px_10px_0px_#000000] -rotate-2 sm:-rotate-[3deg] -skew-x-6 sm:-skew-x-12 transition-all duration-300 cursor-pointer group"
               >
                 {/* OPTION B: High Contrast Project Image Blend into Background (Isolated inside inner overflow-hidden) */}
                 <div className="absolute inset-0 pointer-events-none overflow-hidden">
@@ -129,8 +129,8 @@ export const MissionsScreen: React.FC<MissionsScreenProps> = ({ onBack }) => {
                       backgroundSize: '8px 8px',
                     }}
                   />
-                  {/* Cyan Gradient Mask */}
-                  <div className="absolute inset-0 bg-gradient-to-r from-[#00D2FF] via-[#00A3FF]/80 to-[#0077D4]/95" />
+                  {/* Makoto Deep Midnight Cyan Gradient Mask (Opsi A) */}
+                  <div className="absolute inset-0 bg-gradient-to-r from-[#001E3D] via-[#003873]/92 to-[#0066B3]/88" />
                 </div>
 
                 {/* Top Info Bar inside Slot */}
@@ -142,13 +142,13 @@ export const MissionsScreen: React.FC<MissionsScreenProps> = ({ onBack }) => {
                       {mission.slotNumber}
                     </div>
 
-                    {/* Category Pill */}
-                    <span className="font-p5Sub text-[10px] sm:text-xs tracking-wider text-black bg-yellow-300 px-2.5 py-0.5 border border-black uppercase font-bold shadow-[2px_2px_0px_#000] -skew-x-6">
+                    {/* Category Pill - Harmonized Electric Cyan */}
+                    <span className="font-p5Sub text-[10px] sm:text-xs tracking-wider text-black bg-[#00D2FF] px-2.5 py-0.5 border border-black uppercase font-black shadow-[2px_2px_0px_#000] -skew-x-6">
                       {mission.category.toUpperCase()}
                     </span>
 
                     {/* Date Tag */}
-                    <span className="hidden sm:inline-block font-p5Heading text-xs text-black bg-white px-2 py-0.5 border border-black shadow-[2px_2px_0px_#000]">
+                    <span className="hidden sm:inline-block font-p5Heading text-xs text-white bg-black px-2 py-0.5 border border-zinc-600 shadow-[2px_2px_0px_#000]">
                       {mission.calendarDate.split(' ')[0]}
                     </span>
                   </div>
@@ -177,7 +177,7 @@ export const MissionsScreen: React.FC<MissionsScreenProps> = ({ onBack }) => {
                     <span className="bg-black text-white font-p5Heading text-xs sm:text-sm px-2.5 py-1 border-2 border-white shadow-[2px_2px_0px_#000] tracking-wider uppercase -skew-x-6">
                       {mission.role}
                     </span>
-                    <span className="text-xs font-p5Mono text-cyan-200 hidden sm:inline-block drop-shadow-[1px_1px_0px_#000]">
+                    <span className="text-xs font-p5Mono text-cyan-300 font-bold hidden sm:inline-block drop-shadow-[1px_1px_0px_#000]">
                       PLAY TIME // {mission.playTime}
                     </span>
 
@@ -189,10 +189,10 @@ export const MissionsScreen: React.FC<MissionsScreenProps> = ({ onBack }) => {
                         playSlash()
                         setShowDossierModal(true)
                       }}
-                      className="ml-auto inline-flex items-center gap-1.5 bg-black hover:bg-white text-white hover:text-black font-p5Heading text-xs sm:text-sm px-3.5 py-1 border-2 border-white shadow-[3px_3px_0px_#000] -skew-x-6 transition-all hover:scale-105 cursor-pointer group/btn"
+                      className="ml-auto inline-flex items-center gap-1.5 bg-black hover:bg-[#00D2FF] text-white hover:text-black font-p5Heading text-xs sm:text-sm px-3.5 py-1 border-2 border-white shadow-[3px_3px_0px_#000] -skew-x-6 transition-all hover:scale-105 cursor-pointer group/btn"
                       title="Open Mission Dossier"
                     >
-                      <span className="size-4 rounded-full border-2 border-pink-400 text-pink-400 font-bold flex items-center justify-center text-[9px] group-hover/btn:bg-pink-400 group-hover/btn:text-black transition-colors">
+                      <span className="size-4 rounded-full border-2 border-cyan-400 text-cyan-400 font-bold flex items-center justify-center text-[9px] group-hover/btn:border-black group-hover/btn:text-black transition-colors">
                         □
                       </span>
                       <span className="tracking-wider uppercase">VIEW DOSSIER</span>
@@ -203,7 +203,7 @@ export const MissionsScreen: React.FC<MissionsScreenProps> = ({ onBack }) => {
                 {/* Bottom Border Film Perforation Teeth */}
                 <div className="w-full h-2.5 bg-black flex items-center justify-around px-4">
                   {Array.from({ length: 30 }).map((_, i) => (
-                    <div key={i} className="w-2.5 h-1 bg-[#00D2FF] rounded-[0.5px]" />
+                    <div key={i} className="w-2.5 h-1 bg-[#00A3FF] rounded-[0.5px]" />
                   ))}
                 </div>
               </div>

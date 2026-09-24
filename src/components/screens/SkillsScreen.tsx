@@ -17,6 +17,7 @@ interface TechItem {
   level: number
   description: string
   libraries: string[]
+  deployedIn?: string[]
   accentColor: string
   renderIcon: (props: { className?: string; isSelected?: boolean }) => React.ReactNode
 }
@@ -107,6 +108,7 @@ const TECH_DECK: TechItem[] = [
     level: 98,
     description: 'Builds ultra-reactive single-page applications with instant hydration, modular component systems, fluid micro-interactions, and custom hooks.',
     libraries: ['React 19', 'Zustand', 'Context API', 'Vite', 'Component Systems'],
+    deployedIn: ['GLOBAL SEISMIC TRACKER', 'PERSONA 5 PORTFOLIO'],
     accentColor: '#00D4FF',
     renderIcon: (props) => <ReactIcon {...props} />,
   },
@@ -120,6 +122,7 @@ const TECH_DECK: TechItem[] = [
     level: 96,
     description: 'Enforces robust type-safety, maintainable generics, OOP design patterns, and contract-driven interfaces across multi-tier applications.',
     libraries: ['TypeScript 5', 'Strict Generics', 'Zod Schema', 'Clean Architecture'],
+    deployedIn: ['GLOBAL SEISMIC TRACKER', 'PERSONA 5 PORTFOLIO'],
     accentColor: '#3178C6',
     renderIcon: (props) => <TsIcon {...props} />,
   },
@@ -133,6 +136,7 @@ const TECH_DECK: TechItem[] = [
     level: 95,
     description: 'Architects enterprise-grade hybrid web systems utilizing Server-Side Rendering (SSR), Static Site Generation, Edge Middleware, and App Router.',
     libraries: ['App Router', 'Server Components', 'Edge Handlers', 'Vercel Deploy'],
+    deployedIn: ['GLOBAL SEISMIC TRACKER'],
     accentColor: '#FFFFFF',
     renderIcon: (props) => <NextIcon {...props} />,
   },
@@ -146,6 +150,7 @@ const TECH_DECK: TechItem[] = [
     level: 94,
     description: 'Infiltrates unstructured telemetry with transformer models, fine-tuned sentiment pipelines (IndoBERT), tokenizers, and PyTorch inference engines.',
     libraries: ['PyTorch', 'IndoBERT', 'Hugging Face', 'Pandas', 'Scikit-Learn'],
+    deployedIn: ['ROBLOX SENTIMENT (INDOBERT)', 'STOCK PREDICTION SYSTEM'],
     accentColor: '#FFD43B',
     renderIcon: (props) => <PythonIcon {...props} />,
   },
@@ -159,6 +164,7 @@ const TECH_DECK: TechItem[] = [
     level: 92,
     description: 'Deploys high-throughput serverless micro-backends, asynchronous event emitters, RESTful endpoints, and relational database bridges.',
     libraries: ['Node.js', 'Express', 'JWT Auth', 'REST APIs', 'MySQL / SQLite'],
+    deployedIn: ['CONCURRENCY & BACKEND APIS'],
     accentColor: '#339933',
     renderIcon: (props) => <NodeIcon {...props} />,
   },
@@ -172,6 +178,7 @@ const TECH_DECK: TechItem[] = [
     level: 90,
     description: 'Crafts real-time lighting passes, custom HLSL surface shaders, post-processing camera VFX, arcade vehicle physics, and responsive game loops.',
     libraries: ['Unity 3D', 'C# Scripting', 'HLSL Shaders', 'RigidBody Physics'],
+    deployedIn: ['STREET RUSH (SHADERS & PHYSICS)'],
     accentColor: '#E60012',
     renderIcon: (props) => <UnityIcon {...props} />,
   },
@@ -185,6 +192,7 @@ const TECH_DECK: TechItem[] = [
     level: 97,
     description: 'Sculpts pixel-perfect anime game UIs, custom Persona keyframe animations, sleek glassmorphism, tailored design tokens, and fluid responsive decks.',
     libraries: ['Tailwind CSS', 'CSS Keyframes', 'Design Tokens', 'Responsive UI'],
+    deployedIn: ['GLOBAL SEISMIC TRACKER', 'PERSONA 5 PORTFOLIO'],
     accentColor: '#38BDF8',
     renderIcon: (props) => <TailwindIcon {...props} />,
   },
@@ -198,6 +206,7 @@ const TECH_DECK: TechItem[] = [
     level: 91,
     description: 'Orchestrates robust database migrations, Eloquent ORM relations, structured MVC architectures, and authenticated RESTful application APIs.',
     libraries: ['Laravel', 'PHP 8.2', 'Eloquent ORM', 'Blade', 'MySQL Database'],
+    deployedIn: ['FULLSTACK ARCHITECTURE & CMS'],
     accentColor: '#FF2D20',
     renderIcon: (props) => <LaravelIcon {...props} />,
   },
@@ -731,6 +740,27 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
                       MASTERY LV. {activeTech.level}
                     </span>
                   </div>
+
+                  {/* DEPLOYED IN MISSIONS / REAL PROJECTS (OPSI 2) */}
+                  {activeTech.deployedIn && activeTech.deployedIn.length > 0 && (
+                    <div className="mb-4">
+                      <span className="font-p5Sub text-[10px] sm:text-xs text-zinc-300 font-bold tracking-wider flex items-center gap-1.5 mb-2">
+                        <span className="text-yellow-400">🎯</span>
+                        <span>DEPLOYED IN MISSIONS // OPERASI NYATA:</span>
+                      </span>
+                      <div className="flex items-center gap-2 flex-wrap">
+                        {activeTech.deployedIn.map((missionName, idx) => (
+                          <div
+                            key={idx}
+                            className="bg-black text-white font-p5Heading text-xs sm:text-sm px-3 py-1 border-2 border-white shadow-[3px_3px_0px_#000] -skew-x-6 flex items-center gap-1.5 hover:bg-white hover:text-black transition-colors"
+                          >
+                            <span className="text-yellow-400 font-bold">★</span>
+                            <span className="tracking-wide uppercase">{missionName}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
                 </div>
 
                 <div>
