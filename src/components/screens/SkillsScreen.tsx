@@ -746,7 +746,7 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
                     <div className="mb-4">
                       <span className="font-p5Sub text-[10px] sm:text-xs text-zinc-300 font-bold tracking-wider flex items-center gap-1.5 mb-2">
                         <span className="text-yellow-400">🎯</span>
-                        <span>DEPLOYED IN MISSIONS // OPERASI NYATA:</span>
+                        <span>DEPLOYED IN MISSIONS //</span>
                       </span>
                       <div className="flex items-center gap-2 flex-wrap">
                         {activeTech.deployedIn.map((missionName, idx) => (
