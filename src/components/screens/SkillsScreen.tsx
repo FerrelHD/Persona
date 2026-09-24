@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useMemo } from 'react'
+import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react'
 import { usePersonaSFX } from '@/hooks/usePersonaSFX'
 import { PhantomDagger } from '@/components/common/PhantomDagger'
 import { Zap, Sparkles, Shield, Flame, Sword, Crosshair, HeartPulse, RefreshCw, X, ChevronRight, Layers } from 'lucide-react'
@@ -469,10 +469,26 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
     return idx >= 0 ? idx : 0
   }, [activeTech])
 
+  const speedlinesTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  useEffect(() => {
+    return () => {
+      if (speedlinesTimerRef.current) {
+        clearTimeout(speedlinesTimerRef.current)
+      }
+    }
+  }, [])
+
   const handleSelectCharacter = useCallback((char: PhantomCharacter) => {
     playSlash()
+    if (speedlinesTimerRef.current) {
+      clearTimeout(speedlinesTimerRef.current)
+    }
     setShowSpeedlines(true)
-    setTimeout(() => setShowSpeedlines(false), 400)
+    speedlinesTimerRef.current = setTimeout(() => {
+      setShowSpeedlines(false)
+      speedlinesTimerRef.current = null
+    }, 400)
     setHoveredCharId(null)
     setLastFocusOrigin({ originX: char.camera.originX, originY: char.camera.originY })
     setActiveCharId(char.id)
