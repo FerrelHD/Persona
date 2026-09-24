@@ -195,7 +195,7 @@ export const MainMenu: React.FC<MainMenuProps> = ({ onSelectScreen, onBackToTitl
                           <span
                             key={ltrIdx}
                             style={{ animationDelay: `${ltrIdx * 25 + 20}ms` }}
-                            className={`inline-flex items-center justify-center min-w-[28px] md:min-w-[34px] h-[40px] md:h-[48px] laptop-main-letter px-1.5 md:px-2 font-p5Heading text-xl sm:text-2xl md:text-3xl laptop-main-letter-text uppercase shadow-[3px_3px_0px_#000000] border-2 border-black ${ltr.bg} ${ltr.rotate} p5-letter-pop-anim transition-transform duration-100 hover:scale-120`}
+                            className={`inline-flex items-center justify-center min-w-[28px] md:min-w-[34px] h-[40px] md:h-[48px] laptop-main-letter px-1.5 md:px-2 font-p5Heading text-xl sm:text-2xl md:text-3xl laptop-main-letter-text uppercase shadow-[3px_3px_0px_#000000] border-2 border-black ${ltr.bg} ${ltr.rotate} p5-letter-pop-anim transition-transform duration-150 hover:scale-125 hover:-translate-y-1 hover:rotate-3`}
                           >
                             {ltr.char}
                           </span>

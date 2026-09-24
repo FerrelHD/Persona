@@ -519,47 +519,59 @@
   will-change: transform, opacity;
 }
 
-/* ── Persona 5 Main Menu Hover Animations (Opsi 1 + Opsi 2) ── */
+/* ── Persona 5 Main Menu Bouncy Hover Animations ── */
 
-/* 1. Kinetic Ribbon Slam Entrance */
+/* 1. Bouncy Spring Ribbon Entrance */
 @keyframes p5-ribbon-slam {
   0% {
-    transform: translate3d(-32px, 0, 0) scaleX(0.75) skewX(-8deg);
+    transform: translate3d(-36px, 0, 0) scale(0.82) skewX(-10deg);
     opacity: 0;
   }
-  65% {
-    transform: translate3d(5px, 0, 0) scaleX(1.04) skewX(-1.5deg);
+  45% {
+    transform: translate3d(12px, 0, 0) scale(1.08) skewX(-1deg);
     opacity: 1;
   }
+  70% {
+    transform: translate3d(-4px, 0, 0) scale(0.97) skewX(-3deg);
+  }
+  85% {
+    transform: translate3d(2px, 0, 0) scale(1.02) skewX(-2deg);
+  }
   100% {
-    transform: translate3d(0, 0, 0) scaleX(1) skewX(-2deg);
+    transform: translate3d(0, 0, 0) scale(1) skewX(-2deg);
     opacity: 1;
   }
 }
 
 .p5-ribbon-slam-anim {
-  animation: p5-ribbon-slam 0.22s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: p5-ribbon-slam 0.38s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
   will-change: transform, opacity;
 }
 
-/* 2. Staggered Ransom Letter Pop-In */
+/* 2. Bouncy Staggered Ransom Letters Pop-In */
 @keyframes p5-letter-pop-slam {
   0% {
-    transform: scale(0.35) translateY(10px);
+    transform: scale(0.2) translateY(14px) rotate(-10deg);
     opacity: 0;
   }
-  65% {
-    transform: scale(1.18) translateY(-2px);
+  50% {
+    transform: scale(1.26) translateY(-6px) rotate(4deg);
     opacity: 1;
   }
+  75% {
+    transform: scale(0.92) translateY(2px) rotate(-2deg);
+  }
+  90% {
+    transform: scale(1.06) translateY(-1px) rotate(1deg);
+  }
   100% {
-    transform: scale(1) translateY(0);
+    transform: scale(1) translateY(0) rotate(0deg);
     opacity: 1;
   }
 }
 
 .p5-letter-pop-anim {
-  animation: p5-letter-pop-slam 0.22s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
+  animation: p5-letter-pop-slam 0.36s cubic-bezier(0.34, 1.56, 0.64, 1) both;
   will-change: transform, opacity;
 }
 
@@ -587,18 +599,24 @@
   will-change: transform, opacity;
 }
 
-/* 4. Arrow Darting Thrust */
+/* 4. Bouncy Rubber-Band Arrow Pulse */
 @keyframes p5-arrow-thrust {
   0%, 100% {
-    transform: translate3d(0, 0, 0) skewX(-12deg);
+    transform: translate3d(0, 0, 0) scale(1, 1) skewX(-12deg);
   }
-  50% {
-    transform: translate3d(6px, 0, 0) skewX(-12deg) scale(1.15);
+  35% {
+    transform: translate3d(8px, 0, 0) scale(1.3, 0.8) skewX(-12deg);
+  }
+  60% {
+    transform: translate3d(2px, 0, 0) scale(0.9, 1.15) skewX(-12deg);
+  }
+  80% {
+    transform: translate3d(6px, 0, 0) scale(1.1, 0.95) skewX(-12deg);
   }
 }
 
 .p5-arrow-dart-anim {
-  animation: p5-arrow-thrust 0.65s ease-in-out infinite;
+  animation: p5-arrow-thrust 0.75s cubic-bezier(0.34, 1.56, 0.64, 1) infinite;
   will-change: transform;
 }
 
