@@ -28,11 +28,11 @@ const MENU_ITEMS: MenuItem[] = [
     arrowColor: 'text-[#00D2FF]',
     letters: [
       { char: 'M', bg: 'bg-white text-black', rotate: '-rotate-3' },
-      { char: 'I', bg: 'bg-black text-white border border-white', rotate: 'rotate-2' },
+      { char: 'I', bg: 'bg-[#00D2FF] text-black font-black scale-105 shadow-md', rotate: 'rotate-2' },
       { char: 'S', bg: 'bg-white text-black', rotate: '-rotate-2' },
-      { char: 'S', bg: 'bg-white text-black', rotate: 'rotate-3' },
-      { char: 'I', bg: 'bg-black text-white border border-white', rotate: '-rotate-1' },
-      { char: 'O', bg: 'bg-white text-black', rotate: 'rotate-2' },
+      { char: 'S', bg: 'bg-black text-white border border-white', rotate: 'rotate-3' },
+      { char: 'I', bg: 'bg-white text-black', rotate: '-rotate-1' },
+      { char: 'O', bg: 'bg-black text-white border border-white', rotate: 'rotate-2' },
       { char: 'N', bg: 'bg-white text-black', rotate: '-rotate-2' },
       { char: 'S', bg: 'bg-[#00D2FF] text-black font-black scale-110 shadow-lg', rotate: 'rotate-3' },
     ]
@@ -42,14 +42,14 @@ const MENU_ITEMS: MenuItem[] = [
     label: 'SKILLS',
     rotation: '-rotate-1',
     offsetClass: 'ml-2 sm:ml-3 md:ml-4',
-    arrowColor: 'text-zinc-300',
+    arrowColor: 'text-[#94A3B8]',
     letters: [
       { char: 'S', bg: 'bg-white text-black', rotate: '-rotate-2' },
-      { char: 'K', bg: 'bg-white text-black', rotate: 'rotate-3' },
-      { char: 'I', bg: 'bg-black text-white border border-white', rotate: '-rotate-1' },
+      { char: 'K', bg: 'bg-black text-white border border-white', rotate: 'rotate-3' },
+      { char: 'I', bg: 'bg-[#64748B] text-white font-black scale-105 shadow-md', rotate: '-rotate-1' },
       { char: 'L', bg: 'bg-white text-black', rotate: 'rotate-4' },
-      { char: 'L', bg: 'bg-white text-black', rotate: '-rotate-3' },
-      { char: 'S', bg: 'bg-zinc-300 text-black font-black scale-110 shadow-lg', rotate: 'rotate-2' },
+      { char: 'L', bg: 'bg-black text-white border border-white', rotate: '-rotate-3' },
+      { char: 'S', bg: 'bg-[#64748B] text-white font-black scale-110 shadow-lg', rotate: 'rotate-2' },
     ]
   },
   {
@@ -60,10 +60,10 @@ const MENU_ITEMS: MenuItem[] = [
     arrowColor: 'text-[#EF4444]',
     letters: [
       { char: 'A', bg: 'bg-white text-black', rotate: '-rotate-3' },
-      { char: 'B', bg: 'bg-black text-white border border-white', rotate: 'rotate-3' },
+      { char: 'B', bg: 'bg-[#B91C1C] text-white font-black scale-105 shadow-md', rotate: 'rotate-3' },
       { char: 'O', bg: 'bg-white text-black', rotate: '-rotate-2' },
       { char: 'U', bg: 'bg-black text-white border border-white', rotate: 'rotate-4' },
-      { char: 'T', bg: 'bg-[#B91C1C] text-white font-extrabold scale-110 shadow-lg', rotate: '-rotate-2' },
+      { char: 'T', bg: 'bg-[#B91C1C] text-white font-black scale-110 shadow-lg', rotate: '-rotate-2' },
     ]
   },
   {
@@ -74,7 +74,7 @@ const MENU_ITEMS: MenuItem[] = [
     arrowColor: 'text-[#10B981]',
     letters: [
       { char: 'C', bg: 'bg-white text-black', rotate: '-rotate-3' },
-      { char: 'O', bg: 'bg-black text-white border border-white', rotate: 'rotate-2' },
+      { char: 'O', bg: 'bg-[#10B981] text-black font-black scale-105 shadow-md', rotate: 'rotate-2' },
       { char: 'M', bg: 'bg-white text-black', rotate: '-rotate-2' },
       { char: 'M', bg: 'bg-black text-white border border-white', rotate: 'rotate-3' },
       { char: 'S', bg: 'bg-[#10B981] text-black font-black scale-110 shadow-lg', rotate: '-rotate-2' },

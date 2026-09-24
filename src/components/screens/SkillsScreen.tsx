@@ -344,6 +344,23 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
           aria-hidden="true"
         />
 
+        {/* ── GAYA C: DEEP FOG ARC (CINEMATIC BOTTOM VIGNETTE CURVE) ── */}
+        <div
+          className="absolute -inset-x-[15%] -bottom-[8%] h-[38%] pointer-events-none z-10"
+          style={{
+            background: 'radial-gradient(ellipse 120% 70% at 50% 115%, rgba(0, 0, 0, 0.96) 0%, rgba(5, 5, 10, 0.88) 42%, rgba(15, 15, 25, 0.45) 72%, transparent 100%)',
+          }}
+          aria-hidden="true"
+        />
+        {/* Soft Metallic Slate Atmospheric Edge Curve */}
+        <div
+          className="absolute -inset-x-[20%] -bottom-[12%] h-[28%] pointer-events-none z-10 mix-blend-screen opacity-25"
+          style={{
+            background: 'radial-gradient(ellipse 110% 65% at 50% 118%, rgba(100, 116, 139, 0.5) 0%, transparent 70%)',
+          }}
+          aria-hidden="true"
+        />
+
         {/* Tokyo Tower Aviation Warning Lights */}
         <div
           className="absolute top-[17%] right-[19.2%] size-2.5 rounded-full bg-red-600 p5-beacon-light shadow-[0_0_10px_#E60012]"
@@ -392,20 +409,20 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
                   : i === 1
                   ? 'bg-white text-black rotate-3'
                   : i === 2
-                  ? 'bg-zinc-300 text-black -rotate-3 font-black scale-105'
+                  ? 'bg-[#64748B] text-white -rotate-3 font-black scale-105'
                   : i === 3
                   ? 'bg-white text-black rotate-4'
                   : i === 4
                   ? 'bg-black text-white -rotate-2'
-                  : 'bg-zinc-300 text-black rotate-6 scale-110 shadow-[4px_4px_0px_#000000] font-black'
+                  : 'bg-[#64748B] text-white rotate-6 scale-110 shadow-[4px_4px_0px_#000000] font-black'
               }`}
             >
               {char}
             </span>
           ))}
         </div>
-        <div className="mt-1.5 flex items-center bg-black border-l-4 border-zinc-400 px-2.5 sm:px-3 py-0.5 text-[10px] sm:text-xs font-p5Sub tracking-widest text-white -skew-x-6 shadow-[3px_3px_0px_#000000]">
-          <span className="text-zinc-300 font-bold mr-1.5">TECH ARSENAL</span>
+        <div className="mt-1.5 flex items-center bg-black border-l-4 border-[#64748B] px-2.5 sm:px-3 py-0.5 text-[10px] sm:text-xs font-p5Sub tracking-widest text-white -skew-x-6 shadow-[3px_3px_0px_#000000]">
+          <span className="text-[#94A3B8] font-bold mr-1.5">TECH ARSENAL</span>
           <span className="text-zinc-500 mx-1">//</span>
           <span className="text-zinc-200">{activeTech.name}</span>
         </div>

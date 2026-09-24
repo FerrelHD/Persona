@@ -15,7 +15,7 @@ import { useAssetPreloader } from '@/hooks/useAssetPreloader'
 const SCREEN_COLOR: Record<ActiveScreen, string> = {
   menu:        '#E60012',
   missions:    '#00D4FF',
-  skills:      '#71717A', // Cool Slate Gray / Tech Arsenal
+  skills:      '#64748B', // Steel Slate Gray / Tech Arsenal
   about:       '#B91C1C',
   callingCard: '#10B981',
 }
