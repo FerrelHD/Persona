@@ -705,7 +705,7 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
                     left: `${char.left}%`,
                     bottom: `${char.bottom}%`,
                     width: `${char.widthPercent}%`,
-                    zIndex: isSelected ? 35 : isHovered ? 30 : char.zIndex,
+                    zIndex: isSelected ? 35 : char.zIndex,
                   }}
                   className={`
                     absolute select-none cursor-pointer transition-opacity duration-400
@@ -744,6 +744,14 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
                 </div>
               )
             })}
+
+            {/* Foreground Optical Illusion: Leblanc Storage Shelf (Layer 21 - In front of Ann & Ryuji, behind Joker) */}
+            <img
+              src="/assets/leblanc_shelf_cutout.png"
+              alt=""
+              className="absolute inset-0 w-full h-full object-cover pointer-events-none select-none"
+              style={{ zIndex: 21 }}
+            />
           </div>
 
           {/* ── OPSI A: PERSONA 5 FLOATING COMIC SPEECH BUBBLE ── */}
@@ -890,16 +898,56 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
             )
           })()}
 
-          {/* Subdued Bottom Guide Prompt When Zoomed */}
-          {activeChar && (
-            <div className="absolute bottom-3 left-4 sm:bottom-4 sm:left-6 z-40 hidden sm:flex items-center gap-2 pointer-events-none text-zinc-400 font-p5Mono text-[11px] -skew-x-6 bg-black/75 px-2.5 py-1 border border-zinc-800 shadow-[2px_2px_0px_#000]">
-              <span className="text-yellow-400 font-bold">CLICK ROOM / ESC:</span>
-              <span>ZOOM OUT</span>
-              <span className="text-zinc-600">//</span>
-              <span className="text-white font-bold">[X]:</span>
-              <span>DOSSIER & RADAR</span>
+          {/* ── CINEMATIC LETTERBOX BLACK BARS (PERSONA 5 CUTSCENE) ── */}
+          {/* Top Letterbox Bar */}
+          <div
+            className={`absolute top-0 left-0 right-0 z-35 bg-black border-b-2 border-[#E60012] pointer-events-none transition-transform duration-500 flex items-center justify-between px-4 sm:px-8 h-7 sm:h-9 shadow-[0_4px_20px_rgba(0,0,0,0.9)] ${
+              activeChar ? 'translate-y-0' : '-translate-y-full'
+            }`}
+            style={{
+              transitionTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)',
+            }}
+          >
+            <div className="flex items-center gap-2">
+              <span className="inline-block w-2 h-2 rounded-full bg-[#E60012] animate-pulse" />
+              <span className="font-p5Sub text-[10px] sm:text-xs text-white tracking-widest uppercase font-bold">
+                TACTICAL FOCUS // {activeChar?.codename}
+              </span>
             </div>
-          )}
+            <div className="font-p5Sub text-[9px] sm:text-[10px] text-zinc-400 tracking-wider">
+              LEBLANC ATTIC // 2.5D STAGE
+            </div>
+          </div>
+
+          {/* Bottom Letterbox Bar */}
+          <div
+            className={`absolute bottom-0 left-0 right-0 z-35 bg-black border-t-2 border-[#E60012] pointer-events-none transition-transform duration-500 flex items-center justify-between px-4 sm:px-8 h-7 sm:h-9 shadow-[0_-4px_20px_rgba(0,0,0,0.9)] ${
+              activeChar ? 'translate-y-0' : 'translate-y-full'
+            }`}
+            style={{
+              transitionTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)',
+            }}
+          >
+            <div className="flex items-center gap-2">
+              <span className="font-p5Heading text-xs sm:text-sm text-yellow-400">
+                {activeChar?.name}
+              </span>
+              <span className="text-zinc-600">//</span>
+              <span className="font-p5Sub text-[10px] sm:text-xs text-zinc-300">
+                {activeChar?.role}
+              </span>
+            </div>
+            <div className="flex items-center gap-3 text-[10px] sm:text-xs font-p5Sub text-zinc-400">
+              <span>
+                <kbd className="px-1.5 py-0.5 bg-zinc-800 text-white border border-zinc-600 rounded text-[9px] font-mono mr-1">ESC</kbd>
+                OVERVIEW
+              </span>
+              <span>
+                <kbd className="px-1.5 py-0.5 bg-[#E60012] text-white rounded text-[9px] font-mono mr-1">X / ENTER</kbd>
+                TACTICAL DOSSIER
+              </span>
+            </div>
+          </div>
         </div>
       </div>
 
