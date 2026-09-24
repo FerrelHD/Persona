@@ -461,10 +461,6 @@
     height: 80vh !important;
     transform: translateY(3.5rem) translateX(-12%) !important;
   }
-  .laptop-calendar-top {
-    top: 1rem !important;
-    left: 18.5rem !important;
-  }
   .laptop-comms-deck {
     margin-top: auto !important;
     margin-bottom: auto !important;
@@ -547,10 +543,6 @@
   .laptop-phone-wrapper {
     height: 76vh !important;
     transform: translateY(2.75rem) translateX(-12%) !important;
-  }
-  .laptop-calendar-top {
-    top: 0.75rem !important;
-    left: 16.5rem !important;
   }
   .laptop-comms-deck {
     transform: translateY(1rem) !important;

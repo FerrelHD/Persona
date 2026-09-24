@@ -130,17 +130,6 @@ export const AboutScreen: React.FC<AboutScreenProps> = ({ onBack }) => {
       {/* Main Viewport: Persona 5 Smartphone Held by Hands */}
       <div className="relative w-full h-full flex items-center justify-start overflow-hidden">
         
-        {/* Top Calendar Widget outside phone frame (Side-by-side with ABOUT ME banner) */}
-        <div className="absolute top-4 sm:top-5 md:top-6 left-[270px] sm:left-[330px] md:left-[395px] laptop-calendar-top z-30 flex items-center -rotate-3 select-none pointer-events-none filter drop-shadow-[4px_4px_0px_#000]">
-          <div className="flex items-center gap-1.5 bg-white text-black px-3 py-1 border-2 border-black -skew-x-12">
-            <span className="font-p5Heading text-2xl sm:text-3xl font-black tracking-tighter">9/23</span>
-            <div className="flex flex-col leading-none ml-1">
-              <span className="font-p5Heading text-xs sm:text-sm text-p5-crimson font-black tracking-wider uppercase">WEDNESDAY</span>
-              <span className="font-p5Sub text-[9px] text-zinc-800 uppercase tracking-widest font-bold">AFTER SCHOOL</span>
-            </div>
-          </div>
-        </div>
-
         {/* The 16:9 Frame Holding the Phone (Shifted Down & Left as requested) */}
         <div 
           className="relative h-[84vh] sm:h-[88vh] md:h-[90vh] laptop-phone-wrapper aspect-[1673/940] max-w-none -translate-x-[18%] sm:-translate-x-[14%] md:-translate-x-[10%] translate-y-12 sm:translate-y-16 md:translate-y-18 pointer-events-auto"
@@ -151,6 +140,24 @@ export const AboutScreen: React.FC<AboutScreenProps> = ({ onBack }) => {
             alt="Persona 5 Smartphone in Hand"
             className="absolute inset-0 w-full h-full object-contain pointer-events-none select-none z-10 filter drop-shadow-[14px_14px_0px_rgba(0,0,0,0.85)]"
           />
+
+          {/* Top-Right Calendar Widget anchored precisely to the top-right of the phone */}
+          <div
+            className="absolute z-30 select-none pointer-events-none filter drop-shadow-[5px_5px_0px_#000000]"
+            style={{
+              left: '56.5%',
+              top: '5.5%',
+              transform: 'rotate(5.5deg)',
+            }}
+          >
+            <div className="flex items-center gap-1.5 bg-white text-black px-2.5 sm:px-3.5 py-0.5 sm:py-1 border-2 border-black -skew-x-12 shadow-[3px_3px_0px_#E60012]">
+              <span className="font-p5Heading text-xl sm:text-2xl md:text-3xl font-black tracking-tighter">9/23</span>
+              <div className="flex flex-col leading-none ml-1">
+                <span className="font-p5Heading text-[11px] sm:text-xs md:text-sm text-p5-crimson font-black tracking-wider uppercase">WEDNESDAY</span>
+                <span className="font-p5Sub text-[8px] sm:text-[9px] text-zinc-800 uppercase tracking-widest font-bold">AFTER SCHOOL</span>
+              </div>
+            </div>
+          </div>
 
           {/* 2. Tilted Chat Content Area (Mathematically Aligned at +5.8deg Clockwise) */}
           <div
