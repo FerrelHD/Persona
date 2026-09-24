@@ -204,7 +204,7 @@ export const MainMenu: React.FC<MainMenuProps> = ({ onSelectScreen, onBackToTitl
                                 transform: baseTransform,
                                 animationDelay: `${delay}ms`
                               } as React.CSSProperties}
-                              className={`inline-flex items-center justify-center min-w-[28px] md:min-w-[34px] h-[40px] md:h-[48px] laptop-main-letter px-1.5 md:px-2 font-p5Display text-xl sm:text-2xl md:text-3xl laptop-main-letter-text uppercase shadow-[3px_3px_0px_#000000] border-2 border-black ${ltr.bg} ${jitterClass} cursor-default`}
+                              className={`inline-flex items-center justify-center min-w-[28px] md:min-w-[34px] h-[40px] md:h-[48px] laptop-main-letter px-1.5 md:px-2 font-p5Heading text-xl sm:text-2xl md:text-3xl laptop-main-letter-text uppercase shadow-[3px_3px_0px_#000000] border-2 border-black ${ltr.bg} ${jitterClass} cursor-default`}
                             >
                               {ltr.char}
                             </span>
@@ -219,7 +219,7 @@ export const MainMenu: React.FC<MainMenuProps> = ({ onSelectScreen, onBackToTitl
                   ) : (
                     /* DEFAULT RESTING STATE */
                     <div className="px-3 py-1 hover:translate-x-2 transition-transform duration-150">
-                      <span className="font-p5Display text-3xl sm:text-4xl md:text-5xl laptop-main-text text-white tracking-widest uppercase filter drop-shadow-[4px_4px_0px_#000000] hover:text-p5-yellow transition-colors">
+                      <span className="font-p5Heading text-3xl sm:text-4xl md:text-5xl laptop-main-text text-white tracking-widest uppercase filter drop-shadow-[4px_4px_0px_#000000] hover:text-p5-yellow transition-colors">
                         {item.label}
                       </span>
                     </div>

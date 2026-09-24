@@ -45,11 +45,9 @@ export default {
         },
       },
       fontFamily: {
-        p5Display: ["'Archivo Black'", "'Arial Black'", "'Impact'", "sans-serif"],
-        p5Heading: ["'Archivo Black'", "'Bangers'", "'Impact'", "'Dela Gothic One'", "sans-serif"],
+        p5Heading: ["'Bangers'", "'Impact'", "'Dela Gothic One'", "sans-serif"],
         p5Sub: ["'Dela Gothic One'", "'Montserrat'", "sans-serif"],
         p5Body: ["'Outfit'", "'Inter'", "sans-serif"],
-        p5Condensed: ["'Barlow Condensed'", "'Arial Narrow'", "Arial", "sans-serif"],
         p5Mono: ["'Space Mono'", "monospace"],
       },
       boxShadow: {
