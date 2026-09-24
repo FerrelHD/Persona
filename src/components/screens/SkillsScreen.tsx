@@ -765,14 +765,6 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
                 </div>
               )
             })}
-
-            {/* Foreground Optical Illusion: Leblanc Storage Shelf (Layer 21 - In front of Ann & Ryuji, behind Joker) */}
-            <img
-              src="/assets/leblanc_shelf_cutout.png"
-              alt=""
-              className="absolute inset-0 w-full h-full object-cover pointer-events-none select-none"
-              style={{ zIndex: 21 }}
-            />
           </div>
 
           {/* ── OPSI A: PERSONA 5 FLOATING COMIC SPEECH BUBBLE ── */}
