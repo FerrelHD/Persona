@@ -547,8 +547,8 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
       </div>
 
       {/* ── BOTTOM ACTION BAR (PERSONA 5 HUD LEGEND) ── */}
-      <div className="z-20 flex items-center justify-between flex-wrap gap-4 text-xs sm:text-sm pointer-events-auto p5-footer-entrance">
-        {/* Left: Back button */}
+      <div className="z-20 flex items-center gap-4 sm:gap-6 flex-wrap text-xs sm:text-sm pointer-events-auto p5-footer-entrance">
+        {/* Left: (O) BACK button - restored to red console standard */}
         <button
           onClick={() => {
             playBack()
@@ -557,21 +557,22 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
           className="flex items-center gap-1.5 text-zinc-300 hover:text-white group cursor-pointer transition-colors"
           title="Return to Main Menu"
         >
-          <span className="size-5 rounded-full border-2 border-zinc-400 text-zinc-300 font-bold flex items-center justify-center text-[11px] group-hover:bg-white group-hover:text-black transition-colors shadow-[0_0_6px_rgba(255,255,255,0.4)]">
+          <span className="size-5 rounded-full border-2 border-red-500 text-red-500 font-bold flex items-center justify-center text-[11px] group-hover:bg-red-500 group-hover:text-white transition-colors shadow-[0_0_6px_rgba(239,68,68,0.4)]">
             O
           </span>
           <span className="font-p5Heading text-sm tracking-wider uppercase">BACK</span>
         </button>
 
-        {/* Right: Inspect Action Button */}
+        {/* Right: (X) INSPECT Action Button - unified side-by-side with BACK */}
         <button
           onClick={openInspector}
-          className="flex items-center gap-2 bg-black hover:bg-white text-white hover:text-black font-p5Heading text-xs sm:text-sm md:text-base px-4 py-1.5 border-2 border-white shadow-[4px_4px_0px_#000000] -skew-x-6 transition-all hover:scale-105 cursor-pointer"
+          className="flex items-center gap-1.5 text-zinc-300 hover:text-white group cursor-pointer transition-colors"
+          title={`Inspect ${activeTech.name} & Radar`}
         >
-          <span className="size-5 rounded-full border-2 border-cyan-400 text-cyan-400 font-bold flex items-center justify-center text-[11px] bg-black">
+          <span className="size-5 rounded-full border-2 border-cyan-400 text-cyan-400 font-bold flex items-center justify-center text-[11px] group-hover:bg-cyan-400 group-hover:text-black transition-colors shadow-[0_0_6px_rgba(34,211,238,0.4)]">
             X
           </span>
-          <span className="tracking-wider uppercase">INSPECT {activeTech.name} & RADAR</span>
+          <span className="font-p5Heading text-sm tracking-wider uppercase">INSPECT {activeTech.name} & RADAR</span>
         </button>
       </div>
 
@@ -710,18 +711,18 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
               </div>
 
               {/* Right Column: Active Tech Detailed Dossier */}
-              <div className="md:col-span-7 flex flex-col justify-between bg-zinc-950 border-2 border-zinc-700 p-4 shadow-[4px_4px_0px_#000000]">
+              <div className="md:col-span-7 flex flex-col justify-between bg-zinc-950 border-2 border-zinc-700 p-4 sm:p-5 shadow-[4px_4px_0px_#000000]">
                 <div>
-                  <div className="flex items-center justify-between border-b border-zinc-700 pb-2 mb-3">
-                    <div className="flex items-center gap-2.5">
-                      <div className="size-8">
+                  <div className="flex items-center justify-between border-b border-zinc-700 pb-3 mb-4">
+                    <div className="flex items-center gap-3">
+                      <div className="size-9">
                         {activeTech.renderIcon({ className: 'size-full', isSelected: true })}
                       </div>
                       <div>
-                        <div className="font-p5Heading text-xl sm:text-2xl font-black text-white uppercase">
+                        <div className="font-p5Heading text-2xl sm:text-3xl font-black text-white uppercase">
                           {activeTech.name}
                         </div>
-                        <div className="font-p5Mono text-[10px] text-zinc-400">
+                        <div className="font-p5Mono text-[11px] text-zinc-400">
                           {activeTech.category} // {activeTech.cost}
                         </div>
                       </div>
@@ -730,21 +731,17 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
                       MASTERY LV. {activeTech.level}
                     </span>
                   </div>
-
-                  <p className="font-p5Body text-xs sm:text-sm font-semibold text-white leading-relaxed mb-4 p-3 bg-black border-l-4 border-[#64748B]">
-                    {activeTech.description}
-                  </p>
                 </div>
 
                 <div>
-                  <span className="font-p5Sub text-[10px] text-zinc-300 font-bold tracking-wider block mb-1.5">
+                  <span className="font-p5Sub text-[10px] sm:text-xs text-zinc-300 font-bold tracking-wider block mb-2">
                     CORE MODULES & LIBRARIES:
                   </span>
-                  <div className="flex items-center gap-1.5 flex-wrap">
+                  <div className="flex items-center gap-2 flex-wrap">
                     {activeTech.libraries.map((lib, idx) => (
                       <span
                         key={idx}
-                        className="font-p5Heading text-xs font-black text-black bg-white border border-black px-2.5 py-0.5 shadow-[2px_2px_0px_#71717A] -skew-x-6 hover:scale-105 transition-transform"
+                        className="font-p5Heading text-xs sm:text-sm font-black text-black bg-white border border-black px-3 py-1 shadow-[2px_2px_0px_#71717A] -skew-x-6 hover:scale-105 transition-transform"
                       >
                         {lib}
                       </span>
