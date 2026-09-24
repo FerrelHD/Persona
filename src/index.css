@@ -137,6 +137,84 @@
   }
 }
 
+/* Persona 5 Calendar Dagger Slam */
+@keyframes p5-dagger-stab {
+  0% {
+    transform: translateY(-90px) rotate(20deg) scale(1.35);
+    opacity: 0;
+  }
+  65% {
+    transform: translateY(3px) rotate(38deg) scale(0.97);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(0) rotate(34deg) scale(1);
+    opacity: 1;
+  }
+}
+
+.p5-dagger-slam-anim {
+  animation: p5-dagger-stab 0.35s cubic-bezier(0.18, 0.89, 0.32, 1.25) forwards;
+  will-change: transform, opacity;
+}
+
+/* Persona 5 Tokyo Background Cinematic Drift (Anime Camera Sway) */
+@keyframes p5-bg-drift {
+  0% {
+    transform: scale(1.02) translate(0, 0);
+  }
+  50% {
+    transform: scale(1.05) translate(-8px, -5px);
+  }
+  100% {
+    transform: scale(1.02) translate(0, 0);
+  }
+}
+.p5-bg-drift-anim {
+  animation: p5-bg-drift 16s ease-in-out infinite alternate;
+  will-change: transform;
+}
+
+/* Persona 5 Floating Embers / Sparks */
+@keyframes p5-ember-float {
+  0% {
+    transform: translate3d(0, 105vh, 0) rotate(0deg) scale(0.5);
+    opacity: 0;
+  }
+  15% {
+    opacity: 0.85;
+  }
+  85% {
+    opacity: 0.75;
+  }
+  100% {
+    transform: translate3d(-70px, -5vh, 0) rotate(220deg) scale(1.1);
+    opacity: 0;
+  }
+}
+.p5-ember {
+  position: absolute;
+  pointer-events: none;
+  animation: p5-ember-float linear infinite;
+  will-change: transform, opacity;
+}
+
+/* Persona 5 Tokyo Tower Aviation Beacon Pulse */
+@keyframes p5-beacon-pulse {
+  0%, 100% {
+    opacity: 0.25;
+    transform: scale(0.85);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.5);
+    filter: drop-shadow(0 0 8px #E60012);
+  }
+}
+.p5-beacon-light {
+  animation: p5-beacon-pulse 1.6s ease-in-out infinite;
+}
+
 /* Persona 5 Authentic Take Your Time Pendulum Tilt */
 @keyframes p5-hat-tilt {
   0%, 100% {

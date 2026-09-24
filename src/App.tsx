@@ -15,7 +15,7 @@ import { useAssetPreloader } from '@/hooks/useAssetPreloader'
 const SCREEN_COLOR: Record<ActiveScreen, string> = {
   menu:        '#E60012',
   missions:    '#00D4FF',
-  skills:      '#9CA3AF', // Akihiko Sanada (P3R) Cool Steel Grey / Silver
+  skills:      '#E60012', // Persona 5 Crimson / Tokyo Calendar
   about:       '#B91C1C',
   callingCard: '#10B981',
 }
@@ -23,7 +23,7 @@ const SCREEN_COLOR: Record<ActiveScreen, string> = {
 const VIDEO_MAP: Record<ActiveScreen, string> = {
   menu:        '/assets/videos/joker.mp4',
   missions:    '/assets/videos/makoto.mp4',
-  skills:      '/assets/videos/akihiko.mp4',
+  skills:      '/assets/tokyobackground.png',
   about:       '/assets/videos/shinji.mp4',
   callingCard: '/assets/videos/fuuka.mp4',
 }

@@ -12,11 +12,11 @@ interface PageCutoutOverlayProps {
 }
 
 const ACCENT = {
-  gray:    { border: 'border-zinc-400',    shadow: 'shadow-[3px_3px_0px_#a1a1aa]',  badge: 'bg-zinc-300 text-black', crimson: '#9ca3af' },
-  cyan:    { border: 'border-cyan-400',    shadow: 'shadow-[3px_3px_0px_#22d3ee]',  badge: 'bg-cyan-400 text-black', crimson: '#22d3ee' },
-  red:     { border: 'border-p5-crimson',  shadow: 'shadow-[3px_3px_0px_#E60012]',  badge: 'bg-p5-crimson text-white', crimson: '#E60012' },
-  pink:    { border: 'border-pink-500',    shadow: 'shadow-[3px_3px_0px_#ec4899]',  badge: 'bg-pink-500 text-white', crimson: '#ec4899' },
-  emerald: { border: 'border-emerald-400', shadow: 'shadow-[3px_3px_0px_#34d399]',  badge: 'bg-emerald-400 text-black', crimson: '#34d399' },
+  gray:    { border: 'border-zinc-400',    shadow: 'shadow-[3px_3px_0px_#a1a1aa]',  badge: 'bg-zinc-300 text-black', crimson: '#9ca3af', text: 'text-zinc-300', tileBg: 'bg-zinc-300 text-black' },
+  cyan:    { border: 'border-cyan-400',    shadow: 'shadow-[3px_3px_0px_#22d3ee]',  badge: 'bg-cyan-400 text-black', crimson: '#22d3ee', text: 'text-cyan-400', tileBg: 'bg-cyan-400 text-black font-black' },
+  red:     { border: 'border-p5-crimson',  shadow: 'shadow-[3px_3px_0px_#E60012]',  badge: 'bg-p5-crimson text-white', crimson: '#E60012', text: 'text-p5-crimson', tileBg: 'bg-p5-crimson text-white' },
+  pink:    { border: 'border-pink-500',    shadow: 'shadow-[3px_3px_0px_#ec4899]',  badge: 'bg-pink-500 text-white', crimson: '#ec4899', text: 'text-pink-400', tileBg: 'bg-pink-500 text-white' },
+  emerald: { border: 'border-emerald-400', shadow: 'shadow-[3px_3px_0px_#34d399]',  badge: 'bg-emerald-400 text-black', crimson: '#34d399', text: 'text-emerald-400', tileBg: 'bg-emerald-400 text-black font-black' },
 }
 
 // Map screen titles to crisp button labels matching Main Menu items
@@ -28,6 +28,17 @@ const TITLE_MAP: Record<string, string> = {
   'COMMS':             'COMMS',
   'CONTACT':           'COMMS',
 }
+
+// Map screen titles to clean ransom words and subtitles matching Persona 5
+const SUBTITLE_MAP: Record<string, [string, string]> = {
+  'MISSIONS': ['PHANTOM HEISTS', 'COMPLETED OPERATIONS'],
+  'SKILLS':   ['PARAMETRIC ARSENAL', 'LV. 99 MASTERIES'],
+  'ABOUT':    ['CONFIDANT DOSSIER', 'THE PHANTOM DEV'],
+  'ABOUT ME': ['CONFIDANT DOSSIER', 'THE PHANTOM DEV'],
+  'COMMS':    ['DIRECT DISPATCH', 'SEND CALLING CARD'],
+}
+
+const TILE_ROTATIONS = ['-rotate-6', 'rotate-3', '-rotate-3', 'rotate-4', '-rotate-2', 'rotate-6', '-rotate-4', 'rotate-2']
 
 export const PageCutoutOverlay: React.FC<PageCutoutOverlayProps> = ({
   title,
@@ -56,62 +67,49 @@ export const PageCutoutOverlay: React.FC<PageCutoutOverlayProps> = ({
   // Get clean label
   const displayTitle = TITLE_MAP[title.toUpperCase()] || title.toUpperCase()
   const chars = displayTitle.split('')
-  const isLong = chars.length >= 10
+  const sub = SUBTITLE_MAP[displayTitle] || [characterRole.toUpperCase(), characterName.toUpperCase()]
 
   return (
     <>
-      {/* ── TOP-LEFT: Clean Persona 5 Main Menu Title Frame (No clutter, pure game aesthetic) ── */}
-      <div className="fixed top-2 sm:top-3 md:top-4 left-3 sm:left-5 md:left-7 z-40 select-none flex flex-col items-start pointer-events-auto">
+      {/* ── TOP-LEFT: Universal Persona 5 Ransom Cutout Title ── */}
+      <div className="fixed top-4 sm:top-6 md:top-8 left-4 sm:left-6 md:left-8 z-40 select-none flex flex-col items-start pointer-events-auto p5-tile-entrance">
         <div
           onClick={() => {
             playBack()
             onBack()
           }}
           onMouseEnter={playHover}
-          className="relative inline-flex items-center cursor-pointer group transition-all duration-150 -rotate-[13deg] hover:-rotate-[11deg] hover:scale-105 active:scale-95 origin-center"
+          className="cursor-pointer group flex flex-col items-start select-none transition-transform hover:scale-105 active:scale-95"
           title="Return to Main Menu"
         >
-          {/* Button Frame Graphic from Persona 5 Assets */}
-          <img
-            src="/button_main_menu.png"
-            alt={displayTitle}
-            className={`h-auto object-contain filter drop-shadow-[8px_8px_0px_#000000] pointer-events-none ${
-              isLong
-                ? 'w-[275px] sm:w-[325px] md:w-[375px] lg:w-[410px] laptop-title-sm-long'
-                : 'w-[250px] sm:w-[295px] md:w-[340px] lg:w-[370px] laptop-title-sm'
-            }`}
-          />
+          {/* Ransom Letter Tiles */}
+          <div className="flex items-center gap-1 sm:gap-1.5 filter drop-shadow-[5px_5px_0px_#000000]">
+            {chars.map((char, i) => {
+              if (char === ' ') return <span key={i} className="w-1.5 sm:w-2" />
+              const rot = TILE_ROTATIONS[i % TILE_ROTATIONS.length]
+              const isAccent = i === 2 || i === chars.length - 1
+              const bg = isAccent
+                ? ac.tileBg
+                : i % 2 === 0
+                ? 'bg-black text-white'
+                : 'bg-white text-black'
 
-          {/* Title Content nested precisely inside the white slanted body of the button */}
-          <div
-            className="absolute inset-0 flex items-center justify-center pointer-events-none"
-            style={{
-              transform: 'rotate(15.5deg) translate(-1%, 1%)',
-            }}
-          >
-            <div className="flex items-center justify-center flex-nowrap whitespace-nowrap gap-0.5 sm:gap-1 max-w-[85%] overflow-visible">
-              {chars.map((char, idx) => {
-                if (char === ' ') return <span key={idx} className={isLong ? "w-1 sm:w-1.5" : "w-2 sm:w-2.5"} />
-                const isAccent = idx === 0 || idx % 4 === 0
-                return (
-                  <span
-                    key={idx}
-                    className={`
-                      inline-flex items-center justify-center shrink-0
-                      ${isLong
-                        ? 'min-w-[15px] sm:min-w-[19px] md:min-w-[23px] h-[24px] sm:h-[30px] md:h-[36px] px-0.5 font-p5Heading text-sm sm:text-lg md:text-xl laptop-char-letter-long'
-                        : 'min-w-[21px] sm:min-w-[26px] md:min-w-[30px] h-[32px] sm:h-[39px] md:h-[45px] px-1 font-p5Heading text-xl sm:text-2xl md:text-3xl shadow-[3px_3px_0px_#000000] laptop-char-letter'
-                      }
-                      uppercase border-[1.5px] border-black shadow-[2px_2px_0px_#000000]
-                      ${isAccent ? ac.badge : 'bg-black text-white'}
-                      transition-transform duration-100 group-hover:scale-105
-                    `}
-                  >
-                    {char}
-                  </span>
-                )
-              })}
-            </div>
+              return (
+                <span
+                  key={i}
+                  className={`inline-flex items-center justify-center font-p5Heading text-3xl sm:text-4xl md:text-5xl min-w-[34px] sm:min-w-[42px] md:min-w-[48px] h-[42px] sm:h-[52px] md:h-[60px] px-1.5 sm:px-2 py-0.5 border-[3px] border-black uppercase transition-transform group-hover:scale-110 ${rot} ${bg} shadow-[3px_3px_0px_#000000]`}
+                >
+                  {char}
+                </span>
+              )
+            })}
+          </div>
+
+          {/* Subtitle Ribbon Banner with Character Themed Color */}
+          <div className={`mt-1.5 flex items-center bg-black border-l-4 ${ac.border} px-2.5 sm:px-3 py-0.5 text-[10px] sm:text-xs font-p5Sub tracking-widest text-white -skew-x-6 shadow-[3px_3px_0px_#000000]`}>
+            <span className={`${ac.text} font-bold mr-1.5`}>{sub[0]}</span>
+            <span className="text-zinc-500 mx-1">//</span>
+            <span className="text-zinc-200">{sub[1]}</span>
           </div>
         </div>
       </div>

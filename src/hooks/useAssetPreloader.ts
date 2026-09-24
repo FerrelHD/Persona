@@ -1,14 +1,16 @@
-﻿import { useEffect } from 'react'
+import { useEffect } from 'react'
 
 const PRELOAD_VIDEOS = [
   '/assets/videos/joker.mp4',
   '/assets/videos/makoto.mp4',
+  '/assets/videos/TokyoVideo.mp4',
   '/assets/videos/akihiko.mp4',
   '/assets/videos/shinji.mp4',
   '/assets/videos/fuuka.mp4',
 ]
 
 const PRELOAD_IMAGES = [
+  '/assets/tokyobackground.png',
   '/assets/phone_hold_filled.png',
   '/assets/ferrel-portrait.jpg',
   '/assets/p5r_renders/futaba.png',

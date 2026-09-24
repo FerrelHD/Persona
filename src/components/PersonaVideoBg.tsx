@@ -34,29 +34,40 @@ export const PersonaVideoBg: React.FC<PersonaVideoBgProps> = ({ videoSrc, onRead
     }
   }
 
+  const isImage = /\.(png|jpe?g|webp|svg)$/i.test(currentSrc)
+
   return (
     <div className="fixed inset-0 z-0 w-screen h-screen overflow-hidden pointer-events-none bg-black flex items-center justify-center">
-      {/* 
-        Video element:
-        - object-cover ensures fullscreen immersion without letterboxing or squishing
-        - preserves 16:9 cinematic aspect ratio seamlessly
-      */}
-      <video
-        ref={videoRef}
-        key={currentSrc}
-        src={currentSrc}
-        poster={currentSrc === '/assets/videos/joker.mp4' ? '/assets/joker_full.jpg' : undefined}
-        autoPlay
-        muted
-        loop
-        playsInline
-        preload="auto"
-        onPlaying={handlePlaying}
-        onCanPlay={handlePlaying}
-        onLoadedData={handlePlaying}
-        onError={handleError}
-        className="w-full h-full object-cover object-center select-none"
-      />
+      {isImage ? (
+        <img
+          key={currentSrc}
+          src={currentSrc}
+          alt="Background"
+          onLoad={() => onReady?.()}
+          className="w-full h-full object-cover object-center select-none p5-bg-drift-anim"
+        />
+      ) : (
+        <video
+          ref={videoRef}
+          key={currentSrc}
+          src={currentSrc}
+          poster={
+            currentSrc === '/assets/videos/joker.mp4'
+              ? '/assets/joker_full.jpg'
+              : undefined
+          }
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="auto"
+          onPlaying={handlePlaying}
+          onCanPlay={handlePlaying}
+          onLoadedData={handlePlaying}
+          onError={handleError}
+          className="w-full h-full object-cover object-center select-none"
+        />
+      )}
     </div>
   )
 }
