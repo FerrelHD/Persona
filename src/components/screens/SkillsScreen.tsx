@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react'
 import { usePersonaSFX } from '@/hooks/usePersonaSFX'
 import { PhantomDagger } from '@/components/common/PhantomDagger'
-import { Zap, Sparkles, Shield, Flame, Sword, Crosshair, HeartPulse, RefreshCw, X, ChevronRight, Layers } from 'lucide-react'
+import { Zap, Sparkles, Shield, Flame, Sword, Crosshair, HeartPulse, RefreshCw, X, ChevronRight, Layers, Sliders, Move, Copy, Check, RotateCcw } from 'lucide-react'
 
 interface SkillsScreenProps {
   onBack: () => void
@@ -447,10 +447,93 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
   const [modalTechIndex, setModalTechIndex] = useState<number>(0)
 
+  // Character list with dynamic positioning state
+  const [characterList, setCharacterList] = useState<PhantomCharacter[]>(() => {
+    const saved = localStorage.getItem('p5_characters_pos_custom')
+    if (saved) {
+      try {
+        const parsed = JSON.parse(saved)
+        if (Array.isArray(parsed) && parsed.length === PHANTOM_CHARACTERS.length) {
+          return parsed
+        }
+      } catch { /* ignore */ }
+    }
+    return PHANTOM_CHARACTERS
+  })
+
+  // Calibrator Panel state
+  const [isCalibratorOpen, setIsCalibratorOpen] = useState(false)
+  const [calibratingCharId, setCalibratingCharId] = useState<string>('joker')
+  const [copiedSuccess, setCopiedSuccess] = useState(false)
+  const stageRef = useRef<HTMLDivElement>(null)
+
   // Active character object
   const activeChar = useMemo(() => {
-    return PHANTOM_CHARACTERS.find(c => c.id === activeCharId) || null
-  }, [activeCharId])
+    return characterList.find(c => c.id === activeCharId) || null
+  }, [characterList, activeCharId])
+
+  const calibratingChar = useMemo(() => {
+    return characterList.find(c => c.id === calibratingCharId) || characterList[0]
+  }, [characterList, calibratingCharId])
+
+  const updateCalibratingChar = (updates: Partial<PhantomCharacter>) => {
+    setCharacterList(prev => {
+      const next = prev.map(c => c.id === calibratingCharId ? { ...c, ...updates } : c)
+      localStorage.setItem('p5_characters_pos_custom', JSON.stringify(next))
+      return next
+    })
+  }
+
+  const copyConfigToClipboard = () => {
+    const formatted = JSON.stringify(characterList, null, 2)
+    navigator.clipboard.writeText(`const PHANTOM_CHARACTERS: PhantomCharacter[] = ${formatted}`)
+    setCopiedSuccess(true)
+    setTimeout(() => setCopiedSuccess(false), 2000)
+  }
+
+  const resetToDefaultPositions = () => {
+    localStorage.removeItem('p5_characters_pos_custom')
+    setCharacterList(PHANTOM_CHARACTERS)
+  }
+
+  const handleStartDrag = (e: React.MouseEvent, charId: string) => {
+    if (!isCalibratorOpen) return
+    e.stopPropagation()
+    e.preventDefault()
+    setCalibratingCharId(charId)
+
+    const stageEl = stageRef.current
+    if (!stageEl) return
+    const rect = stageEl.getBoundingClientRect()
+
+    const startX = e.clientX
+    const startY = e.clientY
+    const target = characterList.find(c => c.id === charId)
+    if (!target) return
+    const initLeft = target.left
+    const initBottom = target.bottom
+
+    const onMouseMove = (ev: MouseEvent) => {
+      const dx = ((ev.clientX - startX) / rect.width) * 100
+      const dy = -((ev.clientY - startY) / rect.height) * 100
+      const newLeft = parseFloat(Math.max(0, Math.min(95, initLeft + dx)).toFixed(1))
+      const newBottom = parseFloat(Math.max(0, Math.min(95, initBottom + dy)).toFixed(1))
+
+      setCharacterList(prev => {
+        const next = prev.map(c => c.id === charId ? { ...c, left: newLeft, bottom: newBottom } : c)
+        localStorage.setItem('p5_characters_pos_custom', JSON.stringify(next))
+        return next
+      })
+    }
+
+    const onMouseUp = () => {
+      window.removeEventListener('mousemove', onMouseMove)
+      window.removeEventListener('mouseup', onMouseUp)
+    }
+
+    window.addEventListener('mousemove', onMouseMove)
+    window.addEventListener('mouseup', onMouseUp)
+  }
 
   // Active tech item
   const activeTech = useMemo(() => {
@@ -518,7 +601,7 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
     playSlash()
     setModalTechIndex(index)
     const targetTech = TECH_DECK[index]
-    const matchingChar = PHANTOM_CHARACTERS.find(c => c.techId === targetTech.id)
+    const matchingChar = characterList.find(c => c.techId === targetTech.id)
     if (matchingChar) {
       setActiveCharId(matchingChar.id)
     }
@@ -660,25 +743,34 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
       {/* ── 2.5D LEBLANC ATTIC VIRTUAL CAMERA STAGE ── */}
       <div className="relative w-full h-full flex items-center justify-center overflow-hidden">
         {/* Fixed 16:9 Screen Reference Canvas Container */}
-        <div className="relative w-full h-full max-w-[1920px] max-h-[1080px] aspect-video select-none overflow-hidden">
+        <div ref={stageRef} className="relative w-full h-full max-w-[1920px] max-h-[1080px] aspect-video select-none overflow-hidden">
           
           {/* Virtual 2.5D Camera Stage (Zooms and scales smoothly with hardware acceleration) */}
           <div
             className="absolute inset-0 w-full h-full select-none"
             style={{
               transform: activeChar
-                ? `scale(${activeChar.camera.scale}) translateZ(0)`
-                : 'scale(1) translateZ(0)',
+                ? `scale(${activeChar.camera.scale}) translate3d(0, 0, 0)`
+                : 'scale(1) translate3d(0, 0, 0)',
               transformOrigin: `${lastFocusOrigin.originX}% ${lastFocusOrigin.originY}%`,
               transition: 'transform 600ms cubic-bezier(0.16, 1, 0.3, 1)',
               backfaceVisibility: 'hidden',
               WebkitBackfaceVisibility: 'hidden',
+              willChange: 'transform',
             }}
           >
             {/* Base 3D Room Render Background */}
             <img
-              src="/assets/Background Joker Hideout.png"
+              src="/assets/background attic.jpe"
               alt="Cafe Leblanc Attic"
+              onError={(e) => {
+                (e.currentTarget as HTMLImageElement).src = '/assets/Background Joker Hideout.png'
+              }}
+              style={{
+                imageRendering: '-webkit-optimize-contrast',
+                willChange: 'transform',
+                transform: 'translateZ(0)',
+              }}
               className="absolute inset-0 w-full h-full object-cover pointer-events-none select-none"
             />
 
@@ -700,21 +792,31 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
             )}
 
             {/* 6 Character Cutout Sprites with Contact Shadows & Warm Lighting */}
-            {PHANTOM_CHARACTERS.map((char) => {
+            {characterList.map((char) => {
               const isSelected = activeChar?.id === char.id
               const isDimmed = Boolean(activeChar && !isSelected)
               const isHovered = Boolean(!activeChar && hoveredCharId === char.id)
+              const isCalibrating = isCalibratorOpen && calibratingCharId === char.id
 
               return (
                 <div
                   key={char.id}
+                  onMouseDown={(e) => {
+                    if (isCalibratorOpen) {
+                      handleStartDrag(e, char.id)
+                    }
+                  }}
                   onClick={(e) => {
                     e.stopPropagation()
+                    if (isCalibratorOpen) {
+                      setCalibratingCharId(char.id)
+                      return
+                    }
                     setHoveredCharId(null)
                     handleSelectCharacter(char)
                   }}
                   onMouseEnter={() => {
-                    if (!activeChar) {
+                    if (!activeChar && !isCalibratorOpen) {
                       playHover()
                       setHoveredCharId(char.id)
                     }
@@ -729,13 +831,15 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
                     zIndex: isSelected ? 35 : char.zIndex,
                   }}
                   className={`
-                    absolute select-none cursor-pointer transition-opacity duration-400
+                    absolute select-none transition-opacity duration-400
+                    ${isCalibratorOpen ? 'cursor-grab active:cursor-grabbing' : 'cursor-pointer'}
+                    ${isCalibrating ? 'ring-2 ring-yellow-400 ring-offset-2 ring-offset-black rounded' : ''}
                     ${isDimmed
                       ? 'opacity-20 pointer-events-none'
                       : 'opacity-100'
                     }
                   `}
-                  title={`Select ${char.name} [${char.codename}]`}
+                  title={isCalibratorOpen ? `Drag to position ${char.name}` : `Select ${char.name} [${char.codename}]`}
                 >
                   {/* Realistic Contact Shadow (Floor / Tabletop) with zero-cost radial-gradient */}
                   <div
@@ -755,6 +859,9 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
                     src={char.src}
                     alt={char.name}
                     style={{
+                      imageRendering: '-webkit-optimize-contrast',
+                      willChange: 'transform',
+                      transform: 'translateZ(0)',
                       filter: isHovered
                         ? `sepia(${char.warmth}) brightness(${char.brightness * 1.08}) contrast(1.12)`
                         : `sepia(${char.warmth}) brightness(${char.brightness}) contrast(1.05)`,
@@ -1144,6 +1251,208 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
           </div>
         </div>
       )}
+
+      {/* ── TACTICAL POSITION CALIBRATOR (FLOATING UI PANEL) ── */}
+      <div className="fixed top-4 right-4 z-[70] flex flex-col items-end">
+        {/* Toggle Button */}
+        <button
+          onClick={() => setIsCalibratorOpen(o => !o)}
+          className={`flex items-center gap-2 px-3 py-1.5 font-p5Heading text-xs font-black uppercase -skew-x-6 border-2 border-black shadow-[3px_3px_0px_#000] cursor-pointer transition-transform hover:scale-105 ${
+            isCalibratorOpen ? 'bg-yellow-400 text-black' : 'bg-[#E60012] text-white hover:bg-white hover:text-black'
+          }`}
+          title="Toggle Character Position Calibrator"
+        >
+          <Sliders className="size-3.5" />
+          <span>{isCalibratorOpen ? 'CLOSE CALIBRATOR' : '🔧 ADJUST POSITIONS'}</span>
+        </button>
+
+        {/* Floating Controls Drawer */}
+        {isCalibratorOpen && (
+          <div className="mt-2 w-[340px] sm:w-[380px] bg-black/95 border-2 border-yellow-400 text-white p-3.5 shadow-[6px_6px_0px_#000] max-h-[82vh] overflow-y-auto font-sans text-xs">
+            {/* Header */}
+            <div className="flex items-center justify-between border-b border-zinc-800 pb-2 mb-3">
+              <div className="flex items-center gap-1.5">
+                <Move className="size-4 text-yellow-400" />
+                <span className="font-p5Heading text-sm font-bold text-yellow-400">CHARACTER POS CALIBRATOR</span>
+              </div>
+              <span className="text-[10px] text-zinc-400 font-mono">DRAG ON STAGE</span>
+            </div>
+
+            {/* Character Selector Tabs */}
+            <div className="grid grid-cols-3 gap-1 mb-3">
+              {characterList.map((c) => (
+                <button
+                  key={c.id}
+                  onClick={() => setCalibratingCharId(c.id)}
+                  className={`px-2 py-1 text-center font-p5Heading text-xs uppercase -skew-x-3 border transition-colors ${
+                    calibratingCharId === c.id
+                      ? 'bg-yellow-400 text-black border-black font-black'
+                      : 'bg-zinc-900 text-zinc-300 border-zinc-700 hover:bg-zinc-800'
+                  }`}
+                >
+                  {c.codename}
+                </button>
+              ))}
+            </div>
+
+            {/* Selected Character Info */}
+            <div className="flex items-center justify-between bg-zinc-900 px-2.5 py-1.5 border border-zinc-800 mb-3 text-[11px] font-mono">
+              <span className="text-white font-bold">{calibratingChar.name}</span>
+              <span className="text-yellow-400">z-index: {calibratingChar.zIndex}</span>
+            </div>
+
+            {/* Slider Controls */}
+            <div className="space-y-2.5 font-mono text-[11px]">
+              {/* Left (X) */}
+              <div>
+                <div className="flex justify-between text-zinc-300 mb-1">
+                  <span>Horizontal (Left %):</span>
+                  <span className="text-yellow-400 font-bold">{calibratingChar.left}%</span>
+                </div>
+                <input
+                  type="range"
+                  min="0"
+                  max="95"
+                  step="0.5"
+                  value={calibratingChar.left}
+                  onChange={(e) => updateCalibratingChar({ left: parseFloat(e.target.value) })}
+                  className="w-full accent-yellow-400 cursor-pointer"
+                />
+              </div>
+
+              {/* Bottom (Y) */}
+              <div>
+                <div className="flex justify-between text-zinc-300 mb-1">
+                  <span>Vertical (Bottom %):</span>
+                  <span className="text-yellow-400 font-bold">{calibratingChar.bottom}%</span>
+                </div>
+                <input
+                  type="range"
+                  min="0"
+                  max="95"
+                  step="0.5"
+                  value={calibratingChar.bottom}
+                  onChange={(e) => updateCalibratingChar({ bottom: parseFloat(e.target.value) })}
+                  className="w-full accent-yellow-400 cursor-pointer"
+                />
+              </div>
+
+              {/* Width (% Size) */}
+              <div>
+                <div className="flex justify-between text-zinc-300 mb-1">
+                  <span>Size (Width %):</span>
+                  <span className="text-yellow-400 font-bold">{calibratingChar.widthPercent}%</span>
+                </div>
+                <input
+                  type="range"
+                  min="3"
+                  max="25"
+                  step="0.5"
+                  value={calibratingChar.widthPercent}
+                  onChange={(e) => updateCalibratingChar({ widthPercent: parseFloat(e.target.value) })}
+                  className="w-full accent-yellow-400 cursor-pointer"
+                />
+              </div>
+
+              {/* Z-Index */}
+              <div className="flex items-center justify-between pt-1">
+                <span className="text-zinc-300">Z-Index Layer:</span>
+                <div className="flex items-center gap-1">
+                  <button
+                    onClick={() => updateCalibratingChar({ zIndex: Math.max(1, calibratingChar.zIndex - 1) })}
+                    className="px-2 py-0.5 bg-zinc-800 hover:bg-zinc-700 border border-zinc-600 rounded font-bold"
+                  >
+                    -
+                  </button>
+                  <span className="w-8 text-center text-yellow-400 font-bold">{calibratingChar.zIndex}</span>
+                  <button
+                    onClick={() => updateCalibratingChar({ zIndex: calibratingChar.zIndex + 1 })}
+                    className="px-2 py-0.5 bg-zinc-800 hover:bg-zinc-700 border border-zinc-600 rounded font-bold"
+                  >
+                    +
+                  </button>
+                </div>
+              </div>
+
+              {/* Camera Zoom Scale */}
+              <div>
+                <div className="flex justify-between text-zinc-300 mb-1">
+                  <span>Zoom Scale:</span>
+                  <span className="text-yellow-400 font-bold">{calibratingChar.camera.scale}x</span>
+                </div>
+                <input
+                  type="range"
+                  min="1.3"
+                  max="3.2"
+                  step="0.05"
+                  value={calibratingChar.camera.scale}
+                  onChange={(e) => updateCalibratingChar({
+                    camera: { ...calibratingChar.camera, scale: parseFloat(e.target.value) }
+                  })}
+                  className="w-full accent-yellow-400 cursor-pointer"
+                />
+              </div>
+
+              {/* Camera Origin X */}
+              <div>
+                <div className="flex justify-between text-zinc-300 mb-1">
+                  <span>Camera Focus X (%):</span>
+                  <span className="text-yellow-400 font-bold">{calibratingChar.camera.originX}%</span>
+                </div>
+                <input
+                  type="range"
+                  min="0"
+                  max="100"
+                  step="0.5"
+                  value={calibratingChar.camera.originX}
+                  onChange={(e) => updateCalibratingChar({
+                    camera: { ...calibratingChar.camera, originX: parseFloat(e.target.value) }
+                  })}
+                  className="w-full accent-yellow-400 cursor-pointer"
+                />
+              </div>
+
+              {/* Camera Origin Y */}
+              <div>
+                <div className="flex justify-between text-zinc-300 mb-1">
+                  <span>Camera Focus Y (%):</span>
+                  <span className="text-yellow-400 font-bold">{calibratingChar.camera.originY}%</span>
+                </div>
+                <input
+                  type="range"
+                  min="0"
+                  max="100"
+                  step="0.5"
+                  value={calibratingChar.camera.originY}
+                  onChange={(e) => updateCalibratingChar({
+                    camera: { ...calibratingChar.camera, originY: parseFloat(e.target.value) }
+                  })}
+                  className="w-full accent-yellow-400 cursor-pointer"
+                />
+              </div>
+            </div>
+
+            {/* Bottom Actions */}
+            <div className="flex items-center gap-2 pt-3 border-t border-zinc-800 mt-3">
+              <button
+                onClick={copyConfigToClipboard}
+                className="flex-1 flex items-center justify-center gap-1.5 bg-[#E60012] hover:bg-red-700 text-white font-p5Heading text-xs py-1.5 border border-black shadow-[2px_2px_0px_#000]"
+              >
+                {copiedSuccess ? <Check className="size-3.5 text-green-400" /> : <Copy className="size-3.5" />}
+                <span>{copiedSuccess ? 'COPIED TO CLIPBOARD!' : 'COPY TS CODE'}</span>
+              </button>
+
+              <button
+                onClick={resetToDefaultPositions}
+                className="px-2.5 py-1.5 bg-zinc-800 hover:bg-zinc-700 text-zinc-300 font-p5Heading text-xs border border-zinc-700"
+                title="Reset to default positions"
+              >
+                <RotateCcw className="size-3.5" />
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
 
     </div>
   )
