@@ -135,30 +135,30 @@ export const MissionsScreen: React.FC<MissionsScreenProps> = ({ onBack }) => {
 
                 {/* Top Info Bar inside Slot */}
                 <div className="relative z-10 flex items-center justify-between px-6 pt-3 sm:pt-3.5 text-white">
-                  <div className="flex items-center gap-2.5">
+                  <div className="flex items-center gap-2.5 shrink-0">
                     {/* Number Badge with Persona Corner Sparkle */}
-                    <div className="relative bg-black text-white font-p5Heading text-base sm:text-lg px-2.5 py-0.5 border border-white shadow-[2px_2px_0px_#000] -rotate-1">
+                    <div className="relative bg-black text-white font-p5Heading text-base sm:text-lg px-2.5 py-0.5 border border-white shadow-[2px_2px_0px_#000] -rotate-1 shrink-0">
                       <StarLensBurst />
                       {mission.slotNumber}
                     </div>
 
                     {/* Category Pill - Harmonized Electric Cyan */}
-                    <span className="font-p5Sub text-[10px] sm:text-xs tracking-wider text-black bg-[#00D2FF] px-2.5 py-0.5 border border-black uppercase font-black shadow-[2px_2px_0px_#000] -skew-x-6">
+                    <span className="font-p5Sub text-[10px] sm:text-xs tracking-wider text-black bg-[#00D2FF] px-2.5 py-0.5 border border-black uppercase font-black shadow-[2px_2px_0px_#000] -skew-x-6 whitespace-nowrap shrink-0">
                       {mission.category.toUpperCase()}
                     </span>
 
                     {/* Date Tag */}
-                    <span className="hidden sm:inline-block font-p5Heading text-xs text-white bg-black px-2 py-0.5 border border-zinc-600 shadow-[2px_2px_0px_#000]">
+                    <span className="hidden sm:inline-block font-p5Heading text-xs text-white bg-black px-2 py-0.5 border border-zinc-600 shadow-[2px_2px_0px_#000] whitespace-nowrap shrink-0">
                       {mission.calendarDate.split(' ')[0]}
                     </span>
                   </div>
 
                   {/* Right Header: Lv + Persona Clear/Completed Stamp */}
-                  <div className="flex items-center gap-3">
-                    <div className="font-p5Heading text-xl sm:text-2xl text-white tracking-widest drop-shadow-[2px_2px_0px_#000]">
+                  <div className="flex items-center gap-3 shrink-0">
+                    <div className="font-p5Heading text-xl sm:text-2xl text-white tracking-widest drop-shadow-[2px_2px_0px_#000] whitespace-nowrap shrink-0">
                       Lv {mission.level}
                     </div>
-                    <div className="inline-flex items-center gap-1 bg-white text-black font-p5Heading text-[11px] sm:text-xs px-2 py-0.5 border-2 border-black shadow-[2px_2px_0px_#000] -rotate-2 select-none">
+                    <div className="inline-flex items-center gap-1 bg-white text-black font-p5Heading text-[11px] sm:text-xs px-2 py-0.5 border-2 border-black shadow-[2px_2px_0px_#000] -rotate-2 select-none whitespace-nowrap shrink-0">
                       <StarIcon className="size-3 text-p5-crimson fill-p5-crimson" />
                       <span className="tracking-wider">COMPLETED</span>
                     </div>
@@ -211,27 +211,27 @@ export const MissionsScreen: React.FC<MissionsScreenProps> = ({ onBack }) => {
                 className="relative w-full bg-zinc-100 hover:bg-white text-black border-2 sm:border-[3px] border-black shadow-[6px_6px_0px_#000000] -rotate-2 sm:-rotate-[3deg] -skew-x-6 sm:-skew-x-12 py-2 sm:py-2.5 px-5 sm:px-8 transition-all duration-200 cursor-pointer hover:translate-x-2 group flex items-center justify-between"
               >
                 {/* Left Filmstrip Sprockets & Number */}
-                <div className="flex items-center gap-3 z-10">
-                  <div className="bg-black text-white font-p5Heading text-sm sm:text-lg px-2 py-0.5 border border-black shadow-[2px_2px_0px_#000] -rotate-1 group-hover:bg-[#003876] transition-colors">
+                <div className="flex items-center gap-3 z-10 shrink-0">
+                  <div className="bg-black text-white font-p5Heading text-sm sm:text-lg px-2 py-0.5 border border-black shadow-[2px_2px_0px_#000] -rotate-1 group-hover:bg-[#003876] transition-colors shrink-0">
                     {mission.slotNumber}
                   </div>
 
                   {/* Phantom Thieves Star Icon */}
-                  <StarIcon className="size-3.5 text-[#004B87] fill-[#004B87]" />
+                  <StarIcon className="size-3.5 text-[#004B87] fill-[#004B87] shrink-0" />
 
                   {/* Date Stamp */}
-                  <div className="font-p5Heading text-xs sm:text-sm text-[#004B87] tracking-wider">
+                  <div className="font-p5Heading text-xs sm:text-sm text-[#004B87] tracking-wider whitespace-nowrap shrink-0">
                     {mission.calendarDate}
                   </div>
                 </div>
 
                 {/* Watermark Project Name */}
-                <div className="font-p5Heading text-lg sm:text-2xl md:text-3xl text-zinc-400 group-hover:text-black tracking-widest uppercase transition-colors truncate max-w-[50%]">
+                <div className="font-p5Heading text-lg sm:text-2xl md:text-3xl text-zinc-400 group-hover:text-black tracking-widest uppercase transition-colors truncate whitespace-nowrap max-w-[45%] px-2">
                   {mission.title.split('//')[0]}
                 </div>
 
                 {/* Level Tag Right */}
-                <div className="z-10 font-p5Heading text-base sm:text-xl text-zinc-700 group-hover:text-[#003876] transition-colors">
+                <div className="z-10 font-p5Heading text-base sm:text-xl text-zinc-700 group-hover:text-[#003876] transition-colors whitespace-nowrap shrink-0">
                   Lv {mission.level}
                 </div>
 

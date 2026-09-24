@@ -369,18 +369,6 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
           }}
           aria-hidden="true"
         />
-
-        {/* Tokyo Tower Aviation Warning Lights */}
-        <div
-          className="absolute top-[17%] right-[19.2%] size-2.5 rounded-full bg-red-600 p5-beacon-light shadow-[0_0_10px_#E60012]"
-          aria-hidden="true"
-        />
-        <div
-          className="absolute top-[28%] right-[22.5%] size-2 rounded-full bg-red-500 p5-beacon-light shadow-[0_0_8px_#E60012]"
-          style={{ animationDelay: '0.8s' }}
-          aria-hidden="true"
-        />
-
         {/* Floating Silver Sparks */}
         {[
           { left: '10%', delay: '0s', dur: '10s', size: 3 },
