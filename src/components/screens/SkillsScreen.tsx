@@ -324,11 +324,11 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
           aria-hidden="true"
         />
 
-        {/* Layer 2: Mementos Crimson Distortion Haze drifting between towers */}
+        {/* Layer 2: Manga Street Smog Haze drifting between towers */}
         <div
           className="absolute -inset-x-[25%] bottom-[8%] h-[50%] p5-fog-layer-2 pointer-events-none"
           style={{
-            background: 'radial-gradient(ellipse 70% 45% at 55% 65%, rgba(230, 0, 18, 0.42) 0%, rgba(180, 0, 20, 0.22) 40%, transparent 70%)',
+            background: 'radial-gradient(ellipse 70% 45% at 55% 65%, rgba(15, 23, 42, 0.65) 0%, rgba(30, 41, 59, 0.35) 40%, transparent 70%)',
             filter: 'blur(26px)',
           }}
           aria-hidden="true"
@@ -338,7 +338,7 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
         <div
           className="absolute -inset-x-[15%] bottom-[2%] h-[42%] p5-fog-layer-3 pointer-events-none"
           style={{
-            background: 'radial-gradient(ellipse 95% 40% at 42% 85%, rgba(20, 20, 30, 0.52) 0%, rgba(230, 0, 18, 0.22) 50%, transparent 72%)',
+            background: 'radial-gradient(ellipse 95% 40% at 42% 85%, rgba(15, 23, 42, 0.55) 0%, rgba(51, 65, 85, 0.25) 50%, transparent 72%)',
             filter: 'blur(22px)',
           }}
           aria-hidden="true"
@@ -372,19 +372,19 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
           aria-hidden="true"
         />
 
-        {/* Floating Red Embers */}
+        {/* Floating Silver Sparks */}
         {[
-          { left: '10%', delay: '0s', dur: '10s', size: 4 },
-          { left: '22%', delay: '3s', dur: '13s', size: 5 },
-          { left: '36%', delay: '6s', dur: '9s', size: 3 },
-          { left: '48%', delay: '1.5s', dur: '11s', size: 5 },
-          { left: '64%', delay: '4.2s', dur: '12s', size: 4 },
-          { left: '76%', delay: '7s', dur: '10.5s', size: 5 },
-          { left: '88%', delay: '2.2s', dur: '14s', size: 3 },
+          { left: '10%', delay: '0s', dur: '10s', size: 3 },
+          { left: '22%', delay: '3s', dur: '13s', size: 4 },
+          { left: '36%', delay: '6s', dur: '9s', size: 2.5 },
+          { left: '48%', delay: '1.5s', dur: '11s', size: 4 },
+          { left: '64%', delay: '4.2s', dur: '12s', size: 3.5 },
+          { left: '76%', delay: '7s', dur: '10.5s', size: 4 },
+          { left: '88%', delay: '2.2s', dur: '14s', size: 2.5 },
         ].map((ember, idx) => (
           <span
             key={idx}
-            className="p5-ember rounded-full bg-p5-crimson shadow-[0_0_6px_#E60012]"
+            className="p5-ember rounded-full bg-zinc-200 shadow-[0_0_6px_#FFFFFF] opacity-75"
             style={{
               left: ember.left,
               bottom: 0,
@@ -475,7 +475,7 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
                   className={`
                     relative flex flex-col items-center justify-center p-3 sm:p-4 rounded-sm border-[3px] transition-all
                     ${isActive
-                      ? 'bg-black/95 border-p5-crimson shadow-[8px_8px_0px_#000000] -skew-x-2'
+                      ? 'bg-black/95 border-white shadow-[8px_8px_0px_#000000] -skew-x-2'
                       : 'bg-zinc-950/90 border-zinc-600 hover:border-white shadow-[4px_4px_0px_#000000] -skew-x-1'
                     }
                     min-w-[90px] sm:min-w-[110px] md:min-w-[125px] h-[95px] sm:h-[115px] md:h-[130px]
@@ -496,7 +496,7 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
                     className={`
                       mt-auto px-2 py-0.5 -skew-x-12 border border-black font-p5Heading text-xs sm:text-sm font-black tracking-wider uppercase truncate max-w-full
                       ${isActive
-                        ? 'bg-p5-crimson text-white shadow-[2px_2px_0px_#000000] rotate-1'
+                        ? 'bg-white text-black font-black shadow-[2px_2px_0px_#000000] rotate-1'
                         : 'bg-white text-black shadow-[1.5px_1.5px_0px_#000000] -rotate-1'
                       }
                     `}
@@ -523,7 +523,7 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
           <span className="text-zinc-500">//</span>
           <button
             onClick={openInspector}
-            className="text-p5-crimson hover:text-white font-bold underline cursor-pointer transition-colors"
+            className="text-white hover:text-yellow-300 font-bold underline cursor-pointer transition-colors"
           >
             INSPECT {activeTech.name}
           </button>
@@ -537,7 +537,7 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
               onClick={() => handleSelectIndex(i)}
               className={`h-2 transition-all cursor-pointer ${
                 i === activeIndex
-                  ? 'w-7 bg-p5-crimson shadow-[0_0_8px_#E60012]'
+                  ? 'w-7 bg-white shadow-[0_0_8px_#FFFFFF]'
                   : 'w-2 bg-zinc-600 hover:bg-white'
               }`}
               title={tech.name}
@@ -557,7 +557,7 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
           className="flex items-center gap-1.5 text-zinc-300 hover:text-white group cursor-pointer transition-colors"
           title="Return to Main Menu"
         >
-          <span className="size-5 rounded-full border-2 border-red-500 text-red-500 font-bold flex items-center justify-center text-[11px] group-hover:bg-red-500 group-hover:text-white transition-colors shadow-[0_0_6px_rgba(239,68,68,0.4)]">
+          <span className="size-5 rounded-full border-2 border-zinc-400 text-zinc-300 font-bold flex items-center justify-center text-[11px] group-hover:bg-white group-hover:text-black transition-colors shadow-[0_0_6px_rgba(255,255,255,0.4)]">
             O
           </span>
           <span className="font-p5Heading text-sm tracking-wider uppercase">BACK</span>
@@ -566,7 +566,7 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
         {/* Right: Inspect Action Button */}
         <button
           onClick={openInspector}
-          className="flex items-center gap-2 bg-p5-crimson hover:bg-white text-white hover:text-black font-p5Heading text-xs sm:text-sm md:text-base px-4 py-1.5 border-2 border-white shadow-[4px_4px_0px_#000000] -skew-x-6 transition-all hover:scale-105 cursor-pointer"
+          className="flex items-center gap-2 bg-black hover:bg-white text-white hover:text-black font-p5Heading text-xs sm:text-sm md:text-base px-4 py-1.5 border-2 border-white shadow-[4px_4px_0px_#000000] -skew-x-6 transition-all hover:scale-105 cursor-pointer"
         >
           <span className="size-5 rounded-full border-2 border-cyan-400 text-cyan-400 font-bold flex items-center justify-center text-[11px] bg-black">
             X
@@ -580,12 +580,12 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
         <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-black/85 backdrop-blur-[3px] animate-in fade-in duration-200">
           <div className="absolute inset-0" onClick={closeInspector} />
 
-          <div className="relative z-10 w-full max-w-5xl max-h-[92vh] overflow-y-auto no-scrollbar bg-black/95 border-3 border-white p-4 sm:p-6 shadow-[10px_10px_0px_#E60012] -skew-x-1">
+          <div className="relative z-10 w-full max-w-5xl max-h-[92vh] overflow-y-auto no-scrollbar bg-black/95 border-3 border-white p-4 sm:p-6 shadow-[10px_10px_0px_#000000] -skew-x-1">
             
             {/* Modal Header */}
             <div className="flex items-center justify-between border-b-2 border-zinc-700 pb-3 mb-4">
               <div className="flex items-center gap-2.5">
-                <span className="bg-p5-crimson text-white px-2.5 py-0.5 font-p5Sub text-xs md:text-sm tracking-widest uppercase -skew-x-6 shadow-[2px_2px_0px_#000]">
+                <span className="bg-[#64748B] text-white px-2.5 py-0.5 font-p5Sub text-xs md:text-sm tracking-widest uppercase -skew-x-6 shadow-[2px_2px_0px_#000]">
                   TECH ARSENAL
                 </span>
                 <span className="font-p5Heading text-lg sm:text-2xl text-white tracking-wide uppercase">
@@ -594,7 +594,7 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
               </div>
               <button
                 onClick={closeInspector}
-                className="flex items-center gap-1.5 bg-zinc-900 hover:bg-p5-crimson text-white px-3 py-1 border border-zinc-500 shadow-[2px_2px_0px_#000] -skew-x-6 cursor-pointer transition-colors"
+                className="flex items-center gap-1.5 bg-zinc-900 hover:bg-white text-white hover:text-black px-3 py-1 border border-zinc-500 shadow-[2px_2px_0px_#000] -skew-x-6 cursor-pointer transition-colors"
               >
                 <X className="size-4" />
                 <span className="font-p5Heading text-xs uppercase">CLOSE [O]</span>
@@ -612,7 +612,7 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
                     className={`
                       p-1.5 flex flex-col items-center justify-center border transition-all cursor-pointer -skew-x-2
                       ${isSelected
-                        ? 'bg-p5-crimson border-white text-white shadow-[2px_2px_0px_#FFF]'
+                        ? 'bg-white border-white text-black shadow-[2px_2px_0px_#64748B]'
                         : 'bg-zinc-900 border-zinc-700 text-zinc-400 hover:border-white hover:text-white'
                       }
                     `}
@@ -633,7 +633,7 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
               {/* Left Column: Pentagon Radar & Stat Readouts */}
               <div className="md:col-span-5 flex flex-col gap-3 bg-zinc-950 border border-zinc-700 p-3 shadow-[4px_4px_0px_#000000]">
                 <span className="font-p5Sub text-[10px] text-zinc-300 font-bold tracking-widest uppercase flex items-center gap-1.5">
-                  <span className="size-2 bg-p5-crimson animate-pulse" />
+                  <span className="size-2 bg-white animate-pulse" />
                   TACTICAL PENTAGON // LV. 99
                 </span>
 
@@ -661,10 +661,10 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
 
                     <polygon
                       points={statPolygon}
-                      fill="rgba(230, 0, 18, 0.45)"
-                      stroke="#E60012"
+                      fill="rgba(255, 255, 255, 0.22)"
+                      stroke="#FFFFFF"
                       strokeWidth="2.5"
-                      className="filter drop-shadow-[0_0_8px_rgba(230,0,18,0.8)]"
+                      className="filter drop-shadow-[0_0_8px_rgba(255,255,255,0.7)]"
                     />
 
                     {RADAR_STATS.map((s, idx) => {
@@ -676,7 +676,7 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
                       const ly = cy + (maxR + 12) * Math.sin(rad)
                       return (
                         <g key={idx}>
-                          <circle cx={px} cy={py} r="2.5" fill="#FFFFFF" stroke="#E60012" strokeWidth="1" />
+                          <circle cx={px} cy={py} r="2.5" fill="#FFFFFF" stroke="#000000" strokeWidth="1.5" />
                           <text
                             x={lx}
                             y={ly + 2.5}
@@ -698,10 +698,10 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
                   {RADAR_STATS.map(stat => (
                     <div key={stat.key} className="flex items-center justify-between bg-zinc-900 px-2 py-0.5 border border-zinc-700 text-xs">
                       <div className="flex items-center gap-1.5">
-                        <span className="font-black text-p5-crimson text-xs">{stat.key}</span>
-                        <span className="text-white font-bold text-[10px]">{stat.label}</span>
+                        <span className="font-black text-white text-xs">{stat.key}</span>
+                        <span className="text-zinc-300 font-bold text-[10px]">{stat.label}</span>
                       </div>
-                      <span className="font-black text-white bg-black px-1.5 py-0.2 border border-p5-crimson shadow-[1px_1px_0px_#000] text-xs">
+                      <span className="font-black text-white bg-black px-1.5 py-0.2 border border-zinc-600 shadow-[1px_1px_0px_#000] text-xs">
                         {stat.value}
                       </span>
                     </div>
@@ -710,7 +710,7 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
               </div>
 
               {/* Right Column: Active Tech Detailed Dossier */}
-              <div className="md:col-span-7 flex flex-col justify-between bg-zinc-950 border-2 border-p5-crimson p-4 shadow-[4px_4px_0px_#000000]">
+              <div className="md:col-span-7 flex flex-col justify-between bg-zinc-950 border-2 border-zinc-700 p-4 shadow-[4px_4px_0px_#000000]">
                 <div>
                   <div className="flex items-center justify-between border-b border-zinc-700 pb-2 mb-3">
                     <div className="flex items-center gap-2.5">
@@ -726,12 +726,12 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
                         </div>
                       </div>
                     </div>
-                    <span className="font-p5Mono text-xs text-yellow-300 font-black bg-black px-2.5 py-1 border border-p5-crimson shadow-[2px_2px_0px_#000]">
+                    <span className="font-p5Mono text-xs text-yellow-300 font-black bg-black px-2.5 py-1 border border-zinc-600 shadow-[2px_2px_0px_#000]">
                       MASTERY LV. {activeTech.level}
                     </span>
                   </div>
 
-                  <p className="font-p5Body text-xs sm:text-sm font-semibold text-white leading-relaxed mb-4 p-3 bg-black border-l-4 border-p5-crimson">
+                  <p className="font-p5Body text-xs sm:text-sm font-semibold text-white leading-relaxed mb-4 p-3 bg-black border-l-4 border-[#64748B]">
                     {activeTech.description}
                   </p>
                 </div>

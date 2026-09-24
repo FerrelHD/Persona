@@ -108,7 +108,10 @@ export const MissionsScreen: React.FC<MissionsScreenProps> = ({ onBack }) => {
               /* ── ACTIVE SELECTED SLOT (Expanded Red Banner - Zero Clipping) ── */
               <div
                 key={mission.id}
-                onClick={() => playSlash()}
+                onClick={() => {
+                  playSlash()
+                  setShowDossierModal(true)
+                }}
                 className="relative w-full bg-[#00D2FF] border-4 sm:border-[5px] border-black shadow-[10px_10px_0px_#000000] -rotate-2 sm:-rotate-[3deg] -skew-x-6 sm:-skew-x-12 transition-all duration-300 cursor-pointer group"
               >
                 {/* OPTION B: High Contrast Project Image Blend into Background (Isolated inside inner overflow-hidden) */}
@@ -169,14 +172,31 @@ export const MissionsScreen: React.FC<MissionsScreenProps> = ({ onBack }) => {
                     {mission.title}
                   </h2>
 
-                  {/* Project Details Subtitle Bar */}
+                  {/* Project Details Subtitle Bar with View Dossier Button */}
                   <div className="mt-2 flex items-center flex-wrap gap-2.5">
                     <span className="bg-black text-white font-p5Heading text-xs sm:text-sm px-2.5 py-1 border-2 border-white shadow-[2px_2px_0px_#000] tracking-wider uppercase -skew-x-6">
                       {mission.role}
                     </span>
-                    <span className="text-xs font-p5Mono text-cyan-200 ml-auto hidden sm:inline-block drop-shadow-[1px_1px_0px_#000]">
+                    <span className="text-xs font-p5Mono text-cyan-200 hidden sm:inline-block drop-shadow-[1px_1px_0px_#000]">
                       PLAY TIME // {mission.playTime}
                     </span>
+
+                    {/* Dedicated VIEW DOSSIER Action Button (Opsi 1) */}
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.stopPropagation()
+                        playSlash()
+                        setShowDossierModal(true)
+                      }}
+                      className="ml-auto inline-flex items-center gap-1.5 bg-black hover:bg-white text-white hover:text-black font-p5Heading text-xs sm:text-sm px-3.5 py-1 border-2 border-white shadow-[3px_3px_0px_#000] -skew-x-6 transition-all hover:scale-105 cursor-pointer group/btn"
+                      title="Open Mission Dossier"
+                    >
+                      <span className="size-4 rounded-full border-2 border-pink-400 text-pink-400 font-bold flex items-center justify-center text-[9px] group-hover/btn:bg-pink-400 group-hover/btn:text-black transition-colors">
+                        □
+                      </span>
+                      <span className="tracking-wider uppercase">VIEW DOSSIER</span>
+                    </button>
                   </div>
                 </div>
 
