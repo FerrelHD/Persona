@@ -65,6 +65,13 @@ function assetsSyncPlugin() {
         copyFolderRecursive(videosSrc, videosDest)
       }
 
+      // 4. Copy audio tracks
+      const audioSrc = path.join(assetsDir, 'audio')
+      const audioDest = path.join(distAssetsDir, 'audio')
+      if (fs.existsSync(audioSrc)) {
+        copyFolderRecursive(audioSrc, audioDest)
+      }
+
       console.log('[Vercel/Production Sync] Done! Lightweight production bundle created.\n')
     },
   }
