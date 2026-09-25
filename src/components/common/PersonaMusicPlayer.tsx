@@ -6,8 +6,6 @@ import {
   SkipForward,
   Volume2,
   VolumeX,
-  Minimize2,
-  Maximize2,
   Sliders,
   Copy,
   Check,
@@ -78,7 +76,6 @@ export const PersonaMusicPlayer: React.FC = () => {
   const [duration, setDuration] = useState(0)
   const [volume, setVolume] = useState(0.7)
   const [isMuted, setIsMuted] = useState(false)
-  const [isExpanded, setIsExpanded] = useState(true)
 
   // Calibrator & Layout state
   const [isCalibratorOpen, setIsCalibratorOpen] = useState(false)
@@ -282,19 +279,18 @@ export const PersonaMusicPlayer: React.FC = () => {
       <div
         style={{
           bottom: `${layout.bottom}px`,
-          right: isExpanded ? `${layout.right}px` : `${Math.max(16, layout.right)}px`,
+          right: `${layout.right}px`,
         }}
         className="fixed z-40 select-none"
       >
-        {isExpanded ? (
-          /* ── EXPANDED PERSONA 5 PLAYER DECK ── */
-          <div
-            style={{
-              transform: `scale(${layout.scale}) rotate(${layout.rotate}deg)`,
-              transformOrigin: 'bottom right',
-            }}
-            className="relative animate-in fade-in zoom-in-95 duration-200"
-          >
+        {/* ── PERSONA 5 PLAYER DECK ── */}
+        <div
+          style={{
+            transform: `scale(${layout.scale}) rotate(${layout.rotate}deg)`,
+            transformOrigin: 'bottom right',
+          }}
+          className="relative animate-in fade-in zoom-in-95 duration-200"
+        >
             {/* Calibrator Indicator Tag if open */}
             {isCalibratorOpen && (
               <div className="absolute -top-7 right-0 bg-yellow-400 text-black font-p5Heading text-[10px] font-black px-2 py-0.5 shadow-md flex items-center gap-1 z-30">
@@ -382,18 +378,6 @@ export const PersonaMusicPlayer: React.FC = () => {
                       className="p-1 text-white hover:text-yellow-400 hover:bg-black/40 rounded transition-colors"
                     >
                       {isMuted ? <VolumeX className="w-3.5 h-3.5 text-red-400" /> : <Volume2 className="w-3.5 h-3.5" />}
-                    </button>
-
-                    {/* Minimize button */}
-                    <button
-                      onClick={() => {
-                        playHover()
-                        setIsExpanded(false)
-                      }}
-                      title="Minimize Player"
-                      className="p-1 text-white hover:text-yellow-400 hover:bg-black/40 rounded transition-colors"
-                    >
-                      <Minimize2 className="w-3.5 h-3.5" />
                     </button>
                   </div>
                 </div>
@@ -488,64 +472,7 @@ export const PersonaMusicPlayer: React.FC = () => {
               </div>
             </div>
           </div>
-        ) : (
-          /* ── MINIMIZED FLOATING BADGE (POJOK KANAN BAWAH) ── */
-          <div
-            onClick={() => {
-              playHover()
-              setIsExpanded(true)
-            }}
-            className="group flex items-center gap-2.5 bg-black/95 border-2 border-white px-3 py-1.5 cursor-pointer -skew-x-6 shadow-[3px_3px_0px_#E60012,6px_6px_0px_#000000] hover:scale-105 active:scale-95 transition-all duration-150 animate-in fade-in"
-          >
-            {/* Mini Rotating Vinyl */}
-            <div
-              className={`size-6 rounded-full border border-black flex items-center justify-center shrink-0 ${
-                isPlaying ? 'animate-spin' : ''
-              }`}
-              style={{
-                background: 'conic-gradient(from 0deg, #1C1C1C, #E60012, #1C1C1C, #FFFFFF, #1C1C1C)',
-                animationDuration: '2.5s',
-              }}
-            >
-              <div className="size-1.5 rounded-full bg-white border border-black" />
-            </div>
-
-            {/* Track Name + Equalizer */}
-            <div className="flex flex-col">
-              <div className="flex items-center gap-1.5">
-                <span className="font-p5Heading text-xs font-black uppercase text-yellow-400 tracking-wider">
-                  ★ BGM
-                </span>
-                <span className="font-p5Body text-[11px] font-bold text-white tracking-wider truncate max-w-[130px] sm:max-w-[160px]">
-                  {currentTrack.title}
-                </span>
-              </div>
-              <span className="font-p5Sub text-[9px] text-zinc-400 -mt-0.5">
-                {isPlaying ? 'PLAYING // CAFE LEBLANC' : 'PAUSED // CLICK TO EXPAND'}
-              </span>
-            </div>
-
-            {/* Quick Play/Pause button */}
-            <button
-              onClick={(e) => {
-                e.stopPropagation()
-                togglePlay()
-              }}
-              title={isPlaying ? 'Pause' : 'Play'}
-              className="size-6 ml-1 flex items-center justify-center bg-[#E60012] text-white hover:bg-white hover:text-black transition-colors rounded-none border border-black shadow-[1px_1px_0px_#000]"
-            >
-              {isPlaying ? (
-                <Pause className="w-3 h-3 fill-current" />
-              ) : (
-                <Play className="w-3 h-3 fill-current ml-0.5" />
-              )}
-            </button>
-
-            {/* Expand icon */}
-            <Maximize2 className="w-3 h-3 text-zinc-400 group-hover:text-yellow-400 transition-colors ml-0.5" />
-          </div>
-        )}
-      </div>
+        </div>
 
       {/* ── DRAGGABLE & COMPACT CALIBRATOR PANEL (DIPINDAH KE KIRI / BISA DIGESER BEBAS) ── */}
       {isCalibratorOpen && (
