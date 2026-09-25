@@ -204,8 +204,8 @@ export function App() {
         )}
       </div>
 
-      {/* Persona 5 Authentic BGM Music Player Widget */}
-      {!initialLoading && <PersonaMusicPlayer />}
+      {/* Persona 5 Authentic BGM Music Player Widget - Main Menu Only */}
+      {!initialLoading && currentScreen === 'menu' && <PersonaMusicPlayer />}
 
       {/* Authentic Persona 5 Shibuya Transit Loading Screen */}
       {initialLoading && (
