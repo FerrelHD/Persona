@@ -453,43 +453,43 @@ interface KanjiConfig {
 
 const DEFAULT_KANJI_CONFIGS: Record<string, KanjiConfig> = {
   joker: {
-    x: -20,
-    y: 0,
+    x: -16,
+    y: 7,
     rotate: -10,
     scale: 1.05,
     opacity: 0.22,
   },
   futaba: {
-    x: -12,
+    x: -1,
     y: 0,
     rotate: -8,
     scale: 1,
     opacity: 0.22,
   },
   morgana: {
-    x: -14,
-    y: -2,
-    rotate: -6,
+    x: 5,
+    y: 5,
+    rotate: -18,
     scale: 1,
     opacity: 0.22,
   },
   ryuji: {
-    x: -17,
-    y: -5,
+    x: -1,
+    y: 7,
     rotate: -8,
     scale: 1,
     opacity: 0.22,
   },
   ann: {
-    x: -10,
-    y: -2,
+    x: -9,
+    y: 9,
     rotate: -8,
     scale: 1,
     opacity: 0.22,
   },
   yusuke: {
-    x: -4,
-    y: -18,
+    x: 14,
+    y: 3,
     rotate: -8,
     scale: 1,
     opacity: 0.22,
@@ -556,7 +556,7 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
 
   // Character list with dynamic positioning state
   const [characterList, setCharacterList] = useState<PhantomCharacter[]>(() => {
-    const saved = localStorage.getItem('p5_characters_bocchi_v3')
+    const saved = localStorage.getItem('p5_characters_bocchi_v4')
     if (saved) {
       try {
         const parsed = JSON.parse(saved)
@@ -590,7 +590,7 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
 
   // Floating comic speech bubble configuration state (persisted in localStorage)
   const [bubbleList, setBubbleList] = useState<Record<string, BubbleConfig>>(() => {
-    const saved = localStorage.getItem('p5_bubbles_v2')
+    const saved = localStorage.getItem('p5_bubbles_v3')
     if (saved) {
       try {
         const parsed = JSON.parse(saved)
@@ -604,14 +604,14 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
     setBubbleList(prev => {
       const current = prev[calibratingCharId] || DEFAULT_BUBBLES[calibratingCharId] || DEFAULT_BUBBLES.joker
       const next = { ...prev, [calibratingCharId]: { ...current, ...updates } }
-      localStorage.setItem('p5_bubbles_v2', JSON.stringify(next))
+      localStorage.setItem('p5_bubbles_v3', JSON.stringify(next))
       return next
     })
   }
 
   // Floating giant Japanese kanji configuration state (persisted in localStorage)
   const [kanjiList, setKanjiList] = useState<Record<string, KanjiConfig>>(() => {
-    const saved = localStorage.getItem('p5_kanji_v2')
+    const saved = localStorage.getItem('p5_kanji_v3')
     if (saved) {
       try {
         const parsed = JSON.parse(saved)
@@ -625,7 +625,7 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
     setKanjiList(prev => {
       const current = prev[calibratingCharId] || DEFAULT_KANJI_CONFIGS[calibratingCharId] || DEFAULT_KANJI_CONFIGS.joker
       const next = { ...prev, [calibratingCharId]: { ...current, ...updates } }
-      localStorage.setItem('p5_kanji_v2', JSON.stringify(next))
+      localStorage.setItem('p5_kanji_v3', JSON.stringify(next))
       return next
     })
   }
@@ -642,7 +642,7 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
   const updateCalibratingChar = (updates: Partial<PhantomCharacter>) => {
     setCharacterList(prev => {
       const next = prev.map(c => c.id === calibratingCharId ? { ...c, ...updates } : c)
-      localStorage.setItem('p5_characters_bocchi_v3', JSON.stringify(next))
+      localStorage.setItem('p5_characters_bocchi_v4', JSON.stringify(next))
       return next
     })
     if (updates.camera) {
@@ -665,8 +665,11 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
 
   const resetToDefaultPositions = () => {
     localStorage.removeItem('p5_characters_bocchi_v3')
+    localStorage.removeItem('p5_characters_bocchi_v4')
     localStorage.removeItem('p5_bubbles_v2')
+    localStorage.removeItem('p5_bubbles_v3')
     localStorage.removeItem('p5_kanji_v2')
+    localStorage.removeItem('p5_kanji_v3')
     setCharacterList(PHANTOM_CHARACTERS)
     setBubbleList(DEFAULT_BUBBLES)
     setKanjiList(DEFAULT_KANJI_CONFIGS)
@@ -780,6 +783,11 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
   return (
     <div className="fixed inset-0 z-30 select-none overflow-hidden bg-black flex flex-col justify-between animate-in fade-in duration-300">
       
+      {/* Hidden CJK Font Warm-up to prevent FOUT / squished font glitch on click */}
+      <div className="sr-only font-p5Kanji" aria-hidden="true">
+        {characterList.map(c => c.kanji).join(' ')}
+      </div>
+
       {/* ── PERSONA 5 'TAKE YOUR TIME' INFILTRATION LOADING SCREEN ── */}
       {isAssetsLoading && (
         <div className="fixed inset-0 z-[100] bg-black flex flex-col justify-between p-6 sm:p-10 select-none animate-in fade-in duration-200">
@@ -965,24 +973,34 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
 
               return (
                 <div
+                  key={activeChar.id}
                   style={{
                     zIndex: 30, // Above all furniture masks (21, 25, 27) so it's NEVER covered by masks!
                     left: `${posX}%`,
                     top: `${posY}%`,
-                    transform: `translate(-50%, -50%) rotate(${kConfig.rotate ?? -8}deg) scale(${kConfig.scale ?? 1})`,
+                    transform: 'translate(-50%, -50%)',
                     opacity: kConfig.opacity ?? 0.22,
                   }}
-                  className="absolute pointer-events-none select-none p5-splash-text-anim whitespace-nowrap"
+                  className="absolute pointer-events-none select-none whitespace-nowrap"
                 >
-                  <span
-                    style={{
-                      fontSize: `${fontVw}vw`,
-                      letterSpacing: '0.12em',
-                    }}
-                    className="font-p5Kanji font-black text-white select-none tracking-widest drop-shadow-[0_0_24px_rgba(0,0,0,0.8)]"
-                  >
-                    {activeChar.kanji}
-                  </span>
+                  <div className="p5-splash-text-anim origin-center">
+                    <div
+                      style={{
+                        transform: `rotate(${kConfig.rotate ?? -8}deg) scale(${kConfig.scale ?? 1})`,
+                        transformOrigin: 'center center',
+                      }}
+                    >
+                      <span
+                        style={{
+                          fontSize: `${fontVw}vw`,
+                          letterSpacing: '0.12em',
+                        }}
+                        className="font-p5Kanji font-black text-white select-none tracking-widest drop-shadow-[0_0_24px_rgba(0,0,0,0.8)] inline-block"
+                      >
+                        {activeChar.kanji}
+                      </span>
+                    </div>
+                  </div>
                 </div>
               )
             })()}

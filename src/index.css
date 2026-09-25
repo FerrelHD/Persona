@@ -720,15 +720,15 @@
 @keyframes p5-splash-kanji {
   0% {
     opacity: 0;
-    transform: scale(0.6) rotate(-20deg);
+    transform: scale(0.85);
   }
   100% {
     opacity: 1;
-    transform: scale(1) rotate(-12deg);
+    transform: scale(1);
   }
 }
 .p5-splash-text-anim {
-  animation: p5-splash-kanji 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation: p5-splash-kanji 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
   will-change: transform, opacity;
 }
 
