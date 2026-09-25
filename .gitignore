@@ -14,6 +14,10 @@ assets/Persona 3 Reload*/
 assets/p3r_videos/
 public/assets/p3r_videos/
 
+# Extra raw asset downloads & archives (1GB+)
+assets/Persona 5 Royal-20260922T205144Z-1-001/
+assets/p5r_videos/
+
 # Logs
 *.log
 npm-debug.log*

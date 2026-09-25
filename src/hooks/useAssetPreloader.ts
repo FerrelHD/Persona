@@ -9,7 +9,7 @@ const PRELOAD_VIDEOS = [
 
 const PRELOAD_IMAGES = [
   '/assets/tokyobackground.png',
-  '/assets/public/assets/background attic.jpe',
+  '/assets/background attic.jpe',
   '/assets/Futaba_Sakura.webp',
   '/assets/yusuke kitagawa.png',
   '/assets/Ryuji_Sakamoto.webp',
@@ -35,6 +35,10 @@ const PRELOAD_IMAGES = [
 
 export function useAssetPreloader() {
   useEffect(() => {
+    // Respect client Data Saver mode to conserve bandwidth
+    const conn = (navigator as unknown as { connection?: { saveData?: boolean } }).connection
+    if (conn?.saveData) return
+
     // Run preloading quietly when browser is idle
     const startPreload = () => {
       // 1. Preload key images into browser cache
