@@ -299,7 +299,7 @@ export const PersonaMusicPlayer: React.FC = () => {
             )}
 
             {/* Container for Player Frame */}
-            <div className="relative w-[420px] sm:w-[500px] md:w-[560px] lg:w-[600px] aspect-[670/267] filter drop-shadow-[4px_4px_0px_#E60012] drop-shadow-[8px_8px_0px_#000000]">
+            <div className="relative w-[420px] sm:w-[500px] md:w-[560px] lg:w-[600px] xl:w-[700px] 2xl:w-[780px] laptop-music-player aspect-[670/267] filter drop-shadow-[4px_4px_0px_#E60012] drop-shadow-[8px_8px_0px_#000000] xl:drop-shadow-[6px_6px_0px_#E60012] xl:drop-shadow-[10px_10px_0px_#000000]">
               
               {/* The Authentic Persona 5 Music Player PNG Frame */}
               <img
@@ -344,16 +344,16 @@ export const PersonaMusicPlayer: React.FC = () => {
               >
                 {/* Header: Track Status Badge + Controls */}
                 <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-1.5">
-                    <span className="bg-black text-white px-1.5 py-0.5 font-p5Heading text-[9px] sm:text-[10px] uppercase font-black -skew-x-6 border border-zinc-700 shadow-[1px_1px_0px_#E60012]">
+                  <div className="flex items-center gap-1.5 xl:gap-2">
+                    <span className="bg-black text-white px-1.5 xl:px-2 py-0.5 font-p5Heading text-[9px] sm:text-[10px] xl:text-xs uppercase font-black -skew-x-6 border border-zinc-700 shadow-[1px_1px_0px_#E60012]">
                       ★ BGM
                     </span>
-                    <span className="font-p5Mono text-[9px] text-zinc-300 font-bold uppercase tracking-wider hidden sm:inline">
+                    <span className="font-p5Mono text-[9px] xl:text-[11px] 2xl:text-xs text-zinc-300 font-bold uppercase tracking-wider hidden sm:inline">
                       P5 SOUNDTRACK
                     </span>
                   </div>
 
-                  <div className="flex items-center gap-1.5">
+                  <div className="flex items-center gap-1.5 xl:gap-2">
                     {/* Calibrator toggle button */}
                     <button
                       onClick={() => {
@@ -361,11 +361,11 @@ export const PersonaMusicPlayer: React.FC = () => {
                         setIsCalibratorOpen(!isCalibratorOpen)
                       }}
                       title="Adjust Position (Calibrator)"
-                      className={`p-1 rounded transition-colors ${
+                      className={`p-1 xl:p-1.5 rounded transition-colors ${
                         isCalibratorOpen ? 'text-yellow-400 bg-black/60 font-bold' : 'text-zinc-300 hover:text-yellow-400 hover:bg-black/40'
                       }`}
                     >
-                      <Sliders className="w-3.5 h-3.5" />
+                      <Sliders className="w-3.5 h-3.5 xl:w-4 xl:h-4" />
                     </button>
 
                     {/* Mute button */}
@@ -375,70 +375,70 @@ export const PersonaMusicPlayer: React.FC = () => {
                         setIsMuted(!isMuted)
                       }}
                       title={isMuted ? 'Unmute' : 'Mute'}
-                      className="p-1 text-white hover:text-yellow-400 hover:bg-black/40 rounded transition-colors"
+                      className="p-1 xl:p-1.5 text-white hover:text-yellow-400 hover:bg-black/40 rounded transition-colors"
                     >
-                      {isMuted ? <VolumeX className="w-3.5 h-3.5 text-red-400" /> : <Volume2 className="w-3.5 h-3.5" />}
+                      {isMuted ? <VolumeX className="w-3.5 h-3.5 xl:w-4 xl:h-4 text-red-400" /> : <Volume2 className="w-3.5 h-3.5 xl:w-4 xl:h-4" />}
                     </button>
                   </div>
                 </div>
 
                 {/* Title & Artist */}
-                <div className="my-0.5">
-                  <h4 className="font-p5Heading font-black text-black text-xs sm:text-sm tracking-wider uppercase leading-none truncate drop-shadow-[0.5px_0.5px_0px_rgba(0,0,0,0.15)]">
+                <div className="my-0.5 xl:my-1">
+                  <h4 className="font-p5Heading font-black text-black text-xs sm:text-sm xl:text-base 2xl:text-lg tracking-wider uppercase leading-none truncate drop-shadow-[0.5px_0.5px_0px_rgba(0,0,0,0.15)]">
                     {currentTrack.title}
                   </h4>
-                  <p className="font-p5Sub text-[9px] sm:text-[10px] text-zinc-600 font-bold leading-tight truncate">
+                  <p className="font-p5Sub text-[9px] sm:text-[10px] xl:text-xs 2xl:text-sm text-zinc-600 font-bold leading-tight truncate mt-0.5">
                     {currentTrack.artist}
                   </p>
                 </div>
 
                 {/* Seek Progress Bar */}
-                <div className="flex items-center gap-2">
-                  <span className="font-p5Mono text-[8px] sm:text-[9px] text-zinc-800 font-bold w-7 text-right">
+                <div className="flex items-center gap-2 xl:gap-2.5">
+                  <span className="font-p5Mono text-[8px] sm:text-[9px] xl:text-[11px] 2xl:text-xs text-zinc-800 font-bold w-7 xl:w-9 text-right">
                     {formatTime(progress)}
                   </span>
                   <div
                     ref={progressBarRef}
                     onClick={handleSeek}
-                    className="relative flex-1 h-2 bg-zinc-200 border border-black cursor-pointer rounded-none overflow-hidden group shadow-[1px_1px_0px_#000]"
+                    className="relative flex-1 h-2 xl:h-2.5 2xl:h-3 bg-zinc-200 border border-black cursor-pointer rounded-none overflow-hidden group shadow-[1px_1px_0px_#000]"
                   >
                     <div
                       className="h-full bg-[#E60012] transition-[width] duration-75 relative"
                       style={{ width: `${progressPercent}%` }}
                     >
-                      <div className="absolute right-0 top-0 bottom-0 w-1 bg-yellow-400" />
+                      <div className="absolute right-0 top-0 bottom-0 w-1 xl:w-1.5 bg-yellow-400" />
                     </div>
                   </div>
-                  <span className="font-p5Mono text-[8px] sm:text-[9px] text-zinc-800 font-bold w-7">
+                  <span className="font-p5Mono text-[8px] sm:text-[9px] xl:text-[11px] 2xl:text-xs text-zinc-800 font-bold w-7 xl:w-9">
                     {formatTime(duration)}
                   </span>
                 </div>
 
                 {/* Playback Controls */}
-                <div className="flex items-center justify-between mt-0.5 pt-0.5">
-                  <div className="flex items-center gap-2">
+                <div className="flex items-center justify-between mt-0.5 pt-0.5 xl:mt-1 xl:pt-1">
+                  <div className="flex items-center gap-2 xl:gap-2.5">
                     {/* Prev */}
                     <button
                       onClick={prevTrack}
                       title="Previous"
-                      className="size-5 sm:size-6 flex items-center justify-center bg-black text-white hover:bg-[#E60012] transition-colors border border-black shadow-[1px_1px_0px_#000]"
+                      className="size-5 sm:size-6 xl:size-7 2xl:size-8 flex items-center justify-center bg-black text-white hover:bg-[#E60012] transition-colors border border-black shadow-[1px_1px_0px_#000]"
                     >
-                      <SkipBack className="w-2.5 h-2.5 sm:w-3 sm:h-3 fill-current" />
+                      <SkipBack className="w-2.5 h-2.5 sm:w-3 sm:h-3 xl:w-3.5 xl:h-3.5 2xl:w-4 2xl:h-4 fill-current" />
                     </button>
 
                     {/* Play / Pause */}
                     <button
                       onClick={togglePlay}
                       title={isPlaying ? 'Pause' : 'Play'}
-                      className="px-2.5 sm:px-3 py-0.5 bg-[#E60012] text-white hover:bg-black transition-colors flex items-center gap-1 font-p5Heading text-[10px] sm:text-xs font-black uppercase -skew-x-6 border border-black shadow-[2px_2px_0px_#000]"
+                      className="px-2.5 sm:px-3 xl:px-4 py-0.5 xl:py-1 bg-[#E60012] text-white hover:bg-black transition-colors flex items-center gap-1 xl:gap-1.5 font-p5Heading text-[10px] sm:text-xs xl:text-sm 2xl:text-base font-black uppercase -skew-x-6 border border-black shadow-[2px_2px_0px_#000]"
                     >
                       {isPlaying ? (
                         <>
-                          <Pause className="w-3 h-3 fill-current" /> PAUSE
+                          <Pause className="w-3 h-3 xl:w-3.5 xl:h-3.5 2xl:w-4 2xl:h-4 fill-current" /> PAUSE
                         </>
                       ) : (
                         <>
-                          <Play className="w-3 h-3 fill-current" /> PLAY
+                          <Play className="w-3 h-3 xl:w-3.5 xl:h-3.5 2xl:w-4 2xl:h-4 fill-current" /> PLAY
                         </>
                       )}
                     </button>
@@ -447,18 +447,18 @@ export const PersonaMusicPlayer: React.FC = () => {
                     <button
                       onClick={nextTrack}
                       title="Next"
-                      className="size-5 sm:size-6 flex items-center justify-center bg-black text-white hover:bg-[#E60012] transition-colors border border-black shadow-[1px_1px_0px_#000]"
+                      className="size-5 sm:size-6 xl:size-7 2xl:size-8 flex items-center justify-center bg-black text-white hover:bg-[#E60012] transition-colors border border-black shadow-[1px_1px_0px_#000]"
                     >
-                      <SkipForward className="w-2.5 h-2.5 sm:w-3 sm:h-3 fill-current" />
+                      <SkipForward className="w-2.5 h-2.5 sm:w-3 sm:h-3 xl:w-3.5 xl:h-3.5 2xl:w-4 2xl:h-4 fill-current" />
                     </button>
                   </div>
 
                   {/* Soundwave Equalizer */}
-                  <div className="flex items-end gap-0.5 h-3.5 pr-1">
+                  <div className="flex items-end gap-0.5 xl:gap-1 h-3.5 xl:h-5 pr-1 xl:pr-2">
                     {[40, 90, 60, 100, 75].map((h, i) => (
                       <div
                         key={i}
-                        className={`w-1 bg-black transition-all duration-150 ${
+                        className={`w-1 xl:w-1.5 bg-black transition-all duration-150 ${
                           isPlaying ? 'animate-pulse' : 'h-1 opacity-40'
                         }`}
                         style={{
