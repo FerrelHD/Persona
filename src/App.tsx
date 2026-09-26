@@ -9,7 +9,6 @@ import { usePersonaSFX } from '@/hooks/usePersonaSFX'
 import { PersonaCursor } from '@/components/common/PersonaCursor'
 import { TakeYourTime } from '@/components/common/TakeYourTime'
 import { TransitLoadingScreen } from '@/components/common/TransitLoadingScreen'
-import { PersonaMusicPlayer } from '@/components/common/PersonaMusicPlayer'
 import { useAssetPreloader } from '@/hooks/useAssetPreloader'
 
 // Accent color per screen - used for the iris overlay tint
@@ -203,9 +202,6 @@ export function App() {
           <CallingCardScreen onBack={handleBackToMenu} />
         )}
       </div>
-
-      {/* Persona 5 Authentic BGM Music Player Widget - Main Menu Only */}
-      {!initialLoading && currentScreen === 'menu' && <PersonaMusicPlayer />}
 
       {/* Authentic Persona 5 Shibuya Transit Loading Screen */}
       {initialLoading && (
