@@ -75,9 +75,8 @@ const UnityIcon: React.FC<{ className?: string; isSelected?: boolean }> = ({ cla
   <img
     src="/assets/unity_icon_svg-removebg-preview.png"
     alt="Unity"
-    className={`${className} object-contain select-none transition-all brightness-0 invert ${
-      isSelected ? 'opacity-100 scale-105 filter drop-shadow-[0_0_8px_rgba(255,255,255,0.85)]' : 'opacity-85 hover:opacity-100'
-    }`}
+    className={`${className} object-contain select-none transition-all brightness-0 invert ${isSelected ? 'opacity-100 scale-105 filter drop-shadow-[0_0_8px_rgba(255,255,255,0.85)]' : 'opacity-85 hover:opacity-100'
+      }`}
   />
 )
 
@@ -782,9 +781,9 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
 
   return (
     <div className="fixed inset-0 z-30 select-none overflow-hidden bg-black flex flex-col justify-between animate-in fade-in duration-300">
-      
+
       {/* Hidden CJK Font Warm-up to prevent FOUT / squished font glitch on click */}
-      <div className="sr-only font-p5Kanji" aria-hidden="true">
+      <div className="sr-only font-p5Kanji font-extrabold" aria-hidden="true">
         {characterList.map(c => c.kanji).join(' ')}
       </div>
 
@@ -822,9 +821,8 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
       {/* ── CINEMATIC LETTERBOX BLACK BARS (FOREGROUND LAYER - ZERO OUTLINE, ZERO TEXT) ── */}
       {/* Top Black Bar */}
       <div
-        className={`fixed top-0 inset-x-0 z-[60] bg-black pointer-events-none transition-all duration-500 h-10 sm:h-12 md:h-14 lg:h-16 ${
-          activeChar ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0'
-        }`}
+        className={`fixed top-0 inset-x-0 z-[60] bg-black pointer-events-none transition-all duration-500 h-10 sm:h-12 md:h-14 lg:h-16 ${activeChar ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0'
+          }`}
         style={{
           transitionTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)',
         }}
@@ -832,9 +830,8 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
 
       {/* Bottom Black Bar */}
       <div
-        className={`fixed bottom-0 inset-x-0 z-[60] bg-black pointer-events-none transition-all duration-500 h-10 sm:h-12 md:h-14 lg:h-16 ${
-          activeChar ? 'translate-y-0 opacity-100' : 'translate-y-full opacity-0'
-        }`}
+        className={`fixed bottom-0 inset-x-0 z-[60] bg-black pointer-events-none transition-all duration-500 h-10 sm:h-12 md:h-14 lg:h-16 ${activeChar ? 'translate-y-0 opacity-100' : 'translate-y-full opacity-0'
+          }`}
         style={{
           transitionTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)',
         }}
@@ -867,11 +864,10 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
 
       {/* ── TOP-LEFT: PERSONA 5 RANSOM 'HIDEOUT' BANNER (HIDES SWIFTLY WHEN CHARACTER IS SELECTED) ── */}
       <div
-        className={`absolute top-4 left-4 sm:top-6 sm:left-6 z-40 flex flex-col items-start select-none pointer-events-none transition-all duration-500 ${
-          activeChar
-            ? '-translate-x-[120%] -translate-y-6 opacity-0'
-            : 'translate-x-0 translate-y-0 opacity-100'
-        }`}
+        className={`absolute top-4 left-4 sm:top-6 sm:left-6 z-40 flex flex-col items-start select-none pointer-events-none transition-all duration-500 ${activeChar
+          ? '-translate-x-[120%] -translate-y-6 opacity-0'
+          : 'translate-x-0 translate-y-0 opacity-100'
+          }`}
         style={{
           transitionTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)',
         }}
@@ -883,23 +879,21 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
               style={{
                 animationDelay: `${i * 50}ms`,
               }}
-              className={`inline-flex items-center justify-center font-p5Heading text-2xl sm:text-3xl md:text-4xl min-w-[28px] sm:min-w-[34px] md:min-w-[42px] h-[34px] sm:h-[42px] md:h-[50px] px-1 border-[2.5px] border-black uppercase shadow-[3px_3px_0px_#000000] ${
-                !isAssetsLoading ? 'p5-tile-entrance' : 'opacity-0'
-              } ${
-                i === 0
+              className={`inline-flex items-center justify-center font-p5Heading text-2xl sm:text-3xl md:text-4xl min-w-[28px] sm:min-w-[34px] md:min-w-[42px] h-[34px] sm:h-[42px] md:h-[50px] px-1 border-[2.5px] border-black uppercase shadow-[3px_3px_0px_#000000] ${!isAssetsLoading ? 'p5-tile-entrance' : 'opacity-0'
+                } ${i === 0
                   ? 'bg-black text-white -rotate-6'
                   : i === 1
-                  ? 'bg-[#7C4A1E] text-white rotate-3 font-black scale-105'
-                  : i === 2
-                  ? 'bg-white text-black -rotate-3'
-                  : i === 3
-                  ? 'bg-black text-white rotate-4 border border-white'
-                  : i === 4
-                  ? 'bg-[#7C4A1E] text-white -rotate-2 font-black scale-110'
-                  : i === 5
-                  ? 'bg-white text-black rotate-3'
-                  : 'bg-[#7C4A1E] text-white rotate-6 font-black scale-105'
-              }`}
+                    ? 'bg-[#7C4A1E] text-white rotate-3 font-black scale-105'
+                    : i === 2
+                      ? 'bg-white text-black -rotate-3'
+                      : i === 3
+                        ? 'bg-black text-white rotate-4 border border-white'
+                        : i === 4
+                          ? 'bg-[#7C4A1E] text-white -rotate-2 font-black scale-110'
+                          : i === 5
+                            ? 'bg-white text-black rotate-3'
+                            : 'bg-[#7C4A1E] text-white rotate-6 font-black scale-105'
+                }`}
             >
               {char}
             </span>
@@ -907,9 +901,8 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
         </div>
         <div
           style={{ animationDelay: '360ms' }}
-          className={`mt-1 flex items-center bg-black border-l-4 border-[#7C4A1E] px-2.5 sm:px-3 py-0.5 text-[10px] sm:text-xs font-p5Sub tracking-widest text-white -skew-x-6 shadow-[3px_3px_0px_#000000] ${
-            !isAssetsLoading ? 'p5-sub-entrance' : 'opacity-0'
-          }`}
+          className={`mt-1 flex items-center bg-black border-l-4 border-[#7C4A1E] px-2.5 sm:px-3 py-0.5 text-[10px] sm:text-xs font-p5Sub tracking-widest text-white -skew-x-6 shadow-[3px_3px_0px_#000000] ${!isAssetsLoading ? 'p5-sub-entrance' : 'opacity-0'
+            }`}
         >
           <span className="text-yellow-400 font-bold mr-1.5">CAFE LEBLANC ATTIC</span>
           <span className="text-zinc-500 mx-1">//</span>
@@ -920,12 +913,11 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
       </div>
 
       {/* ── 2.5D LEBLANC ATTIC VIRTUAL CAMERA STAGE ── */}
-      <div className={`relative w-full h-full flex items-center justify-center overflow-hidden transition-all duration-700 ease-out ${
-        isEntranceAnimating ? 'scale-105 opacity-90' : 'scale-100 opacity-100'
-      }`}>
+      <div className={`relative w-full h-full flex items-center justify-center overflow-hidden transition-all duration-700 ease-out ${isEntranceAnimating ? 'scale-105 opacity-90' : 'scale-100 opacity-100'
+        }`}>
         {/* Full-bleed Reference Stage Container */}
         <div ref={stageRef} className="relative w-full h-full select-none overflow-hidden">
-          
+
           {/* Virtual 2.5D Camera Stage (Zooms and scales smoothly with hardware acceleration) */}
           <div
             className="absolute inset-0 w-full h-full select-none"
@@ -958,9 +950,8 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
             {/* Ambient Dark Dim Overlay (active when zoomed in, clickable to reset) */}
             <div
               onClick={handleResetCamera}
-              className={`absolute inset-0 bg-black/60 transition-opacity duration-500 z-10 ${
-                activeChar ? 'opacity-100 pointer-events-auto cursor-pointer' : 'opacity-0 pointer-events-none'
-              }`}
+              className={`absolute inset-0 bg-black/60 transition-opacity duration-500 z-10 ${activeChar ? 'opacity-100 pointer-events-auto cursor-pointer' : 'opacity-0 pointer-events-none'
+                }`}
             />
 
             {/* ── GIANT JAPANESE KANJI WATERMARK (AUTENTIK MANGA MINCHO, Z-INDEX 30 - DI ATAS MASKINGAN) ── */}
@@ -978,15 +969,18 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
                     zIndex: 30, // Above all furniture masks (21, 25, 27) so it's NEVER covered by masks!
                     left: `${posX}%`,
                     top: `${posY}%`,
-                    transform: 'translate(-50%, -50%)',
+                    transform: 'translate3d(-50%, -50%, 0)',
                     opacity: kConfig.opacity ?? 0.22,
+                    WebkitFontSmoothing: 'antialiased',
+                    MozOsxFontSmoothing: 'grayscale',
+                    textRendering: 'geometricPrecision',
                   }}
                   className="absolute pointer-events-none select-none whitespace-nowrap"
                 >
                   <div className="p5-splash-text-anim origin-center">
                     <div
                       style={{
-                        transform: `rotate(${kConfig.rotate ?? -8}deg) scale(${kConfig.scale ?? 1})`,
+                        transform: `rotate(${kConfig.rotate ?? -8}deg) scale(${kConfig.scale ?? 1}) translateZ(0)`,
                         transformOrigin: 'center center',
                       }}
                     >
@@ -995,7 +989,7 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
                           fontSize: `${fontVw}vw`,
                           letterSpacing: '0.12em',
                         }}
-                        className="font-p5Kanji font-black text-white select-none tracking-widest drop-shadow-[0_0_24px_rgba(0,0,0,0.8)] inline-block"
+                        className="font-p5Kanji font-extrabold text-white select-none tracking-widest drop-shadow-[0_0_24px_rgba(0,0,0,0.8)] inline-block"
                       >
                         {activeChar.kanji}
                       </span>
@@ -1154,7 +1148,7 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
                 style={desktopStyle}
               >
                 <div className="relative bg-black/95 border-[3px] border-white p-3.5 sm:p-4 shadow-[6px_6px_0px_#E60012,12px_12px_0px_#000000] -skew-x-2">
-                  
+
                   {/* Comic Speech Pointer Tail (SVG Beak) */}
                   {tailSide === 'left' && (
                     <div
@@ -1202,7 +1196,7 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
                       >
                         ★ {activeChar.codename}
                       </span>
-                      <span className="font-p5Mono text-xs text-yellow-400 font-black tracking-wider">
+                      <span className="font-p5Kanji text-xs text-yellow-400 font-extrabold tracking-wider">
                         {activeChar.kanji}
                       </span>
                     </div>
@@ -1231,7 +1225,6 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
                   <div className="space-y-1.5 mb-2.5 bg-zinc-950 p-2.5 border border-zinc-800">
                     <div className="text-[10px] font-p5Sub uppercase tracking-widest text-zinc-400 flex items-center justify-between">
                       <span className="text-yellow-400 font-bold flex items-center gap-1">
-                        <Sparkles className="size-3 text-yellow-400" />
                         TECH ARSENAL
                       </span>
                       <span className="text-zinc-500 font-mono text-[9px]">{activeChar.role}</span>
@@ -1317,11 +1310,10 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
                 <button
                   key={c.id}
                   onClick={() => setCalibratingCharId(c.id)}
-                  className={`px-2 py-1 text-center font-p5Heading text-xs uppercase -skew-x-3 border transition-colors ${
-                    calibratingCharId === c.id
-                      ? 'bg-yellow-400 text-black border-black font-black'
-                      : 'bg-zinc-900 text-zinc-300 border-zinc-700 hover:bg-zinc-800'
-                  }`}
+                  className={`px-2 py-1 text-center font-p5Heading text-xs uppercase -skew-x-3 border transition-colors ${calibratingCharId === c.id
+                    ? 'bg-yellow-400 text-black border-black font-black'
+                    : 'bg-zinc-900 text-zinc-300 border-zinc-700 hover:bg-zinc-800'
+                    }`}
                 >
                   {c.codename}
                 </button>
@@ -1344,11 +1336,10 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
                   setLastFocusOrigin({ originX: calibratingChar.camera.originX, originY: calibratingChar.camera.originY })
                 }
               }}
-              className={`w-full py-1.5 px-3 mb-2.5 font-p5Heading text-xs uppercase -skew-x-3 border-2 border-black flex items-center justify-center gap-2 shadow-[2px_2px_0px_#000] cursor-pointer transition-colors ${
-                activeCharId === calibratingChar.id
-                  ? 'bg-[#E60012] text-white hover:bg-red-700'
-                  : 'bg-yellow-400 text-black hover:bg-yellow-300 font-black'
-              }`}
+              className={`w-full py-1.5 px-3 mb-2.5 font-p5Heading text-xs uppercase -skew-x-3 border-2 border-black flex items-center justify-center gap-2 shadow-[2px_2px_0px_#000] cursor-pointer transition-colors ${activeCharId === calibratingChar.id
+                ? 'bg-[#E60012] text-white hover:bg-red-700'
+                : 'bg-yellow-400 text-black hover:bg-yellow-300 font-black'
+                }`}
             >
               <span>{activeCharId === calibratingChar.id ? '✕ RETURN TO ROOM' : '👁️ PREVIEW ZOOM & BUBBLE'}</span>
             </button>
@@ -1357,33 +1348,29 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
             <div className="grid grid-cols-4 gap-1 mb-3 bg-zinc-900 p-1 border border-zinc-800">
               <button
                 onClick={() => setCalibratorTab('char')}
-                className={`py-1 text-center font-p5Heading text-[10px] sm:text-[11px] uppercase transition-colors ${
-                  calibratorTab === 'char' ? 'bg-[#E60012] text-white font-bold' : 'text-zinc-400 hover:text-white'
-                }`}
+                className={`py-1 text-center font-p5Heading text-[10px] sm:text-[11px] uppercase transition-colors ${calibratorTab === 'char' ? 'bg-[#E60012] text-white font-bold' : 'text-zinc-400 hover:text-white'
+                  }`}
               >
                 1. CHAR
               </button>
               <button
                 onClick={() => setCalibratorTab('camera')}
-                className={`py-1 text-center font-p5Heading text-[10px] sm:text-[11px] uppercase transition-colors ${
-                  calibratorTab === 'camera' ? 'bg-[#E60012] text-white font-bold' : 'text-zinc-400 hover:text-white'
-                }`}
+                className={`py-1 text-center font-p5Heading text-[10px] sm:text-[11px] uppercase transition-colors ${calibratorTab === 'camera' ? 'bg-[#E60012] text-white font-bold' : 'text-zinc-400 hover:text-white'
+                  }`}
               >
                 2. CAM
               </button>
               <button
                 onClick={() => setCalibratorTab('bubble')}
-                className={`py-1 text-center font-p5Heading text-[10px] sm:text-[11px] uppercase transition-colors ${
-                  calibratorTab === 'bubble' ? 'bg-[#E60012] text-white font-bold' : 'text-zinc-400 hover:text-white'
-                }`}
+                className={`py-1 text-center font-p5Heading text-[10px] sm:text-[11px] uppercase transition-colors ${calibratorTab === 'bubble' ? 'bg-[#E60012] text-white font-bold' : 'text-zinc-400 hover:text-white'
+                  }`}
               >
                 3. BUBBLE
               </button>
               <button
                 onClick={() => setCalibratorTab('kanji')}
-                className={`py-1 text-center font-p5Heading text-[10px] sm:text-[11px] uppercase transition-colors ${
-                  calibratorTab === 'kanji' ? 'bg-[#E60012] text-white font-bold' : 'text-zinc-400 hover:text-white'
-                }`}
+                className={`py-1 text-center font-p5Heading text-[10px] sm:text-[11px] uppercase transition-colors ${calibratorTab === 'kanji' ? 'bg-[#E60012] text-white font-bold' : 'text-zinc-400 hover:text-white'
+                  }`}
               >
                 4. KANJI
               </button>
@@ -1538,17 +1525,15 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
                     <div className="flex items-center gap-1">
                       <button
                         onClick={() => updateCalibratingBubble({ side: 'left' })}
-                        className={`px-2 py-0.5 font-p5Heading text-xs uppercase border ${
-                          currentBubble.side === 'left' ? 'bg-yellow-400 text-black border-black font-bold' : 'bg-zinc-800 text-zinc-300 border-zinc-700'
-                        }`}
+                        className={`px-2 py-0.5 font-p5Heading text-xs uppercase border ${currentBubble.side === 'left' ? 'bg-yellow-400 text-black border-black font-bold' : 'bg-zinc-800 text-zinc-300 border-zinc-700'
+                          }`}
                       >
                         LEFT
                       </button>
                       <button
                         onClick={() => updateCalibratingBubble({ side: 'right' })}
-                        className={`px-2 py-0.5 font-p5Heading text-xs uppercase border ${
-                          currentBubble.side === 'right' ? 'bg-yellow-400 text-black border-black font-bold' : 'bg-zinc-800 text-zinc-300 border-zinc-700'
-                        }`}
+                        className={`px-2 py-0.5 font-p5Heading text-xs uppercase border ${currentBubble.side === 'right' ? 'bg-yellow-400 text-black border-black font-bold' : 'bg-zinc-800 text-zinc-300 border-zinc-700'
+                          }`}
                       >
                         RIGHT
                       </button>

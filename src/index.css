@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Bangers&family=Dela+Gothic+One&family=Outfit:wght@400;600;800;900&family=Space+Mono:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bangers&family=Dela+Gothic+One&family=Noto+Serif+JP:wght@700;900&family=Outfit:wght@400;600;800;900&family=Shippori+Mincho:wght@700;800&family=Space+Mono:wght@400;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -28,6 +28,9 @@
     background-color: #000000;
     color: #ffffff;
     font-family: 'Outfit', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
   }
 
   ::selection {
@@ -720,16 +723,21 @@
 @keyframes p5-splash-kanji {
   0% {
     opacity: 0;
-    transform: scale(0.85);
+    transform: scale(0.92) translateZ(0);
   }
   100% {
     opacity: 1;
-    transform: scale(1);
+    transform: scale(1) translateZ(0);
   }
 }
 .p5-splash-text-anim {
-  animation: p5-splash-kanji 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
-  will-change: transform, opacity;
+  animation: p5-splash-kanji 0.38s cubic-bezier(0.16, 1, 0.3, 1) 0.08s both;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: geometricPrecision;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
 }
 
 /* Anime Speed Lines Flash */
