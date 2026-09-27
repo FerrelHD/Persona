@@ -1250,7 +1250,7 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
                       <span className="size-4 rounded-full border border-[#E60012] text-[#E60012] flex items-center justify-center text-[10px] font-bold group-hover:bg-[#E60012] group-hover:text-white transition-colors">
                         O
                       </span>
-                      <span>BACK [ESC]</span>
+                      <span>BACK</span>
                     </button>
                     <span className="text-zinc-500 text-[9px] font-mono">
                       CLICK ANYWHERE TO RETURN
