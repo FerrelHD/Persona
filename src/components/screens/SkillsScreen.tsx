@@ -904,10 +904,10 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
           className={`mt-1 flex items-center bg-black border-l-4 border-[#7C4A1E] px-2.5 sm:px-3 py-0.5 text-[10px] sm:text-xs font-p5Sub tracking-widest text-white -skew-x-6 shadow-[3px_3px_0px_#000000] ${!isAssetsLoading ? 'p5-sub-entrance' : 'opacity-0'
             }`}
         >
-          <span className="text-yellow-400 font-bold mr-1.5">CAFE LEBLANC ATTIC</span>
+          <span className="text-yellow-400 font-bold mr-1.5">LEBLANC ATTIC</span>
           <span className="text-zinc-500 mx-1">//</span>
           <span className="text-zinc-200">
-            {activeChar ? `${activeChar.name} [${activeChar.codename}]` : 'SELECT PHANTOM THIEF'}
+            {activeChar ? `${activeChar.name} [${activeChar.codename}]` : 'CHOOSE THIEF'}
           </span>
         </div>
       </div>
