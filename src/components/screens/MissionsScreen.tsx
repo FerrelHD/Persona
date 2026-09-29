@@ -182,21 +182,6 @@ export const MissionsScreen: React.FC<MissionsScreenProps> = ({ onBack }) => {
                     </span>
 
                     {/* Dedicated VIEW DOSSIER Action Button (Opsi 1) */}
-                    <button
-                      type="button"
-                      onClick={(e) => {
-                        e.stopPropagation()
-                        playSlash()
-                        setShowDossierModal(true)
-                      }}
-                      className="ml-auto inline-flex items-center gap-1.5 bg-black hover:bg-[#00D2FF] text-white hover:text-black font-p5Heading text-xs sm:text-sm px-3.5 py-1 border-2 border-white shadow-[3px_3px_0px_#000] -skew-x-6 transition-all hover:scale-105 cursor-pointer group/btn"
-                      title="Open Mission Dossier"
-                    >
-                      <span className="size-4 rounded-full border-2 border-cyan-400 text-cyan-400 font-bold flex items-center justify-center text-[9px] group-hover/btn:border-black group-hover/btn:text-black transition-colors">
-                        □
-                      </span>
-                      <span className="tracking-wider uppercase">VIEW DOSSIER</span>
-                    </button>
                   </div>
                 </div>
               </div>
