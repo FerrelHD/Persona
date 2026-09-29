@@ -650,51 +650,51 @@ interface KanjiConfig {
   y: number // percentage offset relative to camera.originY
   rotate: number // degrees
   scale: number // relative scale multiplier
-  opacity: number // 0.05 to 1.0 (default 0.22)
+  opacity: number // 0.05 to 1.0 (default 0.74)
 }
 
 const DEFAULT_KANJI_CONFIGS: Record<string, KanjiConfig> = {
   joker: {
-    x: -16,
+    x: -17,
     y: 7,
     rotate: -10,
     scale: 1.05,
-    opacity: 0.22,
+    opacity: 0.74,
   },
   futaba: {
     x: -1,
     y: 0,
     rotate: -8,
     scale: 1,
-    opacity: 0.22,
+    opacity: 0.74,
   },
   morgana: {
     x: 5,
     y: 5,
     rotate: -18,
     scale: 1,
-    opacity: 0.22,
+    opacity: 0.74,
   },
   ryuji: {
     x: -1,
     y: 7,
     rotate: -8,
     scale: 1,
-    opacity: 0.22,
+    opacity: 0.74,
   },
   ann: {
-    x: -9,
-    y: 9,
+    x: -6,
+    y: 7,
     rotate: -8,
     scale: 1,
-    opacity: 0.22,
+    opacity: 0.74,
   },
   yusuke: {
-    x: 14,
-    y: 3,
+    x: 17,
+    y: -1,
     rotate: -8,
     scale: 1,
-    opacity: 0.22,
+    opacity: 0.8,
   },
 }
 
@@ -759,7 +759,10 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
 
   // Character list with dynamic positioning state
   const [characterList, setCharacterList] = useState<PhantomCharacter[]>(() => {
-    const saved = localStorage.getItem('p5_characters_bocchi_v5')
+    localStorage.removeItem('p5_characters_bocchi_v3')
+    localStorage.removeItem('p5_characters_bocchi_v4')
+    localStorage.removeItem('p5_characters_bocchi_v5')
+    const saved = localStorage.getItem('p5_characters_bocchi_v6')
     if (saved) {
       try {
         const parsed = JSON.parse(saved)
@@ -793,7 +796,8 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
 
   // Floating comic speech bubble configuration state (persisted in localStorage)
   const [bubbleList, setBubbleList] = useState<Record<string, BubbleConfig>>(() => {
-    const saved = localStorage.getItem('p5_bubbles_v9')
+    localStorage.removeItem('p5_bubbles_v9')
+    const saved = localStorage.getItem('p5_bubbles_v10')
     if (saved) {
       try {
         const parsed = JSON.parse(saved)
@@ -807,14 +811,15 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
     setBubbleList(prev => {
       const current = prev[calibratingCharId] || DEFAULT_BUBBLES[calibratingCharId] || DEFAULT_BUBBLES.joker
       const next = { ...prev, [calibratingCharId]: { ...current, ...updates } }
-      localStorage.setItem('p5_bubbles_v9', JSON.stringify(next))
+      localStorage.setItem('p5_bubbles_v10', JSON.stringify(next))
       return next
     })
   }
 
   // Floating giant Japanese kanji configuration state (persisted in localStorage)
   const [kanjiList, setKanjiList] = useState<Record<string, KanjiConfig>>(() => {
-    const saved = localStorage.getItem('p5_kanji_v4')
+    localStorage.removeItem('p5_kanji_v4')
+    const saved = localStorage.getItem('p5_kanji_v5')
     if (saved) {
       try {
         const parsed = JSON.parse(saved)
@@ -828,7 +833,7 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
     setKanjiList(prev => {
       const current = prev[calibratingCharId] || DEFAULT_KANJI_CONFIGS[calibratingCharId] || DEFAULT_KANJI_CONFIGS.joker
       const next = { ...prev, [calibratingCharId]: { ...current, ...updates } }
-      localStorage.setItem('p5_kanji_v4', JSON.stringify(next))
+      localStorage.setItem('p5_kanji_v5', JSON.stringify(next))
       return next
     })
   }
@@ -845,7 +850,7 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
   const updateCalibratingChar = (updates: Partial<PhantomCharacter>) => {
     setCharacterList(prev => {
       const next = prev.map(c => c.id === calibratingCharId ? { ...c, ...updates } : c)
-      localStorage.setItem('p5_characters_bocchi_v4', JSON.stringify(next))
+      localStorage.setItem('p5_characters_bocchi_v6', JSON.stringify(next))
       return next
     })
     if (updates.camera) {
@@ -869,13 +874,15 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
   const resetToDefaultPositions = () => {
     localStorage.removeItem('p5_characters_bocchi_v3')
     localStorage.removeItem('p5_characters_bocchi_v4')
-    localStorage.removeItem('p5_bubbles_v2')
-    localStorage.removeItem('p5_bubbles_v3')
-    localStorage.removeItem('p5_bubbles_v4')
-    localStorage.removeItem('p5_bubbles_v5')
-    localStorage.removeItem('p5_bubbles_v6')
-    localStorage.removeItem('p5_kanji_v2')
+    localStorage.removeItem('p5_characters_bocchi_v5')
+    localStorage.removeItem('p5_characters_bocchi_v6')
+    localStorage.removeItem('p5_bubbles_v7')
+    localStorage.removeItem('p5_bubbles_v8')
+    localStorage.removeItem('p5_bubbles_v9')
+    localStorage.removeItem('p5_bubbles_v10')
     localStorage.removeItem('p5_kanji_v3')
+    localStorage.removeItem('p5_kanji_v4')
+    localStorage.removeItem('p5_kanji_v5')
     setCharacterList(PHANTOM_CHARACTERS)
     setBubbleList(DEFAULT_BUBBLES)
     setKanjiList(DEFAULT_KANJI_CONFIGS)
@@ -902,7 +909,7 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
 
       setCharacterList(prev => {
         const next = prev.map(c => c.id === charId ? { ...c, tx: newTx, ty: newTy } : c)
-        localStorage.setItem('p5_characters_bocchi_v3', JSON.stringify(next))
+        localStorage.setItem('p5_characters_bocchi_v6', JSON.stringify(next))
         return next
       })
     }
@@ -1177,7 +1184,7 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
                     left: `${posX}%`,
                     top: `${posY}%`,
                     transform: 'translate3d(-50%, -50%, 0)',
-                    opacity: kConfig.opacity ?? 0.22,
+                    opacity: kConfig.opacity ?? 0.74,
                     WebkitFontSmoothing: 'antialiased',
                     MozOsxFontSmoothing: 'grayscale',
                     textRendering: 'geometricPrecision',
@@ -2036,7 +2043,7 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
                     <input
                       type="range"
                       min="0.05"
-                      max="0.80"
+                      max="1.0"
                       step="0.01"
                       value={currentKanji.opacity}
                       onChange={(e) => updateCalibratingKanji({ opacity: parseFloat(e.target.value) })}
