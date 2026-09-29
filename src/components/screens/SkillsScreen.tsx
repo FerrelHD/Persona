@@ -569,9 +569,9 @@ const DEFAULT_BUBBLES: Record<string, BubbleConfig> = {
     width: 530,
     bubbleRotate: 3,
     nameOffsetX: 13,
-    nameOffsetY: 16,
-    nameRotate: -10,
-    nameScale: 0.72,
+    nameOffsetY: 24,
+    nameRotate: -17,
+    nameScale: 0.86,
     quoteOffsetX: 6,
     quoteOffsetY: -36,
     quoteRotate: 2,
@@ -616,10 +616,10 @@ const DEFAULT_BUBBLES: Record<string, BubbleConfig> = {
     top: 22,
     width: 530,
     bubbleRotate: 0,
-    nameOffsetX: -5,
-    nameOffsetY: 16,
-    nameRotate: 9,
-    nameScale: 0.8,
+    nameOffsetX: -6,
+    nameOffsetY: 20,
+    nameRotate: 10,
+    nameScale: 0.96,
     quoteOffsetX: 0,
     quoteOffsetY: -28,
     quoteRotate: -2,
@@ -762,7 +762,8 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
     localStorage.removeItem('p5_characters_bocchi_v3')
     localStorage.removeItem('p5_characters_bocchi_v4')
     localStorage.removeItem('p5_characters_bocchi_v5')
-    const saved = localStorage.getItem('p5_characters_bocchi_v6')
+    localStorage.removeItem('p5_characters_bocchi_v6')
+    const saved = localStorage.getItem('p5_characters_bocchi_v7')
     if (saved) {
       try {
         const parsed = JSON.parse(saved)
@@ -797,7 +798,8 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
   // Floating comic speech bubble configuration state (persisted in localStorage)
   const [bubbleList, setBubbleList] = useState<Record<string, BubbleConfig>>(() => {
     localStorage.removeItem('p5_bubbles_v9')
-    const saved = localStorage.getItem('p5_bubbles_v10')
+    localStorage.removeItem('p5_bubbles_v10')
+    const saved = localStorage.getItem('p5_bubbles_v11')
     if (saved) {
       try {
         const parsed = JSON.parse(saved)
@@ -811,7 +813,7 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
     setBubbleList(prev => {
       const current = prev[calibratingCharId] || DEFAULT_BUBBLES[calibratingCharId] || DEFAULT_BUBBLES.joker
       const next = { ...prev, [calibratingCharId]: { ...current, ...updates } }
-      localStorage.setItem('p5_bubbles_v10', JSON.stringify(next))
+      localStorage.setItem('p5_bubbles_v11', JSON.stringify(next))
       return next
     })
   }
@@ -819,7 +821,8 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
   // Floating giant Japanese kanji configuration state (persisted in localStorage)
   const [kanjiList, setKanjiList] = useState<Record<string, KanjiConfig>>(() => {
     localStorage.removeItem('p5_kanji_v4')
-    const saved = localStorage.getItem('p5_kanji_v5')
+    localStorage.removeItem('p5_kanji_v5')
+    const saved = localStorage.getItem('p5_kanji_v6')
     if (saved) {
       try {
         const parsed = JSON.parse(saved)
@@ -833,7 +836,7 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
     setKanjiList(prev => {
       const current = prev[calibratingCharId] || DEFAULT_KANJI_CONFIGS[calibratingCharId] || DEFAULT_KANJI_CONFIGS.joker
       const next = { ...prev, [calibratingCharId]: { ...current, ...updates } }
-      localStorage.setItem('p5_kanji_v5', JSON.stringify(next))
+      localStorage.setItem('p5_kanji_v6', JSON.stringify(next))
       return next
     })
   }
@@ -850,7 +853,7 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
   const updateCalibratingChar = (updates: Partial<PhantomCharacter>) => {
     setCharacterList(prev => {
       const next = prev.map(c => c.id === calibratingCharId ? { ...c, ...updates } : c)
-      localStorage.setItem('p5_characters_bocchi_v6', JSON.stringify(next))
+      localStorage.setItem('p5_characters_bocchi_v7', JSON.stringify(next))
       return next
     })
     if (updates.camera) {
@@ -876,13 +879,16 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
     localStorage.removeItem('p5_characters_bocchi_v4')
     localStorage.removeItem('p5_characters_bocchi_v5')
     localStorage.removeItem('p5_characters_bocchi_v6')
+    localStorage.removeItem('p5_characters_bocchi_v7')
     localStorage.removeItem('p5_bubbles_v7')
     localStorage.removeItem('p5_bubbles_v8')
     localStorage.removeItem('p5_bubbles_v9')
     localStorage.removeItem('p5_bubbles_v10')
+    localStorage.removeItem('p5_bubbles_v11')
     localStorage.removeItem('p5_kanji_v3')
     localStorage.removeItem('p5_kanji_v4')
     localStorage.removeItem('p5_kanji_v5')
+    localStorage.removeItem('p5_kanji_v6')
     setCharacterList(PHANTOM_CHARACTERS)
     setBubbleList(DEFAULT_BUBBLES)
     setKanjiList(DEFAULT_KANJI_CONFIGS)
@@ -909,7 +915,7 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
 
       setCharacterList(prev => {
         const next = prev.map(c => c.id === charId ? { ...c, tx: newTx, ty: newTy } : c)
-        localStorage.setItem('p5_characters_bocchi_v6', JSON.stringify(next))
+        localStorage.setItem('p5_characters_bocchi_v7', JSON.stringify(next))
         return next
       })
     }
