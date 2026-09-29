@@ -23,7 +23,7 @@ const CHAT_MESSAGES: ChatMessage[] = [
   {
     id: 1,
     sender: 'FUTABA',
-    role: 'NAVI // INTEL',
+    role: '',
     avatarImg: '/assets/p5r_renders/futaba.png',
     avatarBg: 'bg-amber-500',
     nameColor: 'text-amber-400',
@@ -32,7 +32,7 @@ const CHAT_MESSAGES: ChatMessage[] = [
   {
     id: 2,
     sender: 'MORGANA',
-    role: 'MONA // GUIDE',
+    role: '',
     avatarImg: '/assets/morgana.jpg',
     avatarBg: 'bg-cyan-600',
     nameColor: 'text-cyan-400',
@@ -41,7 +41,7 @@ const CHAT_MESSAGES: ChatMessage[] = [
   {
     id: 3,
     sender: 'FUTABA',
-    role: 'NAVI // INTEL',
+    role: '',
     avatarImg: '/assets/p5r_renders/futaba.png',
     avatarBg: 'bg-amber-500',
     nameColor: 'text-amber-400',
@@ -50,7 +50,7 @@ const CHAT_MESSAGES: ChatMessage[] = [
   {
     id: 4,
     sender: 'FERREL',
-    role: 'ARCHITECT // DEV',
+    role: '',
     avatarImg: '/assets/ferrel-portrait.jpg',
     avatarBg: 'bg-red-600',
     nameColor: 'text-p5-crimson',
@@ -60,7 +60,7 @@ const CHAT_MESSAGES: ChatMessage[] = [
   {
     id: 5,
     sender: 'JOKER',
-    role: 'LEADER // PHANTOM',
+    role: '',
     avatarImg: '/assets/joker.jpg',
     avatarBg: 'bg-zinc-800',
     nameColor: 'text-zinc-300',
@@ -70,7 +70,7 @@ const CHAT_MESSAGES: ChatMessage[] = [
   {
     id: 6,
     sender: 'FUTABA',
-    role: 'NAVI // INTEL',
+    role: '',
     avatarImg: '/assets/p5r_renders/futaba.png',
     avatarBg: 'bg-amber-500',
     nameColor: 'text-amber-400',
