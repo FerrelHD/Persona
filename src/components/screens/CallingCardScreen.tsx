@@ -224,7 +224,6 @@ export const CallingCardScreen: React.FC<CallingCardScreenProps> = ({ onBack }) 
                 DECLARATION BODY:
               </span>
               <div className="relative">
-                <div className="absolute left-0 top-0 bottom-0 w-1 bg-emerald-600" />
                 <textarea
                   rows={2}
                   value={message}
