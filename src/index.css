@@ -870,10 +870,10 @@
   .laptop-comms-deck {
     margin-top: auto !important;
     margin-bottom: auto !important;
-    transform: translateY(1.25rem) !important;
+    transform: translateY(-0.25rem) !important;
   }
   .laptop-postcard-pad {
-    padding: 0.55rem 0.75rem !important;
+    padding: 0.85rem 1rem !important;
   }
   .laptop-main-pad {
     padding-left: 3.65rem !important;
@@ -989,7 +989,7 @@
     padding-bottom: 0.35rem !important;
   }
   .laptop-comms-deck {
-    transform: translateY(1rem) !important;
+    transform: translateY(-0.5rem) !important;
   }
   .laptop-main-pad {
     padding-left: 2.85rem !important;

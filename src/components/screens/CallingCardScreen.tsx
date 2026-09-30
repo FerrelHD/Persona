@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import { PageCutoutOverlay } from '@/components/common/PageCutoutOverlay'
 import { usePersonaSFX } from '@/hooks/usePersonaSFX'
 import { Mail, CheckCircle2, Copy, Send, Radio, ExternalLink, Flame, ShieldAlert } from 'lucide-react'
@@ -51,9 +51,19 @@ export const CallingCardScreen: React.FC<CallingCardScreenProps> = ({ onBack }) 
   const [selectedContract, setSelectedContract] = useState('HIRE')
   const [message, setMessage] = useState(CONTRACT_PRESETS[0].text)
   const [isSent, setIsSent] = useState(false)
+  const [showStampOverlay, setShowStampOverlay] = useState(false)
   const [hasCopiedEmail, setHasCopiedEmail] = useState(false)
   const [toastMessage, setToastMessage] = useState<string | null>(null)
   const [isShaking, setIsShaking] = useState(false)
+  const stampTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  useEffect(() => {
+    return () => {
+      if (stampTimeoutRef.current) {
+        clearTimeout(stampTimeoutRef.current)
+      }
+    }
+  }, [])
 
   const USER_EMAIL = 'ferrelrashadakeyla2014@gmail.com'
 
@@ -67,9 +77,18 @@ export const CallingCardScreen: React.FC<CallingCardScreenProps> = ({ onBack }) 
     e.preventDefault()
     playStamp()
     setIsSent(true)
+    setShowStampOverlay(true)
     setIsShaking(true)
 
     setTimeout(() => setIsShaking(false), 500)
+
+    // Auto-hide the stamp overlay after 2.8 seconds so the card is visible and usable again
+    if (stampTimeoutRef.current) {
+      clearTimeout(stampTimeoutRef.current)
+    }
+    stampTimeoutRef.current = setTimeout(() => {
+      setShowStampOverlay(false)
+    }, 2800)
 
     // Trigger Persona Red & Gold Confetti
     try {
@@ -127,7 +146,7 @@ export const CallingCardScreen: React.FC<CallingCardScreenProps> = ({ onBack }) 
       />
 
       {/* Main Content Area: Centered vertically */}
-      <div className="flex-1 flex flex-col justify-center items-start my-auto z-20 w-full max-w-2xl lg:max-w-[53%] pl-2 sm:pl-6 md:pl-8 laptop-comms-deck">
+      <div className="flex-1 flex flex-col justify-center items-start my-auto z-20 w-full max-w-xl lg:max-w-[48%] xl:max-w-[45%] pl-2 sm:pl-6 md:pl-8 laptop-comms-deck">
         <div className="w-full p5-comms-entrance">
           {/* Authentic Physical Calling Card Postcard with Push Pin & Dog-Ear Corner */}
           <div
@@ -143,9 +162,9 @@ export const CallingCardScreen: React.FC<CallingCardScreenProps> = ({ onBack }) 
           </div>
 
           {/* Top Postcard Header: Notice of Intent & Phantom Emblem */}
-          <div className="flex items-center justify-between pb-2 border-b-2 sm:border-b-4 border-black mb-3 gap-2">
+          <div className="flex items-center justify-between pb-2 border-b-2 sm:border-b-4 border-black mb-2.5 sm:mb-3 gap-2">
             <div className="flex items-center gap-2">
-              <span className="bg-emerald-600 text-white font-p5Heading text-sm sm:text-lg px-2.5 py-0.5 border-2 border-black shadow-[2px_2px_0px_#000] -rotate-1 tracking-tight">
+              <span className="bg-emerald-600 text-white font-p5Heading text-sm sm:text-lg px-2.5 py-0.5 border-2 border-black shadow-[2px_2px_0px_#000] -rotate-1 tracking-wider">
                 NOTICE OF INTENT // いこうひょうめいしょ
               </span>
               <span className="hidden sm:inline-block font-p5Mono text-[9px] text-zinc-500 uppercase tracking-widest font-bold">
@@ -154,14 +173,14 @@ export const CallingCardScreen: React.FC<CallingCardScreenProps> = ({ onBack }) 
             </div>
 
             {/* Phantom Thieves Wax Seal Badge */}
-            <div className="border-2 border-dashed border-emerald-600 bg-emerald-50 text-emerald-700 px-2 py-0.5 rotate-2 font-p5Heading text-[10px] sm:text-xs tracking-wider uppercase flex items-center gap-1 shadow-[2px_2px_0px_#059669]">
+            <div className="border-2 border-dashed border-emerald-600 bg-emerald-50 text-emerald-700 px-2 py-0.5 rotate-2 font-p5Sub text-[10px] sm:text-[11px] font-bold tracking-wider uppercase flex items-center gap-1 shadow-[2px_2px_0px_#059669]">
               <Flame className="size-3 text-emerald-600 fill-emerald-600 animate-pulse" />
               <span>TAKE YOUR HEART</span>
             </div>
           </div>
 
           {/* Form */}
-          <form onSubmit={handleSend} className="space-y-3 laptop-compact-deck">
+          <form onSubmit={handleSend} className="space-y-2.5 sm:space-y-3 laptop-compact-deck">
             {/* Target Input with Ransom Cutout Styling */}
             <div className="flex items-center gap-2 font-p5Heading text-sm sm:text-base border-b-2 border-zinc-800 pb-1">
               <div className="flex items-center gap-0.5">
@@ -177,7 +196,7 @@ export const CallingCardScreen: React.FC<CallingCardScreenProps> = ({ onBack }) 
                 value={recipient}
                 onChange={e => setRecipient(e.target.value)}
                 placeholder="Enter Recipient Company / Team..."
-                className="flex-1 bg-transparent font-p5Heading text-emerald-700 text-sm sm:text-lg focus:outline-none uppercase placeholder:text-zinc-400 font-black tracking-tight"
+                className="flex-1 bg-transparent font-p5Body text-zinc-900 font-bold text-sm sm:text-base focus:outline-none placeholder:text-zinc-400 tracking-wide"
               />
             </div>
 
@@ -201,7 +220,7 @@ export const CallingCardScreen: React.FC<CallingCardScreenProps> = ({ onBack }) 
                       onClick={() => handleSelectPreset(preset)}
                       onMouseEnter={playHover}
                       className={`
-                        px-2 py-1 font-p5Heading text-[11px] sm:text-xs tracking-wider uppercase border-2 border-black transition-all flex flex-col items-center justify-center
+                        px-1.5 sm:px-2 py-1 font-p5Heading text-[10px] sm:text-xs tracking-wider uppercase border-2 border-black transition-all flex flex-col items-center justify-center
                         ${isActive
                           ? 'bg-emerald-600 text-white shadow-[2.5px_2.5px_0px_#000000] -rotate-1 font-bold scale-[1.02]'
                           : 'bg-white text-black hover:bg-zinc-100'
@@ -228,7 +247,7 @@ export const CallingCardScreen: React.FC<CallingCardScreenProps> = ({ onBack }) 
                   rows={2}
                   value={message}
                   onChange={e => setMessage(e.target.value)}
-                  className="w-full bg-white border-2 border-black pl-3 pr-2.5 py-2 font-p5Body text-xs sm:text-[13px] text-zinc-900 focus:outline-none focus:border-emerald-600 resize-none leading-relaxed font-semibold"
+                  className="w-full bg-white border-2 border-black pl-3 pr-2.5 py-1.5 sm:py-2 font-p5Body text-xs sm:text-[13px] text-zinc-900 focus:outline-none focus:border-emerald-600 resize-none leading-snug font-semibold h-[4.25rem] sm:h-[4.75rem]"
                 />
               </div>
             </div>
@@ -236,14 +255,14 @@ export const CallingCardScreen: React.FC<CallingCardScreenProps> = ({ onBack }) 
             {/* Card Footer: Signature & Dispatch Button */}
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pt-1.5 border-t-2 border-zinc-300">
               <div className="font-p5Heading text-[11px] sm:text-xs text-zinc-700">
-                SIGNATURE: <span className="text-emerald-700 text-xs sm:text-sm font-black">FERREL // THE ARCHITECT</span>
+                SIGNATURE: <span className="text-emerald-700 text-xs sm:text-sm font-bold tracking-wide">FERREL // THE ARCHITECT</span>
               </div>
 
               <button
                 type="submit"
                 onMouseEnter={playHover}
                 className={`
-                  inline-flex items-center justify-center gap-1.5 px-4 py-1.5 font-p5Heading text-sm sm:text-base tracking-wider uppercase border-2 border-black shadow-[3px_3px_0px_#000000] transition-all cursor-pointer
+                  inline-flex items-center justify-center gap-1.5 px-3.5 sm:px-4 py-1.5 font-p5Heading text-xs sm:text-sm md:text-base tracking-wider uppercase border-2 border-black shadow-[3px_3px_0px_#000000] transition-all cursor-pointer
                   ${isSent
                     ? 'bg-emerald-600 text-white hover:bg-emerald-700'
                     : 'bg-emerald-600 hover:bg-emerald-500 text-white -rotate-1 hover:rotate-0 hover:scale-105 active:scale-95'
@@ -265,30 +284,37 @@ export const CallingCardScreen: React.FC<CallingCardScreenProps> = ({ onBack }) 
             </div>
           </form>
 
-          {/* SLAMMED RED STAMP: Renders with violent impact when sent! */}
-          {isSent && (
+          {/* SLAMMED STAMP OVERLAY: Renders with violent impact when sent! Auto-dismisses & click to dismiss */}
+          {showStampOverlay && (
             <div
-              className="absolute inset-0 pointer-events-none flex items-center justify-center z-40 overflow-hidden"
-              style={{ animation: 'stamp-slam 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards' }}
+              onClick={() => setShowStampOverlay(false)}
+              className="absolute inset-0 cursor-pointer flex items-center justify-center z-40 overflow-hidden bg-black/20 backdrop-blur-[1px] animate-in fade-in duration-150 pointer-events-auto"
+              title="Click anywhere to dismiss"
             >
-              <div className="bg-emerald-600/95 text-white border-4 border-white px-6 py-3 -rotate-12 shadow-[6px_6px_0px_#000000] flex flex-col items-center justify-center">
-                <span className="font-p5Heading text-2xl sm:text-3xl font-black tracking-tighter uppercase drop-shadow-[2px_2px_0px_#000]">
+              <div
+                className="bg-emerald-600 text-white border-[3.5px] border-white px-7 py-4 -rotate-6 shadow-[8px_8px_0px_#000000] flex flex-col items-center justify-center text-center max-w-[90%]"
+                style={{ animation: 'stamp-slam 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards' }}
+              >
+                <span className="font-p5Heading text-2xl sm:text-3xl text-white tracking-widest uppercase drop-shadow-[2px_2px_0px_rgba(0,0,0,0.85)]">
                   ★ TAKE YOUR HEART ★
                 </span>
-                <span className="font-p5Mono text-[10px] sm:text-xs text-yellow-300 font-black tracking-widest uppercase mt-0.5">
+                <span className="font-p5Mono text-xs text-yellow-300 font-bold tracking-wider uppercase mt-1">
                   DISPATCH CONFIRMED // EMAIL OPENED
+                </span>
+                <span className="font-p5Body text-[10px] text-emerald-100 tracking-wide mt-1 opacity-80 font-medium">
+                  (Click anywhere to dismiss)
                 </span>
               </div>
             </div>
           )}
 
           {/* Direct Comms Bar docked at the bottom of the card */}
-          <div className="mt-3 pt-2.5 border-t-2 border-dashed border-zinc-400 flex items-center justify-between flex-wrap gap-2 text-[11px] font-p5Mono">
+          <div className="mt-2.5 sm:mt-3 pt-2 sm:pt-2.5 border-t-2 border-dashed border-zinc-400 flex items-center justify-between gap-2 text-[10px] sm:text-[11px] font-p5Mono">
             {/* Email with copy */}
             <button
               type="button"
               onClick={handleCopyEmail}
-              className="inline-flex items-center gap-1.5 bg-black text-white px-2.5 py-1 hover:bg-emerald-600 transition-colors border border-black shadow-[2px_2px_0px_#000] cursor-pointer"
+              className="inline-flex items-center gap-1 sm:gap-1.5 bg-black text-white px-2 sm:px-2.5 py-1 hover:bg-emerald-600 transition-colors border border-black shadow-[2px_2px_0px_#000] cursor-pointer shrink-0"
               title="Click to Copy Email"
             >
               <Mail className="size-3 text-yellow-300" />
@@ -302,7 +328,7 @@ export const CallingCardScreen: React.FC<CallingCardScreenProps> = ({ onBack }) 
               href="https://github.com/FerrelHD"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 bg-zinc-900 text-white px-2.5 py-1 hover:bg-emerald-600 transition-colors border border-black shadow-[2px_2px_0px_#000] cursor-pointer"
+              className="inline-flex items-center gap-1 sm:gap-1.5 bg-zinc-900 text-white px-2 sm:px-2.5 py-1 hover:bg-emerald-600 transition-colors border border-black shadow-[2px_2px_0px_#000] cursor-pointer shrink-0"
             >
               <GithubIcon />
               <span>@FerrelHD</span>
@@ -310,17 +336,17 @@ export const CallingCardScreen: React.FC<CallingCardScreenProps> = ({ onBack }) 
             </a>
 
             {/* Encrypted Radio Frequency */}
-            <div className="hidden sm:flex items-center gap-1.5 text-[10px] text-zinc-600 font-bold">
+            <div className="hidden md:flex items-center gap-1.5 text-[10px] text-zinc-600 font-bold shrink-0">
               <Radio className="size-3 text-emerald-600 animate-pulse" />
-              <span>FREQ 108.4 MHZ // FUUKA ENCRYPTION</span>
+              <span>FREQ 108.4 MHZ</span>
             </div>
           </div>
         </div>
       </div>
 
-        {/* Floating Toast Notification */}
+        {/* Floating Toast Notification (Zero Layout Shift) */}
         {toastMessage && (
-          <div className="mt-3 bg-black text-yellow-300 font-p5Heading text-xs px-4 py-2 border-2 border-yellow-300 shadow-[3px_3px_0px_#059669] -rotate-1 animate-in fade-in slide-in-from-bottom-2 duration-150 flex items-center gap-2">
+          <div className="absolute bottom-12 sm:bottom-14 left-4 sm:left-8 md:left-12 z-50 bg-black text-yellow-300 font-p5Heading text-xs px-4 py-2 border-2 border-yellow-300 shadow-[3px_3px_0px_#059669] -rotate-1 animate-in fade-in slide-in-from-bottom-2 duration-150 flex items-center gap-2 pointer-events-none">
             <ShieldAlert className="size-3.5 text-emerald-500" />
             <span>{toastMessage}</span>
           </div>
