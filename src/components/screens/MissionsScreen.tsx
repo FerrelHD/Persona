@@ -11,15 +11,18 @@ const StarIcon: React.FC<{ className?: string; fill?: string }> = ({ className =
   </svg>
 )
 
-// Starburst Lens Flare radiating neatly on the active slot badge
-const StarLensBurst: React.FC = () => (
-  <div className="absolute -top-2.5 -left-2.5 pointer-events-none z-30 flex items-center justify-center">
-    {/* Horizontal ray beam */}
-    <div className="absolute w-20 h-0.5 bg-gradient-to-r from-transparent via-white to-transparent opacity-95 rotate-12" />
-    {/* Vertical ray beam */}
-    <div className="absolute h-20 w-0.5 bg-gradient-to-b from-transparent via-white to-transparent opacity-95 -rotate-12" />
-    {/* Core star diamond */}
-    <div className="size-3 bg-white rotate-45 shadow-[0_0_10px_#ffffff]" />
+// Authentic Persona 5 4-point comic star glint on the active slot badge
+const StarGlitter: React.FC = () => (
+  <div className="absolute -top-2 -left-2.5 pointer-events-none z-30 flex items-center justify-center filter drop-shadow-[2px_2px_0px_#000000]">
+    <svg width="20" height="20" viewBox="0 0 24 24">
+      <polygon
+        points="12,1 14.5,8.5 22,12 14.5,15.5 12,23 9.5,15.5 2,12 9.5,8.5"
+        fill="#FFFFFF"
+        stroke="#000000"
+        strokeWidth="2"
+        strokeLinejoin="miter"
+      />
+    </svg>
   </div>
 )
 
@@ -138,7 +141,7 @@ export const MissionsScreen: React.FC<MissionsScreenProps> = ({ onBack }) => {
                   <div className="flex items-center gap-2.5 shrink-0">
                     {/* Number Badge with Persona Corner Sparkle */}
                     <div className="relative bg-black text-white font-p5Heading text-base sm:text-lg px-2.5 py-0.5 border border-white shadow-[2px_2px_0px_#000] -rotate-1 shrink-0">
-                      <StarLensBurst />
+                      <StarGlitter />
                       {mission.slotNumber}
                     </div>
 

@@ -27,7 +27,7 @@ const CHAT_MESSAGES: ChatMessage[] = [
     avatarImg: '/assets/p5r_renders/futaba.png',
     avatarBg: 'bg-amber-500',
     nameColor: 'text-amber-400',
-    text: 'Target identified! Ferrel, a Creative Fullstack Architect from Jakarta!',
+    text: 'Found him! Ferrel, full-stack & creative developer based in Jakarta.',
   },
   {
     id: 2,
@@ -36,7 +36,7 @@ const CHAT_MESSAGES: ChatMessage[] = [
     avatarImg: '/assets/morgana.jpg',
     avatarBg: 'bg-cyan-600',
     nameColor: 'text-cyan-400',
-    text: 'Heh! Look at his track record. Enterprise reactivity, sub-second renders, and custom HLSL shaders?!',
+    text: 'Look at what he built—live earthquake telemetry, an F1 web experience, and custom Unity shaders.',
   },
   {
     id: 3,
@@ -45,7 +45,7 @@ const CHAT_MESSAGES: ChatMessage[] = [
     avatarImg: '/assets/p5r_renders/futaba.png',
     avatarBg: 'bg-amber-500',
     nameColor: 'text-amber-400',
-    text: 'And his AI stack is certified! Transformer fine-tuning (IndoBERT) & PyTorch neural architectures on lock!',
+    text: 'He also fine-tuned an IndoBERT NLP transformer model on PyTorch. Real repos, real commits!',
   },
   {
     id: 4,
@@ -55,7 +55,7 @@ const CHAT_MESSAGES: ChatMessage[] = [
     avatarBg: 'bg-red-600',
     nameColor: 'text-p5-crimson',
     isSent: true,
-    text: '"Never settle for ordinary interfaces. Every screen deserves character, fluid physics, and soul."',
+    text: 'I care about crafting interfaces with character and fluid feel, not just another boilerplate template.',
   },
   {
     id: 5,
@@ -64,7 +64,7 @@ const CHAT_MESSAGES: ChatMessage[] = [
     avatarImg: '/assets/joker.jpg',
     avatarBg: 'bg-zinc-800',
     nameColor: 'text-zinc-300',
-    text: 'Sounds like our kind of architect. Shall we steal some hearts together?',
+    text: 'An engineer who builds with identity and precision. Let us see his full arsenal.',
     hasQuestionMark: true
   },
   {
@@ -74,7 +74,7 @@ const CHAT_MESSAGES: ChatMessage[] = [
     avatarImg: '/assets/p5r_renders/futaba.png',
     avatarBg: 'bg-amber-500',
     nameColor: 'text-amber-400',
-    text: 'Ready when you are! Check out his MISSIONS or send a direct dispatch in COMMS!',
+    text: 'Check out his deployed work in MISSIONS or send a dispatch directly in COMMS!',
   }
 ]
 
@@ -237,7 +237,7 @@ export const AboutScreen: React.FC<AboutScreenProps> = ({ onBack }) => {
                 </div>
 
                 {/* Red Notification Pill (6) */}
-                <div className="bg-white text-p5-crimson font-p5Heading text-[9px] font-black px-1.5 py-0.2 rounded-full border border-black shadow-[1px_1px_0px_#000000] -rotate-6 animate-bounce">
+                <div className="bg-white text-p5-crimson font-p5Heading text-[9px] font-black px-1.5 py-0.2 rounded-full border border-black shadow-[1px_1px_0px_#000000] -rotate-6">
                   6
                 </div>
 

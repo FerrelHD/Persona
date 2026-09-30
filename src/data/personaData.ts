@@ -1,4 +1,4 @@
-﻿export interface Mission {
+export interface Mission {
   id: string
   slotNumber: string
   calendarDate: string
@@ -19,15 +19,6 @@
   githubUrl: string
   stats: { label: string; value: string }[]
   image: string
-}
-
-export interface Testimonial {
-  id: string
-  author: string
-  role: string
-  text: string
-  time: string
-  avatarLetter: string
 }
 
 export const MISSIONS_DATA: Mission[] = [
@@ -234,38 +225,4 @@ export const MISSIONS_DATA: Mission[] = [
       { label: 'SECURITY', value: 'CSRF & Auth' }
     ]
   }
-];
-
-export const TESTIMONIALS_DATA: Testimonial[] = [
-  {
-    id: 't-1',
-    author: 'Mishima_Admin',
-    role: 'PhanSite Founder',
-    text: 'Ferrel turned real engineering projects into pure art. The Global Seismic Tracker and Leclerc Redline are unbelievable!',
-    time: '2m ago',
-    avatarLetter: 'M'
-  },
-  {
-    id: 't-2',
-    author: 'Chief_Architect_Ken',
-    role: 'Tech Lead',
-    text: 'A rare developer who bridges deep AI (IndoBERT) with game shaders and slick frontend animations with 60 FPS.',
-    time: '14m ago',
-    avatarLetter: 'K'
-  },
-  {
-    id: 't-3',
-    author: 'Futaba_Navi',
-    role: 'Security & Intel',
-    text: 'All 8 GitHub heist files verified on the Metaverse grid. Code quality: S-Rank Phantom Thief!',
-    time: '35m ago',
-    avatarLetter: 'F'
-  }
-];
-
-export const SKILLS_DATA = [
-  { category: 'FRONTEND ARCHITECTURE', level: 98, stack: 'TypeScript, JavaScript, React 18, Vue 3, Tailwind CSS, Vite' },
-  { category: 'AI & DATA SCIENCE', level: 94, stack: 'Python, IndoBERT (Hugging Face), PyTorch, NLP Sentiment, Pandas, Scikit-learn' },
-  { category: 'GAME & SHADER DEV', level: 90, stack: 'Unity 3D Engine, C#, ShaderLab, HLSL Graphics, Vehicle Physics' },
-  { category: 'BACKEND & CLOUD DEPLOY', level: 89, stack: 'PHP Laravel, Node.js, REST APIs, MySQL, Vercel Serverless, Git CI/CD' },
 ];
