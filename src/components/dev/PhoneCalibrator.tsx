@@ -10,9 +10,9 @@ export interface PhoneLayoutConfig {
 }
 
 export const DEFAULT_PHONE_LAYOUT: PhoneLayoutConfig = {
-  translateX: -10,
+  translateX: -19.5,
   translateY: 72,
-  scale: 1.0,
+  scale: 0.95,
   rotate: 0,
   heightVh: 90,
 }

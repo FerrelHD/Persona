@@ -90,7 +90,7 @@ export const AboutScreen: React.FC<AboutScreenProps> = ({ onBack }) => {
   const [phoneConfig, setPhoneConfig] = useState<PhoneLayoutConfig>(() => {
     if (typeof window !== 'undefined') {
       try {
-        const saved = localStorage.getItem('p5_phone_layout_v1')
+        const saved = localStorage.getItem('p5_phone_layout_v2')
         if (saved) return { ...DEFAULT_PHONE_LAYOUT, ...JSON.parse(saved) }
       } catch { /* ignore */ }
     }
@@ -102,13 +102,14 @@ export const AboutScreen: React.FC<AboutScreenProps> = ({ onBack }) => {
   const handleUpdatePhoneConfig = (updates: Partial<PhoneLayoutConfig>) => {
     setPhoneConfig(prev => {
       const next = { ...prev, ...updates }
-      localStorage.setItem('p5_phone_layout_v1', JSON.stringify(next))
+      localStorage.setItem('p5_phone_layout_v2', JSON.stringify(next))
       return next
     })
   }
 
   const handleResetPhoneConfig = () => {
     localStorage.removeItem('p5_phone_layout_v1')
+    localStorage.removeItem('p5_phone_layout_v2')
     setPhoneConfig(DEFAULT_PHONE_LAYOUT)
   }
 
