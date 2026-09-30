@@ -53,7 +53,7 @@ export const TransitLoadingScreen: React.FC<TransitLoadingScreenProps> = ({
         {/* Station Target Banner */}
         <div className="bg-black text-white px-3.5 sm:px-4 py-1 text-xs sm:text-sm font-p5Sub tracking-wider uppercase -skew-x-12 border-l-4 border-[#E60012] shadow-[3px_3px_0px_#E60012] mt-1">
           <span className="text-[#E60012] font-black mr-2">BOUND FOR:</span>
-          <span>FERREL'S PALACE // YONGEN-JAYA</span>
+          <span>MIDWNTR'S PALACE // YONGEN-JAYA</span>
         </div>
       </div>
 
