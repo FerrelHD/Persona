@@ -165,7 +165,7 @@ export const CallingCardScreen: React.FC<CallingCardScreenProps> = ({ onBack }) 
           <div className="flex items-center justify-between pb-2 border-b-2 sm:border-b-4 border-black mb-2.5 sm:mb-3 gap-2">
             <div className="flex items-center gap-2">
               <span className="bg-emerald-600 text-white font-p5Heading text-sm sm:text-lg px-2.5 py-0.5 border-2 border-black shadow-[2px_2px_0px_#000] -rotate-1 tracking-wider">
-                NOTICE OF INTENT // いこうひょうめいしょ
+                CALLING CARD
               </span>
               <span className="hidden sm:inline-block font-p5Mono text-[9px] text-zinc-500 uppercase tracking-widest font-bold">
                 [DOC.P5-CALLING-CARD]
@@ -334,12 +334,6 @@ export const CallingCardScreen: React.FC<CallingCardScreenProps> = ({ onBack }) 
               <span>@FerrelHD</span>
               <ExternalLink className="size-2.5 text-zinc-400" />
             </a>
-
-            {/* Encrypted Radio Frequency */}
-            <div className="hidden md:flex items-center gap-1.5 text-[10px] text-zinc-600 font-bold shrink-0">
-              <Radio className="size-3 text-emerald-600 animate-pulse" />
-              <span>FREQ 108.4 MHZ</span>
-            </div>
           </div>
         </div>
       </div>
