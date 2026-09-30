@@ -281,7 +281,7 @@ export const CallingCardScreen: React.FC<CallingCardScreenProps> = ({ onBack }) 
                 <div className="size-2 rounded-full bg-zinc-400 border border-black shadow-[1px_1px_0px_#000]" />
                 <div className="size-2 rounded-full bg-zinc-400 border border-black shadow-[1px_1px_0px_#000]" />
                 <span className="hidden sm:inline-block font-p5Mono text-[9px] text-zinc-400 font-bold tracking-widest uppercase">
-                  [SHIBUYA 109 Q-FRONT // WIDESCREEN DISPLAY #04]
+                  [SHIBUYA 109 Q-FRONT]
                 </span>
               </div>
 

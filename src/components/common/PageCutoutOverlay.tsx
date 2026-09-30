@@ -35,7 +35,7 @@ const SUBTITLE_MAP: Record<string, [string, string]> = {
   'SKILLS':   ['PARAMETRIC ARSENAL', 'LV. 99 MASTERIES'],
   'ABOUT':    ['CONFIDANT DOSSIER', 'THE PHANTOM DEV'],
   'ABOUT ME': ['CONFIDANT DOSSIER', 'THE PHANTOM DEV'],
-  'COMMS':    ['DIRECT DISPATCH', 'SEND CALLING CARD'],
+  'COMMS':    ['DISPATCH', 'CALLING CARD'],
 }
 
 const TILE_ROTATIONS = ['-rotate-6', 'rotate-3', '-rotate-3', 'rotate-4', '-rotate-2', 'rotate-6', '-rotate-4', 'rotate-2']
