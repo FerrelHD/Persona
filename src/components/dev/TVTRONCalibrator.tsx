@@ -234,9 +234,9 @@ export const TVTRONCalibrator: React.FC<TVTRONCalibratorProps> = ({
               </button>
               <input
                 type="range"
-                min={360}
-                max={680}
-                step={5}
+                min={400}
+                max={1100}
+                step={10}
                 value={config.maxWidth}
                 onChange={(e) => onChange({ maxWidth: Number(e.target.value) })}
                 className="flex-1 accent-emerald-400 h-1.5 bg-zinc-700 rounded-lg cursor-pointer"

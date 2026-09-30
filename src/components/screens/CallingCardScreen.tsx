@@ -11,10 +11,10 @@ interface CallingCardScreenProps {
 
 const DEFAULT_TVTRON_LAYOUT: TVTRONLayoutConfig = {
   top: 135,
-  left: 47,
-  scale: 0.77,
+  left: 44,
+  scale: 1.0,
   rotate: -1,
-  maxWidth: 510,
+  maxWidth: 860,
 }
 
 const GithubIcon: React.FC = () => (
@@ -88,7 +88,8 @@ export const CallingCardScreen: React.FC<CallingCardScreenProps> = ({ onBack }) 
   // ── TVTRON DYNAMIC POSITION CALIBRATOR (State & Persistence) ──
   const [tvtronConfig, setTvtronConfig] = useState<TVTRONLayoutConfig>(() => {
     localStorage.removeItem('p5_tvtron_layout_v1')
-    const saved = localStorage.getItem('p5_tvtron_layout_v2')
+    localStorage.removeItem('p5_tvtron_layout_v2')
+    const saved = localStorage.getItem('p5_tvtron_layout_v3')
     if (saved) {
       try {
         const parsed = JSON.parse(saved)
@@ -105,7 +106,7 @@ export const CallingCardScreen: React.FC<CallingCardScreenProps> = ({ onBack }) 
   const handleUpdateConfig = (updates: Partial<TVTRONLayoutConfig>) => {
     setTvtronConfig(prev => {
       const next = { ...prev, ...updates }
-      localStorage.setItem('p5_tvtron_layout_v2', JSON.stringify(next))
+      localStorage.setItem('p5_tvtron_layout_v3', JSON.stringify(next))
       return next
     })
   }
@@ -113,6 +114,7 @@ export const CallingCardScreen: React.FC<CallingCardScreenProps> = ({ onBack }) 
   const handleResetConfig = () => {
     localStorage.removeItem('p5_tvtron_layout_v1')
     localStorage.removeItem('p5_tvtron_layout_v2')
+    localStorage.removeItem('p5_tvtron_layout_v3')
     setTvtronConfig(DEFAULT_TVTRON_LAYOUT)
   }
 
@@ -272,20 +274,20 @@ export const CallingCardScreen: React.FC<CallingCardScreenProps> = ({ onBack }) 
               isShaking ? 'animate-bounce' : ''
             }`}
           >
-            {/* 1. TOP STEEL TRUSS & 3 BILLBOARD FLOODLIGHTS */}
+            {/* 1. TOP STEEL TRUSS & 5 BILLBOARD FLOODLIGHTS */}
             <div className="relative bg-gradient-to-r from-zinc-950 via-zinc-800 to-zinc-950 border-b-4 border-black px-3 py-1.5 flex items-center justify-between z-30">
               {/* Left Steel Joint with Rivet */}
               <div className="flex items-center gap-1.5">
                 <div className="size-2 rounded-full bg-zinc-400 border border-black shadow-[1px_1px_0px_#000]" />
                 <div className="size-2 rounded-full bg-zinc-400 border border-black shadow-[1px_1px_0px_#000]" />
                 <span className="hidden sm:inline-block font-p5Mono text-[9px] text-zinc-400 font-bold tracking-widest uppercase">
-                  [SHIBUYA 109 Q-FRONT]
+                  [SHIBUYA 109 Q-FRONT // WIDESCREEN DISPLAY #04]
                 </span>
               </div>
 
-              {/* 3 Physical Outdoor Floodlight Lamps (with glowing bulbs & cones) */}
-              <div className="flex items-center gap-6 sm:gap-10">
-                {[1, 2, 3].map(lampId => (
+              {/* 5 Physical Outdoor Floodlight Lamps (with glowing bulbs & cones) */}
+              <div className="flex items-center gap-4 sm:gap-10">
+                {[1, 2, 3, 4, 5].map(lampId => (
                   <div key={lampId} className="relative flex flex-col items-center">
                     {/* Metal bracket & hood */}
                     <div className="w-2.5 h-1 bg-zinc-600 border border-black" />
@@ -296,10 +298,10 @@ export const CallingCardScreen: React.FC<CallingCardScreenProps> = ({ onBack }) 
                 ))}
               </div>
 
-              {/* Right Steel Joint & Screen ID Plaque */}
+              {/* Right Steel Joint & Hijack Status */}
               <div className="flex items-center gap-1.5">
                 <span className="bg-emerald-500 text-black font-p5Mono text-[9px] font-black px-1.5 py-0.5 border border-black shadow-[1px_1px_0px_#000]">
-                  SCREEN #04
+                  HIJACK SIGNAL: 100%
                 </span>
                 <div className="size-2 rounded-full bg-zinc-400 border border-black shadow-[1px_1px_0px_#000]" />
               </div>
@@ -308,237 +310,243 @@ export const CallingCardScreen: React.FC<CallingCardScreenProps> = ({ onBack }) 
             {/* Left Hardware Hijack Hazard Cable running down the side */}
             <div className="absolute -left-3.5 top-8 bottom-8 w-2 hazard-stripe border border-black shadow-[2px_2px_0px_#000] z-30 pointer-events-none hidden sm:block" />
 
-            {/* 2. GIANT OUTDOOR LED MATRIX DISPLAY SCREEN */}
-            <div className="relative p-2.5 sm:p-3 bg-black">
-              {/* Spotlight Cones Overlay projecting onto screen from top */}
-              <div className="absolute inset-x-0 top-0 h-16 billboard-spotlight-cone z-20 pointer-events-none" />
-
-              {/* Screen Bezel & LED Surface */}
-              <div
-                className={`relative w-full rounded-sm border-2 border-zinc-700 bg-[#050B08] p-3 sm:p-3.5 shadow-[inset_0_4px_16px_rgba(0,0,0,0.95)] overflow-hidden transition-all ${
-                  isGlitching ? 'animate-signal-glitch' : 'animate-crt-flicker'
-                }`}
-              >
-                {/* Outdoor LED Matrix Pixel Grid + Scanlines + Vignette (Placed in background z-0 with soft opacity) */}
-                <div className="absolute inset-0 led-matrix-grid z-0 pointer-events-none opacity-20" />
-                <div className="absolute inset-0 crt-scanlines z-0 pointer-events-none opacity-20" />
-                <div className="absolute inset-0 crt-vignette z-0 pointer-events-none opacity-30" />
-
-                {/* Live Broadcast Content (Elevated to z-20 for 100% crisp sharpness) */}
-                <div className="relative z-20 space-y-2">
-                  {/* Top LED Broadcast Bar */}
-                  <div className="flex items-center justify-between border-b border-emerald-800/80 pb-1.5 gap-2">
-                    {/* On-Air Record Indicator */}
-                    <div className="flex items-center gap-1.5 bg-red-950 border border-red-500 px-2 py-0.5 text-red-400 text-[10px] font-p5Mono font-black tracking-widest uppercase">
-                      <span className="size-2 rounded-full bg-red-500 animate-rec-blink" />
-                      <span>LIVE BROADCAST</span>
-                    </div>
-
-                    {/* Central Emergency Header */}
-                    <div className="flex items-center gap-1.5 text-white font-p5Heading text-xs sm:text-sm tracking-wider drop-shadow-[2px_2px_0px_#000]">
-                      <Flame className="size-3.5 text-red-500 fill-red-500 animate-pulse" />
-                      <span className="text-yellow-300">★ TAKE YOUR HEART ★</span>
-                    </div>
-
-                    {/* Frequency Locked Indicator */}
-                    <div className="flex items-center gap-1.5 text-[10px] font-p5Mono text-emerald-400 font-bold bg-black/80 px-2 py-0.5 border border-emerald-900">
-                      <span className="text-yellow-300 font-black">{activePreset.freq}</span>
-                      <div className="flex items-end gap-0.5 h-3">
-                        <span className="w-0.5 bg-emerald-400 animate-pulse h-1.5" />
-                        <span className="w-0.5 bg-emerald-400 animate-pulse h-3 delay-75" />
-                        <span className="w-0.5 bg-emerald-400 animate-pulse h-2 delay-150" />
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Target Callout in High-Voltage LED */}
-                  <div className="flex items-center gap-2 pt-0.5">
-                    <span className="font-p5Heading text-sm sm:text-base md:text-lg text-white font-black tracking-wide truncate drop-shadow-[2px_2px_0px_#000]">
-                      {recipient.trim() ? recipient : 'UNDISCLOSED TARGET'}
-                    </span>
-                  </div>
-
-                  {/* Live Manifesto Body with Blinking Block Terminal Cursor */}
-                  <div className="font-p5Body text-xs sm:text-[13.5px] text-white leading-relaxed font-semibold min-h-[3rem] max-h-[4rem] overflow-y-auto no-scrollbar p-2 bg-black/50 border border-emerald-900/60 rounded-sm drop-shadow-[1px_1px_0px_rgba(0,0,0,0.95)]">
-                    <span>{message}</span>
-                    <span className="inline-block w-2 h-3.5 ml-1 bg-yellow-300 animate-pulse align-middle" />
-                  </div>
-
-                  {/* Outdoor Billboard Marquee (Running Text Ticker) */}
-                  <div className="relative mt-1 bg-black border-t-2 border-emerald-500 py-1 overflow-hidden">
-                    <div className="flex items-center gap-1 text-[10px] font-p5Mono text-white whitespace-nowrap overflow-hidden">
-                      <div className="animate-marquee-scroll">
-                        <span className="mr-8 font-bold">
-                          ▶ ▶ BREAKING: SHIBUYA SCRAMBLE CROSSING BILLBOARD FREQUENCIES HIJACKED BY THE PHANTOM THIEVES
-                        </span>
-                        <span className="mr-8 text-yellow-300 font-black">
-                          ▶ TARGET: {recipient.trim() ? recipient.toUpperCase() : 'UNKNOWN'}
-                        </span>
-                        <span className="mr-8 text-red-400 font-extrabold">
-                          ▶ ALL DISTORTED DESIRES SHALL BE CONFISCATED
-                        </span>
-                        <span className="mr-8 font-bold">
-                          ▶ ▶ BREAKING: SHIBUYA SCRAMBLE CROSSING BILLBOARD FREQUENCIES HIJACKED BY THE PHANTOM THIEVES
-                        </span>
-                        <span className="mr-8 text-yellow-300 font-black">
-                          ▶ TARGET: {recipient.trim() ? recipient.toUpperCase() : 'UNKNOWN'}
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* 3. BILLBOARD MAINTENANCE & OVERRIDE CONTROL DECK */}
-            <div className="bg-[#15191E] border-t-4 border-black p-3 sm:p-4 space-y-2.5">
+            {/* 2 & 3. WIDESCREEN 2-COLUMN GRID (SCREEN LEFT, CONTROL DECK RIGHT) */}
+            <div className="grid grid-cols-1 md:grid-cols-12 divide-y-4 md:divide-y-0 md:divide-x-4 divide-black bg-black">
               
-              {/* Tactical Transmission Channel Presets */}
-              <div>
-                <div className="flex items-center justify-between mb-1">
-                  <span className="font-p5Sub text-[10px] sm:text-[11px] text-zinc-200 uppercase tracking-wider font-bold flex items-center gap-1">
-                    <Radio className="size-3 text-emerald-400" />
-                    BROADCAST FREQUENCY CHANNEL:
-                  </span>
-                  <span className="font-p5Mono text-[9px] text-emerald-400 font-bold">
-                    4 BAND OVERRIDES
-                  </span>
-                </div>
+              {/* ── LEFT COLUMN (7 COLS): OUTDOOR VIDEOTRON LED DISPLAY ── */}
+              <div className="md:col-span-7 relative p-2.5 sm:p-3 bg-black flex flex-col justify-between overflow-hidden min-h-[290px]">
+                {/* Spotlight Cones Overlay projecting onto screen from top */}
+                <div className="absolute inset-x-0 top-0 h-16 billboard-spotlight-cone z-20 pointer-events-none" />
 
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-1.5">
-                  {BROADCAST_CHANNELS.map(preset => {
-                    const isActive = selectedChannel === preset.id
-                    return (
-                      <button
-                        key={preset.id}
-                        type="button"
-                        onClick={() => handleSelectChannel(preset)}
-                        onMouseEnter={playHover}
-                        className={`
-                          relative px-2 py-1.5 font-p5Heading text-xs sm:text-[13px] tracking-wider uppercase border-2 transition-all flex flex-col items-start justify-center cursor-pointer text-left
-                          ${
-                            isActive
-                              ? 'bg-emerald-500 text-black border-white shadow-[2.5px_2.5px_0px_#000000] -rotate-1 font-black scale-[1.02]'
-                              : 'bg-zinc-900 text-zinc-200 border-zinc-600 hover:border-emerald-400 hover:text-white'
-                          }
-                        `}
-                      >
-                        {/* LED Indicator Light */}
-                        <div className="flex items-center justify-between w-full mb-0.5">
-                          <span className={`text-[9px] font-p5Mono font-bold ${isActive ? 'text-black' : 'text-zinc-400'}`}>
-                            {preset.channel}
-                          </span>
-                          <span
-                            className={`size-2.5 rounded-full border border-black ${
-                              isActive
-                                ? 'bg-yellow-300 shadow-[0_0_8px_#FBBF24] animate-pulse'
-                                : 'bg-zinc-700'
-                            }`}
-                          />
+                {/* Screen Bezel & LED Surface */}
+                <div
+                  className={`relative w-full h-full rounded-sm border-2 border-zinc-700 bg-[#050B08] p-3 sm:p-3.5 shadow-[inset_0_4px_16px_rgba(0,0,0,0.95)] flex flex-col justify-between overflow-hidden transition-all ${
+                    isGlitching ? 'animate-signal-glitch' : 'animate-crt-flicker'
+                  }`}
+                >
+                  {/* Outdoor LED Matrix Pixel Grid + Scanlines + Vignette (Placed in background z-0 with soft opacity) */}
+                  <div className="absolute inset-0 led-matrix-grid z-0 pointer-events-none opacity-20" />
+                  <div className="absolute inset-0 crt-scanlines z-0 pointer-events-none opacity-20" />
+                  <div className="absolute inset-0 crt-vignette z-0 pointer-events-none opacity-30" />
+
+                  {/* Live Broadcast Content (Elevated to z-20 for 100% crisp sharpness) */}
+                  <div className="relative z-20 flex flex-col justify-between h-full space-y-2.5">
+                    {/* Top LED Broadcast Bar */}
+                    <div className="flex items-center justify-between border-b border-emerald-800/80 pb-1.5 gap-2">
+                      {/* On-Air Record Indicator */}
+                      <div className="flex items-center gap-1.5 bg-red-950 border border-red-500 px-2 py-0.5 text-red-400 text-[10px] font-p5Mono font-black tracking-widest uppercase">
+                        <span className="size-2 rounded-full bg-red-500 animate-rec-blink" />
+                        <span>LIVE BROADCAST</span>
+                      </div>
+
+                      {/* Central Emergency Header */}
+                      <div className="flex items-center gap-1.5 text-white font-p5Heading text-xs sm:text-sm tracking-wider drop-shadow-[2px_2px_0px_#000]">
+                        <Flame className="size-3.5 text-red-500 fill-red-500 animate-pulse" />
+                        <span className="text-yellow-300">★ TAKE YOUR HEART ★</span>
+                      </div>
+
+                      {/* Frequency Locked Indicator */}
+                      <div className="flex items-center gap-1.5 text-[10px] font-p5Mono text-emerald-400 font-bold bg-black/80 px-2 py-0.5 border border-emerald-900">
+                        <span className="text-yellow-300 font-black">{activePreset.freq}</span>
+                        <div className="flex items-end gap-0.5 h-3">
+                          <span className="w-0.5 bg-emerald-400 animate-pulse h-1.5" />
+                          <span className="w-0.5 bg-emerald-400 animate-pulse h-3 delay-75" />
+                          <span className="w-0.5 bg-emerald-400 animate-pulse h-2 delay-150" />
                         </div>
-                        <span className="font-bold leading-tight line-clamp-1">{preset.label}</span>
-                        <span className={`text-[9px] font-p5Mono mt-0.5 ${isActive ? 'text-zinc-900 font-extrabold' : 'text-emerald-400 font-bold'}`}>
-                          {preset.rank}
-                        </span>
-                      </button>
-                    )
-                  })}
+                      </div>
+                    </div>
+
+                    {/* Target Callout in High-Voltage LED */}
+                    <div className="flex items-center gap-2 pt-0.5">
+                      <span className="bg-black text-white px-1.5 py-0.5 text-[10px] font-black -skew-x-12 border border-white">
+                        TARGET
+                      </span>
+                      <span className="font-p5Heading text-sm sm:text-base md:text-lg text-white font-black tracking-wide truncate drop-shadow-[2px_2px_0px_#000]">
+                        {recipient.trim() ? recipient : 'UNDISCLOSED TARGET'}
+                      </span>
+                    </div>
+
+                    {/* Live Manifesto Body with Blinking Block Terminal Cursor */}
+                    <div className="font-p5Body text-xs sm:text-sm text-white leading-relaxed font-semibold min-h-[4.5rem] flex-1 overflow-y-auto no-scrollbar p-2.5 bg-black/60 border border-emerald-900/60 rounded-sm drop-shadow-[1px_1px_0px_rgba(0,0,0,0.95)]">
+                      <span>{message}</span>
+                      <span className="inline-block w-2 h-3.5 ml-1 bg-yellow-300 animate-pulse align-middle" />
+                    </div>
+
+                    {/* Outdoor Billboard Marquee (Running Text Ticker) */}
+                    <div className="relative mt-1 bg-black border-t-2 border-emerald-500 py-1 overflow-hidden">
+                      <div className="flex items-center gap-1 text-[10px] font-p5Mono text-white whitespace-nowrap overflow-hidden">
+                        <div className="animate-marquee-scroll">
+                          <span className="mr-8 font-bold">
+                            ▶ ▶ BREAKING: SHIBUYA SCRAMBLE CROSSING BILLBOARD FREQUENCIES HIJACKED BY THE PHANTOM THIEVES
+                          </span>
+                          <span className="mr-8 text-yellow-300 font-black">
+                            ▶ TARGET: {recipient.trim() ? recipient.toUpperCase() : 'UNKNOWN'}
+                          </span>
+                          <span className="mr-8 text-red-400 font-extrabold">
+                            ▶ ALL DISTORTED DESIRES SHALL BE CONFISCATED
+                          </span>
+                          <span className="mr-8 font-bold">
+                            ▶ ▶ BREAKING: SHIBUYA SCRAMBLE CROSSING BILLBOARD FREQUENCIES HIJACKED BY THE PHANTOM THIEVES
+                          </span>
+                          <span className="mr-8 text-yellow-300 font-black">
+                            ▶ TARGET: {recipient.trim() ? recipient.toUpperCase() : 'UNKNOWN'}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
 
-              {/* Input Form: Target Override & Manifesto Payload */}
-              <form onSubmit={handleBroadcast} className="space-y-2">
-                {/* Target Input */}
-                <div className="flex items-center gap-2 font-p5Heading text-xs sm:text-sm border-b-2 border-zinc-600 pb-1.5">
-                  <div className="flex items-center gap-0.5 shrink-0">
-                    <span className="bg-black text-white px-2 py-0.5 text-[10px] sm:text-xs font-black -skew-x-12 border-2 border-white">
-                      TO
-                    </span>
-                    <span className="bg-emerald-500 text-black px-2 py-0.5 text-[10px] sm:text-xs font-black -skew-x-6 border-2 border-black">
-                      TARGET:
-                    </span>
-                  </div>
-                  <input
-                    type="text"
-                    value={recipient}
-                    onChange={e => setRecipient(e.target.value)}
-                    placeholder="Enter Recipient Company / Team..."
-                    className="flex-1 bg-black/60 border border-zinc-700 focus:border-emerald-400 px-2.5 py-1 font-p5Body text-white font-bold text-xs sm:text-sm focus:outline-none placeholder:text-zinc-500 tracking-wide rounded-sm"
-                  />
-                </div>
-
-                {/* Message Textarea */}
+              {/* ── RIGHT COLUMN (5 COLS): MAINTENANCE & OVERRIDE CONTROL DECK ── */}
+              <div className="md:col-span-5 bg-[#15191E] p-3 sm:p-3.5 flex flex-col justify-between space-y-2.5">
+                {/* Tactical Transmission Channel Presets (2x2 Grid) */}
                 <div>
-                  <span className="block font-p5Sub text-[10px] text-zinc-300 uppercase tracking-wider mb-1 font-bold">
-                    MANIFESTO PAYLOAD:
-                  </span>
-                  <textarea
-                    rows={2}
-                    value={message}
-                    onChange={e => setMessage(e.target.value)}
-                    className="w-full bg-black/95 border-2 border-zinc-600 focus:border-emerald-400 p-2.5 font-p5Body text-xs sm:text-sm text-white focus:text-yellow-100 resize-none leading-snug font-semibold h-[3.8rem] sm:h-[4.2rem] rounded-sm placeholder:text-zinc-500"
-                  />
-                </div>
-
-                {/* Footer: Operator Signature & Broadcast Trigger Button */}
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pt-1 border-t border-zinc-800">
-                  <div className="font-p5Heading text-[10px] sm:text-xs text-zinc-400">
-                    OPERATOR: <span className="text-emerald-400 font-bold tracking-wide">FERREL // THE ARCHITECT</span>
+                  <div className="flex items-center justify-between mb-1">
+                    <span className="font-p5Sub text-[10px] sm:text-[11px] text-zinc-200 uppercase tracking-wider font-bold flex items-center gap-1">
+                      <Radio className="size-3 text-emerald-400" />
+                      FREQUENCY CHANNEL:
+                    </span>
+                    <span className="font-p5Mono text-[9px] text-emerald-400 font-bold">
+                      4 BANDS
+                    </span>
                   </div>
 
-                  <button
-                    type="submit"
-                    onMouseEnter={playHover}
-                    className={`
-                      inline-flex items-center justify-center gap-1.5 px-3.5 sm:px-4 py-1.5 font-p5Heading text-xs sm:text-sm md:text-base tracking-wider uppercase border-2 border-black shadow-[3px_3px_0px_#000000] transition-all cursor-pointer font-black
-                      ${
-                        isSent
-                          ? 'bg-emerald-500 text-black hover:bg-emerald-400'
-                          : 'bg-emerald-600 hover:bg-emerald-500 text-black -rotate-1 hover:rotate-0 hover:scale-105 active:scale-95 shadow-[0_0_12px_rgba(16,185,129,0.4)]'
-                      }
-                    `}
-                  >
-                    {isSent ? (
-                      <>
-                        <CheckCircle2 className="size-4" />
-                        RE-BROADCAST TRANSMISSION
-                      </>
-                    ) : (
-                      <>
-                        <Zap className="size-4 fill-black" />
-                        EXECUTE BROADCAST
-                      </>
-                    )}
-                  </button>
+                  <div className="grid grid-cols-2 gap-1.5">
+                    {BROADCAST_CHANNELS.map(preset => {
+                      const isActive = selectedChannel === preset.id
+                      return (
+                        <button
+                          key={preset.id}
+                          type="button"
+                          onClick={() => handleSelectChannel(preset)}
+                          onMouseEnter={playHover}
+                          className={`
+                            relative px-2 py-1.5 font-p5Heading text-xs sm:text-[12px] tracking-wider uppercase border-2 transition-all flex flex-col items-start justify-center cursor-pointer text-left
+                            ${
+                              isActive
+                                ? 'bg-emerald-500 text-black border-white shadow-[2px_2px_0px_#000000] -rotate-1 font-black scale-[1.02]'
+                                : 'bg-zinc-900 text-zinc-200 border-zinc-600 hover:border-emerald-400 hover:text-white'
+                            }
+                          `}
+                        >
+                          {/* LED Indicator Light */}
+                          <div className="flex items-center justify-between w-full mb-0.5">
+                            <span className={`text-[9px] font-p5Mono font-bold ${isActive ? 'text-black' : 'text-zinc-400'}`}>
+                              {preset.channel}
+                            </span>
+                            <span
+                              className={`size-2 rounded-full border border-black ${
+                                isActive
+                                  ? 'bg-yellow-300 shadow-[0_0_8px_#FBBF24] animate-pulse'
+                                  : 'bg-zinc-700'
+                              }`}
+                            />
+                          </div>
+                          <span className="font-bold leading-tight line-clamp-1">{preset.label}</span>
+                          <span className={`text-[8.5px] font-p5Mono mt-0.5 ${isActive ? 'text-zinc-900 font-extrabold' : 'text-emerald-400 font-bold'}`}>
+                            {preset.rank}
+                          </span>
+                        </button>
+                      )
+                    })}
+                  </div>
                 </div>
-              </form>
 
-              {/* Direct Frequency Dials docked at bottom */}
-              <div className="pt-1.5 border-t border-dashed border-zinc-700 flex items-center justify-between gap-2 text-[10px] font-p5Mono">
-                {/* Email with copy */}
-                <button
-                  type="button"
-                  onClick={handleCopyEmail}
-                  className="inline-flex items-center gap-1 bg-black text-white px-2 py-0.5 hover:bg-emerald-600 hover:text-black transition-colors border border-zinc-700 shadow-[2px_2px_0px_#000] cursor-pointer shrink-0"
-                  title="Click to Copy Direct Frequency Email"
-                >
-                  <Mail className="size-3 text-yellow-300" />
-                  <span>{USER_EMAIL}</span>
-                  <Copy className="size-2.5 text-zinc-400 ml-1" />
-                  {hasCopiedEmail && <span className="text-emerald-400 text-[9px] font-bold">COPIED!</span>}
-                </button>
+                {/* Input Form: Target Override & Manifesto Payload */}
+                <form onSubmit={handleBroadcast} className="space-y-2 flex-1 flex flex-col justify-between">
+                  {/* Target Input */}
+                  <div className="flex items-center gap-1.5 font-p5Heading text-xs sm:text-sm border-b-2 border-zinc-600 pb-1">
+                    <div className="flex items-center gap-0.5 shrink-0">
+                      <span className="bg-black text-white px-1.5 py-0.5 text-[9px] sm:text-[10px] font-black -skew-x-12 border border-white">
+                        TO
+                      </span>
+                      <span className="bg-emerald-500 text-black px-1.5 py-0.5 text-[9px] sm:text-[10px] font-black -skew-x-6 border border-black">
+                        TARGET:
+                      </span>
+                    </div>
+                    <input
+                      type="text"
+                      value={recipient}
+                      onChange={e => setRecipient(e.target.value)}
+                      placeholder="Enter Target Company / Team..."
+                      className="flex-1 bg-black/60 border border-zinc-700 focus:border-emerald-400 px-2 py-0.5 font-p5Body text-white font-bold text-xs focus:outline-none placeholder:text-zinc-500 tracking-wide rounded-sm"
+                    />
+                  </div>
 
-                {/* GitHub */}
-                <a
-                  href="https://github.com/FerrelHD"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1 bg-black text-white px-2 py-0.5 hover:bg-emerald-600 hover:text-black transition-colors border border-zinc-700 shadow-[2px_2px_0px_#000] cursor-pointer shrink-0"
-                >
-                  <GithubIcon />
-                  <span>@FerrelHD</span>
-                  <ExternalLink className="size-2.5 text-zinc-400" />
-                </a>
+                  {/* Message Textarea */}
+                  <div>
+                    <span className="block font-p5Sub text-[9.5px] text-zinc-300 uppercase tracking-wider mb-0.5 font-bold">
+                      MANIFESTO PAYLOAD:
+                    </span>
+                    <textarea
+                      rows={2}
+                      value={message}
+                      onChange={e => setMessage(e.target.value)}
+                      className="w-full bg-black/95 border-2 border-zinc-600 focus:border-emerald-400 p-2 font-p5Body text-xs text-white focus:text-yellow-100 resize-none leading-snug font-semibold h-[3.2rem] rounded-sm placeholder:text-zinc-500"
+                    />
+                  </div>
+
+                  {/* Footer: Operator Signature & Broadcast Trigger Button */}
+                  <div className="flex items-center justify-between gap-1.5 pt-1 border-t border-zinc-800">
+                    <div className="font-p5Heading text-[9px] sm:text-[10px] text-zinc-400">
+                      OPERATOR: <span className="text-emerald-400 font-bold tracking-wide">FERREL</span>
+                    </div>
+
+                    <button
+                      type="submit"
+                      onMouseEnter={playHover}
+                      className={`
+                        inline-flex items-center justify-center gap-1 px-3 py-1 font-p5Heading text-xs sm:text-[13px] tracking-wider uppercase border-2 border-black shadow-[2.5px_2.5px_0px_#000000] transition-all cursor-pointer font-black
+                        ${
+                          isSent
+                            ? 'bg-emerald-500 text-black hover:bg-emerald-400'
+                            : 'bg-emerald-600 hover:bg-emerald-500 text-black -rotate-1 hover:rotate-0 hover:scale-105 active:scale-95 shadow-[0_0_12px_rgba(16,185,129,0.4)]'
+                        }
+                      `}
+                    >
+                      {isSent ? (
+                        <>
+                          <CheckCircle2 className="size-3.5" />
+                          RE-BROADCAST
+                        </>
+                      ) : (
+                        <>
+                          <Zap className="size-3.5 fill-black" />
+                          EXECUTE BROADCAST
+                        </>
+                      )}
+                    </button>
+                  </div>
+                </form>
+
+                {/* Direct Frequency Dials docked at bottom */}
+                <div className="pt-1 border-t border-dashed border-zinc-700 flex items-center justify-between gap-1.5 text-[9.5px] font-p5Mono">
+                  {/* Email with copy */}
+                  <button
+                    type="button"
+                    onClick={handleCopyEmail}
+                    className="inline-flex items-center gap-1 bg-black text-white px-1.5 py-0.5 hover:bg-emerald-600 hover:text-black transition-colors border border-zinc-700 shadow-[1.5px_1.5px_0px_#000] cursor-pointer shrink-0 truncate max-w-[190px]"
+                    title="Click to Copy Direct Frequency Email"
+                  >
+                    <Mail className="size-2.5 text-yellow-300 shrink-0" />
+                    <span className="truncate">{USER_EMAIL}</span>
+                    <Copy className="size-2 text-zinc-400 shrink-0 ml-0.5" />
+                    {hasCopiedEmail && <span className="text-emerald-400 text-[8.5px] font-bold shrink-0">COPIED!</span>}
+                  </button>
+
+                  {/* GitHub */}
+                  <a
+                    href="https://github.com/FerrelHD"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1 bg-black text-white px-1.5 py-0.5 hover:bg-emerald-600 hover:text-black transition-colors border border-zinc-700 shadow-[1.5px_1.5px_0px_#000] cursor-pointer shrink-0"
+                  >
+                    <GithubIcon />
+                    <span>@FerrelHD</span>
+                    <ExternalLink className="size-2 text-zinc-400 shrink-0" />
+                  </a>
+                </div>
               </div>
             </div>
 
