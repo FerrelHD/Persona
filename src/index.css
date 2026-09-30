@@ -696,34 +696,40 @@
   will-change: transform, opacity;
 }
 
-/* Persona 5 Comic Speech Bubble Pop Animation (Opsi A) */
+/* Persona 5 Comic Speech Bubble Pop Animation (Snappy Instant Pop) */
 @keyframes p5-bubble-pop {
   0% {
     opacity: 0;
-    transform: scale(0.65) translateY(18px) skewX(-3deg);
-    filter: brightness(1.3);
+    transform: scale(0.7) translateY(12px) skewX(-3deg) translateZ(0);
   }
-  65% {
+  15% {
     opacity: 1;
-    transform: scale(1.03) translateY(-2px) skewX(-1.5deg);
-    filter: brightness(1.05);
+  }
+  60% {
+    opacity: 1;
+    transform: scale(1.03) translateY(-2px) skewX(-1.5deg) translateZ(0);
   }
   100% {
     opacity: 1;
-    transform: scale(1) translateY(0) skewX(-2deg);
-    filter: brightness(1);
+    transform: scale(1) translateY(0) skewX(-2deg) translateZ(0);
   }
 }
 .p5-bubble-pop-anim {
-  animation: p5-bubble-pop 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
+  animation: p5-bubble-pop 0.22s cubic-bezier(0.16, 1, 0.3, 1) both;
   will-change: transform, opacity;
+  transform: translateZ(0);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
 }
 
-/* Persona 5 Giant Kanji Splash Backdrop */
+/* Persona 5 Giant Kanji Splash Backdrop (Instant Snappy) */
 @keyframes p5-splash-kanji {
   0% {
     opacity: 0;
     transform: scale(0.92) translateZ(0);
+  }
+  20% {
+    opacity: 1;
   }
   100% {
     opacity: 1;
@@ -731,7 +737,7 @@
   }
 }
 .p5-splash-text-anim {
-  animation: p5-splash-kanji 0.38s cubic-bezier(0.16, 1, 0.3, 1) 0.08s both;
+  animation: p5-splash-kanji 0.25s cubic-bezier(0.16, 1, 0.3, 1) both;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: geometricPrecision;

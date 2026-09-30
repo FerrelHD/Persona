@@ -28,7 +28,7 @@ const VIDEO_MAP: Record<ActiveScreen, string> = {
   callingCard: '/assets/videos/fuuka.mp4',
 }
 
-type TransitionPhase = 'idle' | 'expand' | 'collapse'
+type TransitionPhase = 'idle' | 'expand' | 'covered' | 'collapse'
 
 export function App() {
   // Quietly prefetch all 5 compressed videos and key artwork in background
@@ -133,20 +133,29 @@ export function App() {
   // Called when video starts playing or is ready
   const handleVideoReady = useCallback(() => {
     videoReadyRef.current = true
-    if (isVideoLoading) {
+    if (isVideoLoading || transPhase === 'covered') {
       proceedToCollapse()
     }
     checkLoadingComplete()
-  }, [isVideoLoading, proceedToCollapse, checkLoadingComplete])
+  }, [isVideoLoading, transPhase, proceedToCollapse, checkLoadingComplete])
 
-  // Phase 1 ends: screen is 100% covered by the iris color -> swap content immediately without loading stall
+  // Phase 1 ends: screen is 100% covered by the iris color -> swap content in the dark and wait for media
   const handleExpandEnd = useCallback(() => {
     if (pendingScreen) {
       setCurrentScreen(pendingScreen)
       setPendingScreen(null)
     }
 
-    proceedToCollapse()
+    setTransPhase('covered')
+
+    if (videoReadyRef.current) {
+      proceedToCollapse()
+    } else {
+      setIsVideoLoading(true)
+      fallbackTimerRef.current = setTimeout(() => {
+        proceedToCollapse()
+      }, 500)
+    }
   }, [pendingScreen, proceedToCollapse])
 
   // Phase 2 ends: iris has fully reopened -> back to idle
@@ -224,11 +233,20 @@ export function App() {
           style={{
             backgroundColor: irisColor,
             transform: 'translateZ(0)',
+            clipPath: transPhase === 'covered' ? 'circle(150% at 50% 50%)' : undefined,
             animation: transPhase === 'expand'
               ? 'iris-expand 0.16s cubic-bezier(0.2, 0, 0, 1) forwards'
-              : 'iris-collapse 0.16s cubic-bezier(0.2, 0, 0, 1) forwards',
+              : transPhase === 'collapse'
+              ? 'iris-collapse 0.16s cubic-bezier(0.2, 0, 0, 1) forwards'
+              : 'none',
           }}
-          onAnimationEnd={transPhase === 'expand' ? handleExpandEnd : handleCollapseEnd}
+          onAnimationEnd={
+            transPhase === 'expand'
+              ? handleExpandEnd
+              : transPhase === 'collapse'
+              ? handleCollapseEnd
+              : undefined
+          }
         />
       )}
     </div>

@@ -29,6 +29,8 @@ const PRELOAD_IMAGES = [
   '/assets/student-life.png',
   '/assets/stock-prediction.png',
   '/assets/street-rush.webp',
+  '/assets/SpeechBubbleWithName.png',
+  '/assets/speech-bubble-p5.png',
   '/assets/Eco-Bite.png',
   '/assets/fersya-shop.webp',
 ]
@@ -41,13 +43,23 @@ export function useAssetPreloader() {
 
     // Run preloading quietly when browser is idle
     const startPreload = () => {
-      // 1. Preload key images into browser cache
+      // 1. Eagerly warm up Japanese Kanji fonts so CJK glyph slices load into memory
+      if (typeof document !== 'undefined' && 'fonts' in document) {
+        const KANJI_GLYPHS = '喜多川祐介佐倉双葉モルガナ坂本竜司高巻杏雨宮蓮'
+        document.fonts.load('800 16px "Shippori Mincho"', KANJI_GLYPHS).catch(() => {})
+        document.fonts.load('700 16px "Noto Serif JP"', KANJI_GLYPHS).catch(() => {})
+      }
+
+      // 2. Preload key images into browser cache & decode GPU textures
       PRELOAD_IMAGES.forEach(src => {
         const img = new Image()
         img.src = src
+        if ('decode' in img) {
+          img.decode().catch(() => {})
+        }
       })
 
-      // 2. Preload videos using low-priority fetch so they sit in HTTP cache
+      // 3. Preload videos using low-priority fetch so they sit in HTTP cache
       PRELOAD_VIDEOS.forEach(src => {
         try {
           fetch(src, { priority: 'low' } as RequestInit).catch(() => {

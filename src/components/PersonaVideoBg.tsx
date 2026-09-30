@@ -18,7 +18,7 @@ export const PersonaVideoBg: React.FC<PersonaVideoBgProps> = ({ videoSrc, onRead
       videoRef.current.muted = true
       videoRef.current.defaultMuted = true
       videoRef.current.play().catch(() => {
-        // Fallback or ignore if user interaction required
+        // Autoplay policy fallback
       })
     }
   }, [currentSrc])
@@ -31,6 +31,8 @@ export const PersonaVideoBg: React.FC<PersonaVideoBgProps> = ({ videoSrc, onRead
     if (currentSrc !== '/assets/videos/joker.mp4') {
       console.warn(`[PersonaVideoBg] Video failed to load (${currentSrc}). Falling back to default Joker video`)
       setCurrentSrc('/assets/videos/joker.mp4')
+    } else {
+      onReady?.()
     }
   }
 
