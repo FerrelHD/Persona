@@ -1038,3 +1038,173 @@
     padding: 0.15rem 0.45rem !important;
   }
 }
+
+/* ── Shibuya Broadcast CRT & Signal Glitch FX ── */
+.crt-screen {
+  position: relative;
+  overflow: hidden;
+  background-color: #070e0b;
+}
+
+.crt-scanlines {
+  background: linear-gradient(
+    rgba(18, 16, 16, 0) 50%, 
+    rgba(0, 0, 0, 0.18) 50%
+  );
+  background-size: 100% 4px;
+  pointer-events: none;
+}
+
+.crt-vignette {
+  box-shadow: inset 0 0 35px rgba(0, 0, 0, 0.65);
+  pointer-events: none;
+}
+
+.crt-phosphor-glow {
+  text-shadow: 0 0 2px rgba(255, 255, 255, 0.9), 0 0 8px rgba(16, 185, 129, 0.5);
+}
+
+.crt-amber-glow {
+  text-shadow: 0 0 6px rgba(250, 204, 21, 0.65), 0 0 12px rgba(250, 204, 21, 0.35);
+}
+
+.crt-red-glow {
+  text-shadow: 0 0 6px rgba(230, 0, 18, 0.75), 0 0 14px rgba(230, 0, 18, 0.4);
+}
+
+@keyframes crt-flicker {
+  0% { opacity: 0.985; }
+  50% { opacity: 1; }
+  52% { opacity: 0.97; }
+  54% { opacity: 1; }
+  80% { opacity: 0.99; }
+  90% { opacity: 0.975; }
+  100% { opacity: 1; }
+}
+
+.animate-crt-flicker {
+  animation: crt-flicker 0.15s infinite;
+}
+
+@keyframes signal-glitch {
+  0% { transform: translate(0, 0) skew(0deg); filter: contrast(1); }
+  20% { transform: translate(-3px, 2px) skew(-1.5deg); filter: contrast(1.4) hue-rotate(15deg); }
+  40% { transform: translate(2px, -2px) skew(1deg); filter: invert(0.15); }
+  60% { transform: translate(-2px, -1px) skew(-0.5deg); filter: contrast(1.2); }
+  80% { transform: translate(3px, 1px) skew(1.5deg); filter: hue-rotate(-20deg); }
+  100% { transform: translate(0, 0) skew(0deg); filter: contrast(1); }
+}
+
+.animate-signal-glitch {
+  animation: signal-glitch 0.28s ease-in-out forwards;
+}
+
+@keyframes led-blink {
+  0%, 100% { opacity: 1; filter: drop-shadow(0 0 6px #10B981); }
+  50% { opacity: 0.3; filter: drop-shadow(0 0 1px #10B981); }
+}
+
+.animate-led-blink {
+  animation: led-blink 1s ease-in-out infinite;
+}
+
+@keyframes rec-blink {
+  0%, 100% { opacity: 1; filter: drop-shadow(0 0 8px #E60012); }
+  50% { opacity: 0.2; filter: none; }
+}
+
+.animate-rec-blink {
+  animation: rec-blink 0.8s ease-in-out infinite;
+}
+
+/* ── Shibuya Outdoor Videotron LED Matrix & Marquee FX ── */
+.led-matrix-grid {
+  background-image: 
+    radial-gradient(rgba(255, 255, 255, 0.12) 1px, transparent 1px),
+    linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.5) 50%);
+  background-size: 4px 4px, 100% 4px;
+  pointer-events: none;
+}
+
+@keyframes marquee-scroll {
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-marquee-scroll {
+  display: inline-flex;
+  white-space: nowrap;
+  animation: marquee-scroll 24s linear infinite;
+  will-change: transform;
+}
+
+.hazard-stripe {
+  background: repeating-linear-gradient(
+    -45deg,
+    #FACC15,
+    #FACC15 8px,
+    #000000 8px,
+    #000000 16px
+  );
+}
+
+.billboard-spotlight-cone {
+  background: radial-gradient(
+    ellipse at top,
+    rgba(255, 255, 255, 0.28) 0%,
+    rgba(255, 255, 255, 0.08) 45%,
+    transparent 80%
+  );
+  pointer-events: none;
+}
+
+/* ── TVTRON Absolute Anchor & Laptop Smart Aspect Scaling ── */
+.tvtron-anchor-container {
+  position: absolute;
+  top: 135px;
+  left: 1.5rem;
+  width: calc(100% - 3rem);
+  max-width: 530px;
+  z-index: 20;
+  transform-origin: top left;
+}
+
+@media (min-width: 640px) {
+  .tvtron-anchor-container {
+    left: 2rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .tvtron-anchor-container {
+    left: 2.75rem;
+    max-width: 480px;
+  }
+}
+
+@media (min-width: 1280px) {
+  .tvtron-anchor-container {
+    left: 3.5rem;
+    max-width: 520px;
+  }
+}
+
+/* Compact Laptop & Short Screen Protection (< 840px viewport height) */
+@media (max-height: 840px) {
+  .tvtron-anchor-container {
+    top: 125px !important;
+    transform: scale(0.85) !important;
+    transform-origin: top left !important;
+  }
+}
+
+/* Ultra-Compact Laptop (e.g. 720p / 1080p @ 150% scaling: <= 720px viewport height) */
+@media (max-height: 720px) {
+  .tvtron-anchor-container {
+    top: 110px !important;
+    transform: scale(0.76) !important;
+    transform-origin: top left !important;
+  }
+}
+
+

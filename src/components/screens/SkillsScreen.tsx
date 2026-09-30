@@ -613,7 +613,7 @@ const DEFAULT_BUBBLES: Record<string, BubbleConfig> = {
   },
   ann: {
     side: 'left',
-    posX: 42,
+    posX: 38,
     top: 22,
     width: 530,
     bubbleRotate: 0,
@@ -760,11 +760,10 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
 
   // Character list with dynamic positioning state
   const [characterList, setCharacterList] = useState<PhantomCharacter[]>(() => {
-    localStorage.removeItem('p5_characters_bocchi_v3')
-    localStorage.removeItem('p5_characters_bocchi_v4')
     localStorage.removeItem('p5_characters_bocchi_v5')
     localStorage.removeItem('p5_characters_bocchi_v6')
-    const saved = localStorage.getItem('p5_characters_bocchi_v7')
+    localStorage.removeItem('p5_characters_bocchi_v7')
+    const saved = localStorage.getItem('p5_characters_bocchi_v8')
     if (saved) {
       try {
         const parsed = JSON.parse(saved)
@@ -798,9 +797,9 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
 
   // Floating comic speech bubble configuration state (persisted in localStorage)
   const [bubbleList, setBubbleList] = useState<Record<string, BubbleConfig>>(() => {
-    localStorage.removeItem('p5_bubbles_v9')
     localStorage.removeItem('p5_bubbles_v10')
-    const saved = localStorage.getItem('p5_bubbles_v11')
+    localStorage.removeItem('p5_bubbles_v11')
+    const saved = localStorage.getItem('p5_bubbles_v12')
     if (saved) {
       try {
         const parsed = JSON.parse(saved)
@@ -814,16 +813,16 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
     setBubbleList(prev => {
       const current = prev[calibratingCharId] || DEFAULT_BUBBLES[calibratingCharId] || DEFAULT_BUBBLES.joker
       const next = { ...prev, [calibratingCharId]: { ...current, ...updates } }
-      localStorage.setItem('p5_bubbles_v11', JSON.stringify(next))
+      localStorage.setItem('p5_bubbles_v12', JSON.stringify(next))
       return next
     })
   }
 
   // Floating giant Japanese kanji configuration state (persisted in localStorage)
   const [kanjiList, setKanjiList] = useState<Record<string, KanjiConfig>>(() => {
-    localStorage.removeItem('p5_kanji_v4')
     localStorage.removeItem('p5_kanji_v5')
-    const saved = localStorage.getItem('p5_kanji_v6')
+    localStorage.removeItem('p5_kanji_v6')
+    const saved = localStorage.getItem('p5_kanji_v7')
     if (saved) {
       try {
         const parsed = JSON.parse(saved)
@@ -837,7 +836,7 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
     setKanjiList(prev => {
       const current = prev[calibratingCharId] || DEFAULT_KANJI_CONFIGS[calibratingCharId] || DEFAULT_KANJI_CONFIGS.joker
       const next = { ...prev, [calibratingCharId]: { ...current, ...updates } }
-      localStorage.setItem('p5_kanji_v6', JSON.stringify(next))
+      localStorage.setItem('p5_kanji_v7', JSON.stringify(next))
       return next
     })
   }
@@ -854,7 +853,7 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
   const updateCalibratingChar = (updates: Partial<PhantomCharacter>) => {
     setCharacterList(prev => {
       const next = prev.map(c => c.id === calibratingCharId ? { ...c, ...updates } : c)
-      localStorage.setItem('p5_characters_bocchi_v7', JSON.stringify(next))
+      localStorage.setItem('p5_characters_bocchi_v8', JSON.stringify(next))
       return next
     })
     if (updates.camera) {
@@ -876,20 +875,17 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
   }
 
   const resetToDefaultPositions = () => {
-    localStorage.removeItem('p5_characters_bocchi_v3')
-    localStorage.removeItem('p5_characters_bocchi_v4')
     localStorage.removeItem('p5_characters_bocchi_v5')
     localStorage.removeItem('p5_characters_bocchi_v6')
     localStorage.removeItem('p5_characters_bocchi_v7')
-    localStorage.removeItem('p5_bubbles_v7')
-    localStorage.removeItem('p5_bubbles_v8')
+    localStorage.removeItem('p5_characters_bocchi_v8')
     localStorage.removeItem('p5_bubbles_v9')
     localStorage.removeItem('p5_bubbles_v10')
     localStorage.removeItem('p5_bubbles_v11')
-    localStorage.removeItem('p5_kanji_v3')
-    localStorage.removeItem('p5_kanji_v4')
+    localStorage.removeItem('p5_bubbles_v12')
     localStorage.removeItem('p5_kanji_v5')
     localStorage.removeItem('p5_kanji_v6')
+    localStorage.removeItem('p5_kanji_v7')
     setCharacterList(PHANTOM_CHARACTERS)
     setBubbleList(DEFAULT_BUBBLES)
     setKanjiList(DEFAULT_KANJI_CONFIGS)

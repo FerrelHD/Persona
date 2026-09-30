@@ -1,11 +1,20 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { PageCutoutOverlay } from '@/components/common/PageCutoutOverlay'
 import { usePersonaSFX } from '@/hooks/usePersonaSFX'
-import { Mail, CheckCircle2, Copy, Send, Radio, ExternalLink, Flame, ShieldAlert } from 'lucide-react'
+import { Mail, CheckCircle2, Copy, Send, Radio, ExternalLink, Flame, ShieldAlert, Zap, RadioTower, Sliders } from 'lucide-react'
 import confetti from 'canvas-confetti'
+import { TVTRONCalibrator, TVTRONLayoutConfig } from '@/components/dev/TVTRONCalibrator'
 
 interface CallingCardScreenProps {
   onBack: () => void
+}
+
+const DEFAULT_TVTRON_LAYOUT: TVTRONLayoutConfig = {
+  top: 135,
+  left: 47,
+  scale: 0.77,
+  rotate: -1,
+  maxWidth: 510,
 }
 
 const GithubIcon: React.FC = () => (
@@ -14,9 +23,21 @@ const GithubIcon: React.FC = () => (
   </svg>
 )
 
-const CONTRACT_PRESETS = [
+interface BroadcastChannel {
+  id: string
+  channel: string
+  freq: string
+  rank: string
+  label: string
+  subject: string
+  text: string
+}
+
+const BROADCAST_CHANNELS: BroadcastChannel[] = [
   {
     id: 'HIRE',
+    channel: 'CH.01',
+    freq: '89.1 MHz',
     rank: 'RANK S',
     label: 'HIRE FULL-TIME',
     subject: '[HEIST PROPOSAL] Full-Time Engineering Opportunity',
@@ -24,6 +45,8 @@ const CONTRACT_PRESETS = [
   },
   {
     id: 'FREELANCE',
+    channel: 'CH.02',
+    freq: '94.5 MHz',
     rank: 'RANK A',
     label: 'FREELANCE HEIST',
     subject: '[HEIST PROPOSAL] Urgent Freelance / Contract Mission',
@@ -31,6 +54,8 @@ const CONTRACT_PRESETS = [
   },
   {
     id: 'COLLAB',
+    channel: 'CH.03',
+    freq: '98.9 MHz',
     rank: 'RANK EX',
     label: 'ALL-OUT COLLAB',
     subject: '[HEIST PROPOSAL] Creative Technology Collaboration',
@@ -38,6 +63,8 @@ const CONTRACT_PRESETS = [
   },
   {
     id: 'COFFEE',
+    channel: 'CH.04',
+    freq: '104.2 MHz',
     rank: 'CASUAL',
     label: 'CASUAL CHAT',
     subject: '[HEIST PROPOSAL] Tech Talk & Coffee Connect',
@@ -48,73 +75,134 @@ const CONTRACT_PRESETS = [
 export const CallingCardScreen: React.FC<CallingCardScreenProps> = ({ onBack }) => {
   const { playHover, playSlash, playStamp } = usePersonaSFX()
   const [recipient, setRecipient] = useState('Innovative Engineering Team')
-  const [selectedContract, setSelectedContract] = useState('HIRE')
-  const [message, setMessage] = useState(CONTRACT_PRESETS[0].text)
+  const [selectedChannel, setSelectedChannel] = useState('HIRE')
+  const [message, setMessage] = useState(BROADCAST_CHANNELS[0].text)
   const [isSent, setIsSent] = useState(false)
-  const [showStampOverlay, setShowStampOverlay] = useState(false)
+  const [showBroadcastOverlay, setShowBroadcastOverlay] = useState(false)
   const [hasCopiedEmail, setHasCopiedEmail] = useState(false)
   const [toastMessage, setToastMessage] = useState<string | null>(null)
+  const [isGlitching, setIsGlitching] = useState(false)
   const [isShaking, setIsShaking] = useState(false)
-  const stampTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const overlayTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  // ── TVTRON DYNAMIC POSITION CALIBRATOR (State & Persistence) ──
+  const [tvtronConfig, setTvtronConfig] = useState<TVTRONLayoutConfig>(() => {
+    localStorage.removeItem('p5_tvtron_layout_v1')
+    const saved = localStorage.getItem('p5_tvtron_layout_v2')
+    if (saved) {
+      try {
+        const parsed = JSON.parse(saved)
+        if (parsed && typeof parsed.top === 'number') {
+          return { ...DEFAULT_TVTRON_LAYOUT, ...parsed }
+        }
+      } catch { /* ignore */ }
+    }
+    return DEFAULT_TVTRON_LAYOUT
+  })
+  const [isCalibratorOpen, setIsCalibratorOpen] = useState(false)
+  const [copiedConfigSuccess, setCopiedConfigSuccess] = useState(false)
+
+  const handleUpdateConfig = (updates: Partial<TVTRONLayoutConfig>) => {
+    setTvtronConfig(prev => {
+      const next = { ...prev, ...updates }
+      localStorage.setItem('p5_tvtron_layout_v2', JSON.stringify(next))
+      return next
+    })
+  }
+
+  const handleResetConfig = () => {
+    localStorage.removeItem('p5_tvtron_layout_v1')
+    localStorage.removeItem('p5_tvtron_layout_v2')
+    setTvtronConfig(DEFAULT_TVTRON_LAYOUT)
+  }
+
+  const handleCopyConfig = () => {
+    const payload = JSON.stringify(tvtronConfig, null, 2)
+    navigator.clipboard?.writeText(payload)
+    setCopiedConfigSuccess(true)
+    setTimeout(() => setCopiedConfigSuccess(false), 2000)
+  }
+
+  // Keyboard navigation: Shift+C to toggle Calibrator, Escape to close
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.shiftKey && (e.key === 'C' || e.key === 'c')) {
+        e.preventDefault()
+        playSlash()
+        setIsCalibratorOpen(prev => !prev)
+        return
+      }
+      if (e.key === 'Escape' && isCalibratorOpen) {
+        e.preventDefault()
+        setIsCalibratorOpen(false)
+      }
+    }
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [isCalibratorOpen, playSlash])
 
   useEffect(() => {
     return () => {
-      if (stampTimeoutRef.current) {
-        clearTimeout(stampTimeoutRef.current)
+      if (overlayTimeoutRef.current) {
+        clearTimeout(overlayTimeoutRef.current)
       }
     }
   }, [])
 
   const USER_EMAIL = 'ferrelrashadakeyla2014@gmail.com'
+  const activePreset = BROADCAST_CHANNELS.find(c => c.id === selectedChannel) || BROADCAST_CHANNELS[0]
 
-  const handleSelectPreset = (preset: typeof CONTRACT_PRESETS[0]) => {
+  const handleSelectChannel = (channel: BroadcastChannel) => {
     playSlash()
-    setSelectedContract(preset.id)
-    setMessage(preset.text)
+    setSelectedChannel(channel.id)
+    setMessage(channel.text)
   }
 
-  const handleSend = (e: React.FormEvent) => {
+  const handleBroadcast = (e: React.FormEvent) => {
     e.preventDefault()
     playStamp()
     setIsSent(true)
-    setShowStampOverlay(true)
+    setIsGlitching(true)
     setIsShaking(true)
+    setShowBroadcastOverlay(true)
 
-    setTimeout(() => setIsShaking(false), 500)
+    setTimeout(() => {
+      setIsGlitching(false)
+      setIsShaking(false)
+    }, 450)
 
-    // Auto-hide the stamp overlay after 2.8 seconds so the card is visible and usable again
-    if (stampTimeoutRef.current) {
-      clearTimeout(stampTimeoutRef.current)
+    // Auto-hide the broadcast takeover banner after 3.2 seconds
+    if (overlayTimeoutRef.current) {
+      clearTimeout(overlayTimeoutRef.current)
     }
-    stampTimeoutRef.current = setTimeout(() => {
-      setShowStampOverlay(false)
-    }, 2800)
+    overlayTimeoutRef.current = setTimeout(() => {
+      setShowBroadcastOverlay(false)
+    }, 3200)
 
-    // Trigger Persona Red & Gold Confetti
+    // Trigger Persona Emerald, Gold, Red & White Confetti
     try {
       confetti({
-        particleCount: 120,
-        spread: 90,
+        particleCount: 130,
+        spread: 100,
         origin: { x: 0.35, y: 0.55 },
-        colors: ['#10B981', '#34D399', '#FFFFFF', '#000000', '#FFD700'],
+        colors: ['#10B981', '#34D399', '#E60012', '#FFFFFF', '#000000', '#FFD700'],
       })
     } catch {
       // Fallback
     }
 
     // Prepare mailto link
-    const currentPreset = CONTRACT_PRESETS.find(p => p.id === selectedContract) || CONTRACT_PRESETS[0]
-    const subject = encodeURIComponent(`${currentPreset.subject} // From ${recipient}`)
+    const subject = encodeURIComponent(`${activePreset.subject} // From ${recipient}`)
     const body = encodeURIComponent(
-      `TO: Ferrel (The Architect)\n\nFROM: ${recipient}\nOBJECTIVE: ${currentPreset.label}\n\nDECLARATION:\n${message}\n\n---\nSent via Persona 5 Portfolio Calling Card Dispatch`
+      `TO: Ferrel (The Architect)\n\nFROM: ${recipient}\nFREQUENCY: ${activePreset.freq} // ${activePreset.label}\n\nDECLARATION:\n${message}\n\n---\nBroadcasted via Persona 5 Shibuya Outdoor Videotron Hijack`
     )
     const mailtoUrl = `mailto:${USER_EMAIL}?subject=${subject}&body=${body}`
 
     // Copy to clipboard
-    const fullText = `TO: Ferrel\nRECIPIENT: ${recipient}\nMISSION: ${currentPreset.label}\n\n${message}\n\nContact: ${USER_EMAIL}`
+    const fullText = `TO: Ferrel\nTARGET RECIPIENT: ${recipient}\nCHANNEL: ${activePreset.channel} (${activePreset.label})\nFREQUENCY: ${activePreset.freq}\n\n${message}\n\nContact: ${USER_EMAIL}`
     navigator.clipboard?.writeText(fullText).catch(() => { })
 
-    setToastMessage('DISPATCH COPIED & EMAIL CLIENT OPENED!')
+    setToastMessage('TRANSMISSION COPIED & EMAIL CLIENT OPENED!')
     setTimeout(() => setToastMessage(null), 3500)
 
     // Open user's mail client
@@ -127,7 +215,7 @@ export const CallingCardScreen: React.FC<CallingCardScreenProps> = ({ onBack }) 
     playSlash()
     navigator.clipboard?.writeText(USER_EMAIL)
     setHasCopiedEmail(true)
-    setToastMessage('EMAIL COPIED TO CLIPBOARD!')
+    setToastMessage('FREQUENCY (EMAIL) COPIED TO CLIPBOARD!')
     setTimeout(() => {
       setHasCopiedEmail(false)
       setToastMessage(null)
@@ -135,218 +223,381 @@ export const CallingCardScreen: React.FC<CallingCardScreenProps> = ({ onBack }) 
   }
 
   return (
-    <div className="fixed inset-0 z-30 flex flex-col justify-between p-4 sm:p-6 md:p-8 select-none overflow-hidden bg-gradient-to-r from-black/95 from-0% via-black/80 via-35% to-transparent to-55% animate-in fade-in duration-200 pt-20 sm:pt-24 md:pt-26 laptop-skills-pad pb-6">
-      {/* Page Title Cutout Overlay with COMMS label */}
+    <div className="fixed inset-0 z-30 select-none overflow-hidden bg-gradient-to-r from-black/95 from-0% via-black/80 via-35% to-transparent to-55% animate-in fade-in duration-200">
+      {/* Page Title Cutout Overlay with COMMS label and Calibrator Shortcut */}
       <PageCutoutOverlay
         title="COMMS"
         characterRole="NAVIGATOR"
         characterName="FUUKA YAMAGISHI"
         accentColor="emerald"
         onBack={onBack}
+        extraShortcuts={
+          <button
+            onClick={() => {
+              playSlash()
+              setIsCalibratorOpen(prev => !prev)
+            }}
+            className="flex items-center gap-1.5 hover:text-white group cursor-pointer transition-colors"
+            title="Adjust TVTRON Position (Shift + C)"
+          >
+            <span className="size-5 rounded-full border-2 border-emerald-400 text-emerald-400 font-bold flex items-center justify-center text-[10px] group-hover:bg-emerald-400 group-hover:text-black transition-colors shadow-[0_0_6px_rgba(16,185,129,0.4)]">
+              C
+            </span>
+            <span className="font-p5Heading text-xs sm:text-sm tracking-wider uppercase">ADJUST TVTRON</span>
+          </button>
+        }
       />
 
-      {/* Main Content Area: Centered vertically */}
-      <div className="flex-1 flex flex-col justify-center items-start my-auto z-20 w-full max-w-xl lg:max-w-[48%] xl:max-w-[45%] pl-2 sm:pl-6 md:pl-8 laptop-comms-deck">
-        <div className="w-full p5-comms-entrance">
-          {/* Authentic Physical Calling Card Postcard with Push Pin & Dog-Ear Corner */}
+      {/* Main Content Area: Absolute Anchor with Real-Time Position Adjuster */}
+      <div
+        style={{
+          position: 'absolute',
+          top: `${tvtronConfig.top}px`,
+          left: `${tvtronConfig.left}px`,
+          width: `calc(100% - ${tvtronConfig.left * 2}px)`,
+          maxWidth: `${tvtronConfig.maxWidth}px`,
+          transform: `scale(${tvtronConfig.scale}) rotate(${tvtronConfig.rotate}deg)`,
+          transformOrigin: 'top left',
+          zIndex: 20,
+        }}
+        className="transition-transform duration-75"
+      >
+        <div className="w-full p5-comms-entrance relative">
+          
+          {/* ══════════════════════════════════════════════════════════════════
+              SHIBUYA VIDEOTRON / OUTDOOR BILLBOARD STRUCTURAL UNIT
+             ══════════════════════════════════════════════════════════════════ */}
           <div
-            className={`relative w-full bg-[#FAF8F5] text-black border-4 sm:border-[5px] border-black shadow-[10px_10px_0px_#000000] -rotate-1 transition-transform duration-300 p-4 sm:p-5 laptop-postcard-pad ${isShaking ? 'animate-bounce' : ''
-              }`}
+            className={`relative w-full bg-[#12161A] text-white border-4 border-black shadow-[12px_12px_0px_#000000] -rotate-1 transition-transform duration-300 ${
+              isShaking ? 'animate-bounce' : ''
+            }`}
           >
-          {/* 3D Bulletin Thumbtack Pin */}
-          <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 z-30 flex items-center justify-center pointer-events-none">
-            <div className="relative size-6 sm:size-7 rounded-full bg-gradient-to-br from-zinc-700 via-black to-zinc-900 border-2 border-white shadow-[0_4px_6px_rgba(0,0,0,0.7),2px_2px_0px_#000]">
-              <div className="absolute inset-1 rounded-full bg-emerald-500 opacity-90" />
-              <div className="absolute top-1 left-1.5 size-1.5 rounded-full bg-white opacity-80" />
-            </div>
-          </div>
-
-          {/* Top Postcard Header: Notice of Intent & Phantom Emblem */}
-          <div className="flex items-center justify-between pb-2 border-b-2 sm:border-b-4 border-black mb-2.5 sm:mb-3 gap-2">
-            <div className="flex items-center gap-2">
-              <span className="bg-emerald-600 text-white font-p5Heading text-sm sm:text-lg px-2.5 py-0.5 border-2 border-black shadow-[2px_2px_0px_#000] -rotate-1 tracking-wider">
-                CALLING CARD
-              </span>
-              <span className="hidden sm:inline-block font-p5Mono text-[9px] text-zinc-500 uppercase tracking-widest font-bold">
-                [DOC.P5-CALLING-CARD]
-              </span>
-            </div>
-
-            {/* Phantom Thieves Wax Seal Badge */}
-            <div className="border-2 border-dashed border-emerald-600 bg-emerald-50 text-emerald-700 px-2 py-0.5 rotate-2 font-p5Sub text-[10px] sm:text-[11px] font-bold tracking-wider uppercase flex items-center gap-1 shadow-[2px_2px_0px_#059669]">
-              <Flame className="size-3 text-emerald-600 fill-emerald-600 animate-pulse" />
-              <span>TAKE YOUR HEART</span>
-            </div>
-          </div>
-
-          {/* Form */}
-          <form onSubmit={handleSend} className="space-y-2.5 sm:space-y-3 laptop-compact-deck">
-            {/* Target Input with Ransom Cutout Styling */}
-            <div className="flex items-center gap-2 font-p5Heading text-sm sm:text-base border-b-2 border-zinc-800 pb-1">
-              <div className="flex items-center gap-0.5">
-                <span className="bg-black text-white px-1.5 py-0.5 text-xs sm:text-sm font-black -skew-x-12">
-                  TO
-                </span>
-                <span className="bg-emerald-600 text-white px-1.5 py-0.5 text-xs sm:text-sm font-black -skew-x-6">
-                  TARGET:
+            {/* 1. TOP STEEL TRUSS & 3 BILLBOARD FLOODLIGHTS */}
+            <div className="relative bg-gradient-to-r from-zinc-950 via-zinc-800 to-zinc-950 border-b-4 border-black px-3 py-1.5 flex items-center justify-between z-30">
+              {/* Left Steel Joint with Rivet */}
+              <div className="flex items-center gap-1.5">
+                <div className="size-2 rounded-full bg-zinc-400 border border-black shadow-[1px_1px_0px_#000]" />
+                <div className="size-2 rounded-full bg-zinc-400 border border-black shadow-[1px_1px_0px_#000]" />
+                <span className="hidden sm:inline-block font-p5Mono text-[9px] text-zinc-400 font-bold tracking-widest uppercase">
+                  [SHIBUYA 109 Q-FRONT]
                 </span>
               </div>
-              <input
-                type="text"
-                value={recipient}
-                onChange={e => setRecipient(e.target.value)}
-                placeholder="Enter Recipient Company / Team..."
-                className="flex-1 bg-transparent font-p5Body text-zinc-900 font-bold text-sm sm:text-base focus:outline-none placeholder:text-zinc-400 tracking-wide"
-              />
-            </div>
 
-            {/* Objective Pills with P5 Ranks */}
-            <div>
-              <div className="flex items-center justify-between mb-1">
-                <span className="font-p5Sub text-[9px] sm:text-[10px] text-zinc-600 uppercase tracking-wider font-bold">
-                  SELECT HEIST OBJECTIVE:
+              {/* 3 Physical Outdoor Floodlight Lamps (with glowing bulbs & cones) */}
+              <div className="flex items-center gap-6 sm:gap-10">
+                {[1, 2, 3].map(lampId => (
+                  <div key={lampId} className="relative flex flex-col items-center">
+                    {/* Metal bracket & hood */}
+                    <div className="w-2.5 h-1 bg-zinc-600 border border-black" />
+                    <div className="w-5 h-2 bg-zinc-900 border border-black rounded-b flex items-center justify-center">
+                      <div className="size-1.5 rounded-full bg-yellow-200 shadow-[0_0_8px_#FEF08A] animate-pulse" />
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Right Steel Joint & Screen ID Plaque */}
+              <div className="flex items-center gap-1.5">
+                <span className="bg-emerald-500 text-black font-p5Mono text-[9px] font-black px-1.5 py-0.5 border border-black shadow-[1px_1px_0px_#000]">
+                  SCREEN #04
                 </span>
-                <span className="font-p5Mono text-[8px] text-zinc-400">
-                  CONFISCATION PROTOCOL
-                </span>
-              </div>
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-1.5">
-                {CONTRACT_PRESETS.map(preset => {
-                  const isActive = selectedContract === preset.id
-                  return (
-                    <button
-                      key={preset.id}
-                      type="button"
-                      onClick={() => handleSelectPreset(preset)}
-                      onMouseEnter={playHover}
-                      className={`
-                        px-1.5 sm:px-2 py-1 font-p5Heading text-[10px] sm:text-xs tracking-wider uppercase border-2 border-black transition-all flex flex-col items-center justify-center
-                        ${isActive
-                          ? 'bg-emerald-600 text-white shadow-[2.5px_2.5px_0px_#000000] -rotate-1 font-bold scale-[1.02]'
-                          : 'bg-white text-black hover:bg-zinc-100'
-                        }
-                      `}
-                    >
-                      <span className="font-bold leading-tight">{preset.label}</span>
-                      <span className={`text-[8px] font-p5Mono mt-0.5 ${isActive ? 'text-yellow-300' : 'text-zinc-400'}`}>
-                        {preset.rank}
-                      </span>
-                    </button>
-                  )
-                })}
+                <div className="size-2 rounded-full bg-zinc-400 border border-black shadow-[1px_1px_0px_#000]" />
               </div>
             </div>
 
-            {/* Message Body with Vintage Letter Border */}
-            <div>
-              <span className="block font-p5Sub text-[9px] sm:text-[10px] text-zinc-600 uppercase tracking-wider mb-0.5 font-bold">
-                DECLARATION BODY:
-              </span>
-              <div className="relative">
-                <textarea
-                  rows={2}
-                  value={message}
-                  onChange={e => setMessage(e.target.value)}
-                  className="w-full bg-white border-2 border-black pl-3 pr-2.5 py-1.5 sm:py-2 font-p5Body text-xs sm:text-[13px] text-zinc-900 focus:outline-none focus:border-emerald-600 resize-none leading-snug font-semibold h-[4.25rem] sm:h-[4.75rem]"
-                />
-              </div>
-            </div>
+            {/* Left Hardware Hijack Hazard Cable running down the side */}
+            <div className="absolute -left-3.5 top-8 bottom-8 w-2 hazard-stripe border border-black shadow-[2px_2px_0px_#000] z-30 pointer-events-none hidden sm:block" />
 
-            {/* Card Footer: Signature & Dispatch Button */}
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pt-1.5 border-t-2 border-zinc-300">
-              <div className="font-p5Heading text-[11px] sm:text-xs text-zinc-700">
-                SIGNATURE: <span className="text-emerald-700 text-xs sm:text-sm font-bold tracking-wide">FERREL // THE ARCHITECT</span>
-              </div>
+            {/* 2. GIANT OUTDOOR LED MATRIX DISPLAY SCREEN */}
+            <div className="relative p-2.5 sm:p-3 bg-black">
+              {/* Spotlight Cones Overlay projecting onto screen from top */}
+              <div className="absolute inset-x-0 top-0 h-16 billboard-spotlight-cone z-20 pointer-events-none" />
 
-              <button
-                type="submit"
-                onMouseEnter={playHover}
-                className={`
-                  inline-flex items-center justify-center gap-1.5 px-3.5 sm:px-4 py-1.5 font-p5Heading text-xs sm:text-sm md:text-base tracking-wider uppercase border-2 border-black shadow-[3px_3px_0px_#000000] transition-all cursor-pointer
-                  ${isSent
-                    ? 'bg-emerald-600 text-white hover:bg-emerald-700'
-                    : 'bg-emerald-600 hover:bg-emerald-500 text-white -rotate-1 hover:rotate-0 hover:scale-105 active:scale-95'
-                  }
-                `}
-              >
-                {isSent ? (
-                  <>
-                    <CheckCircle2 className="size-4" />
-                    RESEND CALLING CARD
-                  </>
-                ) : (
-                  <>
-                    <Send className="size-4" />
-                    DISPATCH CALLING CARD
-                  </>
-                )}
-              </button>
-            </div>
-          </form>
-
-          {/* SLAMMED STAMP OVERLAY: Renders with violent impact when sent! Auto-dismisses & click to dismiss */}
-          {showStampOverlay && (
-            <div
-              onClick={() => setShowStampOverlay(false)}
-              className="absolute inset-0 cursor-pointer flex items-center justify-center z-40 overflow-hidden bg-black/20 backdrop-blur-[1px] animate-in fade-in duration-150 pointer-events-auto"
-              title="Click anywhere to dismiss"
-            >
+              {/* Screen Bezel & LED Surface */}
               <div
-                className="bg-emerald-600 text-white border-[3.5px] border-white px-7 py-4 -rotate-6 shadow-[8px_8px_0px_#000000] flex flex-col items-center justify-center text-center max-w-[90%]"
-                style={{ animation: 'stamp-slam 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards' }}
+                className={`relative w-full rounded-sm border-2 border-zinc-700 bg-[#050B08] p-3 sm:p-3.5 shadow-[inset_0_4px_16px_rgba(0,0,0,0.95)] overflow-hidden transition-all ${
+                  isGlitching ? 'animate-signal-glitch' : 'animate-crt-flicker'
+                }`}
               >
-                <span className="font-p5Heading text-2xl sm:text-3xl text-white tracking-widest uppercase drop-shadow-[2px_2px_0px_rgba(0,0,0,0.85)]">
-                  ★ TAKE YOUR HEART ★
-                </span>
-                <span className="font-p5Mono text-xs text-yellow-300 font-bold tracking-wider uppercase mt-1">
-                  DISPATCH CONFIRMED // EMAIL OPENED
-                </span>
-                <span className="font-p5Body text-[10px] text-emerald-100 tracking-wide mt-1 opacity-80 font-medium">
-                  (Click anywhere to dismiss)
-                </span>
+                {/* Outdoor LED Matrix Pixel Grid + Scanlines + Vignette (Placed in background z-0 with soft opacity) */}
+                <div className="absolute inset-0 led-matrix-grid z-0 pointer-events-none opacity-20" />
+                <div className="absolute inset-0 crt-scanlines z-0 pointer-events-none opacity-20" />
+                <div className="absolute inset-0 crt-vignette z-0 pointer-events-none opacity-30" />
+
+                {/* Live Broadcast Content (Elevated to z-20 for 100% crisp sharpness) */}
+                <div className="relative z-20 space-y-2">
+                  {/* Top LED Broadcast Bar */}
+                  <div className="flex items-center justify-between border-b border-emerald-800/80 pb-1.5 gap-2">
+                    {/* On-Air Record Indicator */}
+                    <div className="flex items-center gap-1.5 bg-red-950 border border-red-500 px-2 py-0.5 text-red-400 text-[10px] font-p5Mono font-black tracking-widest uppercase">
+                      <span className="size-2 rounded-full bg-red-500 animate-rec-blink" />
+                      <span>LIVE BROADCAST</span>
+                    </div>
+
+                    {/* Central Emergency Header */}
+                    <div className="flex items-center gap-1.5 text-white font-p5Heading text-xs sm:text-sm tracking-wider drop-shadow-[2px_2px_0px_#000]">
+                      <Flame className="size-3.5 text-red-500 fill-red-500 animate-pulse" />
+                      <span className="text-yellow-300">★ TAKE YOUR HEART ★</span>
+                    </div>
+
+                    {/* Frequency Locked Indicator */}
+                    <div className="flex items-center gap-1.5 text-[10px] font-p5Mono text-emerald-400 font-bold bg-black/80 px-2 py-0.5 border border-emerald-900">
+                      <span className="text-yellow-300 font-black">{activePreset.freq}</span>
+                      <div className="flex items-end gap-0.5 h-3">
+                        <span className="w-0.5 bg-emerald-400 animate-pulse h-1.5" />
+                        <span className="w-0.5 bg-emerald-400 animate-pulse h-3 delay-75" />
+                        <span className="w-0.5 bg-emerald-400 animate-pulse h-2 delay-150" />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Target Callout in High-Voltage LED */}
+                  <div className="flex items-center gap-2 pt-0.5">
+                    <span className="font-p5Heading text-sm sm:text-base md:text-lg text-white font-black tracking-wide truncate drop-shadow-[2px_2px_0px_#000]">
+                      {recipient.trim() ? recipient : 'UNDISCLOSED TARGET'}
+                    </span>
+                  </div>
+
+                  {/* Live Manifesto Body with Blinking Block Terminal Cursor */}
+                  <div className="font-p5Body text-xs sm:text-[13.5px] text-white leading-relaxed font-semibold min-h-[3rem] max-h-[4rem] overflow-y-auto no-scrollbar p-2 bg-black/50 border border-emerald-900/60 rounded-sm drop-shadow-[1px_1px_0px_rgba(0,0,0,0.95)]">
+                    <span>{message}</span>
+                    <span className="inline-block w-2 h-3.5 ml-1 bg-yellow-300 animate-pulse align-middle" />
+                  </div>
+
+                  {/* Outdoor Billboard Marquee (Running Text Ticker) */}
+                  <div className="relative mt-1 bg-black border-t-2 border-emerald-500 py-1 overflow-hidden">
+                    <div className="flex items-center gap-1 text-[10px] font-p5Mono text-white whitespace-nowrap overflow-hidden">
+                      <div className="animate-marquee-scroll">
+                        <span className="mr-8 font-bold">
+                          ▶ ▶ BREAKING: SHIBUYA SCRAMBLE CROSSING BILLBOARD FREQUENCIES HIJACKED BY THE PHANTOM THIEVES
+                        </span>
+                        <span className="mr-8 text-yellow-300 font-black">
+                          ▶ TARGET: {recipient.trim() ? recipient.toUpperCase() : 'UNKNOWN'}
+                        </span>
+                        <span className="mr-8 text-red-400 font-extrabold">
+                          ▶ ALL DISTORTED DESIRES SHALL BE CONFISCATED
+                        </span>
+                        <span className="mr-8 font-bold">
+                          ▶ ▶ BREAKING: SHIBUYA SCRAMBLE CROSSING BILLBOARD FREQUENCIES HIJACKED BY THE PHANTOM THIEVES
+                        </span>
+                        <span className="mr-8 text-yellow-300 font-black">
+                          ▶ TARGET: {recipient.trim() ? recipient.toUpperCase() : 'UNKNOWN'}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
-          )}
 
-          {/* Direct Comms Bar docked at the bottom of the card */}
-          <div className="mt-2.5 sm:mt-3 pt-2 sm:pt-2.5 border-t-2 border-dashed border-zinc-400 flex items-center justify-between gap-2 text-[10px] sm:text-[11px] font-p5Mono">
-            {/* Email with copy */}
-            <button
-              type="button"
-              onClick={handleCopyEmail}
-              className="inline-flex items-center gap-1 sm:gap-1.5 bg-black text-white px-2 sm:px-2.5 py-1 hover:bg-emerald-600 transition-colors border border-black shadow-[2px_2px_0px_#000] cursor-pointer shrink-0"
-              title="Click to Copy Email"
-            >
-              <Mail className="size-3 text-yellow-300" />
-              <span>{USER_EMAIL}</span>
-              <Copy className="size-2.5 text-zinc-400 ml-1" />
-              {hasCopiedEmail && <span className="text-emerald-400 text-[9px] font-bold">COPIED!</span>}
-            </button>
+            {/* 3. BILLBOARD MAINTENANCE & OVERRIDE CONTROL DECK */}
+            <div className="bg-[#15191E] border-t-4 border-black p-3 sm:p-4 space-y-2.5">
+              
+              {/* Tactical Transmission Channel Presets */}
+              <div>
+                <div className="flex items-center justify-between mb-1">
+                  <span className="font-p5Sub text-[10px] sm:text-[11px] text-zinc-200 uppercase tracking-wider font-bold flex items-center gap-1">
+                    <Radio className="size-3 text-emerald-400" />
+                    BROADCAST FREQUENCY CHANNEL:
+                  </span>
+                  <span className="font-p5Mono text-[9px] text-emerald-400 font-bold">
+                    4 BAND OVERRIDES
+                  </span>
+                </div>
 
-            {/* GitHub */}
-            <a
-              href="https://github.com/FerrelHD"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 sm:gap-1.5 bg-zinc-900 text-white px-2 sm:px-2.5 py-1 hover:bg-emerald-600 transition-colors border border-black shadow-[2px_2px_0px_#000] cursor-pointer shrink-0"
-            >
-              <GithubIcon />
-              <span>@FerrelHD</span>
-              <ExternalLink className="size-2.5 text-zinc-400" />
-            </a>
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-1.5">
+                  {BROADCAST_CHANNELS.map(preset => {
+                    const isActive = selectedChannel === preset.id
+                    return (
+                      <button
+                        key={preset.id}
+                        type="button"
+                        onClick={() => handleSelectChannel(preset)}
+                        onMouseEnter={playHover}
+                        className={`
+                          relative px-2 py-1.5 font-p5Heading text-xs sm:text-[13px] tracking-wider uppercase border-2 transition-all flex flex-col items-start justify-center cursor-pointer text-left
+                          ${
+                            isActive
+                              ? 'bg-emerald-500 text-black border-white shadow-[2.5px_2.5px_0px_#000000] -rotate-1 font-black scale-[1.02]'
+                              : 'bg-zinc-900 text-zinc-200 border-zinc-600 hover:border-emerald-400 hover:text-white'
+                          }
+                        `}
+                      >
+                        {/* LED Indicator Light */}
+                        <div className="flex items-center justify-between w-full mb-0.5">
+                          <span className={`text-[9px] font-p5Mono font-bold ${isActive ? 'text-black' : 'text-zinc-400'}`}>
+                            {preset.channel}
+                          </span>
+                          <span
+                            className={`size-2.5 rounded-full border border-black ${
+                              isActive
+                                ? 'bg-yellow-300 shadow-[0_0_8px_#FBBF24] animate-pulse'
+                                : 'bg-zinc-700'
+                            }`}
+                          />
+                        </div>
+                        <span className="font-bold leading-tight line-clamp-1">{preset.label}</span>
+                        <span className={`text-[9px] font-p5Mono mt-0.5 ${isActive ? 'text-zinc-900 font-extrabold' : 'text-emerald-400 font-bold'}`}>
+                          {preset.rank}
+                        </span>
+                      </button>
+                    )
+                  })}
+                </div>
+              </div>
+
+              {/* Input Form: Target Override & Manifesto Payload */}
+              <form onSubmit={handleBroadcast} className="space-y-2">
+                {/* Target Input */}
+                <div className="flex items-center gap-2 font-p5Heading text-xs sm:text-sm border-b-2 border-zinc-600 pb-1.5">
+                  <div className="flex items-center gap-0.5 shrink-0">
+                    <span className="bg-black text-white px-2 py-0.5 text-[10px] sm:text-xs font-black -skew-x-12 border-2 border-white">
+                      TO
+                    </span>
+                    <span className="bg-emerald-500 text-black px-2 py-0.5 text-[10px] sm:text-xs font-black -skew-x-6 border-2 border-black">
+                      TARGET:
+                    </span>
+                  </div>
+                  <input
+                    type="text"
+                    value={recipient}
+                    onChange={e => setRecipient(e.target.value)}
+                    placeholder="Enter Recipient Company / Team..."
+                    className="flex-1 bg-black/60 border border-zinc-700 focus:border-emerald-400 px-2.5 py-1 font-p5Body text-white font-bold text-xs sm:text-sm focus:outline-none placeholder:text-zinc-500 tracking-wide rounded-sm"
+                  />
+                </div>
+
+                {/* Message Textarea */}
+                <div>
+                  <span className="block font-p5Sub text-[10px] text-zinc-300 uppercase tracking-wider mb-1 font-bold">
+                    MANIFESTO PAYLOAD:
+                  </span>
+                  <textarea
+                    rows={2}
+                    value={message}
+                    onChange={e => setMessage(e.target.value)}
+                    className="w-full bg-black/95 border-2 border-zinc-600 focus:border-emerald-400 p-2.5 font-p5Body text-xs sm:text-sm text-white focus:text-yellow-100 resize-none leading-snug font-semibold h-[3.8rem] sm:h-[4.2rem] rounded-sm placeholder:text-zinc-500"
+                  />
+                </div>
+
+                {/* Footer: Operator Signature & Broadcast Trigger Button */}
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pt-1 border-t border-zinc-800">
+                  <div className="font-p5Heading text-[10px] sm:text-xs text-zinc-400">
+                    OPERATOR: <span className="text-emerald-400 font-bold tracking-wide">FERREL // THE ARCHITECT</span>
+                  </div>
+
+                  <button
+                    type="submit"
+                    onMouseEnter={playHover}
+                    className={`
+                      inline-flex items-center justify-center gap-1.5 px-3.5 sm:px-4 py-1.5 font-p5Heading text-xs sm:text-sm md:text-base tracking-wider uppercase border-2 border-black shadow-[3px_3px_0px_#000000] transition-all cursor-pointer font-black
+                      ${
+                        isSent
+                          ? 'bg-emerald-500 text-black hover:bg-emerald-400'
+                          : 'bg-emerald-600 hover:bg-emerald-500 text-black -rotate-1 hover:rotate-0 hover:scale-105 active:scale-95 shadow-[0_0_12px_rgba(16,185,129,0.4)]'
+                      }
+                    `}
+                  >
+                    {isSent ? (
+                      <>
+                        <CheckCircle2 className="size-4" />
+                        RE-BROADCAST TRANSMISSION
+                      </>
+                    ) : (
+                      <>
+                        <Zap className="size-4 fill-black" />
+                        EXECUTE BROADCAST
+                      </>
+                    )}
+                  </button>
+                </div>
+              </form>
+
+              {/* Direct Frequency Dials docked at bottom */}
+              <div className="pt-1.5 border-t border-dashed border-zinc-700 flex items-center justify-between gap-2 text-[10px] font-p5Mono">
+                {/* Email with copy */}
+                <button
+                  type="button"
+                  onClick={handleCopyEmail}
+                  className="inline-flex items-center gap-1 bg-black text-white px-2 py-0.5 hover:bg-emerald-600 hover:text-black transition-colors border border-zinc-700 shadow-[2px_2px_0px_#000] cursor-pointer shrink-0"
+                  title="Click to Copy Direct Frequency Email"
+                >
+                  <Mail className="size-3 text-yellow-300" />
+                  <span>{USER_EMAIL}</span>
+                  <Copy className="size-2.5 text-zinc-400 ml-1" />
+                  {hasCopiedEmail && <span className="text-emerald-400 text-[9px] font-bold">COPIED!</span>}
+                </button>
+
+                {/* GitHub */}
+                <a
+                  href="https://github.com/FerrelHD"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1 bg-black text-white px-2 py-0.5 hover:bg-emerald-600 hover:text-black transition-colors border border-zinc-700 shadow-[2px_2px_0px_#000] cursor-pointer shrink-0"
+                >
+                  <GithubIcon />
+                  <span>@FerrelHD</span>
+                  <ExternalLink className="size-2.5 text-zinc-400" />
+                </a>
+              </div>
+            </div>
+
+            {/* 4. CINEMATIC BROADCAST TAKEOVER OVERLAY */}
+            {showBroadcastOverlay && (
+              <div
+                onClick={() => setShowBroadcastOverlay(false)}
+                className="absolute inset-0 cursor-pointer flex items-center justify-center z-50 overflow-hidden bg-black/85 backdrop-blur-[2px] animate-in fade-in duration-150 pointer-events-auto p-4"
+                title="Click anywhere to dismiss"
+              >
+                <div
+                  className="bg-emerald-600 text-black border-4 border-white px-5 sm:px-8 py-5 -rotate-3 shadow-[10px_10px_0px_#000000] flex flex-col items-center justify-center text-center max-w-full"
+                  style={{ animation: 'stamp-slam 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards' }}
+                >
+                  <div className="flex items-center gap-2 mb-1">
+                    <span className="size-2.5 rounded-full bg-red-600 animate-ping" />
+                    <span className="font-p5Mono text-[10px] sm:text-xs font-black tracking-widest text-black bg-white px-2 py-0.5">
+                      SHIBUYA SCRAMBLE CROSSING HIJACKED
+                    </span>
+                  </div>
+
+                  <span className="font-p5Heading text-2xl sm:text-3xl md:text-4xl text-black font-black tracking-widest uppercase drop-shadow-[2px_2px_0px_rgba(255,255,255,0.7)]">
+                    ★ TAKE YOUR HEART ★
+                  </span>
+
+                  <span className="font-p5Sub text-xs sm:text-sm text-yellow-300 font-extrabold tracking-wider uppercase mt-1 bg-black px-2.5 py-0.5 border border-yellow-300">
+                    TRANSMISSION DISPATCHED // EMAIL CLIENT OPENED
+                  </span>
+
+                  <span className="font-p5Body text-[10px] text-zinc-900 tracking-wide mt-2 font-bold opacity-90">
+                    (Click anywhere to dismiss)
+                  </span>
+                </div>
+              </div>
+            )}
+
           </div>
         </div>
       </div>
 
-        {/* Floating Toast Notification (Zero Layout Shift) */}
-        {toastMessage && (
-          <div className="absolute bottom-12 sm:bottom-14 left-4 sm:left-8 md:left-12 z-50 bg-black text-yellow-300 font-p5Heading text-xs px-4 py-2 border-2 border-yellow-300 shadow-[3px_3px_0px_#059669] -rotate-1 animate-in fade-in slide-in-from-bottom-2 duration-150 flex items-center gap-2 pointer-events-none">
-            <ShieldAlert className="size-3.5 text-emerald-500" />
-            <span>{toastMessage}</span>
-          </div>
-        )}
+      {/* Floating Toast Notification */}
+      {toastMessage && (
+        <div className="fixed bottom-6 left-4 sm:left-6 md:left-8 z-50 bg-black text-yellow-300 font-p5Heading text-xs px-4 py-2 border-2 border-yellow-300 shadow-[3px_3px_0px_#059669] -rotate-1 animate-in fade-in slide-in-from-bottom-2 duration-150 flex items-center gap-2 pointer-events-none">
+          <ShieldAlert className="size-3.5 text-emerald-500" />
+          <span>{toastMessage}</span>
+        </div>
+      )}
 
-      </div>
+      {/* ── REAL-TIME TVTRON POSITION CALIBRATOR (ACCESSIBLE VIA SHIFT + C OR BUTTON) ── */}
+      <TVTRONCalibrator
+        isOpen={isCalibratorOpen}
+        onClose={() => setIsCalibratorOpen(false)}
+        config={tvtronConfig}
+        defaultConfig={DEFAULT_TVTRON_LAYOUT}
+        onChange={handleUpdateConfig}
+        onReset={handleResetConfig}
+        onCopy={handleCopyConfig}
+        copiedSuccess={copiedConfigSuccess}
+      />
     </div>
   )
 }

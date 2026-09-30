@@ -64,9 +64,9 @@ export const PositionCalibrator: React.FC<PositionCalibratorProps> = ({
           <button
             onClick={onClose}
             className="px-2 py-0.5 bg-zinc-800 hover:bg-[#E60012] text-zinc-300 hover:text-white font-mono text-[10px] rounded transition-colors cursor-pointer"
-            title="Close (Shift+C or Esc)"
+            title="Close"
           >
-            ✕ CLOSE [Shift+C]
+            ✕ CLOSE
           </button>
         </div>
 
