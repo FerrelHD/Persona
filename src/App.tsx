@@ -152,9 +152,10 @@ export function App() {
       proceedToCollapse()
     } else {
       setIsVideoLoading(true)
+      // Generous fallback for real-world Vercel/cellular network latency without premature black-screen reveal
       fallbackTimerRef.current = setTimeout(() => {
         proceedToCollapse()
-      }, 500)
+      }, 1200)
     }
   }, [pendingScreen, proceedToCollapse])
 
@@ -169,12 +170,12 @@ export function App() {
     if (transPhase === 'expand') {
       const timer = setTimeout(() => {
         handleExpandEnd()
-      }, 220)
+      }, 240)
       return () => clearTimeout(timer)
     } else if (transPhase === 'collapse') {
       const timer = setTimeout(() => {
         handleCollapseEnd()
-      }, 220)
+      }, 240)
       return () => clearTimeout(timer)
     }
   }, [transPhase, handleExpandEnd, handleCollapseEnd])
@@ -228,16 +229,16 @@ export function App() {
       {/* Seamless Persona 5 Iris Circle Wipe Overlay */}
       {transPhase !== 'idle' && (
         <div
-          key={transPhase}
           className="fixed inset-0 z-[9999] pointer-events-none will-change-[clip-path]"
           style={{
             backgroundColor: irisColor,
             transform: 'translateZ(0)',
+            WebkitClipPath: transPhase === 'covered' ? 'circle(150% at 50% 50%)' : undefined,
             clipPath: transPhase === 'covered' ? 'circle(150% at 50% 50%)' : undefined,
             animation: transPhase === 'expand'
-              ? 'iris-expand 0.16s cubic-bezier(0.2, 0, 0, 1) forwards'
+              ? 'iris-expand 0.16s cubic-bezier(0.2, 0, 0, 1) both'
               : transPhase === 'collapse'
-              ? 'iris-collapse 0.16s cubic-bezier(0.2, 0, 0, 1) forwards'
+              ? 'iris-collapse 0.16s cubic-bezier(0.2, 0, 0, 1) both'
               : 'none',
           }}
           onAnimationEnd={

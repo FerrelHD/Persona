@@ -1,7 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { PageCutoutOverlay } from '@/components/common/PageCutoutOverlay'
 import { usePersonaSFX } from '@/hooks/usePersonaSFX'
-import { MessageSquare } from 'lucide-react'
+import { MessageSquare, Sliders } from 'lucide-react'
+import { PhoneCalibrator, PhoneLayoutConfig, DEFAULT_PHONE_LAYOUT } from '@/components/dev/PhoneCalibrator'
 
 interface AboutScreenProps {
   onBack: () => void
@@ -85,6 +86,39 @@ export const AboutScreen: React.FC<AboutScreenProps> = ({ onBack }) => {
   // Real-time Persona 5 Calendar Date & Time Slot
   const [currentDate, setCurrentDate] = useState(() => new Date())
 
+  // Phone & Hand Layout Configuration State (with LocalStorage persistence)
+  const [phoneConfig, setPhoneConfig] = useState<PhoneLayoutConfig>(() => {
+    if (typeof window !== 'undefined') {
+      try {
+        const saved = localStorage.getItem('p5_phone_layout_v1')
+        if (saved) return { ...DEFAULT_PHONE_LAYOUT, ...JSON.parse(saved) }
+      } catch { /* ignore */ }
+    }
+    return DEFAULT_PHONE_LAYOUT
+  })
+  const [isCalibratorOpen, setIsCalibratorOpen] = useState(false)
+  const [copiedSuccess, setCopiedSuccess] = useState(false)
+
+  const handleUpdatePhoneConfig = (updates: Partial<PhoneLayoutConfig>) => {
+    setPhoneConfig(prev => {
+      const next = { ...prev, ...updates }
+      localStorage.setItem('p5_phone_layout_v1', JSON.stringify(next))
+      return next
+    })
+  }
+
+  const handleResetPhoneConfig = () => {
+    localStorage.removeItem('p5_phone_layout_v1')
+    setPhoneConfig(DEFAULT_PHONE_LAYOUT)
+  }
+
+  const handleCopyPhoneConfig = () => {
+    const payload = JSON.stringify(phoneConfig, null, 2)
+    navigator.clipboard?.writeText(payload)
+    setCopiedSuccess(true)
+    setTimeout(() => setCopiedSuccess(false), 2000)
+  }
+
   useEffect(() => {
     const timer = setInterval(() => setCurrentDate(new Date()), 60000)
     return () => clearInterval(timer)
@@ -131,9 +165,20 @@ export const AboutScreen: React.FC<AboutScreenProps> = ({ onBack }) => {
     }
   }
 
-  // Keyboard navigation: X, Enter, Down Arrow to scroll down, Up Arrow to scroll up
+  // Keyboard navigation: X, Enter, Down Arrow to scroll down, Up Arrow to scroll up, Shift+C for calibrator
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.shiftKey && (e.key === 'C' || e.key === 'c')) {
+        e.preventDefault()
+        playSlash()
+        setIsCalibratorOpen(prev => !prev)
+        return
+      }
+      if (e.key === 'Escape' && isCalibratorOpen) {
+        e.preventDefault()
+        setIsCalibratorOpen(false)
+        return
+      }
       if (e.key === 'x' || e.key === 'X' || e.key === 'Enter' || e.key === 'ArrowDown') {
         e.preventDefault()
         handleNextMessage()
@@ -147,7 +192,7 @@ export const AboutScreen: React.FC<AboutScreenProps> = ({ onBack }) => {
     }
     window.addEventListener('keydown', handleKeyDown)
     return () => window.removeEventListener('keydown', handleKeyDown)
-  }, [playHover, playSlash])
+  }, [playHover, playSlash, isCalibratorOpen])
 
   return (
     <div className="fixed inset-0 z-30 flex flex-col justify-between select-none overflow-hidden bg-gradient-to-r from-black/95 from-0% via-black/70 via-45% to-transparent to-65% animate-in fade-in duration-200">
@@ -159,25 +204,46 @@ export const AboutScreen: React.FC<AboutScreenProps> = ({ onBack }) => {
         accentColor="red"
         onBack={onBack}
         extraShortcuts={
-          <button
-            onClick={handleNextMessage}
-            className="flex items-center gap-1.5 hover:text-white group cursor-pointer transition-colors"
-            title="Next Chat Message"
-          >
-            <span className="size-5 rounded-full border-2 border-cyan-400 text-cyan-400 font-bold flex items-center justify-center text-[11px] group-hover:bg-cyan-400 group-hover:text-black transition-colors shadow-[0_0_6px_rgba(34,211,238,0.4)]">
-              X
-            </span>
-            <span className="font-p5Heading text-sm tracking-wider uppercase">NEXT / SCROLL</span>
-          </button>
+          <div className="flex items-center gap-3">
+            <button
+              onClick={handleNextMessage}
+              className="flex items-center gap-1.5 hover:text-white group cursor-pointer transition-colors"
+              title="Next Chat Message"
+            >
+              <span className="size-5 rounded-full border-2 border-cyan-400 text-cyan-400 font-bold flex items-center justify-center text-[11px] group-hover:bg-cyan-400 group-hover:text-black transition-colors shadow-[0_0_6px_rgba(34,211,238,0.4)]">
+                X
+              </span>
+              <span className="font-p5Heading text-sm tracking-wider uppercase">NEXT / SCROLL</span>
+            </button>
+
+            <button
+              onClick={() => {
+                playSlash()
+                setIsCalibratorOpen(prev => !prev)
+              }}
+              className="flex items-center gap-1.5 hover:text-white group cursor-pointer transition-colors"
+              title="Calibrate Phone Position (Shift+C)"
+            >
+              <span className="size-5 rounded-full border-2 border-p5-crimson text-p5-crimson font-bold flex items-center justify-center text-[10px] group-hover:bg-p5-crimson group-hover:text-white transition-colors shadow-[0_0_6px_rgba(230,0,18,0.4)]">
+                <Sliders className="size-3" />
+              </span>
+              <span className="font-p5Heading text-sm tracking-wider uppercase">CALIBRATE</span>
+            </button>
+          </div>
         }
       />
 
       {/* Main Viewport: Persona 5 Smartphone Held by Hands */}
       <div className="relative w-full h-full flex items-center justify-start overflow-hidden p5-phone-entrance">
         
-        {/* The 16:9 Frame Holding the Phone (Shifted Down & Left as requested) */}
+        {/* The 16:9 Frame Holding the Phone (Calibrated in Real-time) */}
         <div 
-          className="relative h-[84vh] sm:h-[88vh] md:h-[90vh] laptop-phone-wrapper aspect-[1673/940] max-w-none -translate-x-[18%] sm:-translate-x-[14%] md:-translate-x-[10%] translate-y-12 sm:translate-y-16 md:translate-y-18 pointer-events-auto"
+          className="relative laptop-phone-wrapper aspect-[1673/940] max-w-none pointer-events-auto transition-[transform,height] duration-75"
+          style={{
+            height: `${phoneConfig.heightVh}vh`,
+            transform: `translate(${phoneConfig.translateX}%, ${phoneConfig.translateY}px) scale(${phoneConfig.scale}) rotate(${phoneConfig.rotate}deg)`,
+            transformOrigin: 'bottom left',
+          }}
         >
           {/* 1. Base Phone Artwork with Seamless Pre-filled Crimson Red Screen (Solusi 1) */}
           <img
@@ -365,6 +431,18 @@ export const AboutScreen: React.FC<AboutScreenProps> = ({ onBack }) => {
         </div>
 
       </div>
+
+      {/* ── REAL-TIME PHONE & HAND POSITION CALIBRATOR (SHIFT + C) ── */}
+      <PhoneCalibrator
+        isOpen={isCalibratorOpen}
+        onClose={() => setIsCalibratorOpen(false)}
+        config={phoneConfig}
+        defaultConfig={DEFAULT_PHONE_LAYOUT}
+        onChange={handleUpdatePhoneConfig}
+        onReset={handleResetPhoneConfig}
+        onCopy={handleCopyPhoneConfig}
+        copiedSuccess={copiedSuccess}
+      />
     </div>
   )
 }
