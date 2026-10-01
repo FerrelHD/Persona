@@ -9,12 +9,26 @@ interface CallingCardScreenProps {
   onBack: () => void
 }
 
-const DEFAULT_TVTRON_LAYOUT: TVTRONLayoutConfig = {
+const DEFAULT_TVTRON_PC: TVTRONLayoutConfig = {
   top: 180,
   left: 44,
   scale: 1.23,
   rotate: -1,
   maxWidth: 860,
+}
+
+const DEFAULT_TVTRON_LAPTOP: TVTRONLayoutConfig = {
+  top: 180,
+  left: 44,
+  scale: 0.85,
+  rotate: -1,
+  maxWidth: 860,
+}
+
+// Detect if viewport is a laptop display (< 1600px width or < 880px height)
+const checkIsLaptop = () => {
+  if (typeof window === 'undefined') return false
+  return window.innerWidth < 1600 || window.innerHeight < 880
 }
 
 const GithubIcon: React.FC = () => (
@@ -85,41 +99,67 @@ export const CallingCardScreen: React.FC<CallingCardScreenProps> = ({ onBack }) 
   const [isShaking, setIsShaking] = useState(false)
   const overlayTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
-  // ── TVTRON DYNAMIC POSITION CALIBRATOR (State & Persistence) ──
+  // ── TVTRON DYNAMIC POSITION CALIBRATOR (Adaptive Laptop & PC State & Persistence) ──
+  const [isLaptop, setIsLaptop] = useState<boolean>(checkIsLaptop)
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsLaptop(checkIsLaptop())
+    }
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
+
+  const defaultLayout = isLaptop ? DEFAULT_TVTRON_LAPTOP : DEFAULT_TVTRON_PC
+  const storageKey = isLaptop ? 'p5_tvtron_layout_laptop_v1' : 'p5_tvtron_layout_pc_v1'
+
   const [tvtronConfig, setTvtronConfig] = useState<TVTRONLayoutConfig>(() => {
-    localStorage.removeItem('p5_tvtron_layout_v1')
-    localStorage.removeItem('p5_tvtron_layout_v2')
-    localStorage.removeItem('p5_tvtron_layout_v3')
-    localStorage.removeItem('p5_tvtron_layout_v4')
-    const saved = localStorage.getItem('p5_tvtron_layout_v5')
+    const initialLaptop = checkIsLaptop()
+    const initialKey = initialLaptop ? 'p5_tvtron_layout_laptop_v1' : 'p5_tvtron_layout_pc_v1'
+    const initialDefault = initialLaptop ? DEFAULT_TVTRON_LAPTOP : DEFAULT_TVTRON_PC
+    const saved = localStorage.getItem(initialKey)
     if (saved) {
       try {
         const parsed = JSON.parse(saved)
         if (parsed && typeof parsed.top === 'number') {
-          return { ...DEFAULT_TVTRON_LAYOUT, ...parsed }
+          return { ...initialDefault, ...parsed }
         }
       } catch { /* ignore */ }
     }
-    return DEFAULT_TVTRON_LAYOUT
+    return initialDefault
   })
+
+  // Synchronize layout when viewport size changes between laptop and desktop PC
+  useEffect(() => {
+    const activeKey = isLaptop ? 'p5_tvtron_layout_laptop_v1' : 'p5_tvtron_layout_pc_v1'
+    const activeDefault = isLaptop ? DEFAULT_TVTRON_LAPTOP : DEFAULT_TVTRON_PC
+    const saved = localStorage.getItem(activeKey)
+    if (saved) {
+      try {
+        const parsed = JSON.parse(saved)
+        if (parsed && typeof parsed.top === 'number') {
+          setTvtronConfig({ ...activeDefault, ...parsed })
+          return
+        }
+      } catch { /* ignore */ }
+    }
+    setTvtronConfig(activeDefault)
+  }, [isLaptop])
+
   const [isCalibratorOpen, setIsCalibratorOpen] = useState(false)
   const [copiedConfigSuccess, setCopiedConfigSuccess] = useState(false)
 
   const handleUpdateConfig = (updates: Partial<TVTRONLayoutConfig>) => {
     setTvtronConfig(prev => {
       const next = { ...prev, ...updates }
-      localStorage.setItem('p5_tvtron_layout_v5', JSON.stringify(next))
+      localStorage.setItem(storageKey, JSON.stringify(next))
       return next
     })
   }
 
   const handleResetConfig = () => {
-    localStorage.removeItem('p5_tvtron_layout_v1')
-    localStorage.removeItem('p5_tvtron_layout_v2')
-    localStorage.removeItem('p5_tvtron_layout_v3')
-    localStorage.removeItem('p5_tvtron_layout_v4')
-    localStorage.removeItem('p5_tvtron_layout_v5')
-    setTvtronConfig(DEFAULT_TVTRON_LAYOUT)
+    localStorage.removeItem(storageKey)
+    setTvtronConfig(defaultLayout)
   }
 
   const handleCopyConfig = () => {
@@ -602,7 +642,7 @@ export const CallingCardScreen: React.FC<CallingCardScreenProps> = ({ onBack }) 
         isOpen={isCalibratorOpen}
         onClose={() => setIsCalibratorOpen(false)}
         config={tvtronConfig}
-        defaultConfig={DEFAULT_TVTRON_LAYOUT}
+        defaultConfig={defaultLayout}
         onChange={handleUpdateConfig}
         onReset={handleResetConfig}
         onCopy={handleCopyConfig}

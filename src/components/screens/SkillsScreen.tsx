@@ -518,33 +518,40 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
             />
 
             {/* ── GIANT JAPANESE KANJI WATERMARK (AUTENTIK MANGA MINCHO, Z-INDEX 30 - DI ATAS MASKINGAN) ── */}
-            {activeChar && (() => {
-              const kConfig = kanjiList[activeChar.id] || DEFAULT_KANJI_CONFIGS[activeChar.id] || DEFAULT_KANJI_CONFIGS.joker
-              const posX = activeChar.camera.originX + (kConfig.x || 0)
-              const posY = activeChar.camera.originY + (kConfig.y || 0)
+            {(() => {
+              const displayKanjiChar = activeChar || lastActiveChar
+              if (!displayKanjiChar) return null
+
+              const kConfig = kanjiList[displayKanjiChar.id] || DEFAULT_KANJI_CONFIGS[displayKanjiChar.id] || DEFAULT_KANJI_CONFIGS.joker
+              const posX = displayKanjiChar.camera.originX + (kConfig.x || 0)
+              const posY = displayKanjiChar.camera.originY + (kConfig.y || 0)
               // Counter-scale font so it stays sharp, elegant, and consistent across different camera zoom levels
-              const fontVw = 11 / (activeChar.camera.scale * 0.72)
+              const fontVw = 11 / (displayKanjiChar.camera.scale * 0.72)
 
               return (
                 <div
-                  key={activeChar.id}
+                  key={displayKanjiChar.id}
                   style={{
                     zIndex: 30, // Above all furniture masks (21, 25, 27) so it's NEVER covered by masks!
                     left: `${posX}%`,
                     top: `${posY}%`,
                     transform: 'translate3d(-50%, -50%, 0)',
-                    opacity: kConfig.opacity ?? 0.74,
                     WebkitFontSmoothing: 'antialiased',
                     MozOsxFontSmoothing: 'grayscale',
                     textRendering: 'geometricPrecision',
                   }}
-                  className="absolute pointer-events-none select-none whitespace-nowrap will-change-[transform,opacity]"
+                  className={`absolute pointer-events-none select-none whitespace-nowrap will-change-[transform,opacity] transition-[opacity,transform] ${
+                    activeChar
+                      ? 'opacity-100 scale-100 duration-200 ease-out'
+                      : 'opacity-0 scale-95 duration-160 ease-out'
+                  }`}
                 >
-                  <div className="p5-splash-text-anim origin-center">
+                  <div className={`${activeChar ? 'p5-splash-text-anim' : ''} origin-center`}>
                     <div
                       style={{
                         transform: `rotate(${kConfig.rotate ?? -8}deg) scale(${kConfig.scale ?? 1}) translateZ(0)`,
                         transformOrigin: 'center center',
+                        opacity: kConfig.opacity ?? 0.74,
                       }}
                     >
                       <span
@@ -554,7 +561,7 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
                         }}
                         className="font-p5Kanji font-extrabold text-white select-none tracking-widest drop-shadow-[0_0_24px_rgba(0,0,0,0.8)] inline-block"
                       >
-                        {activeChar.kanji}
+                        {displayKanjiChar.kanji}
                       </span>
                     </div>
                   </div>
@@ -727,7 +734,7 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
                   transition-[opacity,transform]
                   ${activeChar
                     ? 'opacity-100 scale-100 pointer-events-auto duration-200 ease-out'
-                    : 'opacity-0 scale-90 pointer-events-none duration-100 ease-in'
+                    : 'opacity-0 scale-95 pointer-events-none duration-160 ease-out'
                   }
                 `}
                 style={{
