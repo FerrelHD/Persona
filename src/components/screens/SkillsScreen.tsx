@@ -180,6 +180,15 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
     return characterList.find(c => c.id === activeCharId) || null
   }, [characterList, activeCharId])
 
+  // Preserved character state so speech bubble can cleanly fade out in-place on ESC without jumping/flickering
+  const [lastActiveChar, setLastActiveChar] = useState<PhantomCharacter | null>(null)
+
+  useEffect(() => {
+    if (activeChar) {
+      setLastActiveChar(activeChar)
+    }
+  }, [activeChar])
+
   const calibratingChar = useMemo(() => {
     return characterList.find(c => c.id === calibratingCharId) || characterList[0]
   }, [characterList, calibratingCharId])
@@ -682,9 +691,11 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
             />
           </div>
 
-          {/* ── PERSONA 5 MANGA DIALOGUE SPEECH BUBBLE (PERSISTENT DOM FOR ZERO LATENCY) ── */}
+          {/* ── PERSONA 5 MANGA DIALOGUE SPEECH BUBBLE (CLEAN EXIT WITHOUT JUMP GLITCH) ── */}
           {(() => {
-            const displayChar = activeChar || characterList[0] || PHANTOM_CHARACTERS[0]
+            const displayChar = activeChar || lastActiveChar
+            if (!displayChar) return null
+
             const bubble = bubbleList[displayChar.id] || DEFAULT_BUBBLES[displayChar.id] || DEFAULT_BUBBLES.joker
             const desktopStyle: React.CSSProperties = bubble.side === 'right'
               ? { left: `${bubble.posX}%`, top: `${bubble.top}%` }
@@ -713,8 +724,8 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
                   absolute z-40 select-none
                   bottom-4 left-1/2 -translate-x-1/2
                   sm:bottom-auto sm:left-auto sm:translate-x-0
-                  transition-opacity duration-150
-                  ${activeChar ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}
+                  transition-all duration-200 ease-out
+                  ${activeChar ? 'opacity-100 scale-100 pointer-events-auto' : 'opacity-0 scale-95 pointer-events-none'}
                 `}
                 style={{
                   ...desktopStyle,
@@ -726,7 +737,7 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
               >
                 {/* Inner popping animation wrapper - re-triggers animation instantly on character select */}
                 <div
-                  key={activeChar?.id || 'idle'}
+                  key={displayChar.id}
                   className={`relative w-full h-full will-change-[transform,opacity] ${activeChar ? 'p5-bubble-pop-anim' : ''}`}
                 >
                   {/* Authentic Persona 5 Comic Speech Bubble Graphic with Name Tab */}

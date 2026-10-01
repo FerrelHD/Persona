@@ -12,7 +12,7 @@ interface CallingCardScreenProps {
 const DEFAULT_TVTRON_LAYOUT: TVTRONLayoutConfig = {
   top: 180,
   left: 44,
-  scale: 0.87,
+  scale: 1.23,
   rotate: -1,
   maxWidth: 860,
 }
@@ -90,7 +90,8 @@ export const CallingCardScreen: React.FC<CallingCardScreenProps> = ({ onBack }) 
     localStorage.removeItem('p5_tvtron_layout_v1')
     localStorage.removeItem('p5_tvtron_layout_v2')
     localStorage.removeItem('p5_tvtron_layout_v3')
-    const saved = localStorage.getItem('p5_tvtron_layout_v4')
+    localStorage.removeItem('p5_tvtron_layout_v4')
+    const saved = localStorage.getItem('p5_tvtron_layout_v5')
     if (saved) {
       try {
         const parsed = JSON.parse(saved)
@@ -107,7 +108,7 @@ export const CallingCardScreen: React.FC<CallingCardScreenProps> = ({ onBack }) 
   const handleUpdateConfig = (updates: Partial<TVTRONLayoutConfig>) => {
     setTvtronConfig(prev => {
       const next = { ...prev, ...updates }
-      localStorage.setItem('p5_tvtron_layout_v4', JSON.stringify(next))
+      localStorage.setItem('p5_tvtron_layout_v5', JSON.stringify(next))
       return next
     })
   }
@@ -117,6 +118,7 @@ export const CallingCardScreen: React.FC<CallingCardScreenProps> = ({ onBack }) 
     localStorage.removeItem('p5_tvtron_layout_v2')
     localStorage.removeItem('p5_tvtron_layout_v3')
     localStorage.removeItem('p5_tvtron_layout_v4')
+    localStorage.removeItem('p5_tvtron_layout_v5')
     setTvtronConfig(DEFAULT_TVTRON_LAYOUT)
   }
 
