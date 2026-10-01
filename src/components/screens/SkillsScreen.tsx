@@ -724,8 +724,11 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
                   absolute z-40 select-none
                   bottom-4 left-1/2 -translate-x-1/2
                   sm:bottom-auto sm:left-auto sm:translate-x-0
-                  transition-all duration-200 ease-out
-                  ${activeChar ? 'opacity-100 scale-100 pointer-events-auto' : 'opacity-0 scale-95 pointer-events-none'}
+                  transition-[opacity,transform]
+                  ${activeChar
+                    ? 'opacity-100 scale-100 pointer-events-auto duration-200 ease-out'
+                    : 'opacity-0 scale-90 pointer-events-none duration-100 ease-in'
+                  }
                 `}
                 style={{
                   ...desktopStyle,
