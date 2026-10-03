@@ -169,7 +169,7 @@ export const TVTRONCalibrator: React.FC<TVTRONCalibratorProps> = ({
               <input
                 type="range"
                 min={0.5}
-                max={1.3}
+                max={1.5}
                 step={0.01}
                 value={config.scale}
                 onChange={(e) => onChange({ scale: Number(e.target.value) })}
@@ -234,8 +234,8 @@ export const TVTRONCalibrator: React.FC<TVTRONCalibratorProps> = ({
               </button>
               <input
                 type="range"
-                min={400}
-                max={1100}
+                min={500}
+                max={1300}
                 step={10}
                 value={config.maxWidth}
                 onChange={(e) => onChange({ maxWidth: Number(e.target.value) })}

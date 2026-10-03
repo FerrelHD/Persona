@@ -12,17 +12,17 @@ interface CallingCardScreenProps {
 const DEFAULT_TVTRON_PC: TVTRONLayoutConfig = {
   top: 180,
   left: 44,
-  scale: 1.23,
+  scale: 1.0,
   rotate: -1,
-  maxWidth: 860,
+  maxWidth: 1058,
 }
 
 const DEFAULT_TVTRON_LAPTOP: TVTRONLayoutConfig = {
   top: 180,
-  left: 44,
-  scale: 0.85,
+  left: 61,
+  scale: 0.79,
   rotate: -1,
-  maxWidth: 860,
+  maxWidth: 870,
 }
 
 // Detect if viewport is a laptop display (< 1600px width or < 880px height)
@@ -111,13 +111,20 @@ export const CallingCardScreen: React.FC<CallingCardScreenProps> = ({ onBack }) 
   }, [])
 
   const defaultLayout = isLaptop ? DEFAULT_TVTRON_LAPTOP : DEFAULT_TVTRON_PC
-  const storageKey = isLaptop ? 'p5_tvtron_layout_laptop_v1' : 'p5_tvtron_layout_pc_v1'
+  const storageKey = isLaptop ? 'p5_tvtron_layout_laptop_v3' : 'p5_tvtron_layout_pc_v3'
 
   const [tvtronConfig, setTvtronConfig] = useState<TVTRONLayoutConfig>(() => {
+    // Clean up legacy v1/v2 storage
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem('p5_tvtron_layout_laptop_v1')
+      localStorage.removeItem('p5_tvtron_layout_pc_v1')
+      localStorage.removeItem('p5_tvtron_layout_laptop_v2')
+      localStorage.removeItem('p5_tvtron_layout_pc_v2')
+    }
     const initialLaptop = checkIsLaptop()
-    const initialKey = initialLaptop ? 'p5_tvtron_layout_laptop_v1' : 'p5_tvtron_layout_pc_v1'
+    const initialKey = initialLaptop ? 'p5_tvtron_layout_laptop_v3' : 'p5_tvtron_layout_pc_v3'
     const initialDefault = initialLaptop ? DEFAULT_TVTRON_LAPTOP : DEFAULT_TVTRON_PC
-    const saved = localStorage.getItem(initialKey)
+    const saved = typeof window !== 'undefined' ? localStorage.getItem(initialKey) : null
     if (saved) {
       try {
         const parsed = JSON.parse(saved)
@@ -131,7 +138,7 @@ export const CallingCardScreen: React.FC<CallingCardScreenProps> = ({ onBack }) 
 
   // Synchronize layout when viewport size changes between laptop and desktop PC
   useEffect(() => {
-    const activeKey = isLaptop ? 'p5_tvtron_layout_laptop_v1' : 'p5_tvtron_layout_pc_v1'
+    const activeKey = isLaptop ? 'p5_tvtron_layout_laptop_v3' : 'p5_tvtron_layout_pc_v3'
     const activeDefault = isLaptop ? DEFAULT_TVTRON_LAPTOP : DEFAULT_TVTRON_PC
     const saved = localStorage.getItem(activeKey)
     if (saved) {
@@ -158,6 +165,8 @@ export const CallingCardScreen: React.FC<CallingCardScreenProps> = ({ onBack }) 
   }
 
   const handleResetConfig = () => {
+    localStorage.removeItem('p5_tvtron_layout_laptop_v1')
+    localStorage.removeItem('p5_tvtron_layout_pc_v1')
     localStorage.removeItem(storageKey)
     setTvtronConfig(defaultLayout)
   }
@@ -306,7 +315,7 @@ export const CallingCardScreen: React.FC<CallingCardScreenProps> = ({ onBack }) 
           transformOrigin: 'top left',
           zIndex: 20,
         }}
-        className="transition-transform duration-75"
+        className="transition-transform duration-75 [transform-style:preserve-3d] [backface-visibility:hidden]"
       >
         <div className="w-full p5-comms-entrance relative">
           
@@ -314,17 +323,17 @@ export const CallingCardScreen: React.FC<CallingCardScreenProps> = ({ onBack }) 
               SHIBUYA VIDEOTRON / OUTDOOR BILLBOARD STRUCTURAL UNIT
              ══════════════════════════════════════════════════════════════════ */}
           <div
-            className={`relative w-full bg-[#10B981] text-black border-4 border-black shadow-[12px_12px_0px_#000000] -rotate-1 transition-transform duration-300 ${
+            className={`relative w-full bg-[#10B981] text-black border-4 border-black shadow-[12px_12px_0px_#000000] -rotate-1 transition-transform duration-300 [transform-style:preserve-3d] [backface-visibility:hidden] ${
               isShaking ? 'animate-bounce' : ''
             }`}
           >
             {/* 1. TOP STEEL TRUSS & 5 BILLBOARD FLOODLIGHTS */}
-            <div className="relative bg-gradient-to-r from-zinc-200 via-white to-zinc-200 border-b-4 border-black px-3 py-1.5 flex items-center justify-between z-30">
+            <div className="relative bg-gradient-to-r from-zinc-200 via-white to-zinc-200 border-b-4 border-black px-3.5 py-2 flex items-center justify-between z-30">
               {/* Left Steel Joint with Rivet */}
               <div className="flex items-center gap-1.5">
-                <div className="size-2 rounded-full bg-zinc-400 border border-black shadow-[1px_1px_0px_#000]" />
-                <div className="size-2 rounded-full bg-zinc-400 border border-black shadow-[1px_1px_0px_#000]" />
-                <span className="hidden sm:inline-block font-p5Mono text-[9px] text-zinc-800 font-bold tracking-widest uppercase">
+                <div className="size-2.5 rounded-full bg-zinc-400 border border-black shadow-[1px_1px_0px_#000]" />
+                <div className="size-2.5 rounded-full bg-zinc-400 border border-black shadow-[1px_1px_0px_#000]" />
+                <span className="hidden sm:inline-block font-p5Mono text-[10px] sm:text-[11px] text-zinc-800 font-bold tracking-widest uppercase">
                   [SHIBUYA 109 Q-FRONT]
                 </span>
               </div>
@@ -334,9 +343,9 @@ export const CallingCardScreen: React.FC<CallingCardScreenProps> = ({ onBack }) 
                 {[1, 2, 3, 4, 5].map(lampId => (
                   <div key={lampId} className="relative flex flex-col items-center">
                     {/* Metal bracket & hood */}
-                    <div className="w-2.5 h-1 bg-zinc-400 border border-black" />
-                    <div className="w-5 h-2 bg-zinc-900 border border-black rounded-b flex items-center justify-center">
-                      <div className="size-1.5 rounded-full bg-yellow-300 shadow-[0_0_8px_#FEF08A] animate-pulse" />
+                    <div className="w-3 h-1 bg-zinc-400 border border-black" />
+                    <div className="w-5 sm:w-6 h-2 sm:h-2.5 bg-zinc-900 border border-black rounded-b flex items-center justify-center">
+                      <div className="size-1.5 sm:size-2 rounded-full bg-yellow-300 shadow-[0_0_8px_#FEF08A] animate-pulse" />
                     </div>
                   </div>
                 ))}
@@ -344,10 +353,10 @@ export const CallingCardScreen: React.FC<CallingCardScreenProps> = ({ onBack }) 
 
               {/* Right Steel Joint & Hijack Status */}
               <div className="flex items-center gap-1.5">
-                <span className="bg-black text-emerald-400 font-p5Mono text-[9px] font-black px-1.5 py-0.5 border border-black shadow-[1px_1px_0px_#000]">
+                <span className="bg-black text-emerald-400 font-p5Mono text-[10px] sm:text-[11px] font-black px-2 py-0.5 border border-black shadow-[1px_1px_0px_#000]">
                   HIJACK SIGNAL: 100%
                 </span>
-                <div className="size-2 rounded-full bg-zinc-400 border border-black shadow-[1px_1px_0px_#000]" />
+                <div className="size-2.5 rounded-full bg-zinc-400 border border-black shadow-[1px_1px_0px_#000]" />
               </div>
             </div>
 
@@ -358,37 +367,31 @@ export const CallingCardScreen: React.FC<CallingCardScreenProps> = ({ onBack }) 
             <div className="grid grid-cols-1 md:grid-cols-12 divide-y-4 md:divide-y-0 md:divide-x-4 divide-black bg-black">
               
               {/* ── LEFT COLUMN (7 COLS): OUTDOOR VIDEOTRON LED DISPLAY ── */}
-              <div className="md:col-span-7 relative p-2.5 sm:p-3 bg-emerald-500 flex flex-col justify-between overflow-hidden min-h-[290px]">
-                {/* Spotlight Cones Overlay projecting onto screen from top */}
-                <div className="absolute inset-x-0 top-0 h-16 billboard-spotlight-cone z-20 pointer-events-none opacity-30" />
-
+              <div className="md:col-span-7 relative p-3 sm:p-4 bg-emerald-500 flex flex-col justify-between overflow-hidden min-h-[330px]">
                 {/* Screen Bezel & LED Surface */}
                 <div
-                  className={`relative w-full h-full rounded-sm border-2 border-black bg-[#FFFDF9] p-3 sm:p-3.5 shadow-[inset_0_2px_8px_rgba(0,0,0,0.06)] flex flex-col justify-between overflow-hidden transition-all ${
+                  className={`relative w-full h-full rounded-sm border-2 border-black bg-[#FFFDF9] p-3.5 sm:p-4 shadow-[inset_0_2px_8px_rgba(0,0,0,0.06)] flex flex-col justify-between overflow-hidden transition-all ${
                     isGlitching ? 'animate-signal-glitch' : ''
                   }`}
                 >
-                  {/* Subtle Matrix Pixel Grid (Placed in background z-0 with very soft opacity) */}
-                  <div className="absolute inset-0 led-matrix-grid z-0 pointer-events-none opacity-5" />
-
-                  {/* Live Broadcast Content (Elevated to z-20 for 100% crisp sharpness) */}
-                  <div className="relative z-20 flex flex-col justify-between h-full space-y-2.5">
+                  {/* Live Broadcast Content (100% crisp vector sharpness) */}
+                  <div className="relative z-20 flex flex-col justify-between h-full space-y-3">
                     {/* Top LED Broadcast Bar */}
-                    <div className="flex items-center justify-between border-b-2 border-black pb-1.5 gap-2">
+                    <div className="flex items-center justify-between border-b-2 border-black pb-2 gap-2">
                       {/* On-Air Record Indicator */}
-                      <div className="flex items-center gap-1.5 bg-red-600 border border-black px-2 py-0.5 text-white text-[10px] font-p5Mono font-black tracking-widest uppercase shadow-[1.5px_1.5px_0px_#000]">
+                      <div className="flex items-center gap-1.5 bg-red-600 border border-black px-2.5 py-1 text-white text-[11px] sm:text-xs font-p5Mono font-black tracking-widest uppercase shadow-[1.5px_1.5px_0px_#000]">
                         <span className="size-2 rounded-full bg-white animate-rec-blink" />
                         <span>LIVE BROADCAST</span>
                       </div>
 
                       {/* Central Emergency Header */}
-                      <div className="flex items-center gap-1.5 text-black font-p5Heading text-xs sm:text-sm tracking-wider">
-                        <Flame className="size-3.5 text-emerald-600 fill-emerald-600 animate-pulse" />
+                      <div className="flex items-center gap-1.5 text-black font-p5Heading text-xs sm:text-sm md:text-base tracking-wider">
+                        <Flame className="size-4 text-emerald-600 fill-emerald-600 animate-pulse" />
                         <span className="text-emerald-700 font-black">★ TAKE YOUR HEART ★</span>
                       </div>
 
                       {/* Frequency Locked Indicator */}
-                      <div className="flex items-center gap-1.5 text-[10px] font-p5Mono text-black font-bold bg-yellow-300 px-2 py-0.5 border border-black shadow-[1.5px_1.5px_0px_#000]">
+                      <div className="flex items-center gap-1.5 text-[11px] sm:text-xs font-p5Mono text-black font-bold bg-yellow-300 px-2.5 py-1 border border-black shadow-[1.5px_1.5px_0px_#000]">
                         <span className="text-black font-black">{activePreset.freq}</span>
                         <div className="flex items-end gap-0.5 h-3">
                           <span className="w-0.5 bg-black animate-pulse h-1.5" />
@@ -400,23 +403,23 @@ export const CallingCardScreen: React.FC<CallingCardScreenProps> = ({ onBack }) 
 
                     {/* Target Callout in High-Voltage Bold */}
                     <div className="flex items-center gap-2 pt-0.5">
-                      <span className="bg-black text-white px-1.5 py-0.5 text-[10px] font-black -skew-x-12 border border-black">
+                      <span className="bg-black text-white px-2 py-0.5 text-[10.5px] sm:text-[11px] font-black -skew-x-12 border border-black">
                         TARGET
                       </span>
-                      <span className="font-p5Heading text-sm sm:text-base md:text-lg text-black font-black tracking-wide truncate">
+                      <span className="font-p5Heading text-base sm:text-lg md:text-xl text-black font-black tracking-wide truncate">
                         {recipient.trim() ? recipient : 'UNDISCLOSED TARGET'}
                       </span>
                     </div>
 
                     {/* Live Manifesto Body with Blinking Block Terminal Cursor */}
-                    <div className="font-p5Body text-xs sm:text-sm text-black leading-relaxed font-bold min-h-[4.5rem] flex-1 overflow-y-auto no-scrollbar p-2.5 bg-emerald-50/70 border-2 border-black rounded-sm shadow-[2px_2px_0px_#000000]">
+                    <div className="font-p5Body text-xs sm:text-sm text-black leading-relaxed font-bold min-h-[5.5rem] flex-1 overflow-y-auto no-scrollbar p-3 bg-emerald-50/70 border-2 border-black rounded-sm shadow-[2px_2px_0px_#000000]">
                       <span>{message}</span>
                       <span className="inline-block w-2 h-3.5 ml-1 bg-emerald-600 animate-pulse align-middle" />
                     </div>
 
                     {/* Outdoor Billboard Marquee (Running Text Ticker) */}
-                    <div className="relative mt-1 bg-emerald-600 border-t-2 border-black py-1 overflow-hidden shadow-[inset_0_1px_3px_rgba(0,0,0,0.3)]">
-                      <div className="flex items-center gap-1 text-[10px] font-p5Mono text-white whitespace-nowrap overflow-hidden">
+                    <div className="relative mt-1 bg-emerald-600 border-t-2 border-black py-1.5 overflow-hidden shadow-[inset_0_1px_3px_rgba(0,0,0,0.3)]">
+                      <div className="flex items-center gap-1 text-[11px] sm:text-xs font-p5Mono text-white whitespace-nowrap overflow-hidden">
                         <div className="animate-marquee-scroll">
                           <span className="mr-8 font-black">
                             ▶ ▶ BREAKING: SHIBUYA SCRAMBLE CROSSING BILLBOARD FREQUENCIES HIJACKED BY THE PHANTOM THIEVES
@@ -441,15 +444,15 @@ export const CallingCardScreen: React.FC<CallingCardScreenProps> = ({ onBack }) 
               </div>
 
               {/* ── RIGHT COLUMN (5 COLS): MAINTENANCE & OVERRIDE CONTROL DECK ── */}
-              <div className="md:col-span-5 bg-[#FAF8F5] p-3 sm:p-3.5 flex flex-col justify-between space-y-2.5 text-black">
+              <div className="md:col-span-5 bg-[#FAF8F5] p-3.5 sm:p-4 flex flex-col justify-between space-y-3 text-black">
                 {/* Tactical Transmission Channel Presets (2x2 Grid) */}
                 <div>
-                  <div className="flex items-center justify-between mb-1">
-                    <span className="font-p5Sub text-[10px] sm:text-[11px] text-zinc-900 uppercase tracking-wider font-extrabold flex items-center gap-1">
-                      <Radio className="size-3 text-emerald-600" />
+                  <div className="flex items-center justify-between mb-1.5">
+                    <span className="font-p5Sub text-[11px] sm:text-xs text-zinc-900 uppercase tracking-wider font-extrabold flex items-center gap-1">
+                      <Radio className="size-3.5 text-emerald-600" />
                       FREQUENCY CHANNEL:
                     </span>
-                    <span className="font-p5Mono text-[9px] text-emerald-600 font-black">
+                    <span className="font-p5Mono text-[10px] sm:text-[11px] text-emerald-600 font-black">
                       4 BANDS
                     </span>
                   </div>
@@ -464,7 +467,7 @@ export const CallingCardScreen: React.FC<CallingCardScreenProps> = ({ onBack }) 
                           onClick={() => handleSelectChannel(preset)}
                           onMouseEnter={playHover}
                           className={`
-                            relative px-2 py-1.5 font-p5Heading text-xs sm:text-[12px] tracking-wider uppercase border-2 transition-all flex flex-col items-start justify-center cursor-pointer text-left
+                            relative px-2.5 py-2 font-p5Heading text-xs sm:text-[13px] tracking-wider uppercase border-2 transition-all flex flex-col items-start justify-center cursor-pointer text-left
                             ${
                               isActive
                                 ? 'bg-emerald-500 text-black border-black shadow-[3px_3px_0px_#000000] -rotate-1 font-black scale-[1.02]'
@@ -474,7 +477,7 @@ export const CallingCardScreen: React.FC<CallingCardScreenProps> = ({ onBack }) 
                         >
                           {/* LED Indicator Light */}
                           <div className="flex items-center justify-between w-full mb-0.5">
-                            <span className={`text-[9px] font-p5Mono font-bold ${isActive ? 'text-black' : 'text-zinc-600'}`}>
+                            <span className={`text-[10px] sm:text-[11px] font-p5Mono font-bold ${isActive ? 'text-black' : 'text-zinc-600'}`}>
                               {preset.channel}
                             </span>
                             <span
@@ -486,7 +489,7 @@ export const CallingCardScreen: React.FC<CallingCardScreenProps> = ({ onBack }) 
                             />
                           </div>
                           <span className="font-bold leading-tight line-clamp-1">{preset.label}</span>
-                          <span className={`text-[8.5px] font-p5Mono mt-0.5 ${isActive ? 'text-zinc-950 font-black' : 'text-emerald-700 font-bold'}`}>
+                          <span className={`text-[9.5px] sm:text-[10px] font-p5Mono mt-0.5 ${isActive ? 'text-zinc-950 font-black' : 'text-emerald-700 font-bold'}`}>
                             {preset.rank}
                           </span>
                         </button>
@@ -496,14 +499,14 @@ export const CallingCardScreen: React.FC<CallingCardScreenProps> = ({ onBack }) 
                 </div>
 
                 {/* Input Form: Target Override & Manifesto Payload */}
-                <form onSubmit={handleBroadcast} className="space-y-2 flex-1 flex flex-col justify-between">
+                <form onSubmit={handleBroadcast} className="space-y-2.5 flex-1 flex flex-col justify-between">
                   {/* Target Input */}
-                  <div className="flex items-center gap-1.5 font-p5Heading text-xs sm:text-sm border-b-2 border-black pb-1">
+                  <div className="flex items-center gap-1.5 font-p5Heading text-xs sm:text-sm border-b-2 border-black pb-1.5">
                     <div className="flex items-center gap-0.5 shrink-0">
-                      <span className="bg-black text-white px-1.5 py-0.5 text-[9px] sm:text-[10px] font-black -skew-x-12 border border-black">
+                      <span className="bg-black text-white px-2 py-0.5 text-[10px] sm:text-[11px] font-black -skew-x-12 border border-black">
                         TO
                       </span>
-                      <span className="bg-emerald-500 text-black px-1.5 py-0.5 text-[9px] sm:text-[10px] font-black -skew-x-6 border border-black">
+                      <span className="bg-emerald-500 text-black px-2 py-0.5 text-[10px] sm:text-[11px] font-black -skew-x-6 border border-black">
                         TARGET:
                       </span>
                     </div>
@@ -512,26 +515,26 @@ export const CallingCardScreen: React.FC<CallingCardScreenProps> = ({ onBack }) 
                       value={recipient}
                       onChange={e => setRecipient(e.target.value)}
                       placeholder="Enter Target Company / Team..."
-                      className="flex-1 bg-white border-2 border-black focus:border-emerald-500 focus:bg-emerald-50/40 px-2 py-0.5 font-p5Body text-black font-bold text-xs focus:outline-none placeholder:text-zinc-400 tracking-wide rounded-sm shadow-[1.5px_1.5px_0px_#000]"
+                      className="flex-1 bg-white border-2 border-black focus:border-emerald-500 focus:bg-emerald-50/40 px-2.5 py-1 font-p5Body text-black font-bold text-xs sm:text-sm focus:outline-none placeholder:text-zinc-400 tracking-wide rounded-sm shadow-[1.5px_1.5px_0px_#000]"
                     />
                   </div>
 
                   {/* Message Textarea */}
                   <div>
-                    <span className="block font-p5Sub text-[9.5px] text-zinc-900 uppercase tracking-wider mb-0.5 font-extrabold">
+                    <span className="block font-p5Sub text-[10px] sm:text-[11px] text-zinc-900 uppercase tracking-wider mb-0.5 font-extrabold">
                       MANIFESTO PAYLOAD:
                     </span>
                     <textarea
                       rows={2}
                       value={message}
                       onChange={e => setMessage(e.target.value)}
-                      className="w-full bg-white border-2 border-black focus:border-emerald-500 focus:bg-emerald-50/40 p-2 font-p5Body text-xs text-black font-bold resize-none leading-snug h-[3.2rem] rounded-sm placeholder:text-zinc-400 shadow-[1.5px_1.5px_0px_#000]"
+                      className="w-full bg-white border-2 border-black focus:border-emerald-500 focus:bg-emerald-50/40 p-2.5 font-p5Body text-xs sm:text-sm text-black font-bold resize-none leading-snug h-[3.8rem] rounded-sm placeholder:text-zinc-400 shadow-[1.5px_1.5px_0px_#000]"
                     />
                   </div>
 
                   {/* Footer: Operator Signature & Broadcast Trigger Button */}
-                  <div className="flex items-center justify-between gap-1.5 pt-1 border-t-2 border-black">
-                    <div className="font-p5Heading text-[9px] sm:text-[10px] text-zinc-800 font-bold">
+                  <div className="flex items-center justify-between gap-1.5 pt-1.5 border-t-2 border-black">
+                    <div className="font-p5Heading text-[10px] sm:text-xs text-zinc-800 font-bold">
                       OPERATOR: <span className="text-emerald-600 font-black tracking-wide">FERREL</span>
                     </div>
 
@@ -539,7 +542,7 @@ export const CallingCardScreen: React.FC<CallingCardScreenProps> = ({ onBack }) 
                       type="submit"
                       onMouseEnter={playHover}
                       className={`
-                        inline-flex items-center justify-center gap-1 px-3 py-1 font-p5Heading text-xs sm:text-[13px] tracking-wider uppercase border-2 border-black shadow-[2.5px_2.5px_0px_#000000] transition-all cursor-pointer font-black
+                        inline-flex items-center justify-center gap-1.5 px-3.5 py-1.5 font-p5Heading text-xs sm:text-[13px] tracking-wider uppercase border-2 border-black shadow-[2.5px_2.5px_0px_#000000] transition-all cursor-pointer font-black
                         ${
                           isSent
                             ? 'bg-emerald-500 text-black hover:bg-emerald-400'
@@ -563,18 +566,18 @@ export const CallingCardScreen: React.FC<CallingCardScreenProps> = ({ onBack }) 
                 </form>
 
                 {/* Direct Frequency Dials docked at bottom */}
-                <div className="pt-1 border-t border-dashed border-zinc-400 flex items-center justify-between gap-1.5 text-[9.5px] font-p5Mono">
+                <div className="pt-1.5 border-t border-dashed border-zinc-400 flex items-center justify-between gap-1.5 text-[10px] sm:text-[11px] font-p5Mono">
                   {/* Email with copy */}
                   <button
                     type="button"
                     onClick={handleCopyEmail}
-                    className="inline-flex items-center gap-1 bg-white text-black px-1.5 py-0.5 hover:bg-emerald-400 hover:text-black transition-colors border-2 border-black shadow-[1.5px_1.5px_0px_#000] cursor-pointer shrink-0 truncate max-w-[190px] font-bold"
+                    className="inline-flex items-center gap-1.5 bg-white text-black px-2 py-1 hover:bg-emerald-400 hover:text-black transition-colors border-2 border-black shadow-[1.5px_1.5px_0px_#000] cursor-pointer shrink-0 truncate max-w-[210px] font-bold"
                     title="Click to Copy Direct Frequency Email"
                   >
-                    <Mail className="size-2.5 text-emerald-600 shrink-0" />
+                    <Mail className="size-3 text-emerald-600 shrink-0" />
                     <span className="truncate">{USER_EMAIL}</span>
-                    <Copy className="size-2 text-zinc-600 shrink-0 ml-0.5" />
-                    {hasCopiedEmail && <span className="text-emerald-700 text-[8.5px] font-black shrink-0">COPIED!</span>}
+                    <Copy className="size-2.5 text-zinc-600 shrink-0 ml-0.5" />
+                    {hasCopiedEmail && <span className="text-emerald-700 text-[9px] font-black shrink-0">COPIED!</span>}
                   </button>
 
                   {/* GitHub */}
@@ -582,11 +585,11 @@ export const CallingCardScreen: React.FC<CallingCardScreenProps> = ({ onBack }) 
                     href="https://github.com/FerrelHD"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1 bg-white text-black px-1.5 py-0.5 hover:bg-emerald-400 hover:text-black transition-colors border-2 border-black shadow-[1.5px_1.5px_0px_#000] cursor-pointer shrink-0 font-bold"
+                    className="inline-flex items-center gap-1.5 bg-white text-black px-2 py-1 hover:bg-emerald-400 hover:text-black transition-colors border-2 border-black shadow-[1.5px_1.5px_0px_#000] cursor-pointer shrink-0 font-bold"
                   >
                     <GithubIcon />
                     <span>@FerrelHD</span>
-                    <ExternalLink className="size-2 text-zinc-600 shrink-0" />
+                    <ExternalLink className="size-2.5 text-zinc-600 shrink-0" />
                   </a>
                 </div>
               </div>
