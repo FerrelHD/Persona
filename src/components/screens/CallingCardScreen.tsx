@@ -384,12 +384,6 @@ export const CallingCardScreen: React.FC<CallingCardScreenProps> = ({ onBack }) 
                         <span>LIVE BROADCAST</span>
                       </div>
 
-                      {/* Central Emergency Header */}
-                      <div className="flex items-center gap-1.5 text-black font-p5Heading text-xs sm:text-sm md:text-base tracking-wider">
-                        <Flame className="size-4 text-emerald-600 fill-emerald-600 animate-pulse" />
-                        <span className="text-emerald-700 font-black">★ TAKE YOUR HEART ★</span>
-                      </div>
-
                       {/* Frequency Locked Indicator */}
                       <div className="flex items-center gap-1.5 text-[11px] sm:text-xs font-p5Mono text-black font-bold bg-yellow-300 px-2.5 py-1 border border-black shadow-[1.5px_1.5px_0px_#000]">
                         <span className="text-black font-black">{activePreset.freq}</span>
