@@ -41,7 +41,8 @@ export function App() {
     try {
       localStorage.removeItem('p3r_menu_config_v1')
       localStorage.removeItem('p3r_menu_config_v2')
-      const saved = localStorage.getItem('p3r_menu_config_v3')
+      localStorage.removeItem('p3r_menu_config_v3')
+      const saved = localStorage.getItem('p3r_menu_config_v4')
       if (saved) {
         const parsed = JSON.parse(saved)
         if (Array.isArray(parsed) && parsed.length === DEFAULT_P3R_MENU_CONFIG.length) {
@@ -59,7 +60,7 @@ export function App() {
   const handleUpdateMenuConfig = useCallback((updated: P3RMenuItemConfig[]) => {
     setMenuConfig(updated)
     try {
-      localStorage.setItem('p3r_menu_config_v3', JSON.stringify(updated))
+      localStorage.setItem('p3r_menu_config_v4', JSON.stringify(updated))
     } catch {}
   }, [])
 
@@ -69,6 +70,7 @@ export function App() {
       localStorage.removeItem('p3r_menu_config_v1')
       localStorage.removeItem('p3r_menu_config_v2')
       localStorage.removeItem('p3r_menu_config_v3')
+      localStorage.removeItem('p3r_menu_config_v4')
     } catch {}
   }, [])
 
