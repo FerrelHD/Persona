@@ -39,7 +39,9 @@ export function App() {
   const pendingRevealRef = useRef<Point | null>(null)
   const [menuConfig, setMenuConfig] = useState<P3RMenuItemConfig[]>(() => {
     try {
-      const saved = localStorage.getItem('p3r_menu_config_v2')
+      localStorage.removeItem('p3r_menu_config_v1')
+      localStorage.removeItem('p3r_menu_config_v2')
+      const saved = localStorage.getItem('p3r_menu_config_v3')
       if (saved) {
         const parsed = JSON.parse(saved)
         if (Array.isArray(parsed) && parsed.length === DEFAULT_P3R_MENU_CONFIG.length) {
@@ -57,14 +59,16 @@ export function App() {
   const handleUpdateMenuConfig = useCallback((updated: P3RMenuItemConfig[]) => {
     setMenuConfig(updated)
     try {
-      localStorage.setItem('p3r_menu_config_v2', JSON.stringify(updated))
+      localStorage.setItem('p3r_menu_config_v3', JSON.stringify(updated))
     } catch {}
   }, [])
 
   const handleResetMenuConfig = useCallback(() => {
     setMenuConfig(DEFAULT_P3R_MENU_CONFIG)
     try {
+      localStorage.removeItem('p3r_menu_config_v1')
       localStorage.removeItem('p3r_menu_config_v2')
+      localStorage.removeItem('p3r_menu_config_v3')
     } catch {}
   }, [])
 
