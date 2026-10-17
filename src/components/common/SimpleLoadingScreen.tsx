@@ -37,7 +37,6 @@ export const SimpleLoadingScreen: React.FC<SimpleLoadingScreenProps> = ({
               strokeWidth="3.5"
               strokeDasharray="90 180"
               strokeLinecap="round"
-              className="drop-shadow-[0_0_8px_#16cffb]"
             />
           </svg>
 
@@ -61,7 +60,6 @@ export const SimpleLoadingScreen: React.FC<SimpleLoadingScreenProps> = ({
               className="text-xl sm:text-2xl font-black italic text-white tracking-tighter"
               style={{
                 fontFamily: 'var(--font-rodin)',
-                textShadow: '0 0 12px rgba(22, 207, 251, 0.8)',
               }}
             >
               {progress}%
@@ -70,9 +68,9 @@ export const SimpleLoadingScreen: React.FC<SimpleLoadingScreenProps> = ({
         </div>
 
         {/* Minimal Progress Line */}
-        <div className="w-36 sm:w-44 h-1 bg-[#031f64] border border-[#16cffb]/30 rounded-full overflow-hidden mt-6 shadow-[0_0_10px_rgba(22,207,251,0.2)]">
+        <div className="w-36 sm:w-44 h-1 bg-[#031f64] border border-[#16cffb]/30 rounded-full overflow-hidden mt-6">
           <div
-            className="h-full bg-gradient-to-r from-[#0099ff] to-[#16cffb] transition-all duration-150 ease-out rounded-full shadow-[0_0_8px_#16cffb]"
+            className="h-full bg-gradient-to-r from-[#0099ff] to-[#16cffb] transition-all duration-150 ease-out rounded-full"
             style={{ width: `${progress}%` }}
           />
         </div>
