@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import { usePersonaSFX } from '@/hooks/usePersonaSFX'
+import { P3RControllerButton } from '@/components/common/P3RControllerButton'
 
 interface PageCutoutOverlayProps {
   title: string
@@ -9,6 +10,9 @@ interface PageCutoutOverlayProps {
   accentColor?: 'cyan' | 'red' | 'pink' | 'emerald' | 'gray'
   extraShortcuts?: React.ReactNode
   hideBottomLegend?: boolean
+  hideBottomBadge?: boolean
+  isVisible?: boolean
+  disableEscapeKey?: boolean
 }
 
 const ACCENT = {
@@ -27,6 +31,7 @@ const TITLE_MAP: Record<string, string> = {
   'CALLING CARD':      'COMMS',
   'COMMS':             'COMMS',
   'CONTACT':           'COMMS',
+  'HIDEOUT':           'HIDEOUT',
 }
 
 // Map screen titles to clean ransom words and subtitles matching Persona 5
@@ -36,6 +41,7 @@ const SUBTITLE_MAP: Record<string, [string, string]> = {
   'ABOUT':    ['CONFIDANT DOSSIER', 'THE PHANTOM DEV'],
   'ABOUT ME': ['CONFIDANT DOSSIER', 'THE PHANTOM DEV'],
   'COMMS':    ['DISPATCH', 'CALLING CARD'],
+  'HIDEOUT':  ['PAULOWNIA MALL', 'SEES OPERATIVES'],
 }
 
 const TILE_ROTATIONS = ['-rotate-6', 'rotate-3', '-rotate-3', 'rotate-4', '-rotate-2', 'rotate-6', '-rotate-4', 'rotate-2']
@@ -48,11 +54,15 @@ export const PageCutoutOverlay: React.FC<PageCutoutOverlayProps> = ({
   accentColor = 'cyan',
   extraShortcuts,
   hideBottomLegend = false,
+  hideBottomBadge = false,
+  isVisible = true,
+  disableEscapeKey = false,
 }) => {
   const { playBack, playHover } = usePersonaSFX()
   const ac = ACCENT[accentColor]
 
   useEffect(() => {
+    if (disableEscapeKey) return
     const handleKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
         e.preventDefault()
@@ -62,7 +72,7 @@ export const PageCutoutOverlay: React.FC<PageCutoutOverlayProps> = ({
     }
     window.addEventListener('keydown', handleKey)
     return () => window.removeEventListener('keydown', handleKey)
-  }, [onBack, playBack])
+  }, [onBack, playBack, disableEscapeKey])
 
   // Get clean label
   const displayTitle = TITLE_MAP[title.toUpperCase()] || title.toUpperCase()
@@ -72,7 +82,9 @@ export const PageCutoutOverlay: React.FC<PageCutoutOverlayProps> = ({
   return (
     <>
       {/* ── TOP-LEFT: Universal Persona 5 Ransom Cutout Title ── */}
-      <div className="fixed top-4 sm:top-6 md:top-8 left-4 sm:left-6 md:left-8 z-40 select-none flex flex-col items-start pointer-events-auto p5-tile-entrance">
+      <div className={`fixed top-4 sm:top-6 md:top-8 left-4 sm:left-6 md:left-8 z-40 select-none flex flex-col items-start pointer-events-auto p5-tile-entrance transition-all duration-500 ${
+        isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-12 pointer-events-none'
+      }`}>
         <div
           onClick={() => {
             playBack()
@@ -116,38 +128,29 @@ export const PageCutoutOverlay: React.FC<PageCutoutOverlayProps> = ({
 
       {/* Fixed Persona 5 Controller Legend - Locked to exact universal coordinates */}
       {!hideBottomLegend && (
-        <div className="fixed bottom-5 sm:bottom-7 md:bottom-8 laptop-legend-bottom left-6 sm:left-10 md:left-14 z-40 flex items-center gap-3 sm:gap-5 flex-wrap text-xs sm:text-sm text-zinc-300 pointer-events-auto select-none">
+        <div className={`fixed bottom-5 sm:bottom-7 md:bottom-8 laptop-legend-bottom left-6 sm:left-10 md:left-14 z-40 flex items-center gap-3 sm:gap-5 flex-wrap text-xs sm:text-sm text-zinc-300 pointer-events-auto select-none transition-all duration-500 ${
+          isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4 pointer-events-none'
+        }`}>
           {/* (O) BACK button */}
-          <button
-            type="button"
+          <P3RControllerButton
+            symbol="circle"
+            label="BACK"
+            title="Back to Main Menu (Escape)"
             onClick={() => {
               playBack()
               onBack()
             }}
-            className="flex items-center gap-1.5 hover:text-white group cursor-pointer transition-colors"
-            title="Back to Main Menu"
-          >
-            <span className="size-5 rounded-full border-2 border-red-500 text-red-500 font-bold flex items-center justify-center text-[11px] group-hover:bg-red-500 group-hover:text-white transition-colors shadow-[0_0_6px_rgba(239,68,68,0.4)]">
-              O
-            </span>
-            <span className="font-p5Heading text-sm tracking-wider uppercase text-white group-hover:text-red-400 transition-colors">
-              BACK
-            </span>
-          </button>
+          />
 
           {/* (△) GITHUB */}
-          <a
+          <P3RControllerButton
+            symbol="triangle"
+            label="GITHUB"
+            title="View GitHub"
             href="https://github.com/FerrelHD"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-1.5 hover:text-white group cursor-pointer transition-colors"
-            title="View GitHub"
-          >
-            <span className="size-5 rounded-full border-2 border-emerald-400 text-emerald-400 font-bold flex items-center justify-center text-[11px] group-hover:bg-emerald-400 group-hover:text-black transition-colors shadow-[0_0_6px_rgba(52,211,153,0.4)]">
-              △
-            </span>
-            <span className="font-p5Heading text-sm tracking-wider uppercase">GITHUB</span>
-          </a>
+          />
 
           {/* Contextual Extra Action Shortcuts */}
           {extraShortcuts}
@@ -155,18 +158,22 @@ export const PageCutoutOverlay: React.FC<PageCutoutOverlayProps> = ({
       )}
 
       {/* ── BOTTOM-RIGHT: Ribbon character badge ── */}
-      <div className="pointer-events-none fixed bottom-6 sm:bottom-8 md:bottom-10 laptop-legend-bottom-right right-6 sm:right-8 md:right-10 z-40 select-none">
-        <div
-          className={`
-            flex items-center bg-black border-l-4 ${ac.border}
-            px-3 py-1
-            font-p5Sub text-xs sm:text-sm tracking-widest text-white
-            -skew-x-6 ${ac.shadow}
-          `}
-        >
-          {characterRole} // {characterName}
+      {!hideBottomBadge && (
+        <div className={`pointer-events-none fixed bottom-6 sm:bottom-8 md:bottom-10 laptop-legend-bottom-right right-6 sm:right-8 md:right-10 z-40 select-none transition-all duration-500 ${
+          isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-12 pointer-events-none'
+        }`}>
+          <div
+            className={`
+              flex items-center bg-black border-l-4 ${ac.border}
+              px-3 py-1
+              font-p5Sub text-xs sm:text-sm tracking-widest text-white
+              -skew-x-6 ${ac.shadow}
+            `}
+          >
+            {characterRole} // {characterName}
+          </div>
         </div>
-      </div>
+      )}
     </>
   )
 }

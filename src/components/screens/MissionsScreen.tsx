@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { PageCutoutOverlay } from '@/components/common/PageCutoutOverlay'
+import { P3RControllerButton } from '@/components/common/P3RControllerButton'
 import { MISSIONS_DATA, Mission } from '@/data/personaData'
 import { usePersonaSFX } from '@/hooks/usePersonaSFX'
 import { X } from 'lucide-react'
@@ -232,58 +233,46 @@ export const MissionsScreen: React.FC<MissionsScreenProps> = ({ onBack }) => {
       </div>
 
       {/* ── BOTTOM CONTROLLER LEGEND ── */}
-      <div className="fixed bottom-5 sm:bottom-7 md:bottom-8 laptop-legend-bottom left-6 sm:left-10 md:left-14 z-40 flex items-center gap-3 sm:gap-5 flex-wrap text-xs sm:text-sm text-zinc-300 pointer-events-auto select-none">
-        <button
+      <div className="fixed bottom-5 sm:bottom-7 md:bottom-8 laptop-legend-bottom left-6 sm:left-10 md:left-14 z-40 flex items-center gap-4 sm:gap-6 flex-wrap text-xs sm:text-sm pointer-events-auto select-none">
+        <P3RControllerButton
+          symbol="circle"
+          label="BACK"
+          title="Back to Main Menu (Escape)"
           onClick={() => {
             playBack()
             onBack()
           }}
-          className="flex items-center gap-1.5 hover:text-white group"
-        >
-          <span className="size-5 rounded-full border-2 border-red-500 text-red-500 font-bold flex items-center justify-center text-[11px] group-hover:bg-red-500 group-hover:text-white transition-colors">
-            O
-          </span>
-          <span className="font-p5Heading text-sm tracking-wider uppercase">BACK</span>
-        </button>
+        />
 
         {activeMission.liveUrl && (
-          <a
+          <P3RControllerButton
+            symbol="cross"
+            label="LAUNCH DEMO"
+            title="Launch Live Project"
             href={activeMission.liveUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-1.5 hover:text-white group"
-          >
-            <span className="size-5 rounded-full border-2 border-cyan-400 text-cyan-400 font-bold flex items-center justify-center text-[11px] group-hover:bg-cyan-400 group-hover:text-black transition-colors">
-              X
-            </span>
-            <span className="font-p5Heading text-sm tracking-wider uppercase">LAUNCH DEMO</span>
-          </a>
+          />
         )}
 
-        <a
+        <P3RControllerButton
+          symbol="triangle"
+          label="GITHUB"
+          title="View GitHub Repository"
           href={activeMission.githubUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="flex items-center gap-1.5 hover:text-white group"
-        >
-          <span className="size-5 rounded-full border-2 border-emerald-400 text-emerald-400 font-bold flex items-center justify-center text-[11px] group-hover:bg-emerald-400 group-hover:text-black transition-colors">
-            △
-          </span>
-          <span className="font-p5Heading text-sm tracking-wider uppercase">GITHUB</span>
-        </a>
+        />
 
-        <button
+        <P3RControllerButton
+          symbol="square"
+          label="DOSSIER"
+          title="View Full Mission Dossier"
           onClick={() => {
             playSlash()
             setShowDossierModal(true)
           }}
-          className="flex items-center gap-1.5 hover:text-white group"
-        >
-          <span className="size-5 rounded-full border-2 border-pink-400 text-pink-400 font-bold flex items-center justify-center text-[11px] group-hover:bg-pink-400 group-hover:text-black transition-colors">
-            □
-          </span>
-          <span className="font-p5Heading text-sm tracking-wider uppercase">DOSSIER</span>
-        </button>
+        />
       </div>
 
       {/* ── DOSSIER MODAL ── */}

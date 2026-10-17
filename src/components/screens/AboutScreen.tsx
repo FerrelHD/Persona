@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { PageCutoutOverlay } from '@/components/common/PageCutoutOverlay'
+import { P3RControllerButton } from '@/components/common/P3RControllerButton'
 import { usePersonaSFX } from '@/hooks/usePersonaSFX'
 import { MessageSquare, Sliders } from 'lucide-react'
 import { PhoneCalibrator, PhoneLayoutConfig, DEFAULT_PHONE_LAYOUT } from '@/components/dev/PhoneCalibrator'
@@ -10,7 +11,7 @@ interface AboutScreenProps {
 
 interface ChatMessage {
   id: number
-  sender: 'FUTABA' | 'MORGANA' | 'FERREL' | 'JOKER'
+  sender: 'FUUKA' | 'JUNPEI' | 'FERREL' | 'MITSURU' | 'MAKOTO'
   role: string
   avatarImg: string
   avatarBg: string
@@ -23,59 +24,59 @@ interface ChatMessage {
 const CHAT_MESSAGES: ChatMessage[] = [
   {
     id: 1,
-    sender: 'FUTABA',
-    role: '',
-    avatarImg: '/assets/p5r_renders/futaba.png',
-    avatarBg: 'bg-amber-500',
-    nameColor: 'text-amber-400',
-    text: 'Found him! Ferrel, full-stack & creative developer based in Jakarta.',
+    sender: 'FUUKA',
+    role: 'NAVI',
+    avatarImg: '/assets/Fuuka Yamagishi.png',
+    avatarBg: 'bg-emerald-600',
+    nameColor: 'text-emerald-400',
+    text: 'Scan complete! Target located: Ferrel, full-stack & creative developer based in Jakarta.',
   },
   {
     id: 2,
-    sender: 'MORGANA',
-    role: '',
-    avatarImg: '/assets/morgana.jpg',
-    avatarBg: 'bg-cyan-600',
-    nameColor: 'text-cyan-400',
-    text: 'Look at what he built—live earthquake telemetry, an F1 web experience, and custom Unity shaders.',
+    sender: 'JUNPEI',
+    role: 'ACE',
+    avatarImg: '/assets/Junpei Iori.png',
+    avatarBg: 'bg-blue-600',
+    nameColor: 'text-blue-400',
+    text: "Whoa, check out this lineup! Live earthquake telemetry, arcade Unity physics, and fullstack reactive apps!",
   },
   {
     id: 3,
-    sender: 'FUTABA',
-    role: '',
-    avatarImg: '/assets/p5r_renders/futaba.png',
-    avatarBg: 'bg-amber-500',
-    nameColor: 'text-amber-400',
-    text: 'He also fine-tuned an IndoBERT NLP transformer model on PyTorch. Real repos, real commits!',
+    sender: 'FUUKA',
+    role: 'DATA & AI',
+    avatarImg: '/assets/Fuuka Yamagishi.png',
+    avatarBg: 'bg-emerald-600',
+    nameColor: 'text-emerald-400',
+    text: 'Telemetry confirms: he fine-tuned an IndoBERT NLP transformer model on PyTorch. Real repos, real commits!',
   },
   {
     id: 4,
     sender: 'FERREL',
-    role: '',
+    role: 'DEV',
     avatarImg: '/assets/ferrel-portrait.jpg',
     avatarBg: 'bg-red-600',
     nameColor: 'text-p5-crimson',
     isSent: true,
-    text: 'I care about crafting interfaces with character and fluid feel, not just another boilerplate template.',
+    text: 'I care about crafting interfaces with character, kinetic physics, and fluid feel—not just another boilerplate template.',
   },
   {
     id: 5,
-    sender: 'JOKER',
-    role: '',
-    avatarImg: '/assets/joker.jpg',
-    avatarBg: 'bg-zinc-800',
-    nameColor: 'text-zinc-300',
-    text: 'An engineer who builds with identity and precision. Let us see his full arsenal.',
+    sender: 'MITSURU',
+    role: 'EXEC',
+    avatarImg: '/assets/Mitsuru Kirijo.png',
+    avatarBg: 'bg-rose-700',
+    nameColor: 'text-rose-400',
+    text: "C'est magnifique. Clean MVC schemas, strict TypeScript contracts, and robust system integrity. Let us inspect his full deployment.",
     hasQuestionMark: true
   },
   {
     id: 6,
-    sender: 'FUTABA',
-    role: '',
-    avatarImg: '/assets/p5r_renders/futaba.png',
-    avatarBg: 'bg-amber-500',
-    nameColor: 'text-amber-400',
-    text: 'Check out his deployed work in MISSIONS or send a dispatch directly in COMMS!',
+    sender: 'MAKOTO',
+    role: 'LEADER',
+    avatarImg: '/assets/Makoto Yuki.png',
+    avatarBg: 'bg-cyan-700',
+    nameColor: 'text-cyan-300',
+    text: 'Target verified. Check his deployed work in MISSIONS or initiate direct dispatch in COMMS.',
   }
 ]
 
@@ -205,31 +206,26 @@ export const AboutScreen: React.FC<AboutScreenProps> = ({ onBack }) => {
         accentColor="red"
         onBack={onBack}
         extraShortcuts={
-          <div className="flex items-center gap-3">
-            <button
+          <div className="flex items-center gap-4">
+            <P3RControllerButton
+              symbol="cross"
+              label="NEXT / SCROLL"
+              title="Next Chat Message (X)"
+              customColor="#E60012"
               onClick={handleNextMessage}
-              className="flex items-center gap-1.5 hover:text-white group cursor-pointer transition-colors"
-              title="Next Chat Message"
-            >
-              <span className="size-5 rounded-full border-2 border-cyan-400 text-cyan-400 font-bold flex items-center justify-center text-[11px] group-hover:bg-cyan-400 group-hover:text-black transition-colors shadow-[0_0_6px_rgba(34,211,238,0.4)]">
-                X
-              </span>
-              <span className="font-p5Heading text-sm tracking-wider uppercase">NEXT / SCROLL</span>
-            </button>
+            />
 
-            <button
+            <P3RControllerButton
+              symbol="square"
+              label="CALIBRATE"
+              title="Calibrate Phone Position (Shift+C)"
+              customColor="#E60012"
+              customIcon={<Sliders className="size-3.5 text-rose-400 group-hover:text-white transition-colors" />}
               onClick={() => {
                 playSlash()
                 setIsCalibratorOpen(prev => !prev)
               }}
-              className="flex items-center gap-1.5 hover:text-white group cursor-pointer transition-colors"
-              title="Calibrate Phone Position (Shift+C)"
-            >
-              <span className="size-5 rounded-full border-2 border-p5-crimson text-p5-crimson font-bold flex items-center justify-center text-[10px] group-hover:bg-p5-crimson group-hover:text-white transition-colors shadow-[0_0_6px_rgba(230,0,18,0.4)]">
-                <Sliders className="size-3" />
-              </span>
-              <span className="font-p5Heading text-sm tracking-wider uppercase">CALIBRATE</span>
-            </button>
+            />
           </div>
         }
       />
@@ -304,17 +300,17 @@ export const AboutScreen: React.FC<AboutScreenProps> = ({ onBack }) => {
                 </div>
 
                 {/* Red Notification Pill (6) */}
-                <div className="bg-white text-p5-crimson font-p5Heading text-[9px] font-black px-1.5 py-0.2 rounded-full border border-black shadow-[1px_1px_0px_#000000] -rotate-6">
+                <div className="bg-p5-crimson text-white font-p5Heading text-[9px] font-black px-1.5 py-0.2 rounded-full border border-black shadow-[1px_1px_0px_#000000] -rotate-6">
                   6
                 </div>
 
                 <span className="font-p5Heading text-[10px] sm:text-[11px] text-white tracking-widest uppercase ml-0.5 drop-shadow-[1px_1px_0px_#000]">
-                  PHANTOM_CHAT
+                  SEES_LINK
                 </span>
               </div>
             </div>
 
-            {/* SCROLLABLE CHAT MESSAGES THREAD (Authentic P5 Royal IM Style) */}
+            {/* SCROLLABLE CHAT MESSAGES THREAD (Authentic P3R IM Style) */}
             <div 
               ref={chatScrollRef}
               className="relative z-10 flex-1 overflow-y-auto space-y-2.5 my-1.5 px-0.5 pb-2 no-scrollbar [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden laptop-phone-chat"
@@ -334,12 +330,12 @@ export const AboutScreen: React.FC<AboutScreenProps> = ({ onBack }) => {
                         <img 
                           src={msg.avatarImg} 
                           alt={msg.sender} 
-                          className="w-full h-full object-cover object-top scale-110 select-none pointer-events-none"
+                          className="w-full h-full object-cover object-top scale-125 select-none pointer-events-none"
                         />
                       </div>
                     </div>
 
-                    {/* Persona 5 Authentic Speech Bubble */}
+                    {/* Persona 3 Authentic Speech Bubble */}
                     <div className="relative flex-1 min-w-0 group-hover:scale-[1.01] transition-transform">
                       {isSent ? (
                         /* Ferrel (Sent Message) Style: Bold White Card with Crimson Accent */
@@ -373,7 +369,7 @@ export const AboutScreen: React.FC<AboutScreenProps> = ({ onBack }) => {
                           </div>
                         </>
                       ) : (
-                        /* Teammates (Received Message) Style: Sleek Black P5 Cutout with White Border */
+                        /* Teammates (Received Message) Style: Sleek Black Cutout with White Border */
                         <>
                           {/* Speech Bubble Beak */}
                           <div 
@@ -417,8 +413,8 @@ export const AboutScreen: React.FC<AboutScreenProps> = ({ onBack }) => {
                 onClick={handleNextMessage}
                 className="flex items-center gap-1 bg-black text-white px-2 py-0.5 border border-white -skew-x-12 shadow-[1.5px_1.5px_0px_#000] cursor-pointer hover:bg-zinc-800 transition-colors"
               >
-                <MessageSquare className="size-2.5 text-p5-yellow" />
-                <span className="font-p5Heading text-[9px] sm:text-[10px] tracking-wider text-p5-yellow animate-pulse">
+                <MessageSquare className="size-2.5 text-p5-crimson" />
+                <span className="font-p5Heading text-[9px] sm:text-[10px] tracking-wider text-p5-crimson animate-pulse">
                   TAP (X) SCROLL
                 </span>
               </div>

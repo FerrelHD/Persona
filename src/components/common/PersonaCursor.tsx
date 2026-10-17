@@ -45,14 +45,15 @@ export const PersonaCursor: React.FC = () => {
     const onMouseDown = (e: MouseEvent) => {
       setIsClicking(true)
 
-      // Spawn 5 Persona comic slash sparks
+      // Spawn 5 Persona 3 Reload diamond crystal sparks
+      const P3R_SPARK_COLORS = ['#16cffb', '#ffffff', '#7de6fd', '#38bdf8', '#00e5ff']
       const newSparks: Spark[] = Array.from({ length: 5 }, (_, i) => ({
         id: Date.now() + i,
         x: e.clientX,
         y: e.clientY,
         angle: (i * 72) + (Math.random() * 20 - 10),
         size: Math.random() * 8 + 10,
-        color: i % 2 === 0 ? '#E60012' : '#FFFFFF'
+        color: P3R_SPARK_COLORS[i % P3R_SPARK_COLORS.length],
       }))
 
       setSparks(prev => [...prev.slice(-10), ...newSparks])
@@ -80,8 +81,8 @@ export const PersonaCursor: React.FC = () => {
   if (!isEnabled) return null
 
   return (
-    <div className="pointer-events-none fixed inset-0 z-[9999] overflow-hidden select-none">
-      {/* Click Slash Sparks */}
+    <div className="pointer-events-none fixed inset-0 z-[999999] overflow-hidden select-none">
+      {/* Click Diamond Crystal Sparks */}
       {sparks.map(spark => (
         <div
           key={spark.id}
@@ -89,13 +90,13 @@ export const PersonaCursor: React.FC = () => {
           style={{
             left: spark.x,
             top: spark.y,
-            transform: `translate(-50%, -50%) rotate(${spark.angle}deg) translate(22px) scale(0)`,
+            transform: `translate(-50%, -50%) rotate(${spark.angle}deg) translate(24px) scale(0)`,
             opacity: 0,
             animation: 'p5-spark 0.35s cubic-bezier(0.1, 0.9, 0.2, 1) forwards'
           }}
         >
-          {/* Diamond / 4-point Star Spark */}
-          <svg width={spark.size} height={spark.size} viewBox="0 0 24 24" className="filter drop-shadow-[1px_1px_0px_#000]">
+          {/* Diamond / 4-point Crystal Prism Spark */}
+          <svg width={spark.size} height={spark.size} viewBox="0 0 24 24" className="filter drop-shadow-[0_0_6px_rgba(22,207,251,0.9)] drop-shadow-[1px_1px_0px_#000]">
             <polygon
               points="12,0 15,9 24,12 15,15 12,24 9,15 0,12 9,9"
               fill={spark.color}
@@ -106,7 +107,7 @@ export const PersonaCursor: React.FC = () => {
         </div>
       ))}
 
-      {/* Main Persona 5 Red Dagger Cursor */}
+      {/* Main Persona 3 Reload Tactical Cyan Cursor */}
       <div
         ref={cursorRef}
         className="fixed top-0 left-0 will-change-transform"
@@ -117,48 +118,55 @@ export const PersonaCursor: React.FC = () => {
             isClicking
               ? 'scale-90 rotate-6'
               : isHovering
-              ? 'scale-125 -rotate-12'
+              ? 'scale-125 -rotate-6'
               : 'scale-100 rotate-0'
           }`}
         >
-          {/* Authentic Persona 5 Crimson Arrow Dagger */}
+          {/* Authentic Persona 3 Reload Tactical Cyan Chevron Dagger */}
           <svg
             width="34"
             height="34"
             viewBox="0 0 34 34"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
-            className="filter drop-shadow-[2.5px_2.5px_0px_#000000]"
+            className="filter drop-shadow-[0_0_8px_rgba(22,207,251,0.65)] drop-shadow-[2.5px_2.5px_0px_#000000]"
           >
-            {/* Outer Dark Shadow Border */}
+            {/* Outer Cyan Body with Dark Border */}
             <polygon
               points="2,2 2,27 9,21 17,29 22,25 14,17 24,14"
-              fill="#E60012"
+              fill="#16cffb"
               stroke="#000000"
               strokeWidth="3.5"
               strokeLinejoin="miter"
             />
 
-            {/* Inner White Contrast Slash Line */}
+            {/* Inner White Prism Facet */}
             <polygon
               points="4,5 4,23 8,19 12,19"
               fill="#FFFFFF"
-              opacity="0.9"
+              opacity="0.95"
             />
 
-            {/* Accent Persona Mini 4-Point Star */}
+            {/* Cyan Depth Bevel Line */}
+            <polygon
+              points="12,19 14,17 21,14.5 16,14.5"
+              fill="#001233"
+              opacity="0.85"
+            />
+
+            {/* Accent P3R Mini Diamond Star */}
             <polygon
               points="16,11 17.5,13.5 20,14 17.5,15 16,17.5 15,15 12.5,14 15,13.5"
               fill="#FFFFFF"
-              stroke="#000000"
+              stroke="#001233"
               strokeWidth="1"
             />
           </svg>
 
-          {/* Hover Pulsing Star / Aura Accent */}
+          {/* Hover Pulsing Diamond Accent */}
           {isHovering && (
-            <div className="absolute -top-1 -right-1 bg-white text-p5-crimson font-p5Heading text-[9px] font-black size-4 rounded-full border border-black shadow-[1.5px_1.5px_0px_#000] flex items-center justify-center animate-ping pointer-events-none">
-              ★
+            <div className="absolute -top-1 -right-1 bg-[#16cffb] text-[#001233] font-rodin text-[9px] font-black size-4 rounded-full border border-black shadow-[0_0_8px_rgba(22,207,251,0.9)] flex items-center justify-center animate-ping pointer-events-none">
+              ◆
             </div>
           )}
         </div>

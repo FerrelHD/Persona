@@ -1,294 +1,340 @@
-import React, { useState, useEffect } from 'react'
-import { RansomTitle } from '@/components/RansomTitle'
-import { usePersonaSFX } from '@/hooks/usePersonaSFX'
+import React, { useState, useEffect, useCallback, useRef } from 'react'
+import { usePersona3SFX } from '@/hooks/usePersona3SFX'
+import {
+  P3RMenuItemConfig,
+  DEFAULT_P3R_MENU_CONFIG,
+  P3R_SELECTOR_PATH,
+  P3R_SELECTOR_BG_PATH,
+} from '@/data/menuConfig'
 
 export type ActiveScreen = 'menu' | 'missions' | 'hideout' | 'callingCard' | 'about'
 
-interface MainMenuProps {
-  onSelectScreen: (screen: ActiveScreen) => void
+export interface MainMenuProps {
+  onSelectScreen: (screen: ActiveScreen, clickPoint?: { x: number; y: number }) => void
   onBackToTitle?: () => void
   initialSelectedScreen?: ActiveScreen | null
+  configOverride?: P3RMenuItemConfig[]
+  highlightedIndex?: number
 }
 
-interface MenuItem {
-  id: ActiveScreen
-  label: string
-  rotation: string
-  offsetClass: string
-  arrowColor: string
-  letters: { char: string; bg: string; rotate: string }[]
-}
+export const MainMenu: React.FC<MainMenuProps> = ({
+  onSelectScreen,
+  onBackToTitle,
+  initialSelectedScreen = null,
+  configOverride,
+  highlightedIndex,
+}) => {
+  const { playNavSFX, playCloseSFX, playMenuUtamaSFX } = usePersona3SFX()
+  const menuConfig = configOverride || DEFAULT_P3R_MENU_CONFIG
 
-const MENU_ITEMS: MenuItem[] = [
-  {
-    id: 'missions',
-    label: 'MISSIONS',
-    rotation: '-rotate-3',
-    offsetClass: 'ml-0',
-    arrowColor: 'text-[#00D2FF]',
-    letters: [
-      { char: 'M', bg: 'bg-white text-black', rotate: '-rotate-3' },
-      { char: 'I', bg: 'bg-[#00D2FF] text-black font-black scale-105 shadow-md', rotate: 'rotate-2' },
-      { char: 'S', bg: 'bg-white text-black', rotate: '-rotate-2' },
-      { char: 'S', bg: 'bg-black text-white border border-white', rotate: 'rotate-3' },
-      { char: 'I', bg: 'bg-white text-black', rotate: '-rotate-1' },
-      { char: 'O', bg: 'bg-black text-white border border-white', rotate: 'rotate-2' },
-      { char: 'N', bg: 'bg-white text-black', rotate: '-rotate-2' },
-      { char: 'S', bg: 'bg-[#00D2FF] text-black font-black scale-110 shadow-lg', rotate: 'rotate-3' },
-    ]
-  },
-  {
-    id: 'hideout',
-    label: 'HIDEOUT',
-    rotation: '-rotate-1',
-    offsetClass: 'ml-2 sm:ml-3 md:ml-4',
-    arrowColor: 'text-[#B45309]',
-    letters: [
-      { char: 'H', bg: 'bg-white text-black', rotate: '-rotate-2' },
-      { char: 'I', bg: 'bg-[#7C4A1E] text-white font-black scale-105 shadow-md', rotate: 'rotate-1' },
-      { char: 'D', bg: 'bg-white text-black', rotate: '-rotate-1' },
-      { char: 'E', bg: 'bg-black text-white border border-white', rotate: 'rotate-2' },
-      { char: 'O', bg: 'bg-[#7C4A1E] text-white font-black scale-110 shadow-lg', rotate: '-rotate-2' },
-      { char: 'U', bg: 'bg-white text-black', rotate: 'rotate-3' },
-      { char: 'T', bg: 'bg-[#7C4A1E] text-white font-black scale-110 shadow-lg', rotate: '-rotate-2' },
-    ]
-  },
-  {
-    id: 'about',
-    label: 'ABOUT',
-    rotation: 'rotate-1',
-    offsetClass: 'ml-4 sm:ml-6 md:ml-8',
-    arrowColor: 'text-[#EF4444]',
-    letters: [
-      { char: 'A', bg: 'bg-white text-black', rotate: '-rotate-3' },
-      { char: 'B', bg: 'bg-[#B91C1C] text-white font-black scale-105 shadow-md', rotate: 'rotate-3' },
-      { char: 'O', bg: 'bg-white text-black', rotate: '-rotate-2' },
-      { char: 'U', bg: 'bg-black text-white border border-white', rotate: 'rotate-4' },
-      { char: 'T', bg: 'bg-[#B91C1C] text-white font-black scale-110 shadow-lg', rotate: '-rotate-2' },
-    ]
-  },
-  {
-    id: 'callingCard',
-    label: 'COMMS',
-    rotation: 'rotate-3',
-    offsetClass: 'ml-6 sm:ml-9 md:ml-12',
-    arrowColor: 'text-[#10B981]',
-    letters: [
-      { char: 'C', bg: 'bg-white text-black', rotate: '-rotate-3' },
-      { char: 'O', bg: 'bg-[#10B981] text-black font-black scale-105 shadow-md', rotate: 'rotate-2' },
-      { char: 'M', bg: 'bg-white text-black', rotate: '-rotate-2' },
-      { char: 'M', bg: 'bg-black text-white border border-white', rotate: 'rotate-3' },
-      { char: 'S', bg: 'bg-[#10B981] text-black font-black scale-110 shadow-lg', rotate: '-rotate-2' },
-    ]
-  }
-]
-
-export const MainMenu: React.FC<MainMenuProps> = ({ onSelectScreen, onBackToTitle, initialSelectedScreen = null }) => {
-  const { playHover, playSlash, playBack } = usePersonaSFX()
-  
-  // Calculate initial selected index from last visited screen, or null if fresh start
-  const getInitialIndex = (): number | null => {
-    if (!initialSelectedScreen) return null
-    const idx = MENU_ITEMS.findIndex(item => item.id === initialSelectedScreen)
-    return idx !== -1 ? idx : null
+  const getInitialIndex = (): number => {
+    if (highlightedIndex !== undefined && highlightedIndex >= 0 && highlightedIndex < menuConfig.length) {
+      return highlightedIndex
+    }
+    if (!initialSelectedScreen) return 0
+    const idx = menuConfig.findIndex(item => item.id === initialSelectedScreen)
+    return idx !== -1 ? idx : 0
   }
 
-  const [selectedIndex, setSelectedIndex] = useState<number | null>(getInitialIndex)
+  const [selectedIndex, setSelectedIndex] = useState<number>(getInitialIndex)
+  const [hasEntered, setHasEntered] = useState<boolean>(false)
+  const containerRef = useRef<HTMLDivElement>(null)
 
+  // Sync with calibrator highlighted index if provided
+  useEffect(() => {
+    if (highlightedIndex !== undefined && highlightedIndex >= 0 && highlightedIndex < menuConfig.length) {
+      setSelectedIndex(highlightedIndex)
+    }
+  }, [highlightedIndex, menuConfig.length])
+
+  // Trigger entrance stagger and play menu utama sound on mount
+  useEffect(() => {
+    playMenuUtamaSFX()
+    const timer = setTimeout(() => {
+      setHasEntered(true)
+    }, 450)
+    return () => clearTimeout(timer)
+  }, [playMenuUtamaSFX])
+
+  const handleSelectIndex = useCallback((index: number) => {
+    if (index === selectedIndex) return
+    setSelectedIndex(index)
+    playNavSFX()
+  }, [selectedIndex, playNavSFX])
+
+  const handleConfirm = useCallback((index: number, e?: React.MouseEvent) => {
+    const item = menuConfig[index]
+    if (!item) return
+
+    let clickPoint: { x: number; y: number } | undefined
+    if (e && e.clientX && e.clientY) {
+      clickPoint = { x: e.clientX, y: e.clientY }
+    } else {
+      // Approximate center of the item
+      const itemEl = document.getElementById(`p3r-option-${index}`)
+      if (itemEl) {
+        const rect = itemEl.getBoundingClientRect()
+        clickPoint = {
+          x: rect.left + rect.width * 0.45,
+          y: rect.top + rect.height * 0.5,
+        }
+      }
+    }
+
+    onSelectScreen(item.id, clickPoint)
+  }, [menuConfig, onSelectScreen])
+
+  // Keyboard Navigation: Up, Down, Enter, Escape
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'ArrowDown') {
+      // Ignore if user is typing in an input
+      if (['INPUT', 'TEXTAREA'].includes((e.target as HTMLElement)?.tagName)) return
+
+      if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
         e.preventDefault()
-        playHover()
-        setSelectedIndex(prev => (prev === null ? 0 : (prev + 1) % MENU_ITEMS.length))
-      } else if (e.key === 'ArrowUp') {
+        const prev = (selectedIndex - 1 + menuConfig.length) % menuConfig.length
+        handleSelectIndex(prev)
+      } else if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
         e.preventDefault()
-        playHover()
-        setSelectedIndex(prev => (prev === null ? MENU_ITEMS.length - 1 : (prev - 1 + MENU_ITEMS.length) % MENU_ITEMS.length))
-      } else if (e.key === 'Enter') {
-        if (selectedIndex !== null) {
-          e.preventDefault()
-          playSlash()
-          onSelectScreen(MENU_ITEMS[selectedIndex].id)
-        }
+        const next = (selectedIndex + 1) % menuConfig.length
+        handleSelectIndex(next)
+      } else if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault()
+        handleConfirm(selectedIndex)
       } else if (e.key === 'Escape') {
-        if (onBackToTitle) {
-          e.preventDefault()
-          playBack()
-          onBackToTitle()
-        }
+        e.preventDefault()
+        playCloseSFX()
+        onBackToTitle?.()
       }
     }
 
     window.addEventListener('keydown', handleKeyDown)
     return () => window.removeEventListener('keydown', handleKeyDown)
-  }, [selectedIndex, onSelectScreen, playHover, playSlash])
+  }, [selectedIndex, menuConfig, handleSelectIndex, handleConfirm, onBackToTitle, playCloseSFX])
+
+  const currentWatermark = (selectedIndex + 1).toString().padStart(2, '0')
 
   return (
-    <div className="relative w-screen h-screen overflow-hidden select-none pointer-events-auto flex flex-col justify-between p-6 sm:p-10 md:p-14 laptop-main-pad">
-      {/* Left Vignette Shadow */}
-      <div
-        className="pointer-events-none fixed inset-y-0 left-0 w-[48vw] sm:w-[42vw] md:w-[38vw] lg:w-[36vw] z-10 bg-gradient-to-r from-black/95 via-black/50 to-transparent"
-        aria-hidden="true"
+    <div
+      ref={containerRef}
+      className="relative w-screen h-screen overflow-hidden bg-[#001233] select-none text-white font-rodin"
+    >
+      {/* ── VIDEO BACKGROUND (Persona 3 Reload Makoto Yuki) ── */}
+      <video
+        src="/assets/p3r-menu-bg.mp4"
+        autoPlay
+        loop
+        muted
+        playsInline
+        className="fixed inset-0 w-full h-full object-cover object-bottom pointer-events-none z-0"
       />
 
-      {/* Top Left Title */}
-      <div className="z-20">
-        <RansomTitle />
+      {/* ── GIANT SIDE NUMBER WATERMARK (01, 02, etc.) ── */}
+      <div
+        className="absolute left-[-2rem] sm:left-[-3.5rem] md:left-[-4.5rem] top-[-10rem] sm:top-[-14rem] md:top-[-18rem] text-[28vh] sm:text-[34vh] md:text-[38vh] font-black italic tracking-[-0.2em] text-[#f6fcff] rotate-90 pointer-events-none select-none z-10 transition-all duration-300"
+        style={{
+          fontFamily: 'var(--font-rodin)',
+        }}
+      >
+        <span>{currentWatermark}</span>
       </div>
 
-      {/* Menu Container: Centered vertically between title and footer with pleasant balance */}
-      <div className="z-20 my-auto translate-y-3 sm:translate-y-5 md:-translate-y-8 laptop-main-deck flex flex-col items-start gap-2.5 sm:gap-3.5 md:gap-4 laptop-compact-deck w-fit ml-0">
-        {MENU_ITEMS.map((item, index) => {
-          const isFocused = selectedIndex === index
+      {/* ── MENU COLUMN: SVG OPTION LIST WITH MASK INVERSION ── */}
+      <div
+        className="absolute top-[52%] -translate-y-1/2 left-8 sm:left-24 md:left-44 lg:left-72 xl:left-[36rem] 2xl:left-[44rem] flex flex-col items-start justify-center z-20 pointer-events-auto origin-left transition-transform duration-300"
+      >
+        <div className="flex flex-col items-start pointer-events-auto">
+          {menuConfig.map((opt, index) => {
+            const isSelected = selectedIndex === index
+            const cleanName = opt.name.replace(/ /g, '')
+            const bannerScaleFactorX = opt.bannerScaleX || 1.0
+            const bannerScaleY = opt.bannerScaleY || 3.2
+            const bannerOffsetX = opt.bannerOffsetX ?? -60
+            const bannerOffsetY = opt.bannerOffsetY ?? -186
+            const bannerRotation = opt.bannerRotation ?? 8
+            const scaleX = (cleanName.length * 0.52 + 1.6) * bannerScaleFactorX
+            const selectorTransform = `translate(${bannerOffsetX}, ${bannerOffsetY}) rotate(${bannerRotation}, 0, 100) scale(${scaleX}, ${bannerScaleY})`
+            const maskId = `p3r-selector-mask-${opt.id}`
 
-          return (
-            <div
-              key={item.id}
-              className="p5-menu-entrance"
-              style={{ animationDelay: `${index * 70 + 60}ms` }}
-            >
-              <div className={`transition-all duration-200 ${item.rotation} ${item.offsetClass}`}>
+            return (
+              <div
+                key={opt.id}
+                id={`p3r-option-${index}`}
+                className={`p3r-option-item relative select-none cursor-pointer transition-all ${
+                  index !== 0 ? 'mt-[-5.2rem] sm:mt-[-6.5rem] md:mt-[-7.5rem]' : 'mt-0'
+                } ${isSelected ? 'selected z-15' : 'z-auto'} ${
+                  hasEntered ? 'opacity-100 translate-x-0 skew-x-0' : 'opacity-0 translate-x-[110px] -skew-x-8'
+                }`}
+                style={{
+                  zIndex: isSelected ? 15 : opt.zIndex,
+                  transitionDelay: `${index * 75}ms`,
+                  transitionDuration: '520ms',
+                  transitionTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)',
+                }}
+              >
+                {/* Perfectly Angled Hitbox matching SVG rotation, position, and dimensions */}
                 <button
                   type="button"
-                  onClick={() => {
-                    playSlash()
-                    onSelectScreen(item.id)
+                  onClick={(e) => {
+                    handleSelectIndex(index)
+                    handleConfirm(index, e)
                   }}
-                  onMouseEnter={() => {
-                    playHover()
-                    setSelectedIndex(index)
+                  onMouseEnter={() => handleSelectIndex(index)}
+                  onMouseMove={() => {
+                    if (selectedIndex !== index) handleSelectIndex(index)
                   }}
-                  className="group relative inline-flex items-center text-left cursor-pointer outline-none transition-transform duration-150"
+                  className="absolute outline-none cursor-pointer bg-transparent border-none z-10 pointer-events-auto"
+                  style={{
+                    left: '120px',
+                    top: '40px',
+                    width: `${cleanName.length * 68 + 120}px`,
+                    height: '115px',
+                    transform: `translate(${opt.offsetX}px, ${opt.offsetY}px) rotate(${opt.rotation}deg)`,
+                    transformOrigin: '25% center',
+                  }}
+                  aria-label={opt.name}
+                />
+
+                {/* SVG Button Canvas with Mask Inversion */}
+                <svg
+                  width="950"
+                  height="200"
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="overflow-visible pointer-events-none transition-transform duration-150 origin-[25%_center]"
+                  style={{
+                    transform: `translate(${opt.offsetX}px, ${opt.offsetY}px) rotate(${opt.rotation}deg)`,
+                  }}
                 >
-                  {isFocused ? (
-                    /* ACTIVE STATE: Jagged Ribbon Slam + Staggered Bouncy Letter Pop */
-                    <div className="relative flex items-center translate-x-2 sm:translate-x-4 md:translate-x-5 scale-100 sm:scale-105 transition-transform duration-150 p5-ribbon-slam-anim">
-                      <svg
-                        viewBox="0 0 540 100"
-                        preserveAspectRatio="none"
-                        className="absolute -inset-x-5 -inset-y-2.5 w-[calc(100%+40px)] h-[calc(100%+20px)] pointer-events-none filter drop-shadow-[7px_7px_0px_#000000]"
-                      >
-                        <polygon
-                          points="20,52 6,40 38,10 135,6 148,0 162,10 475,20 535,42 485,60 528,78 455,86 115,96 55,84 15,88 6,74"
-                          fill="#000000"
-                          stroke="#FFFFFF"
-                          strokeWidth="5"
-                          strokeLinejoin="miter"
-                          strokeMiterlimit="4"
+                  <defs>
+                    <mask
+                      id={maskId}
+                      maskUnits="userSpaceOnUse"
+                      maskContentUnits="userSpaceOnUse"
+                      x="-200"
+                      y="-400"
+                      width="1500"
+                      height="800"
+                    >
+                      <rect x="-200" y="-400" width="1500" height="800" fill="black" />
+                      <g transform={selectorTransform} transformOrigin="left center">
+                        <path fill="white" d={P3R_SELECTOR_PATH} />
+                        <path
+                          className="pulse-anim"
+                          transformOrigin="52 100"
+                          fill="white"
+                          d={P3R_SELECTOR_BG_PATH}
                         />
-                        <polygon points="42,12 120,8 140,0 55,8" fill="#FFFFFF" />
-                        <polygon points="475,22 530,42 490,48" fill="#FFFFFF" />
-                        <polygon points="480,62 525,78 475,76" fill="#FFFFFF" />
-                      </svg>
+                      </g>
+                    </mask>
+                  </defs>
 
-                      <div className="relative z-10 flex items-center gap-1 md:gap-1.5 px-3 md:px-4 py-1.5 md:py-2">
-                        {item.letters.map((ltr, ltrIdx) => {
-                          const ROT_ANGLES = [-4, 3, -2.5, 4, -3, 2.5, -2, 3.5]
-                          const SCALES = [1.02, 0.98, 1.04, 0.97, 1.03, 0.99, 0.96, 1.03]
-                          const rotDeg = ROT_ANGLES[ltrIdx % ROT_ANGLES.length]
-                          const scale = SCALES[ltrIdx % SCALES.length]
-                          const baseTransform = `rotate(${rotDeg}deg) scale(${scale})`
+                  {/* Selector banner when selected */}
+                  <g className="selector-group" transform={selectorTransform} transformOrigin="left center">
+                    <path
+                      className="fill-pink pulse-anim"
+                      transformOrigin="52 100"
+                      d={P3R_SELECTOR_BG_PATH}
+                    />
+                    <path className="fill-fg" d={P3R_SELECTOR_PATH} />
+                  </g>
 
-                          // Omicron69 staggered micro-delay: odd letters 30ms, 3n letters 60ms, even 0ms
-                          const isOdd = ltrIdx % 2 === 1
-                          const is3n = ltrIdx % 3 === 0
-                          const delay = is3n ? 60 : isOdd ? 30 : 0
-                          const jitterClass = isOdd ? 'p5-letter-jitter-1' : 'p5-letter-jitter-2'
+                  {/* Base Text (Cyan Palette when idle, Solid Black when selected like P3R) */}
+                  <text
+                    x="150"
+                    y="122"
+                    className={`option-text base-text ${isSelected ? 'fill-black' : opt.colorClass}`}
+                    style={{
+                      fontSize: opt.fontSize || '4.8rem',
+                      fontFamily: 'var(--font-rodin)',
+                      fontStyle: 'italic',
+                      fontWeight: 900,
+                      letterSpacing: '-0.14em',
+                    }}
+                  >
+                    {opt.name}
+                  </text>
 
-                          return (
-                            <span
-                              key={ltrIdx}
-                              style={{
-                                '--t': baseTransform,
-                                transform: baseTransform,
-                                animationDelay: `${delay}ms`
-                              } as React.CSSProperties}
-                              className={`inline-flex items-center justify-center min-w-[28px] md:min-w-[34px] h-[40px] md:h-[48px] laptop-main-letter px-1.5 md:px-2 font-p5Heading text-xl sm:text-2xl md:text-3xl laptop-main-letter-text uppercase shadow-[3px_3px_0px_#000000] border-2 border-black ${ltr.bg} ${jitterClass} cursor-default`}
-                            >
-                              {ltr.char}
-                            </span>
-                          )
-                        })}
-
-                        <span className={`${item.arrowColor} text-lg md:text-xl ml-2 md:ml-3 p5-arrow-dart-anim filter drop-shadow-[2px_2px_0px_#000000]`}>
-                          ▶
-                        </span>
-                      </div>
-                    </div>
-                  ) : (
-                    /* DEFAULT RESTING STATE */
-                    <div className="px-3 py-1 hover:translate-x-2 transition-transform duration-150">
-                      <span className="font-p5Heading text-3xl sm:text-4xl md:text-5xl laptop-main-text text-white tracking-widest uppercase filter drop-shadow-[4px_4px_0px_#000000] hover:text-p5-yellow transition-colors">
-                        {item.label}
-                      </span>
-                    </div>
-                  )}
-                </button>
+                  {/* Masked Red Text (Over the white selector) */}
+                  <g className="masked-red-group" mask={`url(#${maskId})`}>
+                    <text
+                      x="150"
+                      y="122"
+                      className="option-text fill-red"
+                      style={{
+                        fontSize: opt.fontSize || '4.8rem',
+                        fontFamily: 'var(--font-rodin)',
+                        fontStyle: 'italic',
+                        fontWeight: 900,
+                        letterSpacing: '-0.14em',
+                      }}
+                    >
+                      {opt.name}
+                    </text>
+                  </g>
+                </svg>
               </div>
-            </div>
-          )
-        })}
+            )
+          })}
+        </div>
       </div>
 
-      {/* Bottom Bar: Action Legend */}
-      <div className="z-20 flex items-center gap-3 sm:gap-5 flex-wrap text-xs sm:text-sm text-zinc-300 laptop-legend-bottom pointer-events-auto p5-footer-entrance">
-        {onBackToTitle && (
+      {/* ── BOTTOM-RIGHT HUD & CONTROLS: PREMIUM PLAYSTATION CONTROLLER BUTTONS ── */}
+      <div className={`absolute bottom-6 right-8 z-25 pointer-events-auto flex items-center justify-end transition-all duration-500 delay-200 ${
+        hasEntered ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+      }`}>
+        <div className="flex gap-5 items-center justify-end">
+          {/* PlayStation (✕) Cross Confirm Button */}
           <button
-            onClick={() => {
-              playBack()
-              onBackToTitle()
-            }}
-            className="flex items-center gap-1.5 hover:text-white group cursor-pointer transition-colors"
-            title="Return to Title"
+            type="button"
+            onClick={(e) => handleConfirm(selectedIndex, e)}
+            onMouseEnter={playNavSFX}
+            className="flex gap-2 items-center group cursor-pointer hover:scale-105 active:scale-95 transition-transform outline-none bg-transparent border-none p-0"
+            title="Confirm Selection (Enter / Space)"
           >
-            <span className="size-5 rounded-full border-2 border-red-500 text-red-500 font-bold flex items-center justify-center text-[11px] group-hover:bg-red-500 group-hover:text-white transition-colors shadow-[0_0_6px_rgba(239,68,68,0.4)]">
-              O
+            <div className="size-6 rounded-full bg-[#001845]/90 border-2 border-[#22d3ee] shadow-[0_0_10px_rgba(34,211,238,0.6)] flex items-center justify-center group-hover:border-white group-hover:shadow-[0_0_14px_rgba(34,211,238,0.9)] transition-all">
+              <svg viewBox="0 0 16 16" className="size-3.5 text-[#22d3ee] group-hover:text-white transition-colors" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round">
+                <line x1="4" y1="4" x2="12" y2="12" />
+                <line x1="12" y1="4" x2="4" y2="12" />
+              </svg>
+            </div>
+            <span
+              className="text-xs sm:text-sm uppercase tracking-wider font-black italic text-white group-hover:text-cyan-300 transition-colors"
+              style={{
+                fontFamily: 'var(--font-rodin)',
+                textShadow: '0 2px 8px rgba(0,0,0,0.8)',
+              }}
+            >
+              CONFIRM
             </span>
-            <span className="font-p5Heading text-sm tracking-wider uppercase">BACK</span>
           </button>
-        )}
 
-        <button
-          onClick={() => {
-            playSlash()
-            onSelectScreen(MENU_ITEMS[selectedIndex].id)
-          }}
-          className="flex items-center gap-1.5 hover:text-white group cursor-pointer transition-colors"
-          title="Select Item"
-        >
-          <span className="size-5 rounded-full border-2 border-cyan-400 text-cyan-400 font-bold flex items-center justify-center text-[11px] group-hover:bg-cyan-400 group-hover:text-black transition-colors shadow-[0_0_6px_rgba(34,211,238,0.4)]">
-            X
-          </span>
-          <span className="font-p5Heading text-sm tracking-wider uppercase">SELECT</span>
-        </button>
-
-        <a
-          href="https://github.com/FerrelHD"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex items-center gap-1.5 hover:text-white group cursor-pointer transition-colors"
-          title="View GitHub"
-        >
-          <span className="size-5 rounded-full border-2 border-emerald-400 text-emerald-400 font-bold flex items-center justify-center text-[11px] group-hover:bg-emerald-400 group-hover:text-black transition-colors shadow-[0_0_6px_rgba(52,211,153,0.4)]">
-            △
-          </span>
-          <span className="font-p5Heading text-sm tracking-wider uppercase">GITHUB</span>
-        </a>
-
-        <button
-          onClick={() => {
-            playSlash()
-            onSelectScreen('about')
-          }}
-          className="flex items-center gap-1.5 hover:text-white group cursor-pointer transition-colors"
-          title="View Dossier / About"
-        >
-          <span className="size-5 rounded-full border-2 border-pink-400 text-pink-400 font-bold flex items-center justify-center text-[11px] group-hover:bg-pink-400 group-hover:text-black transition-colors shadow-[0_0_6px_rgba(244,114,182,0.4)]">
-            □
-          </span>
-          <span className="font-p5Heading text-sm tracking-wider uppercase">DOSSIER</span>
-        </button>
+          {/* PlayStation (○) Circle Close Button */}
+          <button
+            type="button"
+            onClick={() => {
+              playCloseSFX()
+              onBackToTitle?.()
+            }}
+            onMouseEnter={playNavSFX}
+            className="flex gap-2 items-center group cursor-pointer hover:scale-105 active:scale-95 transition-transform outline-none bg-transparent border-none p-0"
+            title="Close / Back to Title (Escape)"
+          >
+            <div className="size-6 rounded-full bg-[#001845]/90 border-2 border-[#ef4444] shadow-[0_0_10px_rgba(239,68,68,0.6)] flex items-center justify-center group-hover:border-white group-hover:shadow-[0_0_14px_rgba(239,68,68,0.9)] transition-all">
+              <svg viewBox="0 0 16 16" className="size-3.5 text-[#ef4444] group-hover:text-white transition-colors" fill="none" stroke="currentColor" strokeWidth="2.6">
+                <circle cx="8" cy="8" r="4.8" />
+              </svg>
+            </div>
+            <span
+              className="text-xs sm:text-sm uppercase tracking-wider font-black italic text-white group-hover:text-red-300 transition-colors"
+              style={{
+                fontFamily: 'var(--font-rodin)',
+                textShadow: '0 2px 8px rgba(0,0,0,0.8)',
+              }}
+            >
+              CLOSE
+            </span>
+          </button>
+        </div>
       </div>
     </div>
   )

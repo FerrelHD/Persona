@@ -1,5 +1,56 @@
 @import url('https://fonts.googleapis.com/css2?family=Bangers&family=Dela+Gothic+One&family=Noto+Serif+JP:wght@700;900&family=Outfit:wght@400;600;800;900&family=Shippori+Mincho:wght@700;800&family=Space+Mono:wght@400;700&display=swap');
 
+/* --------------------------------------------------------------------------
+   Persona 3 Reload Font Declarations
+   -------------------------------------------------------------------------- */
+@font-face {
+  font-family: "Rodin Pro";
+  src: url("/fonts/Rodin Pro EB.otf") format("opentype");
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Rodin Pro Medium";
+  src: url("/fonts/Rodin Pro DB.otf") format("opentype");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Rodin Pro Bold";
+  src: url("/fonts/Rodin Pro UB.otf") format("opentype");
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "NewRodin Pro";
+  src: url("/fonts/NewRodin Pro DB.otf") format("opentype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "NewRodin Pro UB";
+  src: url("/fonts/NewRodin Pro UB.otf") format("opentype");
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Skip Std B";
+  src: url("/fonts/Skip Std B.otf") format("opentype");
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -11,6 +62,23 @@
     --border: 0 0% 15%;
     --input: 0 0% 15%;
     --ring: 355 100% 45%;
+
+    /* P3R Design Tokens */
+    --color-fg: #ffffff;
+    --color-bg: #015fcc;
+    --color-bg-dark: #031f64;
+    --color-red: #ff0000;
+    --color-muted: rgba(255, 255, 255, 0.4);
+    --color-pink: #fd77d9;
+    --color-button-1: #16cffb;
+    --color-button-2: #7de6fd;
+    --color-button-3: #77fefc;
+    --color-border: #5d6a88;
+    --font-rodin: "Rodin Pro Bold", "Rodin Pro", sans-serif;
+    --font-rodin-medium: "Rodin Pro Medium", sans-serif;
+    --font-new-rodin: "NewRodin Pro", sans-serif;
+    --font-new-rodin-ub: "NewRodin Pro UB", "NewRodin Pro", sans-serif;
+    --font-skip: "Skip Std B", sans-serif;
   }
 
   * {
@@ -1224,5 +1292,109 @@
     transform-origin: top left !important;
   }
 }
+
+/* --------------------------------------------------------------------------
+   Persona 3 Reload Menu & SVG Masking Styles
+   -------------------------------------------------------------------------- */
+.fill-button-1 {
+  fill: var(--color-button-1);
+}
+.fill-button-2 {
+  fill: var(--color-button-2);
+}
+.fill-button-3 {
+  fill: var(--color-button-3);
+}
+.fill-pink {
+  fill: var(--color-pink);
+}
+.fill-red {
+  fill: var(--color-red);
+}
+.fill-fg {
+  fill: var(--color-fg);
+}
+
+.font-rodin {
+  font-family: var(--font-rodin);
+}
+.font-new-rodin {
+  font-family: var(--font-new-rodin);
+}
+.font-skip {
+  font-family: var(--font-skip);
+}
+
+/* Visibility toggles for selection */
+.p3r-option-item .selector-group {
+  display: none;
+}
+.p3r-option-item .masked-red-group {
+  display: none;
+}
+.p3r-option-item.selected .selector-group {
+  display: block;
+}
+.p3r-option-item.selected .masked-red-group {
+  display: block;
+}
+
+/* Base text color transition: Cyan when idle -> Solid Black when selected (P3R authentic pop-art contrast) */
+.p3r-option-item .base-text {
+  transition: fill 150ms ease-out;
+}
+.p3r-option-item.selected .base-text {
+  fill: #000000 !important;
+}
+
+/* Bounce animation on select */
+.p3r-option-item.selected .option-text {
+  animation: p3TextBounce 0.22s cubic-bezier(0.175, 0.885, 0.32, 1.3) forwards;
+}
+
+@keyframes p3TextBounce {
+  0% {
+    transform: scale(1);
+  }
+  60% {
+    transform: scale(1.22);
+  }
+  100% {
+    transform: scale(1.15);
+  }
+}
+
+/* Persona 3 Pulse on Pink Selector background */
+.pulse-anim {
+  animation: p3SelectorPulse 0.9s infinite ease-in-out;
+}
+
+@keyframes p3SelectorPulse {
+  0%, 75% {
+    transform: scale(1);
+  }
+  85% {
+    transform: scale(1.06);
+  }
+  92%, 100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes p3rMenuEntrance {
+  0% {
+    opacity: 0;
+    transform: translateX(100px) skewX(-10deg) scale(0.96);
+  }
+  70% {
+    opacity: 1;
+    transform: translateX(-6px) skewX(2deg) scale(1.01);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0) skewX(0) scale(1);
+  }
+}
+
 
 

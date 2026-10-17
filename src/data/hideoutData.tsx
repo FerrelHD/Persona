@@ -205,12 +205,13 @@ export const TECH_DECK: TechItem[] = [
   },
 ]
 
-// ── PHANTOM THIEVES CHARACTERS & LEBLANC ATTIC STAGE DATA ──
+// ── SEES CHARACTERS & PAULOWNIA MALL ATRIUM STAGE DATA ──
 export interface PhantomCharacter {
   id: string
   name: string
   codename: string
   kanji: string
+  arcana: string
   role: string
   quote: string
   src: string
@@ -232,160 +233,185 @@ export interface PhantomCharacter {
   }
 }
 
+export type SEESCharacter = PhantomCharacter
+
 export const PHANTOM_CHARACTERS: PhantomCharacter[] = [
   {
-    id: 'yusuke',
-    name: 'YUSUKE KITAGAWA',
-    codename: 'FOX',
-    kanji: '喜多川 祐介',
-    role: 'METICULOUS ARTISAN // BACKEND MVC',
-    quote: 'An exquisite composition of robust Eloquent schemas, clean relations, and authenticated APIs.',
-    src: '/assets/yusuke kitagawa.png',
-    techId: 'laravel',
-    thiefColor: '#00A3FF',
-    thiefTextColor: '#000000',
-    tx: -723,
-    ty: -64,
-    width: 296,
-    zIndex: 24,
-    shadowWidth: 72,
+    id: 'makoto',
+    name: 'MAKOTO YUKI',
+    codename: 'LEADER',
+    kanji: '結城 理',
+    arcana: '0 - THE FOOL',
+    role: 'SEES FIELD LEADER // ARCHITECT',
+    quote: "It doesn't matter how, or where. Ultra-reactive architectures and strict TypeScript contracts will prevail.",
+    src: '/assets/Makoto Yuki.png',
+    techId: 'react',
+    thiefColor: '#00D4FF',
+    thiefTextColor: '#001233',
+    tx: 50,
+    ty: -120,
+    width: 252,
+    zIndex: 15,
+    shadowWidth: 70,
     shadowHeight: 12,
-    brightness: 0.98,
-    warmth: 0.14,
+    brightness: 1,
+    warmth: 0.1,
     camera: {
-      scale: 2,
-      originX: 16,
-      originY: 69.5,
+      scale: 2.25,
+      originX: 53,
+      originY: 45,
     },
   },
   {
-    id: 'futaba',
-    name: 'FUTABA SAKURA',
-    codename: 'ORACLE',
-    kanji: '佐倉 双葉',
-    role: 'TACTICAL HACKER // DATA & AI',
-    quote: 'Target locked! Transformer telemetry, IndoBERT sentiment pipelines, and PyTorch inference ready!',
-    src: '/assets/Futaba_Sakura.webp',
+    id: 'fuuka',
+    name: 'FUUKA YAMAGISHI',
+    codename: 'NAVI',
+    kanji: '山岸 風花',
+    arcana: 'II - THE PRIESTESS',
+    role: 'TACTICAL NAVIGATOR // DATA & AI',
+    quote: 'I sense deep telemetry! Transformer embeddings, IndoBERT pipelines, and PyTorch models calibrated!',
+    src: '/assets/Fuuka Yamagishi.png',
     techId: 'python-ai',
-    thiefColor: '#00FF66',
-    thiefTextColor: '#000000',
-    tx: -174,
-    ty: -135,
-    width: 132,
-    zIndex: 22,
-    shadowWidth: 76,
+    thiefColor: '#4ADE80',
+    thiefTextColor: '#001233',
+    tx: -264,
+    ty: -16,
+    width: 175,
+    zIndex: 25,
+    shadowWidth: 72,
     shadowHeight: 10,
-    brightness: 0.97,
-    warmth: 0.12,
+    brightness: 1,
+    warmth: 0.1,
     camera: {
-      scale: 2.2,
-      originX: 43.5,
-      originY: 50,
+      scale: 2.4,
+      originX: 45.5,
+      originY: 68,
     },
   },
   {
-    id: 'morgana',
-    name: 'MORGANA',
-    codename: 'MONA',
-    kanji: 'モルガナ',
-    role: 'VANGUARD GUIDE // KINETIC UI',
-    quote: 'Looking cool, Joker! Fluid animations, custom keyframe passes, and tailored responsive tokens!',
-    src: '/assets/Morgana.webp',
-    techId: 'tailwind',
-    thiefColor: '#FFD700',
-    thiefTextColor: '#000000',
-    tx: -45,
-    ty: -56,
-    width: 72,
-    zIndex: 20,
-    shadowWidth: 68,
-    shadowHeight: 6,
-    brightness: 0.99,
-    warmth: 0.15,
+    id: 'mitsuru',
+    name: 'MITSURU KIRIJO',
+    codename: 'EXEC',
+    kanji: '桐条 美鶴',
+    arcana: 'III - THE EMPRESS',
+    role: 'COMMANDING EXECUTIONER // BACKEND MVC',
+    quote: "C'est magnifique! Clean MVC schemas, authenticated Laravel endpoints, and flawless database integrity.",
+    src: '/assets/Mitsuru Kirijo.png',
+    techId: 'laravel',
+    thiefColor: '#E11D48',
+    thiefTextColor: '#FFFFFF',
+    tx: -392,
+    ty: -132,
+    width: 116,
+    zIndex: 14,
+    shadowWidth: 70,
+    shadowHeight: 12,
+    brightness: 1,
+    warmth: 0.1,
     camera: {
-      scale: 2.5,
-      originX: 50,
-      originY: 49,
+      scale: 3.15,
+      originX: 28.5,
+      originY: 42.5,
     },
   },
   {
-    id: 'ryuji',
-    name: 'RYUJI SAKAMOTO',
-    codename: 'SKULL',
-    kanji: '坂本 竜司',
-    role: 'HEAVY CHARGER // GAME & VFX',
-    quote: 'For real?! High-throughput arcade vehicle physics and custom HLSL surface shaders kicking in!',
-    src: '/assets/Ryuji_Sakamoto.webp',
-    techId: 'unity',
-    thiefColor: '#FFE500',
-    thiefTextColor: '#000000',
-    tx: 90,
-    ty: -180,
-    width: 102,
-    zIndex: 20,
-    shadowWidth: 75,
+    id: 'aigis',
+    name: 'AIGIS',
+    codename: 'AEGIS',
+    kanji: 'アイギス',
+    arcana: 'VII - THE CHARIOT',
+    role: 'ANTI-SHADOW WEAPON // EDGE & SSR',
+    quote: 'Target acquired! Deploying high-throughput Next.js server components, edge middleware, and instant hydration.',
+    src: '/assets/Aigis.png',
+    techId: 'nextjs',
+    thiefColor: '#FACC15',
+    thiefTextColor: '#001233',
+    tx: 320,
+    ty: 12,
+    width: 128,
+    zIndex: 28,
+    shadowWidth: 72,
     shadowHeight: 10,
-    brightness: 0.96,
-    warmth: 0.14,
+    brightness: 1,
+    warmth: 0.1,
     camera: {
       scale: 2.3,
-      originX: 58.5,
-      originY: 40.5,
+      originX: 84,
+      originY: 75,
     },
   },
   {
-    id: 'ann',
-    name: 'ANN TAKAMAKI',
-    codename: 'PANTHER',
-    kanji: '高巻 杏',
-    role: 'AGILE INFILTRATOR // SSR & EDGE',
-    quote: 'Time for serious magic! Enterprise-grade hybrid SSR, App Router, and edge middleware deployed!',
-    src: '/assets/An_takamaki.webp',
-    techId: 'nextjs',
-    thiefColor: '#E60012',
+    id: 'yukari',
+    name: 'YUKARI TAKEBA',
+    codename: 'ARCHER',
+    kanji: '岳羽 ゆかり',
+    arcana: 'VI - THE LOVERS',
+    role: 'AGILE ARCHER // KINETIC UI',
+    quote: 'Leave it to me! Pixel-perfect Tailwind design tokens, fluid keyframes, and kinetic motion physics ready to fire!',
+    src: '/assets/Yukari Takeba.png',
+    techId: 'tailwind',
+    thiefColor: '#F43F5E',
     thiefTextColor: '#FFFFFF',
-    tx: 258,
-    ty: -98,
-    width: 198,
-    zIndex: 18,
-    shadowWidth: 70,
-    shadowHeight: 8,
-    brightness: 0.98,
-    warmth: 0.12,
-    camera: {
-      scale: 1.9,
-      originX: 70,
-      originY: 54,
-    },
-  },
-  {
-    id: 'joker',
-    name: 'REN AMAMIYA',
-    codename: 'JOKER',
-    kanji: '雨宮 蓮',
-    role: 'PHANTOM LEADER // ARCHITECT',
-    quote: 'Show me your true form! Ultra-reactive frontend architecture & TypeScript contracts unleashed.',
-    src: '/assets/Joker.png',
-    techId: 'react',
-    thiefColor: '#E60012',
-    thiefTextColor: '#FFFFFF',
-    tx: 622,
-    ty: -148,
-    width: 228,
+    tx: -544,
+    ty: -22,
+    width: 180,
     zIndex: 26,
-    shadowWidth: 75,
-    shadowHeight: 14,
-    brightness: 0.98,
-    warmth: 0.12,
+    shadowWidth: 70,
+    shadowHeight: 10,
+    brightness: 1,
+    warmth: 0.1,
     camera: {
-      scale: 3.05,
-      originX: 100,
-      originY: 42,
+      scale: 2.3,
+      originX: 11.5,
+      originY: 68.5,
+    },
+  },
+  {
+    id: 'junpei',
+    name: 'JUNPEI IORI',
+    codename: 'ACE',
+    kanji: '伊織 順平',
+    arcana: 'I - THE MAGICIAN',
+    role: 'VANGUARD SLUGGER // 3D & SHADERS',
+    quote: "Who's da man?! Real-time HLSL shaders, arcade vehicle physics, and responsive Unity 3D game loops incoming!",
+    src: '/assets/Junpei Iori.png',
+    techId: 'unity',
+    thiefColor: '#3B82F6',
+    thiefTextColor: '#FFFFFF',
+    tx: 472,
+    ty: -116,
+    width: 124,
+    zIndex: 27,
+    shadowWidth: 72,
+    shadowHeight: 11,
+    brightness: 1,
+    warmth: 0.1,
+    camera: {
+      scale: 2.3,
+      originX: 92,
+      originY: 50.5,
     },
   },
 ]
 
-// ── PERSONA 5 FLOATING COMIC SPEECH BUBBLE CONFIGS ──
+export const SEES_CHARACTERS = PHANTOM_CHARACTERS
+
+// ── FOUNTAIN OCCLUSION LAYER CONFIG (Z-INDEX 20) ──
+export interface FountainConfig {
+  tx: number
+  ty: number
+  scale: number
+  opacity: number
+}
+
+export const DEFAULT_FOUNTAIN_CONFIG: FountainConfig = {
+  tx: 0,
+  ty: 0,
+  scale: 1,
+  opacity: 1,
+}
+
+// ── PERSONA 3 RELOAD DIALOGUE SPEECH BUBBLE CONFIGS ──
 export interface BubbleConfig {
   side: 'left' | 'right'
   posX: number
@@ -414,228 +440,138 @@ export interface BubbleConfig {
   tailTop?: number
 }
 
-// ── PERSONA 5 CUTOUT RANSOM TYPOGRAPHY ──
-export interface RansomCharConfig {
-  char: string
-  kind: 'black' | 'thief' | 'plain'
-  rotate: string
-  scale: string
-}
-
-export const PRESET_RANSOM_NAMES: Record<string, RansomCharConfig[]> = {
-  JOKER: [
-    { char: 'J', kind: 'black', rotate: '-rotate-6', scale: 'scale-105' },
-    { char: 'O', kind: 'plain', rotate: 'rotate-2', scale: 'scale-100' },
-    { char: 'K', kind: 'thief', rotate: 'rotate-6', scale: 'scale-110' },
-    { char: 'E', kind: 'plain', rotate: '-rotate-3', scale: 'scale-95' },
-    { char: 'R', kind: 'black', rotate: 'rotate-3', scale: 'scale-105' },
-  ],
-  SKULL: [
-    { char: 'S', kind: 'thief', rotate: 'rotate-4', scale: 'scale-110' },
-    { char: 'K', kind: 'plain', rotate: '-rotate-3', scale: 'scale-100' },
-    { char: 'U', kind: 'black', rotate: '-rotate-5', scale: 'scale-105' },
-    { char: 'L', kind: 'plain', rotate: 'rotate-3', scale: 'scale-95' },
-    { char: 'L', kind: 'thief', rotate: '-rotate-4', scale: 'scale-105' },
-  ],
-  PANTHER: [
-    { char: 'P', kind: 'black', rotate: '-rotate-5', scale: 'scale-105' },
-    { char: 'A', kind: 'plain', rotate: 'rotate-3', scale: 'scale-100' },
-    { char: 'N', kind: 'thief', rotate: 'rotate-5', scale: 'scale-110' },
-    { char: 'T', kind: 'plain', rotate: '-rotate-4', scale: 'scale-95' },
-    { char: 'H', kind: 'black', rotate: '-rotate-3', scale: 'scale-105' },
-    { char: 'E', kind: 'plain', rotate: 'rotate-4', scale: 'scale-100' },
-    { char: 'R', kind: 'thief', rotate: 'rotate-2', scale: 'scale-110' },
-  ],
-  FOX: [
-    { char: 'F', kind: 'thief', rotate: '-rotate-6', scale: 'scale-110' },
-    { char: 'O', kind: 'plain', rotate: 'rotate-2', scale: 'scale-100' },
-    { char: 'X', kind: 'black', rotate: 'rotate-5', scale: 'scale-105' },
-  ],
-  MONA: [
-    { char: 'M', kind: 'black', rotate: '-rotate-4', scale: 'scale-105' },
-    { char: 'O', kind: 'thief', rotate: 'rotate-4', scale: 'scale-110' },
-    { char: 'N', kind: 'plain', rotate: '-rotate-3', scale: 'scale-100' },
-    { char: 'A', kind: 'black', rotate: 'rotate-3', scale: 'scale-105' },
-  ],
-  ORACLE: [
-    { char: 'O', kind: 'thief', rotate: 'rotate-4', scale: 'scale-110' },
-    { char: 'R', kind: 'plain', rotate: '-rotate-3', scale: 'scale-95' },
-    { char: 'A', kind: 'black', rotate: '-rotate-5', scale: 'scale-105' },
-    { char: 'C', kind: 'plain', rotate: 'rotate-3', scale: 'scale-100' },
-    { char: 'L', kind: 'thief', rotate: '-rotate-4', scale: 'scale-105' },
-    { char: 'E', kind: 'plain', rotate: 'rotate-2', scale: 'scale-95' },
-  ],
-  NAVI: [
-    { char: 'N', kind: 'thief', rotate: '-rotate-5', scale: 'scale-110' },
-    { char: 'A', kind: 'plain', rotate: 'rotate-3', scale: 'scale-95' },
-    { char: 'V', kind: 'black', rotate: 'rotate-4', scale: 'scale-105' },
-    { char: 'I', kind: 'plain', rotate: '-rotate-2', scale: 'scale-105' },
-  ],
-}
-
-export const getRansomConfig = (codename: string): RansomCharConfig[] => {
-  const upper = codename.toUpperCase()
-  if (PRESET_RANSOM_NAMES[upper]) return PRESET_RANSOM_NAMES[upper]
-
-  const rotations = ['-rotate-6', 'rotate-3', '-rotate-3', 'rotate-5', '-rotate-4', 'rotate-4']
-  const kinds: ('black' | 'thief' | 'plain')[] = ['black', 'plain', 'thief', 'plain']
-
-  return upper.split('').map((char, i) => ({
-    char,
-    kind: kinds[i % kinds.length],
-    rotate: rotations[i % rotations.length],
-    scale: i % 2 === 0 ? 'scale-105' : 'scale-100',
-  }))
-}
-
-export const P5CutoutName: React.FC<{
-  codename: string
-  thiefColor: string
-  thiefTextColor: string
-}> = ({ codename, thiefColor, thiefTextColor }) => {
-  const letters = getRansomConfig(codename)
-
+// ── P3R JAPANESE KANJI & SEES NAME BADGE ──
+export const P3RKanjiBadge: React.FC<{
+  kanji: string
+  name: string
+  arcana?: string
+  accentColor?: string
+}> = ({ kanji, name, arcana, accentColor = '#00D4FF' }) => {
   return (
-    <div className="flex items-center gap-0.5 sm:gap-1 select-none filter drop-shadow-[2px_2px_0px_rgba(0,0,0,0.8)]">
-      {letters.map((item, idx) => {
-        if (item.kind === 'black') {
-          return (
-            <span
-              key={idx}
-              className={`inline-flex items-center justify-center bg-black text-white font-p5Heading text-xs sm:text-sm md:text-base font-black px-1 sm:px-1.5 py-0.5 border border-white/40 shadow-[1.5px_1.5px_0px_#000] ${item.rotate} ${item.scale} transition-transform duration-150`}
-            >
-              {item.char}
-            </span>
-          )
-        }
-        if (item.kind === 'thief') {
-          return (
-            <span
-              key={idx}
-              className={`inline-flex items-center justify-center font-p5Heading text-xs sm:text-sm md:text-base font-black px-1 sm:px-1.5 py-0.5 border border-black/40 shadow-[1.5px_1.5px_0px_#000] ${item.rotate} ${item.scale} transition-transform duration-150`}
-              style={{
-                backgroundColor: thiefColor || '#E60012',
-                color: thiefTextColor || '#FFFFFF',
-              }}
-            >
-              {item.char}
-            </span>
-          )
-        }
-        // White Paper Cutout tile (crisp newspaper clipping with black border & shadow)
-        return (
-          <span
-            key={idx}
-            className={`inline-flex items-center justify-center bg-white text-black font-p5Heading text-xs sm:text-sm md:text-base font-black px-1 sm:px-1.5 py-0.5 border border-black shadow-[1.5px_1.5px_0px_#000] ${item.rotate} ${item.scale} transition-transform duration-150`}
-          >
-            {item.char}
+    <div className="flex items-center gap-2 select-none">
+      <div
+        className="px-2.5 py-0.5 bg-[#001233] border-l-4 text-white font-p5Kanji text-sm sm:text-base font-bold shadow-[0_0_12px_rgba(0,18,51,0.8)]"
+        style={{ borderColor: accentColor }}
+      >
+        <span>{kanji}</span>
+      </div>
+      <div className="flex flex-col">
+        <span className="font-rodin text-[10px] text-cyan-300 font-black tracking-widest uppercase">
+          {name}
+        </span>
+        {arcana && (
+          <span className="text-[9px] text-zinc-400 font-mono tracking-wider">
+            {arcana}
           </span>
-        )
-      })}
+        )}
+      </div>
     </div>
   )
 }
 
+// Legacy fallback component
+export const P5CutoutName = P3RKanjiBadge
+
 export const DEFAULT_BUBBLES: Record<string, BubbleConfig> = {
-  yusuke: {
-    side: 'right',
-    posX: 28,
-    top: 15,
-    width: 530,
+  makoto: {
+    side: "right",
+    posX: 70,
+    top: 28,
+    width: 565,
     bubbleRotate: 0,
-    nameOffsetX: 36,
-    nameOffsetY: 15,
-    nameRotate: -15,
-    nameScale: 1,
-    quoteOffsetX: -2,
-    quoteOffsetY: -35,
-    quoteRotate: 2,
-    quoteScale: 0.86,
-    quoteMaxWidth: 92,
-  },
-  futaba: {
-    side: 'right',
-    posX: 52,
-    top: 15,
-    width: 530,
-    bubbleRotate: 3,
-    nameOffsetX: 13,
-    nameOffsetY: 24,
-    nameRotate: -17,
-    nameScale: 0.86,
-    quoteOffsetX: 6,
-    quoteOffsetY: -36,
-    quoteRotate: 2,
-    quoteScale: 0.9,
-    quoteMaxWidth: 92,
-  },
-  morgana: {
-    side: 'left',
-    posX: 53,
-    top: 26,
-    width: 530,
-    bubbleRotate: 0,
-    nameOffsetX: -23,
-    nameOffsetY: 8,
-    nameRotate: 10,
+    nameOffsetX: 0,
+    nameOffsetY: 0,
+    nameRotate: 0,
     nameScale: 1,
     quoteOffsetX: 0,
-    quoteOffsetY: -29,
-    quoteRotate: -2,
+    quoteOffsetY: 0,
+    quoteRotate: 0,
     quoteScale: 1,
-    quoteMaxWidth: 92,
+    quoteMaxWidth: 95
   },
-  ryuji: {
-    side: 'left',
-    posX: 50,
-    top: 14,
-    width: 530,
-    bubbleRotate: 0,
-    nameOffsetX: -18,
-    nameOffsetY: 21,
-    nameRotate: 12,
-    nameScale: 0.88,
-    quoteOffsetX: 0,
-    quoteOffsetY: -30,
-    quoteRotate: -2,
-    quoteScale: 1,
-    quoteMaxWidth: 92,
-  },
-  ann: {
-    side: 'left',
+  fuuka: {
+    side: "right",
     posX: 38,
     top: 22,
-    width: 530,
+    width: 580,
     bubbleRotate: 0,
-    nameOffsetX: -6,
-    nameOffsetY: 20,
-    nameRotate: 10,
-    nameScale: 0.96,
-    quoteOffsetX: 0,
-    quoteOffsetY: -28,
-    quoteRotate: -2,
-    quoteScale: 1,
-    quoteMaxWidth: 92,
-  },
-  joker: {
-    side: 'left',
-    posX: 49,
-    top: 15,
-    width: 530,
-    bubbleRotate: 0,
-    nameOffsetX: -10,
-    nameOffsetY: 23,
-    nameRotate: 17,
+    nameOffsetX: 0,
+    nameOffsetY: 0,
+    nameRotate: 0,
     nameScale: 1,
     quoteOffsetX: 0,
-    quoteOffsetY: -29,
-    quoteRotate: -2,
+    quoteOffsetY: 0,
+    quoteRotate: 0,
     quoteScale: 1,
-    quoteMaxWidth: 92,
+    quoteMaxWidth: 95
   },
+  mitsuru: {
+    side: "right",
+    posX: 46,
+    top: 20,
+    width: 580,
+    bubbleRotate: 0,
+    nameOffsetX: 0,
+    nameOffsetY: 0,
+    nameRotate: 0,
+    nameScale: 1,
+    quoteOffsetX: 0,
+    quoteOffsetY: 0,
+    quoteRotate: 0,
+    quoteScale: 1,
+    quoteMaxWidth: 95
+  },
+  aigis: {
+    side: "right",
+    posX: 56,
+    top: 22,
+    width: 580,
+    bubbleRotate: 0,
+    nameOffsetX: 0,
+    nameOffsetY: 0,
+    nameRotate: 0,
+    nameScale: 1,
+    quoteOffsetX: 0,
+    quoteOffsetY: 0,
+    quoteRotate: 0,
+    quoteScale: 1,
+    quoteMaxWidth: 95
+  },
+  yukari: {
+    side: "right",
+    posX: 48,
+    top: 22,
+    width: 580,
+    bubbleRotate: 0,
+    nameOffsetX: 0,
+    nameOffsetY: 0,
+    nameRotate: 0,
+    nameScale: 1,
+    quoteOffsetX: 0,
+    quoteOffsetY: 0,
+    quoteRotate: 0,
+    quoteScale: 1,
+    quoteMaxWidth: 95
+  },
+  junpei: {
+    side: "right",
+    posX: 65,
+    top: 20,
+    width: 580,
+    bubbleRotate: 0,
+    nameOffsetX: 0,
+    nameOffsetY: 0,
+    nameRotate: 0,
+    nameScale: 1,
+    quoteOffsetX: 0,
+    quoteOffsetY: 0,
+    quoteRotate: 0,
+    quoteScale: 1,
+    quoteMaxWidth: 95
+  }
 }
 
-// ── PERSONA 5 GIANT KANJI BACKDROP WATERMARK CONFIGS ──
+// ── PERSONA 3 RELOAD GIANT KANJI BACKDROP WATERMARK CONFIGS ──
 export interface KanjiConfig {
   x: number // percentage offset relative to camera.originX
   y: number // percentage offset relative to camera.originY
@@ -645,46 +581,46 @@ export interface KanjiConfig {
 }
 
 export const DEFAULT_KANJI_CONFIGS: Record<string, KanjiConfig> = {
-  joker: {
-    x: -17,
-    y: 7,
-    rotate: -10,
+  makoto: {
+    x: 2,
+    y: 8,
+    rotate: -6,
     scale: 1.05,
-    opacity: 0.74,
+    opacity: 0.75
   },
-  futaba: {
-    x: -1,
-    y: 0,
-    rotate: -8,
-    scale: 1,
-    opacity: 0.74,
-  },
-  morgana: {
+  fuuka: {
     x: 5,
-    y: 5,
-    rotate: -18,
+    y: -2,
+    rotate: -6,
     scale: 1,
-    opacity: 0.74,
+    opacity: 0.75
   },
-  ryuji: {
-    x: -1,
-    y: 7,
-    rotate: -8,
+  mitsuru: {
+    x: 4,
+    y: 6,
+    rotate: -6,
     scale: 1,
-    opacity: 0.74,
+    opacity: 0.8
   },
-  ann: {
-    x: -6,
-    y: 7,
-    rotate: -8,
+  aigis: {
+    x: -14,
+    y: -6,
+    rotate: -6,
     scale: 1,
-    opacity: 0.74,
+    opacity: 0.75
   },
-  yusuke: {
-    x: 17,
-    y: -1,
-    rotate: -8,
+  yukari: {
+    x: 19,
+    y: -4,
+    rotate: -6,
     scale: 1,
-    opacity: 0.8,
+    opacity: 0.75
   },
+  junpei: {
+    x: -13,
+    y: -6,
+    rotate: -6,
+    scale: 1,
+    opacity: 0.75
+  }
 }

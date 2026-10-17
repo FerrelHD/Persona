@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { PageCutoutOverlay } from '@/components/common/PageCutoutOverlay'
+import { P3RControllerButton } from '@/components/common/P3RControllerButton'
 import { usePersonaSFX } from '@/hooks/usePersonaSFX'
 import { Mail, CheckCircle2, Copy, Send, Radio, ExternalLink, Flame, ShieldAlert, Zap, RadioTower, Sliders } from 'lucide-react'
 import confetti from 'canvas-confetti'
@@ -287,19 +288,17 @@ export const CallingCardScreen: React.FC<CallingCardScreenProps> = ({ onBack }) 
         accentColor="emerald"
         onBack={onBack}
         extraShortcuts={
-          <button
+          <P3RControllerButton
+            symbol="square"
+            label="ADJUST TVTRON"
+            title="Adjust TVTRON Position (Shift + C)"
+            customColor="#34d399"
+            customIcon={<Sliders className="size-3.5 text-emerald-300 group-hover:text-white transition-colors" />}
             onClick={() => {
               playSlash()
               setIsCalibratorOpen(prev => !prev)
             }}
-            className="flex items-center gap-1.5 hover:text-white group cursor-pointer transition-colors"
-            title="Adjust TVTRON Position (Shift + C)"
-          >
-            <span className="size-5 rounded-full border-2 border-emerald-400 text-emerald-400 font-bold flex items-center justify-center text-[10px] group-hover:bg-emerald-400 group-hover:text-black transition-colors shadow-[0_0_6px_rgba(16,185,129,0.4)]">
-              C
-            </span>
-            <span className="font-p5Heading text-xs sm:text-sm tracking-wider uppercase">ADJUST TVTRON</span>
-          </button>
+          />
         }
       />
 

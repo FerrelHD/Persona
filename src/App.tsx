@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useRef } from 'react'
+import React, { useState, useEffect, useLayoutEffect, useCallback, useRef } from 'react'
 import { PersonaVideoBg } from '@/components/PersonaVideoBg'
 import { MainMenu, ActiveScreen } from '@/components/MainMenu'
 import { MissionsScreen } from '@/components/screens/MissionsScreen'
@@ -6,248 +6,205 @@ import { SkillsScreen } from '@/components/screens/SkillsScreen'
 import { CallingCardScreen } from '@/components/screens/CallingCardScreen'
 import { AboutScreen } from '@/components/screens/AboutScreen'
 import { usePersonaSFX } from '@/hooks/usePersonaSFX'
+import { usePersona3SFX } from '@/hooks/usePersona3SFX'
 import { PersonaCursor } from '@/components/common/PersonaCursor'
-import { TakeYourTime } from '@/components/common/TakeYourTime'
-import { TransitLoadingScreen } from '@/components/common/TransitLoadingScreen'
-import { useAssetPreloader } from '@/hooks/useAssetPreloader'
-
-// Accent color per screen - used for the iris overlay tint
-const SCREEN_COLOR: Record<ActiveScreen, string> = {
-  menu:        '#E60012',
-  missions:    '#00D4FF',
-  hideout:     '#7C4A1E', // Cafe Leblanc Warm Coffee Brown
-  about:       '#B91C1C',
-  callingCard: '#10B981',
-}
+import { SimpleLoadingScreen } from '@/components/common/SimpleLoadingScreen'
+import { useRealAssetPreloader } from '@/hooks/useRealAssetPreloader'
+import { MenuPositionCalibrator } from '@/components/dev/MenuPositionCalibrator'
+import { DEFAULT_P3R_MENU_CONFIG, P3RMenuItemConfig } from '@/data/menuConfig'
+import { animateSlashWipeReveal, animateWavyClose, generateWavyPolygon, Point } from '@/utils/wavyTransition'
 
 const VIDEO_MAP: Record<ActiveScreen, string> = {
-  menu:        '/assets/videos/joker.mp4',
+  menu:        '/assets/p3r-menu-bg.mp4',
   missions:    '/assets/videos/makoto.mp4',
   hideout:     '/assets/tokyobackground.png',
   about:       '/assets/videos/shinji.mp4',
   callingCard: '/assets/videos/fuuka.mp4',
 }
 
-type TransitionPhase = 'idle' | 'expand' | 'covered' | 'collapse'
-
 export function App() {
-  // Quietly prefetch all 5 compressed videos and key artwork in background
-  useAssetPreloader()
-
-  // Initial atmospheric transit loading screen
-  const [initialLoading, setInitialLoading] = useState(true)
-  const [loadingFadingOut, setLoadingFadingOut] = useState(false)
-  const [menuReady, setMenuReady] = useState(false)
+  // Real 0% - 100% Asset Preloader (Video, CJK Fonts, Web Audio, Mall Atrium, 6 Characters)
+  const { progress, isReady, isFadingOut: loadingFadingOut } = useRealAssetPreloader()
 
   const [currentScreen, setCurrentScreen] = useState<ActiveScreen>('menu')
+  const [subScreen, setSubScreen] = useState<ActiveScreen | null>(null)
+  const [isTransitioning, setIsTransitioning] = useState(false)
   const [lastVisitedScreen, setLastVisitedScreen] = useState<ActiveScreen | null>(null)
-  const [pendingScreen, setPendingScreen] = useState<ActiveScreen | null>(null)
-  const [transPhase, setTransPhase] = useState<TransitionPhase>('idle')
   const [isVideoLoading, setIsVideoLoading] = useState(false)
-  
-  const videoReadyRef = useRef(false)
-  const minTimerPassedRef = useRef(false)
-  const hasTriggeredFadeRef = useRef(false)
-  const fallbackTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  // Calibrator state & configuration
+  const [isCalibratorOpen, setIsCalibratorOpen] = useState(false)
+  const [calibratorActiveIndex, setCalibratorActiveIndex] = useState<number>(0)
+  const subScreenRef = useRef<HTMLDivElement>(null)
+  const pendingRevealRef = useRef<Point | null>(null)
+  const [menuConfig, setMenuConfig] = useState<P3RMenuItemConfig[]>(() => {
+    try {
+      const saved = localStorage.getItem('p3r_menu_config_v2')
+      if (saved) {
+        const parsed = JSON.parse(saved)
+        if (Array.isArray(parsed) && parsed.length === DEFAULT_P3R_MENU_CONFIG.length) {
+          return parsed
+        }
+      }
+    } catch {}
+    return DEFAULT_P3R_MENU_CONFIG
+  })
 
   const { playSlash, playBack } = usePersonaSFX()
+  const { playCloseSFX } = usePersona3SFX()
 
-  // Called when loading screen fade-out finishes -> mount MainMenu so animation starts from frame 0 in plain sight
-  const handleLoadingFadeEnd = useCallback(() => {
-    setInitialLoading(false)
-    setMenuReady(true)
+  // Save menu calibrator updates
+  const handleUpdateMenuConfig = useCallback((updated: P3RMenuItemConfig[]) => {
+    setMenuConfig(updated)
+    try {
+      localStorage.setItem('p3r_menu_config_v2', JSON.stringify(updated))
+    } catch {}
   }, [])
 
-  // Check if both minimum display time has passed and the background video is playing
-  const checkLoadingComplete = useCallback(() => {
-    if (hasTriggeredFadeRef.current) return
-    if (minTimerPassedRef.current && videoReadyRef.current) {
-      hasTriggeredFadeRef.current = true
-      playSlash()
-      setLoadingFadingOut(true)
-    }
-  }, [playSlash])
+  const handleResetMenuConfig = useCallback(() => {
+    setMenuConfig(DEFAULT_P3R_MENU_CONFIG)
+    try {
+      localStorage.removeItem('p3r_menu_config_v2')
+    } catch {}
+  }, [])
 
-  // Initial loading timer: at least 900ms to appreciate transit animation, and max 2.8s safety fallback
+  // Global hotkey: backtick (`) or tilde (~) to toggle Calibrator
   useEffect(() => {
-    const minTimer = setTimeout(() => {
-      minTimerPassedRef.current = true
-      checkLoadingComplete()
-    }, 900)
-
-    const maxTimer = setTimeout(() => {
-      if (!hasTriggeredFadeRef.current) {
-        hasTriggeredFadeRef.current = true
-        playSlash()
-        setLoadingFadingOut(true)
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (['INPUT', 'TEXTAREA'].includes((e.target as HTMLElement)?.tagName)) return
+      if (e.key === '`' || e.key === '~') {
+        e.preventDefault()
+        setIsCalibratorOpen(prev => !prev)
       }
-    }, 2800)
-
-    return () => {
-      clearTimeout(minTimer)
-      clearTimeout(maxTimer)
     }
-  }, [checkLoadingComplete, playSlash])
-
-  // Safety watchdog for train rush exit animation (380ms animation duration)
-  useEffect(() => {
-    if (loadingFadingOut && initialLoading) {
-      const timer = setTimeout(() => {
-        handleLoadingFadeEnd()
-      }, 420)
-      return () => clearTimeout(timer)
-    }
-  }, [loadingFadingOut, initialLoading, handleLoadingFadeEnd])
-
-  // Color of the iris overlay
-  const irisColor = pendingScreen ? SCREEN_COLOR[pendingScreen] : SCREEN_COLOR[currentScreen]
-
-  const navigateTo = useCallback((next: ActiveScreen, sfx?: () => void) => {
-    if (transPhase !== 'idle') return
-    sfx?.()
-    videoReadyRef.current = false
-    setPendingScreen(next)
-    setTransPhase('expand')
-  }, [transPhase])
-
-  const handleSelectScreen = useCallback((screen: ActiveScreen) => {
-    setLastVisitedScreen(screen)
-    navigateTo(screen, playSlash)
-  }, [navigateTo, playSlash])
-
-  const handleBackToMenu = useCallback(() => {
-    navigateTo('menu', playBack)
-  }, [navigateTo, playBack])
-
-  const proceedToCollapse = useCallback(() => {
-    if (fallbackTimerRef.current) {
-      clearTimeout(fallbackTimerRef.current)
-      fallbackTimerRef.current = null
-    }
-    setIsVideoLoading(false)
-    requestAnimationFrame(() => {
-      setTransPhase('collapse')
-    })
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
   }, [])
 
-  // Called when video starts playing or is ready
   const handleVideoReady = useCallback(() => {
-    videoReadyRef.current = true
-    if (isVideoLoading || transPhase === 'covered') {
-      proceedToCollapse()
-    }
-    checkLoadingComplete()
-  }, [isVideoLoading, transPhase, proceedToCollapse, checkLoadingComplete])
-
-  // Phase 1 ends: screen is 100% covered by the iris color -> swap content in the dark and wait for media
-  const handleExpandEnd = useCallback(() => {
-    if (pendingScreen) {
-      setCurrentScreen(pendingScreen)
-      setPendingScreen(null)
-    }
-
-    setTransPhase('covered')
-
-    if (videoReadyRef.current) {
-      proceedToCollapse()
-    } else {
-      setIsVideoLoading(true)
-      // Generous fallback for real-world Vercel/cellular network latency without premature black-screen reveal
-      fallbackTimerRef.current = setTimeout(() => {
-        proceedToCollapse()
-      }, 1200)
-    }
-  }, [pendingScreen, proceedToCollapse])
-
-  // Phase 2 ends: iris has fully reopened -> back to idle
-  const handleCollapseEnd = useCallback(() => {
-    setTransPhase('idle')
     setIsVideoLoading(false)
   }, [])
 
-  // Robust safety watchdog: guarantees transitions never get stuck on dropped animationend events
-  React.useEffect(() => {
-    if (transPhase === 'expand') {
-      const timer = setTimeout(() => {
-        handleExpandEnd()
-      }, 240)
-      return () => clearTimeout(timer)
-    } else if (transPhase === 'collapse') {
-      const timer = setTimeout(() => {
-        handleCollapseEnd()
-      }, 240)
-      return () => clearTimeout(timer)
+  // Persona 3 Reload: Diagonal Slash Wipe Reveal Animation on Sub-Screen
+  useLayoutEffect(() => {
+    if (subScreen && subScreenRef.current) {
+      pendingRevealRef.current = null
+      // Apply immediate initial clipPath before paint to prevent any 1-frame flash
+      subScreenRef.current.style.clipPath = 'polygon(140% 0%, 100% 0%, 100% 100%, 110% 100%)'
+      animateSlashWipeReveal(subScreenRef.current, {
+        duration: 950,
+        bladeColor: '#16cffb',
+        onComplete: () => {
+          setIsTransitioning(false)
+        },
+      })
     }
-  }, [transPhase, handleExpandEnd, handleCollapseEnd])
+  }, [subScreen])
+
+  // Screen Navigation: Open Sub-Screen with Wavy Reveal
+  const handleSelectScreen = useCallback((screen: ActiveScreen, clickPoint?: Point) => {
+    if (isTransitioning || currentScreen === screen) return
+    setLastVisitedScreen(screen)
+    setCurrentScreen(screen)
+    setSubScreen(screen)
+    setIsTransitioning(true)
+    pendingRevealRef.current = clickPoint || {
+      x: window.innerWidth * 0.58,
+      y: window.innerHeight * 0.48,
+    }
+  }, [isTransitioning, currentScreen])
+
+  // Screen Navigation: Close / Back to Menu with Wavy Shrink
+  const handleBackToMenu = useCallback(() => {
+    if (isTransitioning) return
+    playCloseSFX()
+    playBack()
+    setIsTransitioning(true)
+
+    const exitOrigin: Point = {
+      x: window.innerWidth - 100,
+      y: window.innerHeight - 60,
+    }
+
+    if (subScreenRef.current) {
+      animateWavyClose(subScreenRef.current, {
+        origin: exitOrigin,
+        duration: 480,
+        onComplete: () => {
+          setSubScreen(null)
+          setCurrentScreen('menu')
+          setIsTransitioning(false)
+        },
+      })
+    } else {
+      setSubScreen(null)
+      setCurrentScreen('menu')
+      setIsTransitioning(false)
+    }
+  }, [isTransitioning, playCloseSFX, playBack])
 
   return (
-    <div className="relative w-screen h-screen overflow-hidden font-p5Body text-white select-none">
-      {/* Persona 5 Authentic Dagger Cursor */}
+    <div className="relative w-screen h-screen overflow-hidden font-rodin text-white select-none">
+      {/* Persona Authentic Cursor */}
       <PersonaCursor />
 
-      {/* Video Background with onReady callback */}
-      <PersonaVideoBg
-        videoSrc={VIDEO_MAP[currentScreen]}
-        onReady={handleVideoReady}
-      />
-
-      {/* Main Screens: Mounted ONLY when menuReady is true so entrance animation plays from frame 0 in plain sight */}
+      {/* Main Screens Container */}
       <div className="relative z-10 w-full h-full opacity-100">
-        {menuReady && currentScreen === 'menu' && (
+        {isReady && (currentScreen === 'menu' || isTransitioning) && (
           <MainMenu
             onSelectScreen={handleSelectScreen}
             initialSelectedScreen={lastVisitedScreen}
+            configOverride={menuConfig}
+            highlightedIndex={isCalibratorOpen ? calibratorActiveIndex : undefined}
           />
         )}
-        {currentScreen === 'missions' && (
-          <MissionsScreen onBack={handleBackToMenu} />
-        )}
-        {currentScreen === 'hideout' && (
-          <SkillsScreen onBack={handleBackToMenu} />
-        )}
-        {currentScreen === 'about' && (
-          <AboutScreen onBack={handleBackToMenu} />
-        )}
-        {currentScreen === 'callingCard' && (
-          <CallingCardScreen onBack={handleBackToMenu} />
+
+        {/* Persona 3 Reload Sub-Screen Container with Direct Wavy Clip-Path Transition */}
+        {subScreen && (
+          <div
+            ref={subScreenRef}
+            className={`fixed inset-0 z-20 overflow-hidden ${
+              isTransitioning ? 'pointer-events-none will-change-[clip-path]' : 'pointer-events-auto'
+            }`}
+          >
+            {/* Video Background for Sub-screen */}
+            <PersonaVideoBg
+              videoSrc={VIDEO_MAP[subScreen]}
+              onReady={handleVideoReady}
+            />
+
+            {subScreen === 'missions' && (
+              <MissionsScreen onBack={handleBackToMenu} />
+            )}
+            {subScreen === 'hideout' && (
+              <SkillsScreen onBack={handleBackToMenu} />
+            )}
+            {subScreen === 'about' && (
+              <AboutScreen onBack={handleBackToMenu} />
+            )}
+            {subScreen === 'callingCard' && (
+              <CallingCardScreen onBack={handleBackToMenu} />
+            )}
+          </div>
         )}
       </div>
 
-      {/* Authentic Persona 5 Shibuya Transit Loading Screen */}
-      {initialLoading && (
-        <TransitLoadingScreen
+      {/* Persona 3 Reload Menu Position Calibrator (Hotkey: ` or ~) */}
+      <MenuPositionCalibrator
+        isOpen={isCalibratorOpen}
+        onClose={() => setIsCalibratorOpen(false)}
+        config={menuConfig}
+        onChange={handleUpdateMenuConfig}
+        onReset={handleResetMenuConfig}
+        activeTabIndex={calibratorActiveIndex}
+        onTabChange={setCalibratorActiveIndex}
+      />
+
+      {/* Simple P3R Minimal Loading Screen with Real Progress */}
+      {!isReady && (
+        <SimpleLoadingScreen
+          progress={progress}
           isFadingOut={loadingFadingOut}
-          onFadeEnd={handleLoadingFadeEnd}
-        />
-      )}
-
-      {/* Take Your Time during route video loading (if any) */}
-      {!initialLoading && isVideoLoading && (
-        <TakeYourTime visible={true} />
-      )}
-
-      {/* Seamless Persona 5 Iris Circle Wipe Overlay */}
-      {transPhase !== 'idle' && (
-        <div
-          className="fixed inset-0 z-[9999] pointer-events-none will-change-[clip-path]"
-          style={{
-            backgroundColor: irisColor,
-            transform: 'translateZ(0)',
-            WebkitClipPath: transPhase === 'covered' ? 'circle(150% at 50% 50%)' : undefined,
-            clipPath: transPhase === 'covered' ? 'circle(150% at 50% 50%)' : undefined,
-            animation: transPhase === 'expand'
-              ? 'iris-expand 0.16s cubic-bezier(0.2, 0, 0, 1) both'
-              : transPhase === 'collapse'
-              ? 'iris-collapse 0.16s cubic-bezier(0.2, 0, 0, 1) both'
-              : 'none',
-          }}
-          onAnimationEnd={
-            transPhase === 'expand'
-              ? handleExpandEnd
-              : transPhase === 'collapse'
-              ? handleCollapseEnd
-              : undefined
-          }
         />
       )}
     </div>
