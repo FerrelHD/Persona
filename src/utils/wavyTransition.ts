@@ -177,7 +177,7 @@ export function animateSlashWipeReveal(
   options: SlashWipeOptions = {}
 ): Animation {
   const {
-    duration = 800,
+    duration = 700,
     easing = 'cubic-bezier(0.2, 0.88, 0.35, 1)',
     bladeColor = '#16cffb',
     onStart,

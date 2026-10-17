@@ -9,7 +9,7 @@ A cinematic, interactive developer portfolio inspired by the stylized UI of **Pe
 - **P3R Main Menu**: Cinematic video background loop, slanted typography, authentic Rodin fonts, and custom P3R sound effects.
 - **SEES Hideout (Paulownia Mall Atrium)**: Interactive hideout featuring SEES characters (Makoto, Yukari, Junpei, Mitsuru, Fuuka, Aigis), dynamic camera focus, tech stack dossiers, and aligned central fountain water layer.
 - **Authentic P3 Dialogue System**: Custom dialogue chat bubbles with dynamic character quotes and animated text typing.
-- **Diagonal Slash Wipe Transitions**: 800ms electric cyan laser-blade screen transitions between menus and sub-screens.
+- **Diagonal Slash Wipe Transitions**: 700ms electric cyan laser-blade screen transitions between menus and sub-screens.
 - **Controller HUD & Custom Cursor**: Interactive PlayStation-style controller button prompts (✕, ○, △, ▢) and custom animated Persona cursor.
 - **In-App Calibrators**: Live interactive position calibrators for both menu buttons and stage characters (Hotkey: `~` or `Shift + C`).
 
