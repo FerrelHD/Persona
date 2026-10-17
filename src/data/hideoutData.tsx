@@ -407,9 +407,9 @@ export interface FountainConfig {
 }
 
 export const DEFAULT_FOUNTAIN_CONFIG: FountainConfig = {
-  tx: 0,
-  ty: 0,
-  scale: 1,
+  tx: -28,
+  ty: -7,
+  scale: 1.13,
   opacity: 1,
   scaleX: 1,
   scaleY: 1,
@@ -586,8 +586,8 @@ export interface KanjiConfig {
 
 export const DEFAULT_KANJI_CONFIGS: Record<string, KanjiConfig> = {
   makoto: {
-    x: 2,
-    y: 8,
+    x: 3,
+    y: 7,
     rotate: -6,
     scale: 1.05,
     opacity: 0.75

@@ -17,6 +17,7 @@ const MAIN_MENU_AUDIO = [
 const BACKGROUND_SUB_SCREEN_IMAGES = [
   '/assets/Cinematic Mall Atrium with Central Fountain.webp',
   '/assets/fountain water.webp',
+  '/assets/fountain water dimmed.webp',
   '/assets/Makoto Yuki.webp',
   '/assets/Yukari Takeba.webp',
   '/assets/Junpei Iori.webp',

@@ -76,7 +76,8 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
   const [fountainConfig, setFountainConfig] = useState<FountainConfig>(() => {
     localStorage.removeItem('p3r_fountain_mall_v1')
     localStorage.removeItem('p3r_fountain_mall_v2')
-    const saved = localStorage.getItem('p3r_fountain_mall_v3')
+    localStorage.removeItem('p3r_fountain_mall_v3')
+    const saved = localStorage.getItem('p3r_fountain_mall_v4')
     if (saved) {
       try {
         const parsed = JSON.parse(saved)
@@ -89,7 +90,7 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
   const updateFountainConfig = (updates: Partial<FountainConfig>) => {
     setFountainConfig(prev => {
       const next = { ...prev, ...updates }
-      localStorage.setItem('p3r_fountain_mall_v3', JSON.stringify(next))
+      localStorage.setItem('p3r_fountain_mall_v4', JSON.stringify(next))
       return next
     })
   }
@@ -220,6 +221,9 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
     localStorage.removeItem('p3r_kanji_mall_v2')
     localStorage.removeItem('p3r_kanji_mall_v3')
     localStorage.removeItem('p3r_fountain_mall_v1')
+    localStorage.removeItem('p3r_fountain_mall_v2')
+    localStorage.removeItem('p3r_fountain_mall_v3')
+    localStorage.removeItem('p3r_fountain_mall_v4')
     setCharacterList(PHANTOM_CHARACTERS)
     setBubbleList(DEFAULT_BUBBLES)
     setKanjiList(DEFAULT_KANJI_CONFIGS)
@@ -580,25 +584,29 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
               title={isCalibratorOpen && calibratorTab === 'fountain' ? 'Click & drag with mouse to align fountain water with background' : undefined}
             >
               <div className="relative w-full h-full">
+                {/* 1. Normal Daytime Fountain Water Layer (Overview Mode) */}
                 <img
                   src="/assets/fountain water.webp"
                   alt="Central Fountain Water Occlusion"
                   style={{
                     imageRendering: '-webkit-optimize-contrast',
-                    willChange: 'transform',
+                    willChange: 'transform, opacity',
                   }}
-                  className="w-full h-full object-cover pointer-events-none select-none"
+                  className={`w-full h-full object-cover pointer-events-none select-none transition-opacity duration-500 ${
+                    activeChar ? 'opacity-0' : 'opacity-100'
+                  }`}
                 />
-                {/* Synced Dim Overlay on Fountain so it seamlessly matches background dimming */}
-                <div
-                  className="absolute inset-0 bg-[#001233]/65 transition-opacity duration-500 pointer-events-none"
+                {/* 2. Synced Pre-Baked Dimmed Fountain Layer (Focus Mode) - 100% Zero Highlight Leak */}
+                <img
+                  src="/assets/fountain water dimmed.webp"
+                  alt="Central Fountain Water Occlusion Dimmed"
                   style={{
-                    maskImage: "url('/assets/fountain water.webp')",
-                    WebkitMaskImage: "url('/assets/fountain water.webp')",
-                    maskSize: 'cover',
-                    WebkitMaskSize: 'cover',
-                    opacity: activeChar ? 1 : 0,
+                    imageRendering: '-webkit-optimize-contrast',
+                    willChange: 'transform, opacity',
                   }}
+                  className={`absolute inset-0 w-full h-full object-cover pointer-events-none select-none transition-opacity duration-500 ${
+                    activeChar ? 'opacity-100' : 'opacity-0'
+                  }`}
                 />
               </div>
             </div>
