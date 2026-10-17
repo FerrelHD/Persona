@@ -377,8 +377,8 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
             {/* Ambient Dark Dim Overlay */}
             <div
               onClick={handleResetCamera}
-              className={`absolute inset-0 bg-[#001233]/65 transition-opacity duration-500 ${
-                activeChar ? 'opacity-100 pointer-events-auto cursor-pointer z-30' : 'opacity-0 pointer-events-none z-10'
+              className={`absolute inset-0 bg-[#001233]/65 transition-opacity duration-500 z-10 ${
+                activeChar ? 'opacity-100 pointer-events-auto cursor-pointer' : 'opacity-0 pointer-events-none'
               }`}
             />
 
@@ -392,8 +392,8 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
               const posY = displayKanjiChar.camera.originY + (kConfig.y || 0)
               const fontVw = 11 / (displayKanjiChar.camera.scale * 0.72)
 
-              // When focused, kanji sits at z-32 (above z-30 dim overlay, behind z-35 active character)
-              const kanjiZIndex = activeChar ? 32 : (displayKanjiChar.zIndex < 20 ? 12 : 24)
+              // Kanji watermark sits behind character (z-12 for characters behind fountain, z-24 for characters in front)
+              const kanjiZIndex = displayKanjiChar.zIndex < 20 ? 12 : 24
 
               return (
                 <div
@@ -441,9 +441,10 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
               const isHovered = Boolean(!activeChar && hoveredCharId === char.id)
               const isCalibrating = isCalibratorOpen && calibratingCharId === char.id
 
-              // In overview: natural 2.5D depth (Makoto/Mitsuru z-15 behind fountain z-20, Fuuka/Aigis z-25 in front)
-              // In focus: active character elevates to z-35 (above z-30 dim overlay and z-32 kanji)
-              const effectiveZIndex = isSelected ? 35 : char.zIndex
+              // Pure 2.5D depth: characters ALWAYS stay in their natural physical depth layer
+              // Makoto/Mitsuru stay at z-15/14 (behind fountain z-20)
+              // Fuuka/Aigis stay at z-25/28 (in front of fountain z-20)
+              const effectiveZIndex = char.zIndex
 
               return (
                 <div
@@ -525,15 +526,28 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
                 opacity: fountainConfig.opacity,
               }}
             >
-              <img
-                src="/assets/fountain water.webp"
-                alt="Central Fountain Water Occlusion"
-                style={{
-                  imageRendering: '-webkit-optimize-contrast',
-                  willChange: 'transform',
-                }}
-                className="w-full h-full object-cover pointer-events-none select-none"
-              />
+              <div className="relative w-full h-full">
+                <img
+                  src="/assets/fountain water.webp"
+                  alt="Central Fountain Water Occlusion"
+                  style={{
+                    imageRendering: '-webkit-optimize-contrast',
+                    willChange: 'transform',
+                  }}
+                  className="w-full h-full object-cover pointer-events-none select-none"
+                />
+                {/* Synced Dim Overlay on Fountain so it seamlessly matches background dimming */}
+                <div
+                  className="absolute inset-0 bg-[#001233]/65 transition-opacity duration-500 pointer-events-none"
+                  style={{
+                    maskImage: "url('/assets/fountain water.webp')",
+                    WebkitMaskImage: "url('/assets/fountain water.webp')",
+                    maskSize: 'cover',
+                    WebkitMaskSize: 'cover',
+                    opacity: activeChar ? 1 : 0,
+                  }}
+                />
+              </div>
             </div>
 
             {/* 5. Subtle Cool Blue Atrium Lighting Filter */}
