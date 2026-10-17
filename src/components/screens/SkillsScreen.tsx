@@ -377,8 +377,8 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
             {/* Ambient Dark Dim Overlay */}
             <div
               onClick={handleResetCamera}
-              className={`absolute inset-0 bg-[#001233]/65 transition-opacity duration-500 z-10 ${
-                activeChar ? 'opacity-100 pointer-events-auto cursor-pointer' : 'opacity-0 pointer-events-none'
+              className={`absolute inset-0 bg-[#001233]/65 transition-opacity duration-500 ${
+                activeChar ? 'opacity-100 pointer-events-auto cursor-pointer z-30' : 'opacity-0 pointer-events-none z-10'
               }`}
             />
 
@@ -392,8 +392,8 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
               const posY = displayKanjiChar.camera.originY + (kConfig.y || 0)
               const fontVw = 11 / (displayKanjiChar.camera.scale * 0.72)
 
-              // Kanji watermark sits behind character
-              const kanjiZIndex = displayKanjiChar.zIndex < 20 ? 12 : 24
+              // When focused, kanji sits at z-32 (above z-30 dim overlay, behind z-35 active character)
+              const kanjiZIndex = activeChar ? 32 : (displayKanjiChar.zIndex < 20 ? 12 : 24)
 
               return (
                 <div
@@ -441,13 +441,9 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
               const isHovered = Boolean(!activeChar && hoveredCharId === char.id)
               const isCalibrating = isCalibratorOpen && calibratingCharId === char.id
 
-              // CRITICAL DEPTH FIX:
-              // If character stands behind water (char.zIndex < 20), when selected/zoomed in
-              // it must STAY behind the water (elevate to max 19, never exceeding fountain water at zIndex: 20)!
-              // If character stands in front of water (char.zIndex >= 20), it elevates to 35.
-              const effectiveZIndex = isSelected
-                ? (char.zIndex < 20 ? 19 : 35)
-                : char.zIndex
+              // In overview: natural 2.5D depth (Makoto/Mitsuru z-15 behind fountain z-20, Fuuka/Aigis z-25 in front)
+              // In focus: active character elevates to z-35 (above z-30 dim overlay and z-32 kanji)
+              const effectiveZIndex = isSelected ? 35 : char.zIndex
 
               return (
                 <div
