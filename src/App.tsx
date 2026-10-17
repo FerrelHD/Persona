@@ -92,7 +92,7 @@ export function App() {
       // Apply immediate initial clipPath before paint to prevent any 1-frame flash
       subScreenRef.current.style.clipPath = 'polygon(140% 0%, 100% 0%, 100% 100%, 110% 100%)'
       animateSlashWipeReveal(subScreenRef.current, {
-        duration: 950,
+        duration: 800,
         bladeColor: '#16cffb',
         onComplete: () => {
           setIsTransitioning(false)
