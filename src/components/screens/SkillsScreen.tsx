@@ -74,7 +74,9 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
 
   // Fountain water occlusion layer config state
   const [fountainConfig, setFountainConfig] = useState<FountainConfig>(() => {
-    const saved = localStorage.getItem('p3r_fountain_mall_v2')
+    localStorage.removeItem('p3r_fountain_mall_v1')
+    localStorage.removeItem('p3r_fountain_mall_v2')
+    const saved = localStorage.getItem('p3r_fountain_mall_v3')
     if (saved) {
       try {
         const parsed = JSON.parse(saved)
@@ -87,7 +89,7 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
   const updateFountainConfig = (updates: Partial<FountainConfig>) => {
     setFountainConfig(prev => {
       const next = { ...prev, ...updates }
-      localStorage.setItem('p3r_fountain_mall_v2', JSON.stringify(next))
+      localStorage.setItem('p3r_fountain_mall_v3', JSON.stringify(next))
       return next
     })
   }
