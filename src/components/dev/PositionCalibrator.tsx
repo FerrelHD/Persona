@@ -537,70 +537,209 @@ export const PositionCalibrator: React.FC<PositionCalibratorProps> = ({
         {/* Tab 5: Fountain Occlusion Layer Controls */}
         {calibratorTab === 'fountain' && (
           <div className="space-y-3 font-mono text-[11px]">
-            <div className="bg-[#001830] p-2.5 border border-cyan-500/40 space-y-2">
-              <span className="text-cyan-400 font-bold block border-b border-cyan-800 pb-1">
-                🌊 FOUNTAIN WATER OCCLUSION (Z-INDEX: 20)
-              </span>
-              <p className="text-[10px] text-zinc-400">
-                Characters with zIndex &lt; 20 stand behind this water cutout. Characters with zIndex &gt; 20 stand in front.
-              </p>
+            <div className="bg-[#001830] p-2.5 border border-cyan-500/40 space-y-3">
+              <div className="flex items-center justify-between border-b border-cyan-800 pb-1">
+                <span className="text-cyan-400 font-bold block text-xs">
+                  🌊 FOUNTAIN WATER CALIBRATION
+                </span>
+                <button
+                  type="button"
+                  onClick={() => onUpdateFountain({ tx: 0, ty: 0, scale: 1, scaleX: 1, scaleY: 1, opacity: 1 })}
+                  className="px-2 py-0.5 bg-zinc-800 hover:bg-zinc-700 text-zinc-300 font-mono text-[9px] border border-zinc-600 rounded cursor-pointer"
+                  title="Reset fountain to 0,0"
+                >
+                  ↺ Reset 0,0
+                </button>
+              </div>
+
+              {/* Helpful Hint */}
+              <div className="p-2 bg-cyan-950/60 border border-cyan-400/40 text-[10px] text-cyan-200 space-y-1">
+                <div className="font-bold text-cyan-300 flex items-center gap-1">
+                  <span>🖱️ DRAG & DROP ENABLED</span>
+                </div>
+                <p>Klik & drag air mancur langsung di layar dengan mouse! Atau gunakan <strong>Arrow Keys</strong> di keyboard (Shift + Arrow untuk lompat 10px).</p>
+              </div>
 
               {/* Fountain Offset X */}
               <div>
-                <div className="flex justify-between text-zinc-300 mb-0.5">
-                  <span>OFFSET X (px):</span>
-                  <span className="text-cyan-400 font-bold">{fountainConfig.tx}px</span>
+                <div className="flex justify-between items-center text-zinc-300 mb-1">
+                  <span>OFFSET X (Horizontal):</span>
+                  <span className="text-cyan-400 font-bold font-mono text-xs">{fountainConfig.tx}px</span>
                 </div>
                 <input
                   type="range"
                   min="-600"
                   max="600"
-                  step="2"
+                  step="1"
                   value={fountainConfig.tx}
                   onChange={(e) => onUpdateFountain({ tx: parseInt(e.target.value, 10) })}
-                  className="w-full accent-cyan-400 cursor-pointer"
+                  className="w-full accent-cyan-400 cursor-pointer mb-1"
                 />
+                <div className="grid grid-cols-4 gap-1">
+                  <button
+                    type="button"
+                    onClick={() => onUpdateFountain({ tx: fountainConfig.tx - 10 })}
+                    className="py-0.5 bg-zinc-800 hover:bg-cyan-900 text-zinc-200 text-[10px] font-mono border border-zinc-700 rounded"
+                  >
+                    -10px
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => onUpdateFountain({ tx: fountainConfig.tx - 1 })}
+                    className="py-0.5 bg-zinc-800 hover:bg-cyan-900 text-zinc-200 text-[10px] font-mono border border-zinc-700 rounded"
+                  >
+                    -1px
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => onUpdateFountain({ tx: fountainConfig.tx + 1 })}
+                    className="py-0.5 bg-zinc-800 hover:bg-cyan-900 text-zinc-200 text-[10px] font-mono border border-zinc-700 rounded"
+                  >
+                    +1px
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => onUpdateFountain({ tx: fountainConfig.tx + 10 })}
+                    className="py-0.5 bg-zinc-800 hover:bg-cyan-900 text-zinc-200 text-[10px] font-mono border border-zinc-700 rounded"
+                  >
+                    +10px
+                  </button>
+                </div>
               </div>
 
               {/* Fountain Offset Y */}
               <div>
-                <div className="flex justify-between text-zinc-300 mb-0.5">
-                  <span>OFFSET Y (px):</span>
-                  <span className="text-cyan-400 font-bold">{fountainConfig.ty}px</span>
+                <div className="flex justify-between items-center text-zinc-300 mb-1">
+                  <span>OFFSET Y (Vertical):</span>
+                  <span className="text-cyan-400 font-bold font-mono text-xs">{fountainConfig.ty}px</span>
                 </div>
                 <input
                   type="range"
                   min="-400"
                   max="400"
-                  step="2"
+                  step="1"
                   value={fountainConfig.ty}
                   onChange={(e) => onUpdateFountain({ ty: parseInt(e.target.value, 10) })}
-                  className="w-full accent-cyan-400 cursor-pointer"
+                  className="w-full accent-cyan-400 cursor-pointer mb-1"
                 />
+                <div className="grid grid-cols-4 gap-1">
+                  <button
+                    type="button"
+                    onClick={() => onUpdateFountain({ ty: fountainConfig.ty - 10 })}
+                    className="py-0.5 bg-zinc-800 hover:bg-cyan-900 text-zinc-200 text-[10px] font-mono border border-zinc-700 rounded"
+                  >
+                    -10px
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => onUpdateFountain({ ty: fountainConfig.ty - 1 })}
+                    className="py-0.5 bg-zinc-800 hover:bg-cyan-900 text-zinc-200 text-[10px] font-mono border border-zinc-700 rounded"
+                  >
+                    -1px
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => onUpdateFountain({ ty: fountainConfig.ty + 1 })}
+                    className="py-0.5 bg-zinc-800 hover:bg-cyan-900 text-zinc-200 text-[10px] font-mono border border-zinc-700 rounded"
+                  >
+                    +1px
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => onUpdateFountain({ ty: fountainConfig.ty + 10 })}
+                    className="py-0.5 bg-zinc-800 hover:bg-cyan-900 text-zinc-200 text-[10px] font-mono border border-zinc-700 rounded"
+                  >
+                    +10px
+                  </button>
+                </div>
               </div>
 
-              {/* Fountain Scale */}
+              {/* Fountain Universal Scale */}
               <div>
-                <div className="flex justify-between text-zinc-300 mb-0.5">
+                <div className="flex justify-between items-center text-zinc-300 mb-1">
                   <span>SCALE:</span>
-                  <span className="text-cyan-400 font-bold">{fountainConfig.scale}x</span>
+                  <span className="text-cyan-400 font-bold font-mono text-xs">{fountainConfig.scale}x</span>
                 </div>
                 <input
                   type="range"
                   min="0.5"
                   max="2.0"
-                  step="0.02"
+                  step="0.005"
                   value={fountainConfig.scale}
                   onChange={(e) => onUpdateFountain({ scale: parseFloat(e.target.value) })}
-                  className="w-full accent-cyan-400 cursor-pointer"
+                  className="w-full accent-cyan-400 cursor-pointer mb-1"
                 />
+                <div className="grid grid-cols-4 gap-1">
+                  <button
+                    type="button"
+                    onClick={() => onUpdateFountain({ scale: Math.max(0.5, +(fountainConfig.scale - 0.05).toFixed(3)) })}
+                    className="py-0.5 bg-zinc-800 hover:bg-cyan-900 text-zinc-200 text-[10px] font-mono border border-zinc-700 rounded"
+                  >
+                    -0.05
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => onUpdateFountain({ scale: Math.max(0.5, +(fountainConfig.scale - 0.01).toFixed(3)) })}
+                    className="py-0.5 bg-zinc-800 hover:bg-cyan-900 text-zinc-200 text-[10px] font-mono border border-zinc-700 rounded"
+                  >
+                    -0.01
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => onUpdateFountain({ scale: Math.min(2.0, +(fountainConfig.scale + 0.01).toFixed(3)) })}
+                    className="py-0.5 bg-zinc-800 hover:bg-cyan-900 text-zinc-200 text-[10px] font-mono border border-zinc-700 rounded"
+                  >
+                    +0.01
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => onUpdateFountain({ scale: Math.min(2.0, +(fountainConfig.scale + 0.05).toFixed(3)) })}
+                    className="py-0.5 bg-zinc-800 hover:bg-cyan-900 text-zinc-200 text-[10px] font-mono border border-zinc-700 rounded"
+                  >
+                    +0.05
+                  </button>
+                </div>
+              </div>
+
+              {/* Stretch Controls: Scale X and Scale Y */}
+              <div className="grid grid-cols-2 gap-2 pt-1 border-t border-cyan-900/40">
+                <div>
+                  <div className="flex justify-between text-zinc-400 text-[10px] mb-0.5">
+                    <span>WIDTH (ScaleX):</span>
+                    <span className="text-cyan-300 font-mono">{(fountainConfig.scaleX ?? 1).toFixed(2)}x</span>
+                  </div>
+                  <input
+                    type="range"
+                    min="0.7"
+                    max="1.3"
+                    step="0.005"
+                    value={fountainConfig.scaleX ?? 1}
+                    onChange={(e) => onUpdateFountain({ scaleX: parseFloat(e.target.value) })}
+                    className="w-full accent-cyan-400 cursor-pointer"
+                  />
+                </div>
+                <div>
+                  <div className="flex justify-between text-zinc-400 text-[10px] mb-0.5">
+                    <span>HEIGHT (ScaleY):</span>
+                    <span className="text-cyan-300 font-mono">{(fountainConfig.scaleY ?? 1).toFixed(2)}x</span>
+                  </div>
+                  <input
+                    type="range"
+                    min="0.7"
+                    max="1.3"
+                    step="0.005"
+                    value={fountainConfig.scaleY ?? 1}
+                    onChange={(e) => onUpdateFountain({ scaleY: parseFloat(e.target.value) })}
+                    className="w-full accent-cyan-400 cursor-pointer"
+                  />
+                </div>
               </div>
 
               {/* Fountain Opacity */}
               <div>
-                <div className="flex justify-between text-zinc-300 mb-0.5">
-                  <span>OPACITY:</span>
-                  <span className="text-cyan-400 font-bold">{Math.round(fountainConfig.opacity * 100)}%</span>
+                <div className="flex justify-between items-center text-zinc-300 mb-1">
+                  <span>OPACITY (Transparansi untuk Penyetelan):</span>
+                  <span className="text-cyan-400 font-bold font-mono text-xs">{Math.round(fountainConfig.opacity * 100)}%</span>
                 </div>
                 <input
                   type="range"
@@ -609,8 +748,38 @@ export const PositionCalibrator: React.FC<PositionCalibratorProps> = ({
                   step="0.05"
                   value={fountainConfig.opacity}
                   onChange={(e) => onUpdateFountain({ opacity: parseFloat(e.target.value) })}
-                  className="w-full accent-cyan-400 cursor-pointer"
+                  className="w-full accent-cyan-400 cursor-pointer mb-1"
                 />
+                <div className="grid grid-cols-4 gap-1">
+                  <button
+                    type="button"
+                    onClick={() => onUpdateFountain({ opacity: 0.3 })}
+                    className="py-0.5 bg-zinc-800 hover:bg-cyan-900 text-zinc-300 text-[9px] border border-zinc-700 rounded"
+                  >
+                    30% (Ghost)
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => onUpdateFountain({ opacity: 0.5 })}
+                    className="py-0.5 bg-zinc-800 hover:bg-cyan-900 text-zinc-300 text-[9px] border border-zinc-700 rounded"
+                  >
+                    50% (Blend)
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => onUpdateFountain({ opacity: 0.75 })}
+                    className="py-0.5 bg-zinc-800 hover:bg-cyan-900 text-zinc-300 text-[9px] border border-zinc-700 rounded"
+                  >
+                    75%
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => onUpdateFountain({ opacity: 1.0 })}
+                    className="py-0.5 bg-zinc-800 hover:bg-cyan-900 text-cyan-300 font-bold text-[9px] border border-cyan-700 rounded"
+                  >
+                    100% (Solid)
+                  </button>
+                </div>
               </div>
             </div>
           </div>

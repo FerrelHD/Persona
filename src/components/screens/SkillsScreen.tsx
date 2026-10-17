@@ -261,6 +261,34 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
     window.addEventListener('mouseup', onMouseUp)
   }
 
+  // Fountain Drag-and-Drop Handler for Mouse Calibration
+  const handleStartDragFountain = (e: React.MouseEvent) => {
+    if (!isCalibratorOpen || calibratorTab !== 'fountain') return
+    e.stopPropagation()
+    e.preventDefault()
+
+    const startX = e.clientX
+    const startY = e.clientY
+    const initTx = fountainConfig.tx
+    const initTy = fountainConfig.ty
+
+    const onMouseMove = (ev: MouseEvent) => {
+      const dx = (ev.clientX - startX) / scale
+      const dy = (ev.clientY - startY) / scale
+      const newTx = Math.round(initTx + dx)
+      const newTy = Math.round(initTy + dy)
+      updateFountainConfig({ tx: newTx, ty: newTy })
+    }
+
+    const onMouseUp = () => {
+      window.removeEventListener('mousemove', onMouseMove)
+      window.removeEventListener('mouseup', onMouseUp)
+    }
+
+    window.addEventListener('mousemove', onMouseMove)
+    window.addEventListener('mouseup', onMouseUp)
+  }
+
   const handleSelectCharacter = useCallback((char: PhantomCharacter) => {
     playSlash()
     setHoveredCharId(null)
@@ -275,7 +303,7 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
     // Preserve lastFocusOrigin so camera zooms out smoothly from focal point
   }, [playBack])
 
-  // Keyboard navigation: Shift+C for Calibrator, Escape for back/close
+  // Keyboard navigation: Shift+C for Calibrator, Escape for back/close, Arrow keys for precision fountain nudging
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.shiftKey && (e.key === 'C' || e.key === 'c')) {
@@ -295,12 +323,31 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
           playBack()
           onBack()
         }
+        return
+      }
+
+      // Precision Arrow Keys for Fountain Calibration
+      if (isCalibratorOpen && calibratorTab === 'fountain') {
+        const step = e.shiftKey ? 10 : 1
+        if (e.key === 'ArrowLeft') {
+          e.preventDefault()
+          updateFountainConfig({ tx: fountainConfig.tx - step })
+        } else if (e.key === 'ArrowRight') {
+          e.preventDefault()
+          updateFountainConfig({ tx: fountainConfig.tx + step })
+        } else if (e.key === 'ArrowUp') {
+          e.preventDefault()
+          updateFountainConfig({ ty: fountainConfig.ty - step })
+        } else if (e.key === 'ArrowDown') {
+          e.preventDefault()
+          updateFountainConfig({ ty: fountainConfig.ty + step })
+        }
       }
     }
 
     window.addEventListener('keydown', handleKeyDown)
     return () => window.removeEventListener('keydown', handleKeyDown)
-  }, [activeCharId, isCalibratorOpen, onBack, playBack, playSlash, handleResetCamera])
+  }, [activeCharId, isCalibratorOpen, calibratorTab, fountainConfig, onBack, playBack, playSlash, handleResetCamera])
 
   return (
     <div className="fixed inset-0 z-30 select-none overflow-hidden bg-[#000a18] flex flex-col justify-between animate-in fade-in duration-300">
@@ -519,12 +566,18 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
 
             {/* 4. 2.5D Foreground Central Fountain Water Occlusion Layer (zIndex: 20) */}
             <div
-              className="absolute inset-0 w-full h-full pointer-events-none select-none"
+              onMouseDown={handleStartDragFountain}
+              className={`absolute inset-0 w-full h-full select-none ${
+                isCalibratorOpen && calibratorTab === 'fountain'
+                  ? 'pointer-events-auto cursor-grab active:cursor-grabbing ring-4 ring-cyan-400 ring-dashed'
+                  : 'pointer-events-none'
+              }`}
               style={{
                 zIndex: 20,
-                transform: `translate(${fountainConfig.tx * scale}px, ${fountainConfig.ty * scale}px) scale(${fountainConfig.scale})`,
+                transform: `translate(${fountainConfig.tx * scale}px, ${fountainConfig.ty * scale}px) scale(${fountainConfig.scale * (fountainConfig.scaleX ?? 1)}, ${fountainConfig.scale * (fountainConfig.scaleY ?? 1)})`,
                 opacity: fountainConfig.opacity,
               }}
+              title={isCalibratorOpen && calibratorTab === 'fountain' ? 'Click & drag with mouse to align fountain water with background' : undefined}
             >
               <div className="relative w-full h-full">
                 <img

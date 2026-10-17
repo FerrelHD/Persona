@@ -402,6 +402,8 @@ export interface FountainConfig {
   ty: number
   scale: number
   opacity: number
+  scaleX?: number
+  scaleY?: number
 }
 
 export const DEFAULT_FOUNTAIN_CONFIG: FountainConfig = {
@@ -409,6 +411,8 @@ export const DEFAULT_FOUNTAIN_CONFIG: FountainConfig = {
   ty: 0,
   scale: 1,
   opacity: 1,
+  scaleX: 1,
+  scaleY: 1,
 }
 
 // ── PERSONA 3 RELOAD DIALOGUE SPEECH BUBBLE CONFIGS ──
