@@ -40,6 +40,26 @@ export const MainMenu: React.FC<MainMenuProps> = ({
   const [hasEntered, setHasEntered] = useState<boolean>(false)
   const containerRef = useRef<HTMLDivElement>(null)
 
+  // Unified Proportional Scaler (1700x960 reference design resolution)
+  // Perfectly fits on laptops (1280x800, 1366x768, 1440x900) and PC desktops (1080p, 1440p, 4K)
+  const [uiScale, setUiScale] = useState<number>(1)
+
+  useEffect(() => {
+    const updateScale = () => {
+      const w = window.innerWidth
+      const h = window.innerHeight
+      // Standard 1080p inner viewport: ~1680w x 940h (accounting for browser UI tabs and address bars)
+      const scaleByH = h / 940
+      const scaleByW = w / 1680
+      const fitted = Math.min(scaleByW, scaleByH)
+      // Clamped scale so text is never too tiny (< 0.62) or excessively bloated (> 1.1)
+      setUiScale(Math.max(0.62, Math.min(1.10, fitted)))
+    }
+    updateScale()
+    window.addEventListener('resize', updateScale)
+    return () => window.removeEventListener('resize', updateScale)
+  }, [])
+
   // Sync with calibrator highlighted index if provided
   useEffect(() => {
     if (highlightedIndex !== undefined && highlightedIndex >= 0 && highlightedIndex < menuConfig.length) {
@@ -129,19 +149,25 @@ export const MainMenu: React.FC<MainMenuProps> = ({
         className="fixed inset-0 w-full h-full object-cover object-bottom pointer-events-none z-0"
       />
 
-      {/* ── GIANT SIDE NUMBER WATERMARK (01, 02, etc.) ── */}
+      {/* ── GIANT SIDE NUMBER WATERMARK (01, 02, etc.) (ADAPTIVE SCALED) ── */}
       <div
-        className="absolute left-[-2rem] sm:left-[-3.5rem] md:left-[-4.5rem] top-[-10rem] sm:top-[-14rem] md:top-[-18rem] text-[28vh] sm:text-[34vh] md:text-[38vh] font-black italic tracking-[-0.2em] text-[#f6fcff] rotate-90 pointer-events-none select-none z-10 transition-all duration-300"
+        className="absolute left-[-1.5rem] sm:left-[-2rem] md:left-[-2.5rem] top-[-3rem] sm:top-[-4rem] md:top-[-5rem] text-[22vh] sm:text-[26vh] md:text-[30vh] font-black italic tracking-[-0.2em] text-[#f6fcff] pointer-events-none select-none z-10 transition-all duration-300 origin-top-left opacity-90"
         style={{
           fontFamily: 'var(--font-rodin)',
+          transform: `scale(${uiScale}) rotate(90deg)`,
         }}
       >
         <span>{currentWatermark}</span>
       </div>
 
-      {/* ── MENU COLUMN: SVG OPTION LIST WITH MASK INVERSION ── */}
+      {/* ── MENU COLUMN: SVG OPTION LIST WITH MASK INVERSION (ADAPTIVE PROPORTIONAL SCALER) ── */}
       <div
-        className="absolute top-[52%] -translate-y-1/2 left-8 sm:left-24 md:left-44 lg:left-72 xl:left-[36rem] 2xl:left-[44rem] flex flex-col items-start justify-center z-20 pointer-events-auto origin-left transition-transform duration-300"
+        className="absolute top-[50%] flex flex-col items-start justify-center z-20 pointer-events-auto transition-all duration-200"
+        style={{
+          left: 'clamp(240px, 45vw, 820px)',
+          transform: `translateY(-50%) scale(${uiScale})`,
+          transformOrigin: 'left center',
+        }}
       >
         <div className="flex flex-col items-start pointer-events-auto">
           {menuConfig.map((opt, index) => {

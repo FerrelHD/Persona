@@ -362,7 +362,7 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
           >
             {/* 1. Base Stage Background: Cinematic Mall Atrium with Central Fountain */}
             <img
-              src="/assets/Cinematic Mall Atrium with Central Fountain.png"
+              src="/assets/Cinematic Mall Atrium with Central Fountain.webp"
               alt="Paulownia Mall Atrium"
               style={{
                 imageRendering: '-webkit-optimize-contrast',
@@ -528,7 +528,7 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
               }}
             >
               <img
-                src="/assets/fountain water.png"
+                src="/assets/fountain water.webp"
                 alt="Central Fountain Water Occlusion"
                 style={{
                   imageRendering: '-webkit-optimize-contrast',
@@ -589,9 +589,9 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
                   className="relative w-full filter drop-shadow-[0_0_18px_rgba(22,207,251,0.5)]"
                   style={{ aspectRatio: '1525 / 355' }}
                 >
-                  {/* Background Graphic: BubbleChat Persona 3.png */}
+                  {/* Background Graphic: BubbleChat Persona 3.webp */}
                   <img
-                    src="/assets/BubbleChat Persona 3.png"
+                    src="/assets/BubbleChat Persona 3.webp"
                     alt="P3R Dialogue Box"
                     className="absolute inset-0 w-full h-full object-contain pointer-events-none select-none"
                     style={{ imageRendering: '-webkit-optimize-contrast' }}

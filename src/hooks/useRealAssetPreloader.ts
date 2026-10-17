@@ -6,22 +6,24 @@ export interface PreloadState {
   isFadingOut: boolean
 }
 
-const PRELOAD_IMAGES = [
-  '/assets/Cinematic Mall Atrium with Central Fountain.png',
-  '/assets/fountain water.png',
-  '/assets/Makoto Yuki.png',
-  '/assets/Yukari Takeba.png',
-  '/assets/Junpei Iori.png',
-  '/assets/Mitsuru Kirijo.png',
-  '/assets/Fuuka Yamagishi.png',
-  '/assets/Aigis.png',
-  '/assets/BubbleChat Persona 3.png',
-]
-
-const PRELOAD_AUDIO = [
+// ── STAGE 1: IMMEDIATE MAIN MENU ASSETS (CRITICAL PATH: ~2.5 MB TOTAL) ──
+const MAIN_MENU_AUDIO = [
   '/sfx/navigation.wav',
   '/sfx/menu-utama.mp3',
   '/sfx/close-menu.mp3',
+]
+
+// ── STAGE 2: PASSIVE BACKGROUND PRELOAD (DOWNLOADED IN IDLE AFTER MAIN MENU MOUNTS) ──
+const BACKGROUND_SUB_SCREEN_IMAGES = [
+  '/assets/Cinematic Mall Atrium with Central Fountain.webp',
+  '/assets/fountain water.webp',
+  '/assets/Makoto Yuki.webp',
+  '/assets/Yukari Takeba.webp',
+  '/assets/Junpei Iori.webp',
+  '/assets/Mitsuru Kirijo.webp',
+  '/assets/Fuuka Yamagishi.webp',
+  '/assets/Aigis.webp',
+  '/assets/BubbleChat Persona 3.webp',
 ]
 
 const KANJI_GLYPHS = '結城理岳羽ゆかり伊織順平桐条美鶴山岸風花アイギス'
@@ -32,12 +34,13 @@ export function useRealAssetPreloader(): PreloadState {
   const [isReady, setIsReady] = useState(false)
   const hasFinishedRef = useRef(false)
 
+  // ── STAGE 1: Fast Initial Preloader (Main Menu Only) ──
   useEffect(() => {
     let completed = 0
     let isCancelled = false
 
-    // Total units of work to load and decode
-    const totalItems = PRELOAD_IMAGES.length + PRELOAD_AUDIO.length + 3 + 1 // +3 fonts + 1 video
+    // Total units of work for Stage 1: 1 Video + 3 Audio + 1 Font = 5 items
+    const totalItems = 1 + MAIN_MENU_AUDIO.length + 1
 
     const updateProgress = () => {
       if (isCancelled || hasFinishedRef.current) return
@@ -46,25 +49,8 @@ export function useRealAssetPreloader(): PreloadState {
       setProgress(pct)
     }
 
-    // 1. Preload & Decode Images to GPU
-    const imagePromises = PRELOAD_IMAGES.map((src) => {
-      return new Promise<void>((resolve) => {
-        const img = new Image()
-        img.src = src
-        const finish = () => {
-          updateProgress()
-          resolve()
-        }
-        img.onload = finish
-        img.onerror = finish
-        if (typeof img.decode === 'function') {
-          img.decode().then(finish).catch(finish)
-        }
-      })
-    })
-
-    // 2. Preload Audio files into browser cache
-    const audioPromises = PRELOAD_AUDIO.map((src) => {
+    // 1. Audio preloading
+    const audioPromises = MAIN_MENU_AUDIO.map((src) => {
       return fetch(src)
         .catch(() => {})
         .then(() => {
@@ -72,21 +58,17 @@ export function useRealAssetPreloader(): PreloadState {
         })
     })
 
-    // 3. Preload Fonts & CJK Kanji Glyphs
-    const fontPromises: Promise<void>[] = []
-    if (typeof document !== 'undefined' && 'fonts' in document) {
-      fontPromises.push(
-        document.fonts.load('900 16px "Rodin Pro"').catch(() => {}).then(updateProgress),
-        document.fonts.load('900 16px "NewRodin Pro"').catch(() => {}).then(updateProgress),
-        document.fonts.load('800 16px "Shippori Mincho"', KANJI_GLYPHS).catch(() => {}).then(updateProgress)
-      )
-    } else {
+    // 2. Primary Menu Font preloading (Rodin Pro Bold)
+    const fontPromise = (async () => {
+      if (typeof document !== 'undefined' && 'fonts' in document) {
+        try {
+          await document.fonts.load('900 16px "Rodin Pro"')
+        } catch {}
+      }
       updateProgress()
-      updateProgress()
-      updateProgress()
-    }
+    })()
 
-    // 4. Preload Main Menu Video
+    // 3. Main Menu Video Preload
     const videoPromise = new Promise<void>((resolve) => {
       const v = document.createElement('video')
       v.src = '/assets/p3r-menu-bg.mp4'
@@ -102,8 +84,8 @@ export function useRealAssetPreloader(): PreloadState {
       }
       v.addEventListener('canplay', done, { once: true })
       v.addEventListener('error', done, { once: true })
-      // Maximum 2.5s wait for video buffer
-      setTimeout(done, 2500)
+      // Maximum 1.8s wait for video buffer so users aren't delayed
+      setTimeout(done, 1800)
     })
 
     const onAllDone = () => {
@@ -111,28 +93,57 @@ export function useRealAssetPreloader(): PreloadState {
       hasFinishedRef.current = true
       setProgress(100)
 
-      // Snappy fade out (220ms), then unmount
+      // Snappy fade out (200ms), then reveal Main Menu
       setTimeout(() => {
         if (isCancelled) return
         setIsFadingOut(true)
         setTimeout(() => {
           if (isCancelled) return
           setIsReady(true)
-        }, 250)
-      }, 100)
+        }, 220)
+      }, 80)
     }
 
-    // Run all loading promises concurrently
-    Promise.allSettled([...imagePromises, ...audioPromises, ...fontPromises, videoPromise]).then(onAllDone)
+    Promise.allSettled([...audioPromises, fontPromise, videoPromise]).then(onAllDone)
 
-    // Safety timeout: Never hold user hostage for more than 7.5 seconds
-    const safetyTimeout = setTimeout(onAllDone, 7500)
+    // Safety timeout: Maximum 3.5 seconds
+    const safetyTimeout = setTimeout(onAllDone, 3500)
 
     return () => {
       isCancelled = true
       clearTimeout(safetyTimeout)
     }
   }, [])
+
+  // ── STAGE 2: Passive Background Cache (Runs quietly after Main Menu is mounted) ──
+  useEffect(() => {
+    if (!isReady) return
+
+    const loadIdleAssets = () => {
+      // 1. Decode sub-screen WebP images into GPU texture memory
+      BACKGROUND_SUB_SCREEN_IMAGES.forEach((src) => {
+        const img = new Image()
+        img.src = src
+        if (typeof img.decode === 'function') {
+          img.decode().catch(() => {})
+        }
+      })
+
+      // 2. Asynchronously preload kanji fonts in background
+      if (typeof document !== 'undefined' && 'fonts' in document) {
+        document.fonts.load('800 16px "Shippori Mincho"', KANJI_GLYPHS).catch(() => {})
+        document.fonts.load('900 16px "NewRodin Pro"').catch(() => {})
+      }
+    }
+
+    if (typeof window !== 'undefined' && 'requestIdleCallback' in window) {
+      const id = (window as any).requestIdleCallback(loadIdleAssets, { timeout: 2000 })
+      return () => (window as any).cancelIdleCallback(id)
+    } else {
+      const timer = setTimeout(loadIdleAssets, 600)
+      return () => clearTimeout(timer)
+    }
+  }, [isReady])
 
   return { progress, isReady, isFadingOut }
 }
