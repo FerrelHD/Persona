@@ -7,7 +7,7 @@ interface PageCutoutOverlayProps {
   characterRole: string
   characterName: string
   onBack: () => void
-  accentColor?: 'cyan' | 'red' | 'pink' | 'emerald' | 'gray'
+  accentColor?: 'cyan' | 'red' | 'pink' | 'emerald' | 'gray' | 'brown'
   extraShortcuts?: React.ReactNode
   hideBottomLegend?: boolean
   hideBottomBadge?: boolean
@@ -24,6 +24,7 @@ const ACCENT = {
     badgeBg: 'bg-[#015fcc]',
     badgeBorder: 'border-[#16cffb]/60',
     barGradient: 'from-[#16cffb] to-[#015fcc]',
+    streak: 'via-[#16cffb]',
   },
   pink: {
     border: 'border-l-[#fd77d9]',
@@ -33,6 +34,7 @@ const ACCENT = {
     badgeBg: 'bg-[#be185d]',
     badgeBorder: 'border-[#fd77d9]/60',
     barGradient: 'from-[#fd77d9] to-[#831843]',
+    streak: 'via-[#fd77d9]',
   },
   red: {
     border: 'border-l-[#ff0033]',
@@ -42,6 +44,7 @@ const ACCENT = {
     badgeBg: 'bg-[#990000]',
     badgeBorder: 'border-[#ff0033]/60',
     barGradient: 'from-[#ff0033] to-[#7f1d1d]',
+    streak: 'via-[#ff0033]',
   },
   emerald: {
     border: 'border-l-[#4ade80]',
@@ -51,6 +54,17 @@ const ACCENT = {
     badgeBg: 'bg-[#15803d]',
     badgeBorder: 'border-[#4ade80]/60',
     barGradient: 'from-[#4ade80] to-[#14532d]',
+    streak: 'via-[#4ade80]',
+  },
+  brown: {
+    border: 'border-l-[#c28442]',
+    topBorder: 'border-t-[#c28442]',
+    glow: 'shadow-[0_0_14px_rgba(194,132,66,0.65)]',
+    text: 'text-[#d49755]',
+    badgeBg: 'bg-[#6b3811]',
+    badgeBorder: 'border-[#c28442]/60',
+    barGradient: 'from-[#d49755] to-[#451e05]',
+    streak: 'via-[#d49755]',
   },
   gray: {
     border: 'border-l-zinc-400',
@@ -60,6 +74,7 @@ const ACCENT = {
     badgeBg: 'bg-zinc-700',
     badgeBorder: 'border-zinc-400/60',
     barGradient: 'from-zinc-400 to-zinc-700',
+    streak: 'via-zinc-300',
   },
 }
 
@@ -157,8 +172,8 @@ export const PageCutoutOverlay: React.FC<PageCutoutOverlayProps> = ({
               px-4 sm:px-6 py-2 sm:py-2.5
             `}
           >
-            {/* Ambient Cyan Neon Glow Streak */}
-            <div className="absolute top-0 inset-x-0 h-[2px] bg-gradient-to-r from-transparent via-[#16cffb] to-transparent opacity-80" />
+            {/* Ambient Neon Glow Streak */}
+            <div className={`absolute top-0 inset-x-0 h-[2px] bg-gradient-to-r from-transparent ${ac.streak} to-transparent opacity-80`} />
 
             {/* Interactive Laser Sheen Sweep on Hover */}
             <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-out pointer-events-none" />

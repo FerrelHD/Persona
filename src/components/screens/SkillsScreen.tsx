@@ -383,7 +383,7 @@ export const SkillsScreen: React.FC<SkillsScreenProps> = ({ onBack }) => {
         title="HIDEOUT"
         characterRole="LEADER"
         characterName="MAKOTO YUKI"
-        accentColor="cyan"
+        accentColor="brown"
         hideBottomLegend={true}
         hideBottomBadge={true}
         isVisible={!activeChar}
