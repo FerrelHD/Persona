@@ -16,35 +16,85 @@ interface PageCutoutOverlayProps {
 }
 
 const ACCENT = {
-  gray:    { border: 'border-zinc-400',    shadow: 'shadow-[3px_3px_0px_#a1a1aa]',  badge: 'bg-zinc-300 text-black', crimson: '#9ca3af', text: 'text-zinc-300', tileBg: 'bg-zinc-300 text-black' },
-  cyan:    { border: 'border-cyan-400',    shadow: 'shadow-[3px_3px_0px_#22d3ee]',  badge: 'bg-cyan-400 text-black', crimson: '#22d3ee', text: 'text-cyan-400', tileBg: 'bg-cyan-400 text-black font-black' },
-  red:     { border: 'border-p5-crimson',  shadow: 'shadow-[3px_3px_0px_#E60012]',  badge: 'bg-p5-crimson text-white', crimson: '#E60012', text: 'text-p5-crimson', tileBg: 'bg-p5-crimson text-white' },
-  pink:    { border: 'border-pink-500',    shadow: 'shadow-[3px_3px_0px_#ec4899]',  badge: 'bg-pink-500 text-white', crimson: '#ec4899', text: 'text-pink-400', tileBg: 'bg-pink-500 text-white' },
-  emerald: { border: 'border-emerald-400', shadow: 'shadow-[3px_3px_0px_#34d399]',  badge: 'bg-emerald-400 text-black', crimson: '#34d399', text: 'text-emerald-400', tileBg: 'bg-emerald-400 text-black font-black' },
+  cyan: {
+    border: 'border-l-[#16cffb]',
+    topBorder: 'border-t-[#16cffb]',
+    glow: 'shadow-[0_0_14px_rgba(22,207,251,0.65)]',
+    text: 'text-[#16cffb]',
+    badgeBg: 'bg-[#015fcc]',
+    badgeBorder: 'border-[#16cffb]/60',
+    barGradient: 'from-[#16cffb] to-[#015fcc]',
+  },
+  pink: {
+    border: 'border-l-[#fd77d9]',
+    topBorder: 'border-t-[#fd77d9]',
+    glow: 'shadow-[0_0_14px_rgba(253,119,217,0.65)]',
+    text: 'text-[#fd77d9]',
+    badgeBg: 'bg-[#be185d]',
+    badgeBorder: 'border-[#fd77d9]/60',
+    barGradient: 'from-[#fd77d9] to-[#831843]',
+  },
+  red: {
+    border: 'border-l-[#ff0033]',
+    topBorder: 'border-t-[#ff0033]',
+    glow: 'shadow-[0_0_14px_rgba(255,0,51,0.65)]',
+    text: 'text-[#ff0033]',
+    badgeBg: 'bg-[#990000]',
+    badgeBorder: 'border-[#ff0033]/60',
+    barGradient: 'from-[#ff0033] to-[#7f1d1d]',
+  },
+  emerald: {
+    border: 'border-l-[#4ade80]',
+    topBorder: 'border-t-[#4ade80]',
+    glow: 'shadow-[0_0_14px_rgba(74,222,128,0.65)]',
+    text: 'text-[#4ade80]',
+    badgeBg: 'bg-[#15803d]',
+    badgeBorder: 'border-[#4ade80]/60',
+    barGradient: 'from-[#4ade80] to-[#14532d]',
+  },
+  gray: {
+    border: 'border-l-zinc-400',
+    topBorder: 'border-t-zinc-400',
+    glow: 'shadow-[0_0_14px_rgba(161,161,170,0.65)]',
+    text: 'text-zinc-300',
+    badgeBg: 'bg-zinc-700',
+    badgeBorder: 'border-zinc-400/60',
+    barGradient: 'from-zinc-400 to-zinc-700',
+  },
 }
 
 // Map screen titles to crisp button labels matching Main Menu items
 const TITLE_MAP: Record<string, string> = {
   'DEPLOYED MISSIONS': 'MISSIONS',
-  'SKILL PARAMETERS':  'SKILLS',
+  'MISSIONS':          'MISSIONS',
+  'SKILL PARAMETERS':  'HIDEOUT',
+  'SKILLS':            'HIDEOUT',
   'ABOUT THE DEV':     'ABOUT ME',
+  'ABOUT':             'ABOUT ME',
+  'ABOUT ME':          'ABOUT ME',
   'CALLING CARD':      'COMMS',
   'COMMS':             'COMMS',
   'CONTACT':           'COMMS',
   'HIDEOUT':           'HIDEOUT',
 }
 
-// Map screen titles to clean ransom words and subtitles matching Persona 5
-const SUBTITLE_MAP: Record<string, [string, string]> = {
-  'MISSIONS': ['PHANTOM HEISTS', 'COMPLETED OPERATIONS'],
-  'SKILLS':   ['PARAMETRIC ARSENAL', 'LV. 99 MASTERIES'],
-  'ABOUT':    ['CONFIDANT DOSSIER', 'THE PHANTOM DEV'],
-  'ABOUT ME': ['CONFIDANT DOSSIER', 'THE PHANTOM DEV'],
-  'COMMS':    ['DISPATCH', 'CALLING CARD'],
-  'HIDEOUT':  ['PAULOWNIA MALL', 'SEES OPERATIVES'],
+// Digital index number for each section (matches P3R Main Menu 01-04)
+const INDEX_MAP: Record<string, string> = {
+  'MISSIONS': '01',
+  'HIDEOUT':  '02',
+  'ABOUT ME': '03',
+  'ABOUT':    '03',
+  'COMMS':    '04',
 }
 
-const TILE_ROTATIONS = ['-rotate-6', 'rotate-3', '-rotate-3', 'rotate-4', '-rotate-2', 'rotate-6', '-rotate-4', 'rotate-2']
+// Map screen titles to authentic Persona 3 Reload tactical subtitles
+const SUBTITLE_MAP: Record<string, [string, string]> = {
+  'MISSIONS': ['TARTARUS EXPEDITION', 'COMPLETED OPERATIONS'],
+  'HIDEOUT':  ['PAULOWNIA HIDEOUT', 'SEES OPERATIVES'],
+  'ABOUT ME': ['PERSONNEL DOSSIER', 'THE ARCHITECT'],
+  'ABOUT':    ['PERSONNEL DOSSIER', 'THE ARCHITECT'],
+  'COMMS':    ['TRANSMISSION LINK', 'CALLING CARD'],
+}
 
 export const PageCutoutOverlay: React.FC<PageCutoutOverlayProps> = ({
   title,
@@ -59,7 +109,7 @@ export const PageCutoutOverlay: React.FC<PageCutoutOverlayProps> = ({
   disableEscapeKey = false,
 }) => {
   const { playBack, playHover } = usePersonaSFX()
-  const ac = ACCENT[accentColor]
+  const ac = ACCENT[accentColor] || ACCENT.cyan
 
   useEffect(() => {
     if (disableEscapeKey) return
@@ -74,59 +124,89 @@ export const PageCutoutOverlay: React.FC<PageCutoutOverlayProps> = ({
     return () => window.removeEventListener('keydown', handleKey)
   }, [onBack, playBack, disableEscapeKey])
 
-  // Get clean label
+  // Get clean label, page index, and P3R subtitle
   const displayTitle = TITLE_MAP[title.toUpperCase()] || title.toUpperCase()
-  const chars = displayTitle.split('')
+  const pageIndex = INDEX_MAP[displayTitle] || '00'
   const sub = SUBTITLE_MAP[displayTitle] || [characterRole.toUpperCase(), characterName.toUpperCase()]
 
   return (
     <>
-      {/* ── TOP-LEFT: Universal Persona 5 Ransom Cutout Title ── */}
-      <div className={`fixed top-4 sm:top-6 md:top-8 left-4 sm:left-6 md:left-8 z-40 select-none flex flex-col items-start pointer-events-auto p5-tile-entrance transition-all duration-500 ${
-        isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-12 pointer-events-none'
-      }`}>
+      {/* ── TOP-LEFT: Authentic Persona 3 Reload Sleek Angular Plaque ── */}
+      <div
+        className={`fixed top-4 sm:top-6 md:top-8 left-4 sm:left-6 md:left-8 z-40 select-none flex flex-col items-start pointer-events-auto transition-all duration-500 ${
+          isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-12 pointer-events-none'
+        }`}
+      >
         <div
           onClick={() => {
             playBack()
             onBack()
           }}
           onMouseEnter={playHover}
-          className="cursor-pointer group flex flex-col items-start select-none transition-transform hover:scale-105 active:scale-95"
-          title="Return to Main Menu"
+          className="cursor-pointer group flex flex-col items-start select-none transition-transform hover:scale-[1.02] active:scale-[0.98]"
+          title="Return to Main Menu (Escape)"
         >
-          {/* Ransom Letter Tiles */}
-          <div className="flex items-center gap-1 sm:gap-1.5 filter drop-shadow-[5px_5px_0px_#000000]">
-            {chars.map((char, i) => {
-              if (char === ' ') return <span key={i} className="w-1.5 sm:w-2" />
-              const rot = TILE_ROTATIONS[i % TILE_ROTATIONS.length]
-              const isAccent = i === 2 || i === chars.length - 1
-              const bg = isAccent
-                ? ac.tileBg
-                : i % 2 === 0
-                ? 'bg-black text-white'
-                : 'bg-white text-black'
+          {/* Main Angular Plaque (-skew-x-12) */}
+          <div
+            className={`
+              relative -skew-x-12 flex items-center
+              bg-gradient-to-r from-[#000d26] via-[#001740] to-[#000d26]
+              border border-black border-t-2 ${ac.topBorder} ${ac.glow}
+              shadow-[4px_6px_0px_#000000]
+              overflow-hidden
+              px-4 sm:px-6 py-2 sm:py-2.5
+            `}
+          >
+            {/* Ambient Cyan Neon Glow Streak */}
+            <div className="absolute top-0 inset-x-0 h-[2px] bg-gradient-to-r from-transparent via-[#16cffb] to-transparent opacity-80" />
 
-              return (
-                <span
-                  key={i}
-                  className={`inline-flex items-center justify-center font-p5Heading text-3xl sm:text-4xl md:text-5xl min-w-[34px] sm:min-w-[42px] md:min-w-[48px] h-[42px] sm:h-[52px] md:h-[60px] px-1.5 sm:px-2 py-0.5 border-[3px] border-black uppercase transition-transform group-hover:scale-110 ${rot} ${bg} shadow-[3px_3px_0px_#000000]`}
-                >
-                  {char}
+            {/* Interactive Laser Sheen Sweep on Hover */}
+            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-out pointer-events-none" />
+
+            {/* Content Row */}
+            <div className="flex items-center gap-2.5 sm:gap-3.5 relative z-10">
+              {/* Digital Index Number // 01 */}
+              <div className="flex items-center gap-1 font-rodin font-black italic">
+                <span className={`${ac.text} text-[11px] sm:text-xs tracking-widest opacity-80`}>//</span>
+                <span className={`${ac.text} text-sm sm:text-base md:text-lg tracking-wider drop-shadow-[0_0_8px_currentColor]`}>
+                  {pageIndex}
                 </span>
-              )
-            })}
+              </div>
+
+              {/* Angled Separator Bar */}
+              <div className="h-4 sm:h-5 w-[2px] bg-white/20 -skew-x-6 mx-0.5" />
+
+              {/* Title Text in Authentic Rodin Pro Bold Italic */}
+              <h1 className="font-rodin font-black italic text-2xl sm:text-3xl md:text-4xl text-white tracking-[-0.07em] drop-shadow-[2px_2px_0px_#000a18] group-hover:text-[#f6fcff] transition-colors leading-none uppercase">
+                {displayTitle}
+              </h1>
+
+              {/* S.E.E.S. Tactical Squad Pill Badge */}
+              <div className={`ml-1.5 sm:ml-2.5 hidden sm:flex items-center ${ac.badgeBg} border ${ac.badgeBorder} px-2 py-0.5 shadow-sm`}>
+                <span className="text-[9px] font-rodin font-black tracking-widest text-white uppercase">
+                  S.E.E.S.
+                </span>
+              </div>
+            </div>
+
+            {/* Right Slanted Accent Border */}
+            <div className={`absolute right-0 top-0 bottom-0 w-2 sm:w-2.5 bg-gradient-to-b ${ac.barGradient}`} />
           </div>
 
-          {/* Subtitle Ribbon Banner with Character Themed Color */}
-          <div className={`mt-1.5 flex items-center bg-black border-l-4 ${ac.border} px-2.5 sm:px-3 py-0.5 text-[10px] sm:text-xs font-p5Sub tracking-widest text-white -skew-x-6 shadow-[3px_3px_0px_#000000]`}>
-            <span className={`${ac.text} font-bold mr-1.5`}>{sub[0]}</span>
-            <span className="text-zinc-500 mx-1">//</span>
-            <span className="text-zinc-200">{sub[1]}</span>
+          {/* Subtitle Ribbon Banner with P3R Theme */}
+          <div className={`mt-1.5 flex items-center -skew-x-12 bg-black/95 border-l-4 ${ac.border} px-3 py-0.5 shadow-[3px_3px_0px_#000000]`}>
+            <span className={`${ac.text} font-black text-[10px] sm:text-xs font-rodin tracking-widest mr-2 uppercase`}>
+              {sub[0]}
+            </span>
+            <span className="text-zinc-500 mx-1 text-[10px]">//</span>
+            <span className="text-zinc-200 text-[10px] sm:text-xs font-rodin tracking-wider uppercase">
+              {sub[1]}
+            </span>
           </div>
         </div>
       </div>
 
-      {/* Fixed Persona 5 Controller Legend - Locked to exact universal coordinates */}
+      {/* Fixed Persona Controller Legend */}
       {!hideBottomLegend && (
         <div className={`fixed bottom-5 sm:bottom-7 md:bottom-8 laptop-legend-bottom left-6 sm:left-10 md:left-14 z-40 flex items-center gap-3 sm:gap-5 flex-wrap text-xs sm:text-sm text-zinc-300 pointer-events-auto select-none transition-all duration-500 ${
           isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4 pointer-events-none'
@@ -164,13 +244,15 @@ export const PageCutoutOverlay: React.FC<PageCutoutOverlayProps> = ({
         }`}>
           <div
             className={`
-              flex items-center bg-black border-l-4 ${ac.border}
-              px-3 py-1
-              font-p5Sub text-xs sm:text-sm tracking-widest text-white
-              -skew-x-6 ${ac.shadow}
+              flex items-center bg-[#001233]/90 border-l-4 ${ac.border}
+              border border-black px-3 py-1 font-rodin text-xs sm:text-sm tracking-widest text-white
+              -skew-x-12 shadow-[3px_3px_0px_#000000]
             `}
           >
-            {characterRole} // {characterName}
+            <span className={`${ac.text} font-black italic mr-2`}>SEES //</span>
+            <span className="font-bold">{characterRole}</span>
+            <span className="text-zinc-500 mx-1.5">//</span>
+            <span className="text-zinc-200">{characterName}</span>
           </div>
         </div>
       )}
